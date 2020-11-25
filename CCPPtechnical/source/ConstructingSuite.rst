@@ -17,7 +17,7 @@ The format of the :term:`SDF` is specified by a schema and all host models that 
 The name of the suite is listed at the top of the :term:`SDF`, right after the XML declaration, and must be consistent with the name of the :term:`SDF`: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below.
 The suite name is followed by the version of the XML schema used.
 
-One of teh groups in the :term:`SDF` can be the ``time_vary`` step, which is run only once when the model is first initialized.
+One of the groups in the :term:`SDF` can be the ``time_vary`` step, which is run only once when the model is first initialized.
 
 .. code-block:: xml
 
