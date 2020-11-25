@@ -10,7 +10,7 @@ CCPP Technical Documentation
    :numbered:
    :maxdepth: 3
 
-   Overview 
+   Overview
    CompliantPhysicsParams
    ConfigBuildOptions
    ConstructingSuite
@@ -18,7 +18,8 @@ CCPP Technical Documentation
    HostSideCoding
    CodeManagement
    CCPPPreBuild
-   BuildingRunningHostModels
    AddingNewSchemes
+   ParamSpecificOutput
+   CCPPDebug
    Acronyms
    Glossary

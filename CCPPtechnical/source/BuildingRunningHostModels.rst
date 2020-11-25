@@ -1,5 +1,5 @@
 .. _BuildingRunningHostModels:
-  
+
 ****************************************
 Building and Running Host Models
 ****************************************
@@ -31,7 +31,7 @@ The basic requirements for building and running the CCPP and SCM bundle are list
         * pgcc 17.7 and 17.9
     * cmake versions 2.8.12.1, 2.8.12.2, and 3.6.2
     * netCDF with HDF5, ZLIB and SZIP versions 4.3.0, 4.4.0, 4.4.1.1, 4.5.0, 4.6.1, and 4.6.3 (not 3.x)
-    * Python versions 2.7.5, 2.7.9, and 2.7.13 (not 3.x)
+    * Python versions 2.7.5, 2.7.9, 2.7.13, and 3.x
     * Libxml2 versions 2.2 and 2.9.7 (not 2.9.9)
 
 Because these tools and libraries are typically the purview of system administrators to install and maintain, they are considered part of the basic system requirements.
@@ -41,7 +41,7 @@ Further, there are several utility libraries as part of the NCEPlibs package tha
     * sp v2.0.2 - Spectral Transformation Library
     * w3nco v2.0.6 - GRIB decoder and encoder library
 
-These libraries are prebuilt on most NOAA machines using the Intel compiler. For those needing to build the libraries themselves, GMTB recommends using the source code from GitHub at https://github.com/NCAR/NCEPlibs.git, which includes build files for various compilers and machines using OpenMP flags and which are thread-safe. Instructions for installing NCEPlibs are included on the GitHub repository webpage, but for the sake of example, execute the following for obtaining and building from source in ``/usr/local/NCEPlibs`` on a Mac:
+These libraries are prebuilt on most NOAA machines using the Intel compiler. For those needing to build the libraries themselves, DTC recommends using the source code from GitHub at https://github.com/NCAR/NCEPlibs.git, which includes build files for various compilers and machines using OpenMP flags and which are thread-safe. Instructions for installing NCEPlibs are included on the GitHub repository webpage, but for the sake of example, execute the following for obtaining and building from source in ``/usr/local/NCEPlibs`` on a Mac:
 
 .. code-block:: console
 
@@ -153,14 +153,16 @@ Running a case requires three pieces of information: the case to run (consisting
     ./run_gmtb_scm.py -c CASE_NAME [-s SUITE_NAME] [-n PHYSICS_NAMELIST_PATH] [-g]
 
 
-When invoking the run script, the only required argument is the name of the case to run. The case name used must match one of the case configuration files located in ``../etc/case_config`` (*without the .nml extension!*). If specifying a suite other than the default, the suite name used must match the value of the suite name in one of the SDFs located in ``../../ccpp/suites`` (Note: not the filename of the SDF). As part of the third CCPP release, the following suite names are valid:
+When invoking the run script, the only required argument is the name of the case to run. The case name used must match one of the case configuration files located in ``../etc/case_config`` (*without the .nml extension!*). If specifying a suite other than the default, the suite name used must match the value of the suite name in one of the SDFs located in ``../../ccpp/suites`` (Note: not the filename of the SDF). As part of the CCPP v4 release, the following suite names are valid:
 
-    * SCM_GFS_v15
-    * SCM_GFS_v15plus
+    * SCM_GFS_v15p2
+    * SCM_GFS_v15p2_no_nsst
+    * SCM_GFS_v16beta
+    * SCM_GFS_v16beta_no_nsst
     * SCM_csawmg
-    * SCM_GSD_v0
+    * SCM_GSD_v1
 
-Note that using the Thompson microphysics scheme (as in ``SCM_GSD_v0``) requires the existence of lookup tables during its initialization phase. As of the release, computation of the lookup tables has been prohibitively slow with this model, so it is highly suggested that they be downloaded and staged to use this scheme (and the ``SCM_GSD_v0`` suite). Pre-computed tables have been created and are available for download at the following URLs:
+Note that using the Thompson microphysics scheme (as in ``SCM_GSD_v1``) requires the existence of lookup tables during its initialization phase. As of the release, computation of the lookup tables has been prohibitively slow with this model, so it is highly suggested that they be downloaded and staged to use this scheme (and the ``SCM_GSD_v1`` suite). Pre-computed tables have been created and are available for download at the following URLs:
     * https://dtcenter.org/GMTB/freezeH2O.dat (243 M)
     * https://dtcenter.org/GMTB/qr_acr_qg.dat (49 M)
     * https://dtcenter.org/GMTB/qr_acr_qs.dat (32 M)

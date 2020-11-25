@@ -14,7 +14,7 @@ It is recommended that parameterizations be comprised of the smallest units that
 For example, if a given set of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
-recommended to code two separate schemes to allow more flexibility.  
+recommended to code two separate schemes to allow more flexibility.
 
 Some schemes in the CCPP have been implemented using a driver as an entry point. In this context,
 a driver is defined as a wrapper that sits on top of the actual scheme and provides the CCPP entry
@@ -37,7 +37,7 @@ The implementation of a driver is reasonable under the following circumstances:
   provided by the host model to either write out a message and return an error code or call a
   subroutine with or without optional arguments. For example, see ``mp_thompson_hrrr.F90``,
   ``radsw_main.f``, or ``radlw_main.f`` in the ``ccpp-physics/physics`` directory.
- 
+
 * To perform unit conversions or array transformations, such as flipping the vertical direction
   and rearranging the index order, for example, ``cu_gf_driver.F90`` in the ``ccpp-physics/physics``
   directory.
@@ -60,7 +60,7 @@ General Rules
 A CCPP-compliant scheme is in the form of Fortran modules. :ref:`Listing 2.1 <scheme_template>` contains
 the template for a CCPP-compliant scheme (``ccpp/framework/doc/DevelopersGuide/scheme_template.F90``),
 which includes three essential components: the *_init*, *_run*, and *_finalize* subroutines. Each ``.f`` or ``.F90``
-file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory 
+file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory
 as described in :numref:`Section %s <MetadataRules>`
 
 .. _scheme_template:
@@ -84,8 +84,8 @@ More details are found below:
   metadata about the arguments to the scheme(s). For more information, see :numref:`Section %s <MetadataRules>`.
 
 * Non-empty schemes must be preceded by the three lines below. These are markup comments used by Doxygen,
-  the software employed to create the scientific documentation, to insert an external file containing metadata 
-  information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in 
+  the software employed to create the scientific documentation, to insert an external file containing metadata
+  information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in
   :numref:`Section %s <SciDoc>`.
 
 .. code-block:: fortran
@@ -107,8 +107,131 @@ More details are found below:
 
 .. _MetadataRules:
 
-Metadata Rules
-==============
+Metadata Table Rules
+====================
+
+Each CCPP-compliant physics scheme (``.f`` or ``.F90`` file) must have a corresponding metadata file (``.meta``)
+that contains information about CCPP entry point schemes and their dependencies.  These files
+contain two types of metadata tables: ``ccpp-table-properties`` and ``ccpp-arg-table``, both of which are mandatory.
+The contents of these tables are described in the sections below.
+
+ccpp-table-properties
+---------------------
+The ``[ccpp-table-properties]`` section is required in every metadata file and has four valid entries:
+
+#. ``type``:  In the CCPP Physics, ``type`` can be ``scheme``, ``module``, or ``ddt`` and must match the
+   ``type`` in the associated ``[ccpp-arg-table]`` section(s).
+
+#. ``name``:  This depends on the ``type``. For types ``ddt`` and ``module`` (for 
+   variable/type/kind definitions), ``name`` must match the name of the **single** associated
+   ``[ccpp-arg-table]`` section. For type ``scheme``, the name must match the root names of the
+   ``[ccpp-arg-table]`` sections for that scheme, without the suffixes ``_init``, ``_run``, ``_finalize``.
+
+#. ``dependencies``: type/kind/variable definitions and physics schemes often depend on code in other files
+   (e.g. "use machine" --> depends on machine.F). These dependencies must be listed in a comma-separated list.
+   Relative path(s) to those file(s) must be specified here or using the ``relative_path`` entry described below.
+   Dependency attributes are additive; multiple lines containing dependencies can be used.
+
+#. ``relative_path``: If specified, the relative path is added to every file listed in the ``dependencies``.
+
+The information in this section table allows the CCPP to compile only the schemes and dependencies needed by the
+selected CCPP suite(s).
+
+An example for type and variable definitions in ``GFS_typedefs.meta`` is shown in
+:ref:`Listing 2.2 <table-properties-typedefs>`.
+
+.. note::
+
+   A single metadata file may require multiple instances of the [ccpp-table-properties] section.
+
+.. _table-properties-typedefs:
+.. code-block:: fortran
+
+   ########################################################################
+   [ccpp-table-properties]
+     name = GFS_statein_type
+     type = ddt
+     dependencies = 
+
+   [ccpp-arg-table]
+     name = GFS_statein_type
+     type = ddt
+   [phii]
+     standard_name = geopotential_at_interface
+   ...
+   ########################################################################
+   [ccpp-table-properties]
+     name = GFS_stateout_type
+     type = ddt
+     dependencies = 
+
+   [ccpp-arg-table]
+     name = GFS_stateout_type
+     type = ddt
+   [gu0]
+     standard_name = x_wind_updated_by_physics
+   ...
+   ########################################################################
+   [ccpp-table-properties]
+     name = GFS_typedefs
+     type = module
+     relative_path = ../../ccpp/physics/physics
+     dependencies = machine.F,physcons.F90,radlw_param.f,radsw_param.f
+     dependencies = GFDL_parse_tracers.F90,rte-rrtmgp/rrtmgp/mo_gas_optics_rrtmgp.F90
+     dependencies = rte-rrtmgp/rte/mo_optical_props.F90
+     dependencies = rte-rrtmgp/extensions/cloud_optics/mo_cloud_optics.F90
+     dependencies = rte-rrtmgp/rrtmgp/mo_gas_concentrations.F90
+     dependencies = rte-rrtmgp/rte/mo_rte_config.F90
+     dependencies = rte-rrtmgp/rte/mo_source_functions.F90
+
+   [ccpp-arg-table]
+     name = GFS_typedefs
+     type = module
+   [GFS_cldprop_type]
+     standard_name = GFS_cldprop_type
+     long_name = definition of type GFS_cldprop_type
+     units = DDT
+     dimensions = ()
+     type = GFS_cldprop_type
+   ...
+
+*Listing 2.2: Example of a CCPP-compliant metadata file showing the use of the [ccpp-table-properties] section and
+how it relates to [ccpp-arg-table].*
+
+An example metadata file for the CCPP scheme ``mp_thompson.meta`` is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
+
+.. _table-properties-mp-thompson:
+.. code-block:: fortran
+
+   [ccpp-table-properties]
+     name = mp_thompson
+     type = scheme
+     dependencies = machine.F,module_mp_radar.F90,module_mp_thompson.F90
+     dependencies = module_mp_thompson_make_number_concentrations.F90
+
+   ########################################################################
+   [ccpp-arg-table]
+     name = mp_thompson_init
+     type = scheme
+   ...
+
+   ########################################################################
+   [ccpp-arg-table]
+     name = mp_thompson_run
+     type = scheme
+   ...
+
+   ########################################################################
+   [ccpp-arg-table]
+     name = mp_thompson_finalize
+     type = scheme
+   ...
+
+*Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single
+[ccpp-table-properties] and how it defines dependencies for multiple [ccpp-arg-table].*
+
+ccpp-arg-table
+--------------
 * Metadata files (``.meta``) are in a relaxed config file format and contain metadata for one or more CCPP entry point schemes.
   There should be one ``.meta`` file for each ``.f`` or .``F90`` file.
 
@@ -124,7 +247,7 @@ Metadata Rules
 
 * ``<name>`` is name of the corresponding subroutine/module.
 
-* ``<type>`` can be ``scheme``, ``module``, ``DDT``, or ``host``.
+* ``<type>`` can be ``scheme``, ``module``, or ``DDT``.
 
 * For empty schemes, the three lines above are sufficient. For non-empty schemes, the metadata must
   describe all input and output arguments to the scheme using the following format:
@@ -165,7 +288,7 @@ Metadata Rules
    dimensions = (horizontal_dimension,vertical_dimension)
    dimensions = (horizontal_dimension,vertical_dimension_of_ozone_forcing_data,number_of_coefficients_in_ozone_forcing_data)
 
-* :ref:`Listing 2.2 <meta_template>` contains the template for a CCPP-compliant scheme 
+* :ref:`Listing 2.4 <meta_template>` contains the template for a CCPP-compliant scheme
   (``ccpp/framework/doc/DevelopersGuide/scheme_template.meta``),
 
 .. _meta_template:
@@ -173,7 +296,7 @@ Metadata Rules
    :language: fortran
    :lines: 51-81
 
-*Listing 2.2: Fortran template for a metadata file accompanying a CCPP-compliant scheme.*
+*Listing 2.4: Fortran template for a metadata file accompanying a CCPP-compliant scheme.*
 
 Input/output Variable (argument) Rules
 ======================================
@@ -184,7 +307,7 @@ Input/output Variable (argument) Rules
   are used in the CCPP (see below for further information).
 
 * A list of available standard names and an example of naming conventions can be found in
-  ``ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the 
+  ``ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the
   name of the host model.  Running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`)
   will generate a LaTeX source file that can be compiled to produce
   a PDF file with all variables defined by the host model and requested by the physics schemes.
@@ -238,7 +361,7 @@ Input/output Variable (argument) Rules
      DDTs should be broken into components that could be usable for another scheme of the same type.
 
 * It is preferable to have separate variables for physically-distinct quantities. For example,
-  an array containing various cloud properties should be split into its individual 
+  an array containing various cloud properties should be split into its individual
   physically-distinct components to facilitate generality. An exception to this rule is if
   there is a need to perform the same operation on an array of otherwise physically-distinct
   variables. For example, tracers that undergo vertical diffusion can be combined into one array
@@ -246,8 +369,8 @@ Input/output Variable (argument) Rules
   as a convenience.
 
 * If a scheme is to make use of CCPP’s subcycling capability, the loop counter can be obtained
-  from CCPP as an ``intent(in)`` variable (see :ref:`Listing 6.2 <MandatoryVariables>` for a mandatory
-  list of variables that are provided by the CCPP-Framework and/or the host model for this and other purposes). 
+  from CCPP as an ``intent(in)`` variable (see a :ref:`mandatory list of variables <MandatoryVariables>`
+  that are provided by the CCPP-Framework and/or the host model for this and other purposes).
 
 .. _CodingRules:
 
@@ -293,7 +416,7 @@ Coding Rules
 Additional coding rules are listed under the *Coding Standards* section of the NOAA NGGPS
 Overarching System team document on Code, Data, and Documentation Management for NOAA Environmental
 Modeling System (NEMS) Modeling Applications and Suites (available at
-https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit#heading=h.97v79689onyd). 
+https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit#heading=h.97v79689onyd).
 
 Parallel Programming Rules
 ==========================
@@ -317,7 +440,7 @@ in a physics scheme:
    * The implementation of reading and writing of data must be scalable to perform
      efficiently from a few to millions of tasks.
    * The MPI communicator must be provided by the host model as an ``intent(in)``
-     argument in the argument list (:ref:`Listing 6.2 <MandatoryVariables>`).
+     argument in the argument list (:ref:`see list of mandatory variables <MandatoryVariables>`).
    * The use of MPI_COMM_WORLD is not allowed.
 
 * Calls to MPI and OpenMP functions, and the import of the MPI and OpenMP libraries,
@@ -344,7 +467,7 @@ in a physics scheme:
      me = 0
    #endif
 
-* For Fortran coarrays, consult with the GMTB helpdesk (gmtb-help@ucar.edu).
+* For Fortran coarrays, consult with the DTC helpdesk (gmtb-help@ucar.edu).
 
 .. include:: ScientificDocRules.inc
 

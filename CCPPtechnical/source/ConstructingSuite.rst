@@ -63,18 +63,8 @@ Note that currently no time step information is included in the :term:`SDF` and 
 Order of Schemes
 ----------------------
 
-Schemes may be interdependent and the order in which the schemes are run may make a difference in the model output. For the static build, reading the :term:`SDF`\(s) and defining the order of schemes for each suite happens at compile time. For the dynamic build, no :term:`SDF` is used at compile time (:numref:`Figure %s <ccpp_sdf_dynamic_static>`). Instead, at runtime the :term:`SDF` is read and the order of schemes is determined.
-
-Some schemes require additional interstitial code that must be run before or after the scheme and cannot be part of the scheme itself. This can be due to dependencies on other schemes and/or the order of the schemes as determined in the :term:`SDF`.
-
-.. _ccpp_sdf_dynamic_static:
-
-.. figure:: _static/ccpp_sdf_dynamic_static.png
-   :scale: 30 %
-   :alt: map to buried treasure
-   :align: center
-
-   *Schematic of the use of the SDF in dynamic and static builds. Note that, for the static build, more than one SDF can be supplied at compile time, but only one can be used at runtime*.
+Schemes may be interdependent and the order in which the schemes are run may make a difference in the model output. Reading the :term:`SDF`\(s) and defining the order of schemes for each suite happens at compile time. 
+Some schemes require additional interstitial code that must be run before or after the scheme and cannot be part of the scheme itself. This can be due to dependencies on other schemes and/or the order of the schemes as determined in the :term:`SDF`.  Note that more than one SDF can be supplied at compile time, but only one can be used at runtime.
 
 =========================
 Interstitial Schemes
@@ -172,7 +162,7 @@ Consider the case where a model requires that some subset of physics be called o
 GFS v16beta Suite
 -------------------------------
 
-Here is the :term:`SDF` for the physics suite equivalent to the operational GFS v16beta in the :term:`UFS` Atmosphere, which employs various groups and subcycling:
+Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in the :term:`UFS` Atmosphere, which employs various groups and subcycling:
 
 .. code-block:: xml
 

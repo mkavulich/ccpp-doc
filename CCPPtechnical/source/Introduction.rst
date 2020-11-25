@@ -1,21 +1,22 @@
-.. include:: prolog.inc 
+.. include:: prolog.inc
 
 How to Use this Document
 ========================
 
-This document contains documentation for the Common Community Physics Package (CCPP). It decsribes the:
+This document contains documentation for the Common Community Physics Package (CCPP). It describes the
 
-* physics schemes and interstitials
-* suite definition files
+* Physics schemes and interstitials
+* Suite definition files
 * CCPP-compliant parameterizations
-* adding a new scheme/suite
-* host-side coding
-* fundamentals of obtaining, pre-building, building and running the CCPP with the ufs-weather-model
+* Process to add a new scheme or suite
+* Host-side coding
 * CCPP code management and governance
 
-For the latest version of the released code, please visit the `GMTB Website <http://www.dtcenter.org/gmtb/users/ccpp>`_
+For the latest version of the released code, please visit the `DTC Website <http://www.dtcenter.org/gmtb/users/ccpp>`_
 
-Please send questions and comments to the help desk: gmtb-help@ucar.edu
+Please send questions and comments to the help desk: gmtb-help@ucar.edu.
+When using the CCPP with NOAA's Unified Forecast System, questions can also be posted
+in the UFS Forum at https://forums.ufscommunity.org/.
 
 This table describes the type changes and symbols used in this guide.
 

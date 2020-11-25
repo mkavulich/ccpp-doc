@@ -20,10 +20,10 @@ document a physics scheme using doxygen inline comments in the Fortran code
 and metadata information contained in the ``.meta`` files. It covers what kind of
 information should be in the documentation, how to mark up the inline comments
 so that doxygen will parse them correctly, where to put various comments within
-the code, how to include information from the ``.meta`` files, 
+the code, how to include information from the ``.meta`` files,
 and how to configure and run doxygen to generate HTML
-output. For an example of the HTML rendering of the CCPP Scientific Documentation, see 
-https://dtcenter.org/GMTB/v3.0/sci_doc.
+output. For an example of the HTML rendering of the CCPP Scientific Documentation, see
+https://dtcenter.org/GMTB/v4.0/sci_doc.
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate
@@ -32,7 +32,7 @@ is not unique, following it will provide a level of continuity with previous
 documented schemes.
 
 Reviewing the documentation for CCPP parameterizations is a good way of getting
-started in writing documentation for a new scheme. 
+started in writing documentation for a new scheme.
 
 Doxygen Comments and Commands
 -----------------------------
@@ -46,12 +46,11 @@ is present using the doxygen command ``“\\file”``:
 
 .. code-block:: console
 
-   !> \file gwdps.f
-   !! This file is the  parameterization of orographic gravity wave
-   !! drag and mountain blocking.
+   ! !>  \file cires_ugwp.F90
+   !! This file contains the Unified Gravity Wave Physics (UGWP) scheme by Valery Yudin (University of Colorado, CIRES)
 
 A parameter definition begins with ``“!<”``, where the sign ``‘<’`` just tells
-Doxygen that documentation follows. Example:
+   Doxygen that documentation follows. Example:
 
 .. code-block:: console
 
@@ -89,9 +88,8 @@ using the ``“\\file”`` tag, e.g.:
 
 .. code-block:: fortran
 
-   !> \file gwdps.f
-   !! This file is the  parameterization of orographic gravity wave
-   !! drag and mountain blocking.
+   !>\file cu_gf_driver.F90
+   !! This file is scale-aware Grell-Freitas cumulus scheme driver.
 
 The brief description for each file is displayed next to the source filename
 on the doxygen-generated “File List” page:
@@ -104,12 +102,12 @@ Doxygen Overview Page
 
 Pages in Doxygen can be used for documentation that is not directly attached
 to a source code entity such as file or module. They are external text files
-that generate pages with a high-level scientific overview and 
+that generate pages with a high-level scientific overview and
 typically contain a longer description of a project or suite. You can refer to
 any source code entity from within the page.
 
-The GMTB maintains a main page, created by the Doxygen command
-``“\\mainpage”``, containing an overall description and background of the CCPP.  
+The DTC maintains a main page, created by the Doxygen command
+``“\\mainpage”``, containing an overall description and background of the CCPP.
 Physics developers do not have to edit the file with the mainpage, which has a
 user-visible title, but not label:
 
@@ -119,18 +117,18 @@ user-visible title, but not label:
     \mainpage Introduction
     ...
     */
- 
+
 All other pages listed under the main page are created using the Doxygen
 tag ``“\\page”`` described in the next section. In any Doxygen page,
 you can refer to any entity of source code by using Doxygen tag ``“\\ref”``
-or ``“@ref”``. Example in ``GFSv15_suite.txt``:
- 
-The GFS v15 physics suite uses the parameterizations in the following order,
+or ``“@ref”``. Example in ``suite_FV3_GFS_v15p2.xml.txt``:
+
+The GFS v15p2 physics suite uses the parameterizations in the following order,
 as defined in
 
 .. code-block:: console
 
-  \c FV3_GFS_v15 :
+  \c FV3_GFS_v15p2 :
    - \ref fast_sat_adj
    - \ref GFS_RRTMG
    - \ref GFS_SFCLYR
@@ -138,18 +136,17 @@ as defined in
    - \ref GFS_NOAH
    - \ref GFS_SFCSICE
    - \ref GFS_HEDMF
-   - \ref GFS_GWDPS
+   - \ref cires_ugwp
    - \ref GFS_RAYLEIGH
    - \ref GFS_OZPHYS
    - \ref GFS_H2OPHYS
    - \ref GFS_SAMFdeep
-   - \ref GFS_GWDC
    - \ref GFS_SAMFshal
    - \ref GFDL_cloud
    - \ref GFS_CALPRECIPTYPE
    - \ref STOCHY_PHYS
 
-The HTML result is `here <https://dtcenter.org/GMTB/v3.0/sci_doc/GFS_v15_page.html>`_.
+The HTML result is `here <https://dtcenter.org/GMTB/v4.0/sci_doc/GFS_v15p2_page.html>`_.
 You can see that the ``“-”`` signs before ``“@ref”`` generate a list with bullets.
 Doxygen command ``“\\c”`` displays its argument using a typewriter font.
 
@@ -240,7 +237,7 @@ is used to aggregate all code related to that scheme, even when it is in separat
 files. Since doxygen cannot know which files or subroutines belong to each physics
 scheme, each relevant subroutine must be tagged with the module name. This allows
 doxygen to understand your modularized design and generate the documentation accordingly.
-`Here <https://dtcenter.org/GMTB/v3.0/sci_doc/modules.html>`_
+`Here <https://dtcenter.org/GMTB/v4.0/sci_doc/modules.html>`_
 is a list of module list defined in CCPP.
 
 A module is defined using:
@@ -317,18 +314,18 @@ least the following components:
 * A more detailed one or two paragraph description of the function of the subroutine
 
 * A comment indicating that metadata information about the subroutine arguments follows
-  (in this example, the subroutine is called ``SUBROUTINE_NAME``.  Note that this line is 
+  (in this example, the subroutine is called ``SUBROUTINE_NAME``.  Note that this line is
   also functional documentation used during the CCPP *prebuild* step.
 
 .. code-block:: fortran
 
   !! \section arg_table_SUBROUTINE_NAME Argument Table
- 
+
 * For subroutines that are non-empty, a second comment indicating that a table
   of metadata to describe the subroutine arguments will be included from a separate file
   in HTML format (in this case, file ``SUBROUTINE_NAME.html``). Note that empty
-  subroutines, as is sometimes the case for ``init`` and ``finalize`` subroutines, 
-  do not require the inclusion of a file with metadata information. 
+  subroutines, as is sometimes the case for ``init`` and ``finalize`` subroutines,
+  do not require the inclusion of a file with metadata information.
   Please refer to the section below for information on how to generate the HTML files
   with metadata information from the ``.meta`` files.
 
@@ -348,7 +345,7 @@ least the following components:
   aspects of the code are automatically included in the “Detailed Algorithm” section.
 
 For subroutines that are not a CCPP entry point to a scheme, no inclusion of
-metadata information is required.  
+metadata information is required.
 But it is suggested that following ``“\\ingroup”`` and ``“\\brief”``, use
 ``“\\param”`` to define each argument with local name, a short description and unit, i.e.,
 
@@ -357,7 +354,7 @@ But it is suggested that following ``“\\ingroup”`` and ``“\\brief”``, us
    !>  \ingroup HEDMF
    !!  \brief This subroutine is used for calculating the mass flux and updraft properties.
    !!  ...
-   !! 
+   !!
    !!  \param[in] im      integer, number of used points
    !!  \param[in] ix      integer, horizontal dimension
    !!  \param[in] km      integer, vertical layer dimension
@@ -383,8 +380,8 @@ Bibliography
 Doxygen can handle in-line paper citations and link to an automatically created
 bibliography page. The bibliographic data for any papers that are cited need to
 be put in BibTeX format and saved in a .bib file. The bib file for CCPP is
-included in the repository, and the doxygen configuration option 
-``cite_bib_files`` points to the included file. 
+included in the repository, and the doxygen configuration option
+``cite_bib_files`` points to the included file.
 
 Citations are invoked with the following tag:
 
@@ -436,7 +433,7 @@ things you need to pay attention to are:
 
 .. code-block:: console
 
-   INPUT = 
+   INPUT =
 
 The following lines should be listed here: the doxygen mainpage text file, the
 scheme pages, and the source codes to be contained in the output. The order in
@@ -488,7 +485,7 @@ determines the extension of the files.
    GENERATE_TREEVIEW           = yes
 
 Doxygen files for layout (``ccpp_dox_layout.xml``), a HTML style (``ccpp_dox_extra_style.css``),
-and bibliography (``library.bib``) are provided with the CCPP. Additionally, a 
+and bibliography (``library.bib``) are provided with the CCPP. Additionally, a
 configuration file is supplied, with the following variables modified from the default:
 
 Diagrams
@@ -523,10 +520,10 @@ Including metadata information
 -----------------------------------------------
 
 As described above, a table of metadata information should be included in the documentation
-for every CCPP entrypoint scheme. Before doxygen is run, the table for each scheme must be manually 
+for every CCPP entrypoint scheme. Before doxygen is run, the table for each scheme must be manually
 created in separate
 files in HTML format, with one file per non-empty scheme. The HTML files are included in the
-Fortran files using the doygen markup below. 
+Fortran files using the doygen markup below.
 
 .. code-block:: fortran
 
@@ -534,7 +531,7 @@ Fortran files using the doygen markup below.
    !!
 
 The tables should be created using a Python script distrbuted
-with the CCPP Framework, ``ccpp/framework/scripts/metadata2html.py``. The syntax for running this 
+with the CCPP Framework, ``ccpp/framework/scripts/metadata2html.py``. The syntax for running this
 script from the directory above where the CCPP is installed is:
 
 .. code-block:: fortran
@@ -569,12 +566,14 @@ Using Doxygen
 
 In order to generate the doxygen-based documentation, one needs to follow five steps:
 
-#. Have the doxygen executable installed on your computer. For example, for the NOAA
-   machine Theia, add the following line into ``.cshrc`` file in your home directory:
+#. Have the doxygen executable installed on your computer. For the NOAA
+   machine Hera and the NCAR machine Cheyenne, the doxygen executable resides in ``/usr/bin``,
+   which should be in your ``$PATH``.  If you need to install doxygen in another location, add
+   the following line into the ``.cshrc`` file in your home directory:
 
-   ``alias doxygen /scratch4/BMC/gmtb/doxygen-1.8.10/bin/doxygen``
+   ``alias doxygen /path/to/doxygen``
 
-    Source your ``.cshrc`` file. 
+    Source your ``.cshrc`` file.
 
 #. Document your code, including doxygen main page, scheme pages and inline
    comments within source code as described above.
@@ -582,22 +581,22 @@ In order to generate the doxygen-based documentation, one needs to follow five s
 #. Run ``metadata2html.py`` to create files in HTML format containing metadata
    information for each CCPP entrypoint scheme.
 
-#. Prepare a Bibliography file in BibTex format for papers referred to in the physics suites. 
+#. Prepare a Bibliography file in BibTex format for papers referred to in the physics suites.
 
 #. Create or edit a doxygen configuration file to control what doxygen pages, source
    files and bibliography file get parsed, how the source files get parsed, and to
    customize the output.
 
-#. Run doxygen from directory ``ccpp/physics/physics/docs`` using the command line 
+#. Run doxygen from directory ``ccpp/physics/physics/docs`` using the command line
    to specify the doxygen configuration file as an argument:
 
   ``$doxygen $PATH_TO_CONFIG_FILE/<config_file>``
 
    Running this command may generate warnings or errors that need to be fixed
-   in order to produce proper output. The location and type of output 
+   in order to produce proper output. The location and type of output
    (HTML, LaTeX, etc.) are specified in the configuration file.
    The generated HTML documentation can be viewed by pointing an HTML
    browser to the ``index.html`` file in the ``./docs/doc/html/`` directory.
 
-For precise instructions on creating the scientific documentation, contact the GMTB
+For precise instructions on creating the scientific documentation, contact the DTC
 helpdesk at gmtb-help@ucar.edu.

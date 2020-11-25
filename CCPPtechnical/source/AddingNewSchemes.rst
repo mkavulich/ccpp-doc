@@ -67,7 +67,7 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
     * Make sure SDF and namelist are compatible. Inconsistencies may result in segmentation faults because arrays are not allocated or in unintended scheme(s) being executed.
     * A scheme called GFS_debug (``GFS_debug.F90``) may be added to the SDF where needed to print state variables and interstitial variables. If needed, edit the scheme beforehand to add new variables that need to be printed.
     * Check *prebuild* script for success/failure and associated messages.
-    * Compile code in DEBUG mode, run through debugger if necessary (gdb, Allinea DDT, totalview, ...).  See :numref:`Chapter %s <BuildingRunningHostModels>` for information on debugging.
+    * Compile code in DEBUG mode, run through debugger if necessary (gdb, Allinea DDT, totalview, ...).
     * Use memory check utilities such as valgrind.
     * Double-check the metadata file associated with your scheme to make sure that all information, including standard names and units, correspond to the correct local variables.
 

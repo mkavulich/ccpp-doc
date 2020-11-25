@@ -4,7 +4,7 @@
 Acronyms
 *************************
 
-.. table:: 
+.. table::
    :widths: 20 80
 
    +----------------+---------------------------------------------------+
@@ -51,8 +51,6 @@ Acronyms
    +----------------+---------------------------------------------------+
    | GFS            | Global Forecast System                            |
    +----------------+---------------------------------------------------+
-   | GMTB           | Global Model Test Bed                             |
-   +----------------+---------------------------------------------------+
    | GSD            | Global Systems Division                           |
    +----------------+---------------------------------------------------+
    | HEDMF          | Hybrid eddy-diffusivity mass-flux                 |
@@ -87,6 +85,8 @@ Acronyms
    | NOAA           | National Oceanic and Atmospheric Administration   |
    +----------------+---------------------------------------------------+
    | NRL            | Naval Research Laboratory                         |
+   +----------------+---------------------------------------------------+
+   | NSST           | Near Sea Surface Temperature ocean scheme         |
    +----------------+---------------------------------------------------+
    | NUOPC          | National Unified Operational Prediction           |
    |                | Capability                                        |

@@ -9,7 +9,7 @@ Technical Aspects of the CCPP *Prebuild*
 =============================
 
 The :term:`CCPP` *prebuild* script ``ccpp/framework/scripts/ccpp_prebuild.py`` is the central piece of code that
-connects the host model with the :term:`CCPP-Physics` schemes (see :numref:`Figures %s <ccpp_dynamic_build>` and :numref:`%s <ccpp_static_build>`). This script must be run 
+connects the host model with the :term:`CCPP-Physics` schemes (see :numref:`%s <ccpp_static_build>`). This script must be run 
 before compiling the :term:`CCPP-Physics` library and the host model cap. This may be done manually or as part
 of a host model build-time script. In the case of the SCM, ``ccpp_prebuild.py`` must be run manually, as it not
 incorporated in that model’s build system. In the case of ufs-weather-model, ``ccpp_prebuild.py`` can be run manually
@@ -27,28 +27,23 @@ on the host model side and from the individual physics schemes (``.meta`` files;
    automatic unit conversions if a mismatch of units is detected between a scheme and the host model
    (see :numref:`Section %s <AutomaticUnitConversions>` for details).
 
- * For the static build only, filters out unused variables for a given suite.
+ * Filters out unused variables for a given suite.
 
- * For the dynamic build only, creates Fortran code (``ccpp_modules_*.inc``, ``ccpp_fields_*.inc``) that stores
-   pointers to the host model variables in the ``cdata`` structure.
+ * Autogenerates software caps as appropriate:
 
- * Autogenerates software caps as appropriate, depending on the build type.
+    * The script generates caps for the suite as a whole and physics groups as defined in the input
+      :term:`SDF`\s; in addition, the :term:`CCPP` API for the build is generated.
 
-    * If dynamic, the script generates individual caps for all physics schemes.
-    * If static, the script generates caps for the suite as a whole and physics groups as defined in the input
-      :term:`SDF`\s; in addition, the :term:`CCPP` API for the static build is generated.
-
- * Populates makefiles with schemes, scheme dependencies, and caps. For the static build, statements to compile
-   the static :term:`CCPP` API are included as well. 
+ * Populates makefiles with caps. Statements to compile the :term:`CCPP` API are included as well. 
 
 .. _ccpp_prebuild:
 
-.. figure:: _static/ccpp_prebuild.png
+.. figure:: _static/ccpp_prebuild_static_only.png
    :scale: 50 %
    :alt: map to buried treasure
    :align: center
 
-   *Schematic of tasks automated by the* ``ccpp_prebuild.py`` *script and associated inputs and outputs. Red text denotes entries that are valid for the static build only, green text entries that are valid for the dynamic build only, and black text denotes entries valid for both the dynamic and static builds. The majority of the input is controlled through the host-model dependent* ``ccpp_prebuild_config.py`` *, whose user-editable variables are included as all-caps within the* ``ccpp_prebuild_config.py`` *bubble. Outputs are color-coded according to their utility: purple outputs are informational only (useful for developers, but not necessary to run the code), yellow outputs are used within the host model, blue outputs are connected to the physics, and green outputs are used in the model build.*
+   *Schematic of tasks automated by the* ``ccpp_prebuild.py`` *script and associated inputs and outputs.  The majority of the input is controlled through the host-model dependent* ``ccpp_prebuild_config.py`` *, whose user-editable variables are included as all-caps within the* ``ccpp_prebuild_config.py`` *bubble. Outputs are color-coded according to their utility: purple outputs are informational only (useful for developers, but not necessary to run the code), yellow outputs are used within the host model, blue outputs are connected to the physics, and green outputs are used in the model build.*
 
 =============================
 Script Configuration
@@ -63,31 +58,31 @@ To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configurat
 .. code-block:: console
 
    # Host model identifier
-   HOST_MODEL_IDENTIFIER = "TEST"
+   HOST_MODEL_IDENTIFIER = "SCM"
    # Add all files with metadata tables on the host model side,
    # relative to basedir = top-level directory of host model
    VARIABLE_DEFINITION_FILES = [
        ’scm/src/gmtb_scm_type_defs.f90’,
        ’scm/src/gmtb_scm_physical_constants.f90’
        ]
-   # Add all physics scheme dependencies relative to basedir - note that the CCPP
-   # rules stipulate that dependencies are not shared between the schemes!
-   SCHEME_FILES_DEPENDENCIES = [] # can be empty
    # Add all physics scheme files relative to basedir
    SCHEME_FILES = {
    # Relative path : [ list of sets in which scheme may be called ]
-   ’ccpp/physics/physics/GFS_DCNV_generic.f90’ : [’physics’],
-   ’ccpp/physics/physics/sfc_sice.f’ : [’physics’],
+   ’ccpp/physics/physics/GFS_DCNV_generic.f90’ ,
+   ’ccpp/physics/physics/sfc_sice.f’
    }
+   # Auto-generated makefile/cmakefile snippets that contain all type definitions
+   TYPEDEFS_MAKEFILE   = 'ccpp/physics/CCPP_TYPEDEFS.mk'
+   TYPEDEFS_CMAKEFILE  = 'ccpp/physics/CCPP_TYPEDEFS.cmake'
+   TYPEDEFS_SOURCEFILE = 'ccpp/physics/CCPP_TYPEDEFS.sh'
    # Auto-generated makefile/cmakefile snippets that contains all schemes
    SCHEMES_MAKEFILE = ’ccpp/physics/CCPP_SCHEMES.mk’
    SCHEMES_CMAKEFILE = ’ccpp/physics/CCPP_SCHEMES.cmake’
-   # CCPP host cap in which to insert the ccpp_field_add statements;
-   # determines the directory to place ccpp_{modules,fields}.inc
-   TARGET_FILES = [’scm/src/gmtb_scm.f90’, ]
+   SCHEMES_SOURCEFILE = 'ccpp/physics/CCPP_SCHEMES.sh'
    # Auto-generated makefile/cmakefile snippets that contains all caps
    CAPS_MAKEFILE = ’ccpp/physics/CCPP_CAPS.mk’
    CAPS_CMAKEFILE = ’ccpp/physics/CCPP_CAPS.cmake’
+   CAPS_SOURCEFILE = 'ccpp/physics/CCPP_CAPS.sh'
    # Directory where to put all auto-generated physics caps
    CAPS_DIR = ’ccpp/physics/physics’
    # Directory where the suite definition files are stored
@@ -99,57 +94,60 @@ To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configurat
    #’subroutine_name_1’ : ’all’, #’subroutine_name_2’ : ’none’, #’subroutine_name_3’ : [ ’var1’, ’var2’],}
    # Names of Fortran include files in the host model cap (do not change);
    # both files will be written to the directory of each target file
-   MODULE_INCLUDE_FILE = 'ccpp_modules.inc'
-   FIELDS_INCLUDE_FILE = 'ccpp_fields.inc'
    # Directory where to write static API to
    STATIC_API_DIR = 'scm/src'
+   STATIC_API_SRCFILE = 'scm/src/CCPP_STATIC_API.sh'
+
+   # Directory for writing HTML pages generated from metadata files
+   METADATA_HTML_OUTPUT_DIR = 'ccpp/physics/physics/docs'
 
    # HTML document containing the model-defined CCPP variables
    HTML_VARTABLE_FILE = ’ccpp/physics/CCPP_VARIABLES.html’
    # LaTeX document containing the provided vs requested CCPP variables
    LATEX_VARTABLE_FILE = ’ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES.tex’
-   ######## Template code to generate include files ########
-   # Name of the CCPP data structure in the host model cap;
-   # in the case of SCM, this is a vector with loop index i
-   CCPP_DATA_STRUCTURE = ’cdata(i)’
-
-   # EOF
 
 *Listing 8.1: CCPP prebuild config for SCM (shortened)*
 
-Although most of the variables in the ``ccpp_prebuild_config.py`` script are described by in-line comments in the code listing above and their use is described in :numref:`Figure %s <ccpp_prebuild>`, some clarifying comments are in order regarding the ``SCHEME_FILES`` variable. This is a list of CCPP-compliant physics scheme entry/exit point source files. For each item in this list, a list of physics “sets” in which the scheme may be executed is included. A physics set refers to a collection of physics schemes that are able to be called together and executed in one software domain of a host model that do not share variables with schemes from another physics set. This feature was included to cater to the needs of the :term:`UFS Weather Model`, which provides a clear-cut example of this concept. In this model, part of the microphysics scheme needed to be coupled more tightly with the dynamics, so this part of the microphysics code was put into a physics set labeled “fast_physics” which is executed within the dycore code. The variables in this physics set are distinct (in memory, due to a lack of a model variable registry) from variables used in the rest of the physics, which are part of the “slow_physics” set. In the future, it may be necessary to have additional sets, e.g. for chemistry or separate surface model components that do not share data/memory with other model components. For simpler models such as the GMTB SCM, only one physics set (labeled “physics”) is necessary. The concept of physics sets is different from physics “groups”, which are capable of sharing variables among their members and between groups but are used to organize schemes into sequential, callable units.
+Although most of the variables in the ``ccpp_prebuild_config.py`` script are described by in-line comments in the code listing above and their use is described in :numref:`Figure %s <ccpp_prebuild>`, some clarifying comments are in order regarding the ``SCHEME_FILES`` variable. This is a list of CCPP-compliant physics scheme entry/exit point source files. For each item in this list, a list of physics “sets” in which the scheme may be executed is included. A physics set refers to a collection of physics schemes that are able to be called together and executed in one software domain of a host model that do not share variables with schemes from another physics set. This feature was included to cater to the needs of the :term:`UFS Weather Model`, which provides a clear-cut example of this concept. In this model, part of the microphysics scheme needed to be coupled more tightly with the dynamics, so this part of the microphysics code was put into a physics set labeled “fast_physics” which is executed within the dycore code. The variables in this physics set are distinct (in memory, due to a lack of a model variable registry) from variables used in the rest of the physics, which are part of the “slow_physics” set. In the future, it may be necessary to have additional sets, e.g. for chemistry or separate surface model components that do not share data/memory with other model components. For simpler models such as the CCPP SCM, only one physics set (labeled “physics”) is necessary. The concept of physics sets is different from physics “groups”, which are capable of sharing variables among their members and between groups but are used to organize schemes into sequential, callable units.
 
 =============================
 Running ccpp_prebuild.py 
 =============================
 
-Once the configuration in ``ccpp_prebuild_config.py`` is complete, the ``ccpp_prebuild.py`` script can be run from the top level directory. For the SCM, this script must be run (in dynamic build mode only) to reconcile data provided by the SCM with data required by the physics schemes before compilation and to generate physics caps and makefile segments. For the :term:`UFS` Atmosphere host model, the ``ccpp_prebuild.py`` script is called automatically by the ufs-weather-model build system when the :term:`CCPP` build is requested (by running the :term:`CCPP` regression tests or by passing the option CCPP=Y and others to the ``compile.sh`` script; see the compile commands defined in the :term:`CCPP` regression test configurations for further details). 
+Once the configuration in ``ccpp_prebuild_config.py`` is complete, the ``ccpp_prebuild.py`` script can be run from the top level directory. For the SCM, this script must be run to reconcile data provided by the SCM with data required by the physics schemes before compilation and to generate physics caps and makefile segments. For the :term:`UFS` Atmosphere host model, the ``ccpp_prebuild.py`` script is called automatically by the ufs-weather-model build system when the :term:`CCPP` build is requested (by running the :term:`CCPP` regression tests or by passing the option CCPP=Y and others to the ``compile.sh`` script; see the compile commands defined in the :term:`CCPP` regression test configurations for further details). 
 
-For developers adding a CCPP-compliant physics scheme, running ``ccpp_prebuild.py`` periodically is recommended to check that the metadata provided with the physics schemes matches what the host model provided. For the :term:`UFS` Atmosphere, running ``ccpp_prebuild.py`` manually is identical to running it for the SCM (since the relative paths to their respective ``ccpp_prebuild_config.py`` files are identical), except it may be necessary to add the ``--static`` and ``--suites`` command-line arguments for the static option.
+For developers adding a CCPP-compliant physics scheme, running ``ccpp_prebuild.py`` periodically is recommended to check that the metadata provided with the physics schemes matches what the host model provided. For the :term:`UFS` Atmosphere, running ``ccpp_prebuild.py`` manually is identical to running it for the SCM (since the relative paths to their respective ``ccpp_prebuild_config.py`` files are identical), except it may be necessary to add the ``--suites`` command-line argument.
 
-As alluded to above, the ``ccpp_prebuild.py`` script has six command line options, with the path to a host-model specific configuration file (``--config``) being the only necessary input option:
+As alluded to above, the ``ccpp_prebuild.py`` script has five command line options, with the path to a host-model specific configuration file (``--config``) being the only necessary input option:
 
  |  ``-h, --help``         show this help message and exit
  |  ``--config``           ``PATH_TO_CONFIG/config_file``      path to CCPP *prebuild* configuration file
  |  ``--clean``            remove files created by this script, then exit
  |  ``--debug``            enable debugging output
- |  ``--static``           enable a static build for a given suite definition file
- |  ``--suites`` SUITES    SDF(s) to use (comma-separated,for static build only, without path)
+ |  ``--suites`` SUITES    SDF(s) to use (comma-separated, without path)
  
-So, the simplest possible invocation of the script (called from the host model’s top level directory) would be:
+.. note::
+
+   If the --suites option is omitted, all suites will be compiled into the executable.
+
+An example invocation of running the script (called from the host model’s top level directory) would be:
 
 .. code-block:: console
 
-   ./ccpp/framework/scripts/ccpp_prebuild.py --config ./ccpp/config/ccpp_prebuild_config.py [--debug]
+   ./ccpp/framework/scripts/ccpp_prebuild.py \
+     --config=./ccpp/config/ccpp_prebuild_config.py \
+     --suites=FV3_GFS_v15p2 \
+     --debug
  
-which assumes a dynamic build with a configuration script located at the specified path. The debug option can be used for more verbose output from the script.
+which uses a configuration script located at the specified path. The debug option can be used for more verbose output from the script.
 
-For a static build (described above), where the :term:`CCPP-Framework` and the physics libraries are statically linked to the executable and a set of one or more suites are defined at build-time, the ``--suites`` and ``--static`` options must be included. The :term:`SDF`\(s) should be specified using the ``--suites`` command-line argument. Such files are included with the SCM and ufs-weather-model repositories, and must be included with the code of any host model to use the :term:`CCPP`\. Unless the ``--static`` command-line argument is used with the script, it will assume dynamically linked libraries.   An example of a static build using two :term:`SDF`\s is:
+The :term:`SDF`\(s) must be included and specified using the ``--suites`` command-line argument. Such files are included with the SCM and ufs-weather-model repositories, and must be included with the code of any host model to use the :term:`CCPP`\.  An example of a build using two :term:`SDF`\s is:
 
 .. code-block:: console
 
-   ./ccpp/framework/scripts/ccpp_prebuild.py --config=./ccpp/config/ccpp_prebuild_config.py --static \ 
-    --suites=FV3_GFS_v15p2,FV3_GFS_v16beta
+   ./ccpp/framework/scripts/ccpp_prebuild.py \
+     --config=./ccpp/config/ccpp_prebuild_config.py \ 
+     --suites=FV3_GFS_v15p2,FV3_GFS_v16beta
 
 If the :term:`CCPP` *prebuild* step is successful, the last output line will be:
 
@@ -159,7 +157,7 @@ To remove all files created by ``ccpp_prebuild.py``, for example as part of a ho
  
 .. code-block:: console
 
-  ./ccpp/framework/scripts/ccpp_prebuild.py --config=./ccpp/config/ccpp_prebuild_config.py --static \ 
+  ./ccpp/framework/scripts/ccpp_prebuild.py --config=./ccpp/config/ccpp_prebuild_config.py \ 
   --suites=FV3_GFS_v15p2,FV3_GFS_v16beta --clean
 
 =============================
@@ -171,7 +169,7 @@ If invoking the ``ccpp_prebuild.py`` script fails, some message other than the s
 
  #. ``ERROR: Configuration file`` erroneous/path/to/config/file ``not found``
       * Check that the path entered for the ``--config`` command line option points to a readable configuration file.
- #. ``KeyError``: 'erroneous_scheme_name' when using the ``--static`` and ``--suites`` options
+ #. ``KeyError``: 'erroneous_scheme_name' when using the ``--suites`` option
       * This error indicates that a scheme within the supplied :term:`SDF`\s does not match any scheme names found in the SCHEME_FILES variable of the supplied configuration file that lists scheme source files. Double check that the scheme’s source file is included in the SCHEME_FILES list and that the scheme name that causes the error is spelled correctly in the supplied :term:`SDF`\s and matches what is in the source file (minus any ``*_init``, ``*_run``, ``*_finalize`` suffixes).
  #. ``CRITICAL: Suite definition file`` erroneous/path/to/SDF.xml ``not found``. 
 
