@@ -12,11 +12,16 @@ The :term:`SDF` is a file in XML format used to specify the name of the suite, t
 
 In addition to the primary parameterization categories (such as radiation, boundary layer, deep convection, resolved moist physics, etc.), the :term:`SDF` can have an arbitrary number of interstitial schemes in between the parameterizations to preprocess or postprocess data. In many models, this interstitial code is not obvious to the model user but, with the :term:`SDF`, both the primary parameterizations and the interstitial schemes are listed explicitly.
 
-The name of the suite is listed at the top of the :term:`SDF` and must be consistent with the name of the :term:`SDF`: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below. The suite name is followed by the ``time_vary`` step, which is run only once when the model is first initialized.
+The format of the :term:`SDF` is specified by a schema and all host models that use CCPP include file ``suite.xsd`` to describe the schema.
+
+The name of the suite is listed at the top of the :term:`SDF`, right after the XML declaration, and must be consistent with the name of the :term:`SDF`: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below.
+The suite name is followed by the version of the XML schema used.
+
+One of teh groups in the :term:`SDF` can be the ``time_vary`` step, which is run only once when the model is first initialized.
 
 .. code-block:: xml
 
-   <suite name="ABC" lib="ccppphys" ver="3.0.0">
+   <suite name="ABC" ver="1">
      <!-- <init></init> -->
      <group name="time_vary">
        <subcycle loop="1">
@@ -89,7 +94,7 @@ Consider the simplest case, in which all physics schemes are to be called togeth
 .. code-block:: console
 
    <?xml version="1.0" encoding="UTF-8"?>
-   <suite name="Suite_A" lib="ccppphys" ver="3.0.0">
+   <suite name="Suite_A" ver="1">
      ...
      <group name="physics">
        <subcycle loop="1">
@@ -120,7 +125,7 @@ Some models require that the physics be called in groups, with non-physics compu
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
-   <suite name="Suite_B" lib="ccppphys" ver="3.0.0">
+   <suite name="Suite_B" ver="1">
      <group name="g1">
        <subcycle loop="1">
          <scheme>SchemeX</scheme>
@@ -146,7 +151,7 @@ Consider the case where a model requires that some subset of physics be called o
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
-   <suite name="Suite_C" lib="ccppphys" ver="3.0.0">
+   <suite name="Suite_C" ver="1">
      <group name="g1">
        <subcycle loop="1">
          <scheme>scheme_1</scheme>
@@ -161,7 +166,7 @@ Consider the case where a model requires that some subset of physics be called o
    </suite>
 
 -------------------------------
-Operational GFS v16beta Suite
+GFS v16beta Suite
 -------------------------------
 
 Here is the :term:`SDF` for the physics suite equivalent to the operational GFS v16beta in the :term:`UFS` Atmosphere, which employs various groups and subcycling:
@@ -170,7 +175,7 @@ Here is the :term:`SDF` for the physics suite equivalent to the operational GFS 
 
    <?xml version="1.0" encoding="UTF-8"?>
 
-   <suite name="FV3_GFS_v16beta" lib="ccppphys" ver="3">
+   <suite name="FV3_GFS_v16beta" ver="1">
      <!-- <init></init> -->
      <group name="fast_physics">
        <subcycle loop="1">
