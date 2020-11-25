@@ -94,6 +94,7 @@ Consider the simplest case, in which all physics schemes are to be called togeth
 .. code-block:: console
 
    <?xml version="1.0" encoding="UTF-8"?>
+
    <suite name="Suite_A" ver="1">
      ...
      <group name="physics">
@@ -125,6 +126,7 @@ Some models require that the physics be called in groups, with non-physics compu
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
+
    <suite name="Suite_B" ver="1">
      <group name="g1">
        <subcycle loop="1">
@@ -151,6 +153,7 @@ Consider the case where a model requires that some subset of physics be called o
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
+
    <suite name="Suite_C" ver="1">
      <group name="g1">
        <subcycle loop="1">
