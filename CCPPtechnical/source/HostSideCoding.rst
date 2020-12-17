@@ -320,6 +320,7 @@ The ``cdata`` structure is used for holding five variables that must always be a
 .. _MandatoryVariables:
 
 .. code-block:: fortran
+
   [ccpp-table-properties]
     name = ccpp_types
     type = module
