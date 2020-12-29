@@ -153,14 +153,13 @@ Running a case requires three pieces of information: the case to run (consisting
     ./run_gmtb_scm.py -c CASE_NAME [-s SUITE_NAME] [-n PHYSICS_NAMELIST_PATH] [-g]
 
 
-When invoking the run script, the only required argument is the name of the case to run. The case name used must match one of the case configuration files located in ``../etc/case_config`` (*without the .nml extension!*). If specifying a suite other than the default, the suite name used must match the value of the suite name in one of the SDFs located in ``../../ccpp/suites`` (Note: not the filename of the SDF). As part of the CCPP v4 release, the following suite names are valid:
+When invoking the run script, the only required argument is the name of the case to run. The case name used must match one of the case configuration files located in ``../etc/case_config`` (*without the .nml extension!*). If specifying a suite other than the default, the suite name used must match the value of the suite name in one of the SDFs located in ``../../ccpp/suites`` (Note: not the filename of the SDF). As part of this CCPP release, the following suite names are valid:
 
     * SCM_GFS_v15p2
-    * SCM_GFS_v15p2_no_nsst
     * SCM_GFS_v16beta
-    * SCM_GFS_v16beta_no_nsst
     * SCM_csawmg
     * SCM_GSD_v1
+    * RRFS_v1alpha
 
 Note that using the Thompson microphysics scheme (as in ``SCM_GSD_v1``) requires the existence of lookup tables during its initialization phase. As of the release, computation of the lookup tables has been prohibitively slow with this model, so it is highly suggested that they be downloaded and staged to use this scheme (and the ``SCM_GSD_v1`` suite). Pre-computed tables have been created and are available for download at the following URLs:
     * https://dtcenter.org/GMTB/freezeH2O.dat (243 M)
