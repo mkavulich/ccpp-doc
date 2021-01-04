@@ -26,7 +26,7 @@ considered in future implementations.
 
 These capabilities have been tested and are expected to work with the following suites:
 
-* UFS: GFSv15p2 and GFSv16beta suites 
+* UFS: GFSv15p2 suite
 * SCM: GFSv15p2, GFSv16beta, and GSD_v1 suites 
 
 ==========
@@ -54,7 +54,7 @@ photochemistry. The total tendency produced by the ozone photochemistry scheme (
 subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone
 present in the column above a grid cell, influences from temperature, and influences from mixing ratio.
 For more information about the NRL 2015 ozone photochemistry scheme, consult the CCPP Scientific
-Documentation `here <https://dtcenter.ucar.edu/GMTB/v5.0/sci_doc/GFS_OZPHYS.html>`_. 
+Documentation `here <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
 
 .. _avail_tendencies:
 

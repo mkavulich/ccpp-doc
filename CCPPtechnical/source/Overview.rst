@@ -101,7 +101,7 @@ Application.
    +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
    | Microphysics       | GFDL            | GFDL            | M-G3        | Thompson         | Thompson                |
    +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | PBL                | K-EDMF          | TKE EDMF        | K-EDMF      | saMYNN           | saMYNN                  |
+   | PBL                | K-EDMF          | TKE EDMF        | K-EDMF      | MYNN             | MYNN                    |
    +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
    | Deep convection    | SAS             | saSAS           | CSAW        | GF               | GF                      |
    +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
@@ -138,8 +138,7 @@ Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-
 (MYNN) PBL and shallow convection, Grell-Freitas (GF) deep
 convection schemes, and the Rapid Update Cycle (RUC) LSM. Suite RRFS_v1alpha is
 targeted for the Rapid Refresh Forecast System
-(RRFS) and differs from the GSD_v1 suite by not using parameterized convection,
-using the MYNN surface layer parameterization, and employing the Noah-MP LSM.*
+(RRFS) and differs from the GSD_v1 suite by not using parameterized convection and employing the Noah-MP LSM.*
 
 Those interested in the history of previous CCPP releases should know that the
 first public release of the CCPP took place in April 2018 and included all the
@@ -154,8 +153,8 @@ The CCPP v4.0 release, issued in March 2020, contained suite GFS_v15p2, which is
 updated version of the operational
 GFS v15 and replaced suite GFS_v15. It also contained three developmental suites:
 csawmg with minor updates, GSD_v1 (an update over the previously released GSD_v0),
-and GFS_v16beta, which the target suite at the time for implementation in the
-upcoming operational GFSv16 (it replacing suite GFSv15plus).
+and GFS_v16beta, which was the target suite at the time for implementation in the
+upcoming operational GFSv16 (it replaced suite GFSv15plus).
 The CCPP v4.1 release, issued in October 2020, was a minor
 upgrade with the capability to build the code using Python 3 (previously only Python 2
 was supported).
@@ -166,8 +165,10 @@ upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the
 .. [#] As of this writing, the CCPP has been validated with two host models: the CCPP
     SCM and the atmospheric component of
     NOAA’s Unified Forecast System (UFS) (hereafter the UFS Atmosphere) that utilizes
-    the Finite-Volume Cubed Sphere (FV3) dycore. The CCPP can be utilized both with the
-    global and standalone regional configurations of the UFS Atmosphere. The CCPP
+    the Finite-Volume Cubed Sphere (FV3) dycore.  The CCPP can be utilized both with the
+    global and limited-area configurations of the UFS Atmosphere. CCPP v4.1.0 is the latest
+    release compatible with the global UFS Medium-Range Weather Application. CCPP v5.0.0 is only
+    compatible with the limited-area UFS Short-Range Weather Application.  The CCPP
     has also been run experimentally with a Navy model. Work is under
     way to connect and validate the use of the CCPP-Framework with NCAR models.
 

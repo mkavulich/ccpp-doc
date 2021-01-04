@@ -23,7 +23,7 @@ so that doxygen will parse them correctly, where to put various comments within
 the code, how to include information from the ``.meta`` files,
 and how to configure and run doxygen to generate HTML
 output. For an example of the HTML rendering of the CCPP Scientific Documentation, see
-https://dtcenter.org/GMTB/v5.0/sci_doc.
+https://dtcenter.org/GMTB/v5.0.0/sci_doc.
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate
@@ -146,7 +146,7 @@ as defined in
    - \ref GFS_CALPRECIPTYPE
    - \ref STOCHY_PHYS
 
-The HTML result is `here <https://dtcenter.org/GMTB/v5.0/sci_doc/GFS_v15p2_page.html>`_.
+The HTML result is `here <https://dtcenter.org/GMTB/v5.0.0/sci_doc/GFS_v15p2_page.html>`_.
 You can see that the ``“-”`` signs before ``“@ref”`` generate a list with bullets.
 Doxygen command ``“\\c”`` displays its argument using a typewriter font.
 
@@ -237,7 +237,7 @@ is used to aggregate all code related to that scheme, even when it is in separat
 files. Since doxygen cannot know which files or subroutines belong to each physics
 scheme, each relevant subroutine must be tagged with the module name. This allows
 doxygen to understand your modularized design and generate the documentation accordingly.
-`Here <https://dtcenter.org/GMTB/v5.0/sci_doc/modules.html>`_
+`Here <https://dtcenter.org/GMTB/v5.0.0/sci_doc/modules.html>`_
 is a list of module list defined in CCPP.
 
 A module is defined using:
