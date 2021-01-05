@@ -138,7 +138,8 @@ Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-
 (MYNN) PBL and shallow convection, Grell-Freitas (GF) deep
 convection schemes, and the Rapid Update Cycle (RUC) LSM. Suite RRFS_v1alpha is
 targeted for the Rapid Refresh Forecast System
-(RRFS) and differs from the GSD_v1 suite by not using parameterized convection and employing the Noah-MP LSM.*
+(RRFS) and differs from the GSD_v1 suite by not using parameterized convection and employing the
+Noah-Multiparameterization (MP) LSM.*
 
 Those interested in the history of previous CCPP releases should know that the
 first public release of the CCPP took place in April 2018 and included all the

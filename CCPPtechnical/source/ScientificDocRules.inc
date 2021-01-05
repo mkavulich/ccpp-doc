@@ -599,4 +599,4 @@ In order to generate the doxygen-based documentation, one needs to follow five s
    browser to the ``index.html`` file in the ``./docs/doc/html/`` directory.
 
 For precise instructions on creating the scientific documentation, contact the DTC
-helpdesk at gmtb-help@ucar.edu.
+helpdesk at https://dtcenter.org/forum/ccpp-user-support.

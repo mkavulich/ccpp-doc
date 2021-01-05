@@ -151,17 +151,16 @@ Consider the case where a model requires that some subset of physics be called o
    </suite>
 
 -------------------------------
-RRFS v1beta Suite
+GFS v16beta Suite
 -------------------------------
 
-Here is the :term:`SDF` for the physics suite equivalent to the RRFS v1beta in the Single Column Model (SCM), which employs various groups and subcycling:
+Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in the Single Column Model (SCM), which employs various groups and subcycling:
 
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
 
-   <suite name="SCM_RRFS_v1beta" version="1">
-     <!-- <init></init> -->
+   <suite name="SCM_GFS_v16beta" version="1">
      <group name="time_vary">
        <subcycle loop="1">
          <scheme>GFS_time_vary_pre</scheme>
@@ -173,14 +172,12 @@ Here is the :term:`SDF` for the physics suite equivalent to the RRFS v1beta in t
      <group name="radiation">
        <subcycle loop="1">
          <scheme>GFS_suite_interstitial_rad_reset</scheme>
-         <scheme>sgscloud_radpre</scheme>
          <scheme>GFS_rrtmg_pre</scheme>
          <scheme>rrtmg_sw_pre</scheme>
          <scheme>rrtmg_sw</scheme>
          <scheme>rrtmg_sw_post</scheme>
          <scheme>rrtmg_lw_pre</scheme>
          <scheme>rrtmg_lw</scheme>
-         <scheme>sgscloud_radpost</scheme>
          <scheme>rrtmg_lw_post</scheme>
          <scheme>GFS_rrtmg_post</scheme>
        </subcycle>
@@ -199,12 +196,12 @@ Here is the :term:`SDF` for the physics suite equivalent to the RRFS v1beta in t
        </subcycle>
        <!-- Surface iteration loop -->
        <subcycle loop="2">
-         <scheme>mynnsfc_wrapper</scheme>
+         <scheme>sfc_diff</scheme>
          <scheme>GFS_surface_loop_control_part1</scheme>
          <scheme>sfc_nst_pre</scheme>
          <scheme>sfc_nst</scheme>
          <scheme>sfc_nst_post</scheme>
-         <scheme>noahmpdrv</scheme>
+         <scheme>lsm_noah</scheme>
          <scheme>sfc_sice</scheme>
          <scheme>GFS_surface_loop_control_part2</scheme>
        </subcycle>
@@ -214,7 +211,9 @@ Here is the :term:`SDF` for the physics suite equivalent to the RRFS v1beta in t
          <scheme>sfc_diag</scheme>
          <scheme>sfc_diag_post</scheme>
          <scheme>GFS_surface_generic_post</scheme>
-         <scheme>mynnedmf_wrapper</scheme>
+         <scheme>GFS_PBL_generic_pre</scheme>
+         <scheme>satmedmfvdifq</scheme>
+         <scheme>GFS_PBL_generic_post</scheme>
          <scheme>GFS_GWD_generic_pre</scheme>
          <scheme>cires_ugwp</scheme>
          <scheme>cires_ugwp_post</scheme>
@@ -225,34 +224,36 @@ Here is the :term:`SDF` for the physics suite equivalent to the RRFS v1beta in t
          <scheme>h2ophys</scheme>
          <scheme>get_phi_fv3</scheme>
          <scheme>GFS_suite_interstitial_3</scheme>
+         <scheme>GFS_DCNV_generic_pre</scheme>
+         <scheme>samfdeepcnv</scheme>
+         <scheme>GFS_DCNV_generic_post</scheme>
+         <scheme>GFS_SCNV_generic_pre</scheme>
+         <scheme>samfshalcnv</scheme>
+         <scheme>GFS_SCNV_generic_post</scheme>
          <scheme>GFS_suite_interstitial_4</scheme>
+         <scheme>cnvc90</scheme>
          <scheme>GFS_MP_generic_pre</scheme>
-         <scheme>mp_thompson_pre</scheme>
-         <scheme>mp_thompson</scheme>
-         <scheme>mp_thompson_post</scheme>
+         <scheme>gfdl_cloud_microphys</scheme>
          <scheme>GFS_MP_generic_post</scheme>
          <scheme>maximum_hourly_diagnostics</scheme>
          <scheme>phys_tend</scheme>
        </subcycle>
      </group>
-     <!-- <finalize></finalize> -->
    </suite>
 
-The suite name is ``SCM_RRFS_v1beta``. Three groups (``time_vary, radiation, and physics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
+The suite name is ``SCM_GFS_v16beta``. Three groups (``time_vary, radiation, and physics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
 
 * ``GFS_time_vary_pre``: GFS physics suite time setup
 * ``GFS_rrtmg_setup``: Rapid Radiative Transfer Model for Global Circulation Models (RRTMG) setup
 * ``GFS_rad_time_vary``: GFS radiation time setup
 * ``GFS_phys_time_vary``: GFS physics suite time setup
 * ``GFS_suite_interstitial_rad_reset``: GFS suite interstitial radiation reset
-* ``sgscloud_radpre``: Preprocessor for subgrid-scale clouds
 * ``GFS_rrtmg_pre``: Preprocessor for the GFS radiation schemes
 * ``rrtmg_sw_pre``: Preprocessor for the RRTMG shortwave radiation
 * ``rrtmg_sw``: RRTMG for shortwave radiation
 * ``rrtmg_sw_post``: Postprocessor for the RRTMG shortwave radiation
 * ``rrtmg_lw_pre``: Preprocessor for the RRTMG longwave radiation
 * ``rrtmg_lw``: RRTMG for longwave radiation
-* ``sgscloud_radpost``: Postprocessor for subgrid-scale clouds
 * ``rrtmg_lw_post``: Postprocessor for the RRTMG longwave radiation
 * ``GFS_rrtmg_post``: Postprocessor for the GFS radiation schemes
 * ``GFS_suite_interstitial_phys_reset``: GFS suite interstitial physics reset
@@ -264,19 +265,21 @@ The suite name is ``SCM_RRFS_v1beta``. Three groups (``time_vary, radiation, and
 * ``dcyc2t3``: Mapping of the radiative fluxes and heating rates from the coarser radiation timestep onto the model's more frequent time steps
 * ``GFS_surface_composites_inter``: Interstitial for the surface composites
 * ``GFS_suite_interstitial_2``: GFS suite interstitial 2
-* ``mynnsfc_wrapper``: MYNN surface layer scheme
+* ``sfc_diff``: Calculation of the exchange coefficients in the GFS surface layer
 * ``GFS_surface_loop_control_part1``: GFS surface loop control part 1
 * ``sfc_nst_pre``: Preprocessor for the near-surface sea temperature
 * ``sfc_nst``: GFS Near-surface sea temperature
 * ``sfc_nst_post``: Postprocessor for the near-surface temperature
-* ``noahmpdrv``: Noah multiparameterization (Noah-MP) land surface scheme driver
+* ``lsm_noah``: Noah land surface scheme driver
 * ``sfc_sice``: Simple sea ice scheme
 * ``GFS_surface_loop_control_part2``: GFS surface loop control part 2
 * ``GFS_surface_composites_post``: Postprocess for surface composites
 * ``sfc_diag``: Land surface diagnostic calculation
 * ``sfc_diag_post``: Postprocessor for the land surface diagnostic calculation
 * ``GFS_surface_generic_post``: Postprocessor for the GFS surface process
-* ``mynnedmf_wrapper``: MYNN eddy-diffusivity mass-flux scheme
+* ``GFS_PBL_generic_pre``: Preprocessor for all Planetary Boundary Layer (PBL) schemes (except MYNN)
+* ``satmedmfvdifq``: Scale-aware TKE-based moist eddy-diffusion mass-flux
+* ``GFS_PBL_generic_post``: Postprocessor for all Planetary Boundary Layer (PBL) schemes (except MYNN)
 * ``GFS_GWD_generic_pre``: Preprocessor for the orographic gravity wave drag
 * ``cires_ugwp``: Unified gravity wave drag
 * ``cires_ugwp_post``: Postprocessor for the unified gravity wave drag
@@ -287,11 +290,15 @@ The suite name is ``SCM_RRFS_v1beta``. Three groups (``time_vary, radiation, and
 * ``h2ophys``: H2O physics for stratosphere and mesosphere
 * ``get_phi_fv3``: Hydrostatic adjustment to the height in a way consistent with FV3 discretization
 * ``GFS_suite_interstitial_3``: GFS suite interstitial 3
+* ``samfdeepcnv``: Simplified Arakawa Schubert (SAS) Mass Flux deep convection
+* ``GFS_DCNV_generic_post``: Postprocessor for all deep convective schemes
+* ``GFS_SCNV_generic_pre``: Preprocessor for the GFS shallow convective schemes
+* ``samfshalcnv``: SAS mass flux shallow convection
+* ``GFS_SCNV_generic_post``: Postprocessor for the GFS shallow convective scheme
 * ``GFS_suite_interstitial_4``: GFS suite interstitial 4
+* ``cnvc90``: Convective cloud cover
 * ``GFS_MP_generic_pre``: Preprocessor for all GFS microphysics
-* ``mp_thompson_pre``: Preprocessor for aerosol-aware Thompson microphysics scheme
-* ``mp_thompson``: Aerosol-aware Thompson microphysics scheme
-* ``mp_thompson_post``: Postprocessor for aerosol-aware Thompson microphysics scheme
+* ``gfdl_cloud_microphys``: GFDL cloud microphysics
 * ``GFS_MP_generic_post``: Postprocessor for GFS microphysics
 * ``maximum_hourly_diagnostics``: Computation of the maximum of the selected diagnostics
 * ``phys_tend``: Physics tendencies
