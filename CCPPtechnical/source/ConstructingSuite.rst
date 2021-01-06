@@ -154,19 +154,13 @@ Consider the case where a model requires that some subset of physics be called o
 GFS v16beta Suite
 -------------------------------
 
-Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in the :term:`UFS` Atmosphere, which employs various groups and subcycling:
+Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in the Single Column Model (SCM), which employs various groups and subcycling:
 
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
 
-   <suite name="FV3_GFS_v16beta" lib="ccppphys" ver="3">
-     <!-- <init></init> -->
-     <group name="fast_physics">
-       <subcycle loop="1">
-         <scheme>fv_sat_adj</scheme>
-       </subcycle>
-     </group>
+   <suite name="SCM_GFS_v16beta" version="1">
      <group name="time_vary">
        <subcycle loop="1">
          <scheme>GFS_time_vary_pre</scheme>
@@ -214,7 +208,6 @@ Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in t
        <!-- End of surface iteration loop -->
        <subcycle loop="1">
          <scheme>GFS_surface_composites_post</scheme>
-         <scheme>dcyc2t3_post</scheme>
          <scheme>sfc_diag</scheme>
          <scheme>sfc_diag_post</scheme>
          <scheme>GFS_surface_generic_post</scheme>
@@ -229,9 +222,9 @@ Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in t
          <scheme>GFS_suite_stateout_update</scheme>
          <scheme>ozphys_2015</scheme>
          <scheme>h2ophys</scheme>
-         <scheme>GFS_DCNV_generic_pre</scheme>
          <scheme>get_phi_fv3</scheme>
          <scheme>GFS_suite_interstitial_3</scheme>
+         <scheme>GFS_DCNV_generic_pre</scheme>
          <scheme>samfdeepcnv</scheme>
          <scheme>GFS_DCNV_generic_post</scheme>
          <scheme>GFS_SCNV_generic_pre</scheme>
@@ -243,19 +236,13 @@ Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in t
          <scheme>gfdl_cloud_microphys</scheme>
          <scheme>GFS_MP_generic_post</scheme>
          <scheme>maximum_hourly_diagnostics</scheme>
+         <scheme>phys_tend</scheme>
        </subcycle>
      </group>
-     <group name="stochastics">
-       <subcycle loop="1">
-         <scheme>GFS_stochastics</scheme>
-       </subcycle>
-     </group>
-     <!-- <finalize></finalize> -->
    </suite>
 
-The suite name is ``FV3_GFS_v16beta``. Five groups (``fast_physics, time_vary, radiation, physics, and stochastics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
+The suite name is ``SCM_GFS_v16beta``. Three groups (``time_vary, radiation, and physics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
 
-* ``fv_sat_adj``: Saturation adjustment (for the UFS Atmosphere only)
 * ``GFS_time_vary_pre``: GFS physics suite time setup
 * ``GFS_rrtmg_setup``: Rapid Radiative Transfer Model for Global Circulation Models (RRTMG) setup
 * ``GFS_rad_time_vary``: GFS radiation time setup
@@ -287,13 +274,13 @@ The suite name is ``FV3_GFS_v16beta``. Five groups (``fast_physics, time_vary, r
 * ``sfc_sice``: Simple sea ice scheme
 * ``GFS_surface_loop_control_part2``: GFS surface loop control part 2
 * ``GFS_surface_composites_post``: Postprocess for surface composites
-* ``dcyc2t3_post``: Postprocessor for the mapping of the radiative fluxes and heating rates from the coarser radiation timestep onto the model's more frequent time steps
 * ``sfc_diag``: Land surface diagnostic calculation
 * ``sfc_diag_post``: Postprocessor for the land surface diagnostic calculation
 * ``GFS_surface_generic_post``: Postprocessor for the GFS surface process
 * ``GFS_PBL_generic_pre``: Preprocessor for all Planetary Boundary Layer (PBL) schemes (except MYNN)
-* ``GFS_GWD_generic_pre``: Preprocessor for the orographic gravity wave drag
 * ``satmedmfvdifq``: Scale-aware TKE-based moist eddy-diffusion mass-flux
+* ``GFS_PBL_generic_post``: Postprocessor for all Planetary Boundary Layer (PBL) schemes (except MYNN)
+* ``GFS_GWD_generic_pre``: Preprocessor for the orographic gravity wave drag
 * ``cires_ugwp``: Unified gravity wave drag
 * ``cires_ugwp_post``: Postprocessor for the unified gravity wave drag
 * ``GFS_GWD_generic_post``: Postprocessor for the GFS gravity wave drag
@@ -301,7 +288,6 @@ The suite name is ``FV3_GFS_v16beta``. Five groups (``fast_physics, time_vary, r
 * ``GFS_suite_stateout_update``: GFS suite stateout update
 * ``ozphys_2015``: Ozone photochemistry
 * ``h2ophys``: H2O physics for stratosphere and mesosphere
-* ``GFS_DCNV_generic_pre``: Preprocessor for the GFS deep convective schemes
 * ``get_phi_fv3``: Hydrostatic adjustment to the height in a way consistent with FV3 discretization
 * ``GFS_suite_interstitial_3``: GFS suite interstitial 3
 * ``samfdeepcnv``: Simplified Arakawa Schubert (SAS) Mass Flux deep convection
@@ -315,4 +301,4 @@ The suite name is ``FV3_GFS_v16beta``. Five groups (``fast_physics, time_vary, r
 * ``gfdl_cloud_microphys``: GFDL cloud microphysics
 * ``GFS_MP_generic_post``: Postprocessor for GFS microphysics
 * ``maximum_hourly_diagnostics``: Computation of the maximum of the selected diagnostics
-* ``GFS_stochastics``: GFS stochastics scheme: Stochastic Kinetic Energy Backscatter (SKEB), Perturbed boundary layer specific humidity (SHUM), or Stochastically Perturbed Physics Tendencies (SPPT)
+* ``phys_tend``: Physics tendencies
