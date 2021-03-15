@@ -9,11 +9,7 @@ The SCM and the UFS Atmosphere are supported for use with the CCPP. In the case 
 `UFS Weather Model User Guide <https://ufs-weather-model.readthedocs.io/en/ufs-v2.0.0/BuildingAndRunning.html#building-the-weather-model>`_ and the
 `SCM User Guide <https://dtcenter.org/GMTB/v5.0/scm-ccpp-guide-v5.0.pdf>`_.
 
-The relevant options for building CCPP with the UFS Atmosphere can be described as follows:
-
-* **Without CCPP (CCPP=N)**: The code is compiled without CCPP and runs using the original UFS Atmosphere physics drivers, such as ``GFS_physics_driver.F90``. This option entirely bypasses all CCPP functionality and is only used for RT against the unmodified UFS Atmosphere codebase.
-
-* **With CCPP (CCPP=Y)**: The code is compiled with CCPP enabled and restricted to CCPP-compliant physics. That is, any parameterization to be called as part of a suite must be available in CCPP. Physics scheme selection and order is determined at runtime by an external suite definition file (SDF; see :numref:`Chapter %s <ConstructingSuite>` for further details on the SDF). The existing physics-calling code ``GFS_physics_driver.F90`` and ``GFS_radiation_driver.F90`` are bypassed altogether in this mode and any additional code needed to connect parameterizations within a suite previously contained therein is executed from the so-called CCPP-compliant “interstitial schemes”.  Compiling with CCPP links *CCPP-Framework* and *CCPP-physics* to the executable and is restricted to CCPP-compliant physics defined by one or more SDFs used at compile time.
+By default, the code is compiled with CCPP enabled, that is, *CCPP-Framework* and *CCPP-physics* are linked to the executable. Any parameterization to be called as part of a suite must be CCPP-compliant and available in *CCPP-Physics*.  Physics scheme selection and order is determined at runtime by an external suite definition file (SDF; see :numref:`Chapter %s <ConstructingSuite>` for further details on the SDF). 
 
 For all options that activate the CCPP, the ``ccpp_prebuild.py`` Python script must be run. This may be done manually or as part of a host model build-time script. In the case of the SCM,         ``ccpp_prebuild.py`` must be run manually, as it is not incorporated in that model’s build system. In the case of the UFS Atmosphere, ``ccpp_prebuild.py`` is run automatically as a step in the build system, although it can be run manually for debugging purposes.
 

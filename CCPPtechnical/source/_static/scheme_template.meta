@@ -49,6 +49,11 @@
 !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+[ccpp-table-properties]
+  name = ozphys
+  type = scheme
+  dependencies = machine.F
+
 [ccpp-arg-table]
   name = ozphys_init
   type = scheme

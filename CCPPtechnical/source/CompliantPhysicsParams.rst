@@ -107,8 +107,131 @@ More details are found below:
 
 .. _MetadataRules:
 
-Metadata Rules
-==============
+Metadata Table Rules
+====================
+
+Each CCPP-compliant physics scheme (``.f`` or ``.F90`` file) must have a corresponding metadata file (``.meta``)
+that contains information about CCPP entry point schemes and their dependencies.  These files
+contain two types of metadata tables: ``ccpp-table-properties`` and ``ccpp-arg-table``, both of which are mandatory.
+The contents of these tables are described in the sections below.
+
+ccpp-table-properties
+---------------------
+The ``[ccpp-table-properties]`` section is required in every metadata file and has four valid entries:
+
+#. ``type``:  In the CCPP Physics, ``type`` can be ``scheme``, ``module``, or ``ddt`` and must match the
+   ``type`` in the associated ``[ccpp-arg-table]`` section(s).
+
+#. ``name``:  This depends on the ``type``. For types ``ddt`` and ``module`` (for 
+   variable/type/kind definitions), ``name`` must match the name of the **single** associated
+   ``[ccpp-arg-table]`` section. For type ``scheme``, the name must match the root names of the
+   ``[ccpp-arg-table]`` sections for that scheme, without the suffixes ``_init``, ``_run``, ``_finalize``.
+
+#. ``dependencies``: type/kind/variable definitions and physics schemes often depend on code in other files
+   (e.g. "use machine" --> depends on machine.F). These dependencies must be listed in a comma-separated list.
+   Relative path(s) to those file(s) must be specified here or using the ``relative_path`` entry described below.
+   Dependency attributes are additive; multiple lines containing dependencies can be used.
+
+#. ``relative_path``: If specified, the relative path is added to every file listed in the ``dependencies``.
+
+The information in this section table allows the CCPP to compile only the schemes and dependencies needed by the
+selected CCPP suite(s).
+
+An example for type and variable definitions in ``GFS_typedefs.meta`` is shown in
+:ref:`Listing 2.2 <table-properties-typedefs>`.
+
+.. note::
+
+   A single metadata file may require multiple instances of the [ccpp-table-properties] section.
+
+.. _table-properties-typedefs:
+.. code-block:: fortran
+
+   ########################################################################
+   [ccpp-table-properties]
+     name = GFS_statein_type
+     type = ddt
+     dependencies = 
+
+   [ccpp-arg-table]
+     name = GFS_statein_type
+     type = ddt
+   [phii]
+     standard_name = geopotential_at_interface
+   ...
+   ########################################################################
+   [ccpp-table-properties]
+     name = GFS_stateout_type
+     type = ddt
+     dependencies = 
+
+   [ccpp-arg-table]
+     name = GFS_stateout_type
+     type = ddt
+   [gu0]
+     standard_name = x_wind_updated_by_physics
+   ...
+   ########################################################################
+   [ccpp-table-properties]
+     name = GFS_typedefs
+     type = module
+     relative_path = ../../ccpp/physics/physics
+     dependencies = machine.F,physcons.F90,radlw_param.f,radsw_param.f
+     dependencies = GFDL_parse_tracers.F90,rte-rrtmgp/rrtmgp/mo_gas_optics_rrtmgp.F90
+     dependencies = rte-rrtmgp/rte/mo_optical_props.F90
+     dependencies = rte-rrtmgp/extensions/cloud_optics/mo_cloud_optics.F90
+     dependencies = rte-rrtmgp/rrtmgp/mo_gas_concentrations.F90
+     dependencies = rte-rrtmgp/rte/mo_rte_config.F90
+     dependencies = rte-rrtmgp/rte/mo_source_functions.F90
+
+   [ccpp-arg-table]
+     name = GFS_typedefs
+     type = module
+   [GFS_cldprop_type]
+     standard_name = GFS_cldprop_type
+     long_name = definition of type GFS_cldprop_type
+     units = DDT
+     dimensions = ()
+     type = GFS_cldprop_type
+   ...
+
+*Listing 2.2: Example of a CCPP-compliant metadata file showing the use of the [ccpp-table-properties] section and
+how it relates to [ccpp-arg-table].*
+
+An example metadata file for the CCPP scheme ``mp_thompson.meta`` is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
+
+.. _table-properties-mp-thompson:
+.. code-block:: fortran
+
+   [ccpp-table-properties]
+     name = mp_thompson
+     type = scheme
+     dependencies = machine.F,module_mp_radar.F90,module_mp_thompson.F90
+     dependencies = module_mp_thompson_make_number_concentrations.F90
+
+   ########################################################################
+   [ccpp-arg-table]
+     name = mp_thompson_init
+     type = scheme
+   ...
+
+   ########################################################################
+   [ccpp-arg-table]
+     name = mp_thompson_run
+     type = scheme
+   ...
+
+   ########################################################################
+   [ccpp-arg-table]
+     name = mp_thompson_finalize
+     type = scheme
+   ...
+
+*Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single
+[ccpp-table-properties] and how it defines dependencies for multiple [ccpp-arg-table].*
+
+ccpp-arg-table
+--------------
 * Metadata files (``.meta``) are in a relaxed config file format and contain metadata for one or more CCPP entry point schemes.
   There should be one ``.meta`` file for each ``.f`` or .``F90`` file.
 
@@ -124,7 +247,7 @@ Metadata Rules
 
 * ``<name>`` is name of the corresponding subroutine/module.
 
-* ``<type>`` can be ``scheme``, ``module``, ``DDT``, or ``host``.
+* ``<type>`` can be ``scheme``, ``module``, or ``DDT``.
 
 * For empty schemes, the three lines above are sufficient. For non-empty schemes, the metadata must
   describe all input and output arguments to the scheme using the following format:
@@ -165,7 +288,7 @@ Metadata Rules
    dimensions = (horizontal_dimension,vertical_dimension)
    dimensions = (horizontal_dimension,vertical_dimension_of_ozone_forcing_data,number_of_coefficients_in_ozone_forcing_data)
 
-* :ref:`Listing 2.2 <meta_template>` contains the template for a CCPP-compliant scheme
+* :ref:`Listing 2.4 <meta_template>` contains the template for a CCPP-compliant scheme
   (``ccpp/framework/doc/DevelopersGuide/scheme_template.meta``),
 
 .. _meta_template:
@@ -173,7 +296,7 @@ Metadata Rules
    :language: fortran
    :lines: 51-81
 
-*Listing 2.2: Fortran template for a metadata file accompanying a CCPP-compliant scheme.*
+*Listing 2.4: Fortran template for a metadata file accompanying a CCPP-compliant scheme.*
 
 Input/output Variable (argument) Rules
 ======================================

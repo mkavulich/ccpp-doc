@@ -25,9 +25,7 @@ At present, only two types of variable definitions are supported by the CCPP-Fra
 Metadata for Variable in the Host Model
 ==================================================
 
-To establish the link between host model variables and physics scheme variables, the host model must provide metadata information similar to those presented in :numref:`Section %s <MetadataRules>`. The host model can have multiple metadata files (``.meta``) with multiple metadata sections in each file 
-(``[ccpp-arg-table]``) or just one. The host model Fortran files contain three-line snippets to indicate the location for insertion of the 
-metadata information contained in the corresponding section in the ``.meta`` file.
+To establish the link between host model variables and physics scheme variables, the host model must provide metadata information similar to those presented in :numref:`Section %s <MetadataRules>`. The host model can have multiple metadata files (``.meta``), each with the required ``[ccpp-table-properties]`` section and the related ``[ccpp-arg-table]`` sections. The host model Fortran files contain three-line snippets to indicate the location for insertion of the metadata information contained in the corresponding section in the ``.meta`` file.
 
 .. _SnippetMetadata:
 
@@ -90,6 +88,11 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
 
 .. code-block:: fortran
 
+   ########################################################################
+   [ccpp-table-properties]
+     name = arg_table_example_vardefs
+     type = module
+
    [ccpp-arg-table]
      name = arg_table_example_vardefs
      type = module
@@ -136,6 +139,10 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
      type = integer
 
    ########################################################################
+   [ccpp-table-properties]
+     name = arg_table_example_ddt
+     type = ddt
+
    [ccpp-arg-table]
      name = arg_table_example_ddt
      type = ddt
@@ -268,6 +275,12 @@ In this example, ``gu0``, ``gv0``, ``gt0``, and ``gq0`` are defined in the host-
 
 .. code-block:: fortran
 
+  ########################################################################
+  [ccpp-table-properties]
+     name = GFS_stateout_type
+     type = ddt
+     dependencies =
+
    [ccpp-arg-table]
      name = GFS_stateout_type
      type = ddt
@@ -308,20 +321,41 @@ The ``cdata`` structure is used for holding five variables that must always be a
 
 .. code-block:: fortran
 
+  [ccpp-table-properties]
+    name = ccpp_types
+    type = module
+    dependencies =
+
   [ccpp-arg-table]
+    name = ccpp_types
+    type = module
+  [ccpp_t]
+    standard_name = ccpp_t
+    long_name = definition of type ccpp_t
+    units = DDT
+    dimensions = ()
+    type = ccpp_t
+  
+  ########################################################################
+  [ccpp-table-properties]
     name = ccpp_t
-    type = scheme
+    type = ddt 
+    dependencies =
+    
+  [ccpp-arg-table]
+    name = ccpp_t 
+    type = ddt
   [errflg]
     standard_name = ccpp_error_flag
     long_name = error flag for error handling in CCPP
     units = flag
-    dimensions = ()
+    dimensions = () 
     type = integer
   [errmsg]
     standard_name = ccpp_error_message
     long_name = error message for error handling in CCPP
     units = none
-    dimensions = ()
+    dimensions = () 
     type = character
     kind = len=512
   [loop_cnt]
@@ -396,7 +430,7 @@ If a specific data instance was used in a call to ``ccpp_init``, as in the above
  call ccpp_finalize(cdata, ierr)
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Running the physics
+Running the Physics
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 The physics is invoked by calling subroutine ``ccpp_physics_run``. This subroutine is part of the CCPP API and is auto-generated. This subroutine is capable of executing the physics with varying granularity, that is, a single group, or an entire suite can be run with a single subroutine call. Typical calls to ``ccpp_physics_run`` are below,where ``suite_name`` is mandatory and ``group_name`` is optional:

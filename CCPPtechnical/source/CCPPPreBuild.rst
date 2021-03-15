@@ -58,31 +58,31 @@ To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configurat
 .. code-block:: console
 
    # Host model identifier
-   HOST_MODEL_IDENTIFIER = "TEST"
+   HOST_MODEL_IDENTIFIER = "SCM"
    # Add all files with metadata tables on the host model side,
    # relative to basedir = top-level directory of host model
    VARIABLE_DEFINITION_FILES = [
        ’scm/src/gmtb_scm_type_defs.f90’,
        ’scm/src/gmtb_scm_physical_constants.f90’
        ]
-   # Add all physics scheme dependencies relative to basedir - note that the CCPP
-   # rules stipulate that dependencies are not shared between the schemes!
-   SCHEME_FILES_DEPENDENCIES = [] # can be empty
    # Add all physics scheme files relative to basedir
    SCHEME_FILES = {
    # Relative path : [ list of sets in which scheme may be called ]
-   ’ccpp/physics/physics/GFS_DCNV_generic.f90’ : [’physics’],
-   ’ccpp/physics/physics/sfc_sice.f’ : [’physics’],
+   ’ccpp/physics/physics/GFS_DCNV_generic.f90’ ,
+   ’ccpp/physics/physics/sfc_sice.f’
    }
+   # Auto-generated makefile/cmakefile snippets that contain all type definitions
+   TYPEDEFS_MAKEFILE   = 'ccpp/physics/CCPP_TYPEDEFS.mk'
+   TYPEDEFS_CMAKEFILE  = 'ccpp/physics/CCPP_TYPEDEFS.cmake'
+   TYPEDEFS_SOURCEFILE = 'ccpp/physics/CCPP_TYPEDEFS.sh'
    # Auto-generated makefile/cmakefile snippets that contains all schemes
    SCHEMES_MAKEFILE = ’ccpp/physics/CCPP_SCHEMES.mk’
    SCHEMES_CMAKEFILE = ’ccpp/physics/CCPP_SCHEMES.cmake’
-   # CCPP host cap in which to insert the ccpp_field_add statements;
-   # determines the directory to place ccpp_{modules,fields}.inc
-   TARGET_FILES = [’scm/src/gmtb_scm.f90’, ]
+   SCHEMES_SOURCEFILE = 'ccpp/physics/CCPP_SCHEMES.sh'
    # Auto-generated makefile/cmakefile snippets that contains all caps
    CAPS_MAKEFILE = ’ccpp/physics/CCPP_CAPS.mk’
    CAPS_CMAKEFILE = ’ccpp/physics/CCPP_CAPS.cmake’
+   CAPS_SOURCEFILE = 'ccpp/physics/CCPP_CAPS.sh'
    # Directory where to put all auto-generated physics caps
    CAPS_DIR = ’ccpp/physics/physics’
    # Directory where the suite definition files are stored
@@ -96,17 +96,15 @@ To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configurat
    # both files will be written to the directory of each target file
    # Directory where to write static API to
    STATIC_API_DIR = 'scm/src'
+   STATIC_API_SRCFILE = 'scm/src/CCPP_STATIC_API.sh'
+
+   # Directory for writing HTML pages generated from metadata files
+   METADATA_HTML_OUTPUT_DIR = 'ccpp/physics/physics/docs'
 
    # HTML document containing the model-defined CCPP variables
    HTML_VARTABLE_FILE = ’ccpp/physics/CCPP_VARIABLES.html’
    # LaTeX document containing the provided vs requested CCPP variables
    LATEX_VARTABLE_FILE = ’ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES.tex’
-   ######## Template code to generate include files ########
-   # Name of the CCPP data structure in the host model cap;
-   # in the case of SCM, this is a vector with loop index i
-   CCPP_DATA_STRUCTURE = ’cdata(i)’
-
-   # EOF
 
 *Listing 8.1: CCPP prebuild config for SCM (shortened)*
 
