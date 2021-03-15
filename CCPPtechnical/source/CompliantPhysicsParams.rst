@@ -467,7 +467,7 @@ in a physics scheme:
      me = 0
    #endif
 
-* For Fortran coarrays, consult with the DTC helpdesk (gmtb-help@ucar.edu).
+* For Fortran coarrays, consult with the CCPP Forum (https://dtcenter.org/forum/ccpp-user-support).
 
 .. include:: ScientificDocRules.inc
 

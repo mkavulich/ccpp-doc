@@ -104,6 +104,8 @@ Acronyms
    | REPRO          | Compiler optimization flags for reproduction mode |
    |                | (bit-for-bit testing)                             |
    +----------------+---------------------------------------------------+
+   | RRFS           | Rapid Refresh Forecast System                     |
+   +----------------+---------------------------------------------------+
    | RRTMG          | Rapid Radiative Transfer Model for Global         |
    |                | Circulation Models                                |
    +----------------+---------------------------------------------------+
