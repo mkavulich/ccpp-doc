@@ -165,7 +165,7 @@ The third step is to enable output of variables from the diag_table, which will 
 .. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable``
            part of ``dtend_variable_process``.
 
-   +=================================================+================+================+==============================================+===============================+
+   +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
    | **State Variable Or Tracer**                    | **Variable**   | **Associated** | **Array Slice**                              | **Tendency Units**            |
    |                                                 | **Short**      | **Namelist**   |                                              |                               |
    |                                                 | **Name**       | **Variables**  |                                              |                               |
@@ -215,12 +215,13 @@ The third step is to enable output of variables from the diag_table, which will 
    | Oxygen Concentration                            | ``o2``         | ``qdiag3d``    | ``dtend(:,:,dtidx(100+nto2,:))``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
 
+
 .. _avail_tend_processes:
 
 .. table:: Processes that can change non-chemical tracer and state variables. The third column is the
            ``process`` part of ``dtend_variable_process``.
 
-   +================================+================+===============+============================================================+
+   +--------------------------------+----------------+---------------+------------------------------------------------------------+
    | **Process**                    | **diag_table** | **Process**   | **Array Slice**                                            |
    |                                | **Module**     | **Short**     |                                                            |
    |                                | **Name**       | **Name**      |                                                            |
@@ -285,8 +286,7 @@ and the total tendencies of temperature:
    "gfs_dyn",  "dtend_temp_nophys", "dtend_temp_nophys", "fv3_history", "all", .false., "none", 2
 
 Note that all tendencies, except non-physics tendencies, are in the ``gfs_phys`` diagnostic module. The
-non-physics tendencies are in the ``gfs_dyn`` module. This is reflected in the :numref:`Table %s
-<avail_tend_processes>`.
+non-physics tendencies are in the ``gfs_dyn`` module. This is reflected in the :numref:`Table %s <avail_tend_processes>`.
 
 Note that some host models, such as the UFS, have a limit of how many fields can be output in a run.
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
