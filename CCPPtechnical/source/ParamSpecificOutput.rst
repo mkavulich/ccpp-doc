@@ -300,10 +300,10 @@ When the model completes, the fv3_history will contain these new variables.
 SCM
 ^^^
 
-The default behavior of the SCM is to output instantaneous values of all variables in
-:numref:`Table %s <avail_tendencies>`. Tendencies are computed in file ``gmtb_scm_output.F90`` in
-the subroutines output_init and output_append. If the values of ``ldiag3d`` or ``qdiag3d`` are set
-to false, the variables are still written to output but are given missing values.
+The default behavior of the SCM is to output instantaneous values of all tendency variables, and
+``dtend_select`` is not recognized. Tendencies are computed in file ``gmtb_scm_output.F90`` in the
+subroutines output_init and output_append. If the values of ``ldiag3d`` or ``qdiag3d`` are set to false, the
+variables are still written to output but are given missing values.
 
 .. _AvailTendFAQ:
 
