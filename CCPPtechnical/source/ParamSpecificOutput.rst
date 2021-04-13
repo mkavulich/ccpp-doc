@@ -39,20 +39,16 @@ them. It also contains a list of frequently-asked questions in :numref:`Section 
 Available Tendencies
 --------------------
 
-FIXME: no avail_tendencies
-
 The model can produce tendencies for temperature, wind, and all non-chemical tracers for several different
 schemes. Not all schemes produce all tendencies.  For example, the orographic and convective gravity wave
-drag (GWD) schemes produce tendencies of temperature and momentum, but not of tracers. Similarly, only the
+drag (GWD) schemes produce tendencies of temperature and wind, but not of tracers. Similarly, only the
 planetary boundary layer (PBL), deep and shallow convection, and microphysics schemes produce specific
 humidity tendencies.  Some PBL and convection schemes will have tendencies for tracers, and others won't.
 
-## FIXME#: DELETE A complete list of the tendencies that can be output is shown in :numref:`Table %s <avail_tendencies>`.
-
-In addition to the tendencies from specific schemes, the output includes tendencies from all physics schemes
-(“All” in :numref:`Table %s <avail_tendencies>`), from all non-physics processes (“None” in :numref:`Table
-%s <avail_tendencies>`), and from all photochemical processes.  Examples of non-physical processes are
-dynamical core processes such as advection and nudging toward climatological fields.
+In addition to the tendencies from specific schemes, the output includes tendencies from all photochemical
+processes, all physics processes, and all non-physics processes (last three rows of :numref:`Table %s
+<avail_tend_processes>`). Examples of non-physical processes are dynamical core processes such as advection
+and nudging toward climatological fields.
 
 In the supported suites, there are two types of schemes that produce ozone tendencies: PBL and ozone
 photochemistry. The total tendency produced by the ozone photochemistry scheme (NRL 2015 scheme) is
@@ -63,8 +59,8 @@ Documentation `here <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.ht
 
 There are three steps of selecting the tendencies to output: enable diagnostics, select which tendencies to
 calculate, and select which ones to output. To determine what tendencies are available for your
-configuration, enable tendencies, but select none of them, as discussed later. Then rerun with the desired
-tendencies enabled.
+configuration, enable tendencies, but select only one of them, as discussed later. (Non-physics temperature
+tendency is available for all suites.) Then rerun with the desired tendencies enabled.
 
 Enabling Tendencies
 -------------------
@@ -91,7 +87,7 @@ While the tendencies output by the SCM are instantaneous, the tendencies output 
 over the number of hours specified by the user in variable ``fhzero`` in the ``&gfs_physics_nml`` portion of the
 namelist file ``input.nml``. Variable ``fhzero`` must be an integer (it cannot be zero). 
 
-This example namelist selects all microphysics tendencies, and all tendencies of temperature.
+This example namelist selects all tendencies from microphysics processes, and all tendencies of temperature.
 
 .. code:: fortran
 
@@ -131,7 +127,7 @@ tracer/process combinations except one:
 
 You will see lines like this in the model's standard output stream:
 
-.. code:: fortran
+.. code:: console
    0: ExtDiag( 233) = dtend(:,:,   6) = dtend_temp_mp (gfs_phys: temperature tendency due to microphysics)
    0: ExtDiag( 251) = dtend(:,:,   8) = dtend_temp_rdamp (gfs_phys: temperature tendency due to Rayleigh damping)
    0: ExtDiag( 254) = dtend(:,:,   9) = dtend_temp_cnvgwd (gfs_phys: temperature tendency due to convective gravity wave drag)
@@ -143,7 +139,6 @@ You will see lines like this in the model's standard output stream:
    0: ExtDiag( 237) = dtend(:,:,  66) = dtend_ice_wat_mp (gfs_phys: ice water tendency due to microphysics)
    0: ExtDiag( 238) = dtend(:,:,  70) = dtend_snowwat_mp (gfs_phys: snow water tendency due to microphysics)
    0: ExtDiag( 239) = dtend(:,:,  74) = dtend_graupel_mp (gfs_phys: graupel tendency due to microphysics)
-   0: ExtDiag( 240) = dtend(:,:,  78) = dtend_sgs_tke_mp (gfs_phys: turbulent kinetic energy tendency due to microphysics)
    0: ExtDiag( 241) = dtend(:,:,  82) = dtend_cld_amt_mp (gfs_phys: cloud amount integer tendency due to microphysics)
 
 Now that you know what variables are available, you can choose which to enable:
@@ -272,7 +267,12 @@ UFS
 . In this example, we enable microphysics
 tendency from eight tracers; and the total physics and non-physics tendencies of temperature.
 
-.. code:: fortran
+After enabling tendency calculation (using ``ldiag3d``, ``qdiag3d``, and ``diag_select``), you must also
+enable output of those tendencies using the ``diag_table``. Enter the new lines with the variables you want
+output. Continuing our example from before, this will enable output of some microphysics tracer tendencies,
+and the total tendencies of temperature:
+
+.. code:: console
 
    "gfs_phys", "dtend_qv_mp",       "dtend_qv_mp",       "fv3_history", "all", .false., "none", 2
    "gfs_phys", "dtend_liq_wat_mp",  "dtend_liq_wat_mp",  "fv3_history", "all", .false., "none", 2
@@ -281,23 +281,12 @@ tendency from eight tracers; and the total physics and non-physics tendencies of
    "gfs_phys", "dtend_snowwat_mp",  "dtend_snowwat_mp",  "fv3_history", "all", .false., "none", 2
    "gfs_phys", "dtend_graupel_mp",  "dtend_graupel_mp",  "fv3_history", "all", .false., "none", 2
    "gfs_phys", "dtend_cld_amt_mp",  "dtend_cld_amt_mp",  "fv3_history", "all", .false., "none", 2
-   "gfs_phys", "dtend_sgs_tke_mp",  "dtend_sgs_tke_mp",  "fv3_history", "all", .false., "none", 2
    "gfs_phys", "dtend_temp_phys",   "dtend_temp_phys",   "fv3_history", "all", .false., "none", 2
-   "gfs_phys", "dtend_temp_nophys", "dtend_temp_nophys", "fv3_history", "all", .false., "none", 2
+   "gfs_dyn",  "dtend_temp_nophys", "dtend_temp_nophys", "fv3_history", "all", .false., "none", 2
 
-When the model completes, the fv3_history will contain these new variables.
-
-
-When ``ldiag3d`` and ``qdiag3d`` are set to true, the tendencies described in
-:numref:`Table %s <avail_tendencies>` are prepared for output. Finer control over which 
-variables will actually be output is available through the diag table. The user must edit
-the diag table and enter new lines at the end with the variables desired in the output. For
-example, adding the line below results in the output of the temperature tendencies due to
-long wave radiation:
-
-.. code-block:: console
-
-   "gfs_phys",    "dt3dt_lw",         "dt3dt_lw",         "fv3_history",  "all",  .false.,  "none",  2
+Note that all tendencies, except non-physics tendencies, are in the ``gfs_phys`` diagnostic module. The
+non-physics tendencies are in the ``gfs_dyn`` module. This is reflected in the :numref:`Table %s
+<avail_tend_processes>`.
 
 Note that some host models, such as the UFS, have a limit of how many fields can be output in a run.
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
@@ -306,7 +295,7 @@ by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in f
 Further documentation of the ``diag_table`` file can be found in the UFS Weather Model User’s Guide
 `here <https://ufs-weather-model.readthedocs.io/en/latest/InputsOutputs.html#diag-table-file>`_.
 
-After running, the requested arrays will be present in the output files.  
+When the model completes, the fv3_history will contain these new variables.
 
 SCM
 ^^^
@@ -341,7 +330,8 @@ In this case, increase ``max_output_fields`` in ``input.nml``:
 Why did I run out of memory when outputting tendencies?
 -------------------------------------------------------
 
-Trying to output all tendencies may cause memory problems.  Choose your output variables carefully!
+Trying to output all tendencies may cause memory problems.  Use ``dtend_select`` and choose your output
+variables carefully!
 
 Why did I get a runtime logic error when outputting tendencies?
 ---------------------------------------------------------------
@@ -352,7 +342,8 @@ Setting ``ldiag3d=F`` and ``qdiag3d=T`` will result in an error message:
 
    Logic error in GFS_typedefs.F90: qdiag3d requires ldiag3d
  
-If you want to output specific humidity and/or ozone tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T.
+If you want to output tracer tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T. Then use
+``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches.
 
 ====================================
 Output of Auxiliary Arrays from CCPP
