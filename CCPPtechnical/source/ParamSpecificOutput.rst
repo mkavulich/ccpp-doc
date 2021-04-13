@@ -52,10 +52,10 @@ and nudging toward climatological fields.
 
 In the supported suites, there are two types of schemes that produce ozone tendencies: PBL and ozone
 photochemistry. The total tendency produced by the ozone photochemistry scheme (NRL 2015 scheme) is
-subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone
-present in the column above a grid cell, influences from temperature, and influences from mixing ratio.
-For more information about the NRL 2015 ozone photochemistry scheme, consult the CCPP Scientific
-Documentation `here <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
+subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone present
+in the column above a grid cell, influences from temperature, and influences from mixing ratio.  For more
+information about the NRL 2015 ozone photochemistry scheme, consult the `CCPP Scientific Documentation
+<https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
 
 There are three steps of selecting the tendencies to output: enable diagnostics, select which tendencies to
 calculate, and select which ones to output. To determine what tendencies are available for your
