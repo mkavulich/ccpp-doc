@@ -39,11 +39,12 @@ them. It also contains a list of frequently-asked questions in :numref:`Section 
 Available Tendencies
 --------------------
 
-The model can produce tendencies for temperature, wind, and all non-chemical tracers for several different
-schemes. Not all schemes produce all tendencies.  For example, the orographic and convective gravity wave
-drag (GWD) schemes produce tendencies of temperature and wind, but not of tracers. Similarly, only the
-planetary boundary layer (PBL), deep and shallow convection, and microphysics schemes produce specific
-humidity tendencies.  Some PBL and convection schemes will have tendencies for tracers, and others won't.
+The model can produce tendencies for temperature, wind, and all non-chemical tracers (see
+:numref:`Table %s <avail_tend_variables>`) for several different schemes. Not all schemes produce all
+tendencies.  For example, the orographic and convective gravity wave drag (GWD) schemes produce tendencies
+of temperature and wind, but not of tracers. Similarly, only the planetary boundary layer (PBL), deep
+and shallow convection, and microphysics schemes produce specific humidity tendencies.  Some PBL and
+convection schemes will have tendencies for tracers, and others won't.
 
 In addition to the tendencies from specific schemes, the output includes tendencies from all photochemical
 processes, all physics processes, and all non-physics processes (last three rows of :numref:`Table %s
@@ -351,7 +352,7 @@ Why are my total physics or total photochemistry tendencies zero?
 There are three likely reasons:
 
 * You forgot to enable calculation of physics tendencies. Make sure ``ldiag3d`` and ``qdiag3d`` are T, and
-  make sure ``diag_select`` selects physics tendencies
+  make sure ``diag_select`` selects physics tendencies.
 * The suite did not enable the ``phys_tend`` scheme, which calculates the total physics and total
   photochemistry tendencies.
 * You did not enable calculation of the individual tendencies, such as ozone. The ``phys_tend`` sums those
@@ -361,11 +362,11 @@ Why are my other tendencies zero, even though the model says they're supported f
 ----------------------------------------------------------------------------------------------------
 
 The tendencies will be zero if they're never calculated. Check that you enabled the tendencies with
-appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``.
+appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``. 
 
 Another possibility is that the tendencies in question really are zero. The list of "available" tendencies
 is set at the model level, where the exact details of schemes and suites are not known. This can lead to
-some tendencies erroniously being listed as available. For example, some PBL schemes have ozone tendencies
+some tendencies erroneously being listed as available. For example, some PBL schemes have ozone tendencies
 and some don't, so some may have zero ozone tendencies. Also, some schemes don't have tendencies of state
 variables or tracers. Instead, they modify different variables which other schemes use to affect the state
 variables and tracers. Unfortunately, not all of the 3D variables in CCPP have diagnostic tendencies.
