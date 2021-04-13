@@ -128,6 +128,7 @@ tracer/process combinations except one:
 You will see lines like this in the model's standard output stream:
 
 .. code:: console
+
    0: ExtDiag( 233) = dtend(:,:,   6) = dtend_temp_mp (gfs_phys: temperature tendency due to microphysics)
    0: ExtDiag( 251) = dtend(:,:,   8) = dtend_temp_rdamp (gfs_phys: temperature tendency due to Rayleigh damping)
    0: ExtDiag( 254) = dtend(:,:,   9) = dtend_temp_cnvgwd (gfs_phys: temperature tendency due to convective gravity wave drag)
@@ -161,7 +162,8 @@ The third step is to enable output of variables from the diag_table, which will 
 
 .. _avail_tend_variables:
 
-.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable`` part of ``dtend_variable_process``.
+.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable``
+           part of ``dtend_variable_process``.
 
    +=================================================+================+================+==============================================+===============================+
    | **State Variable Or Tracer**                    | **Variable**   | **Associated** | **Array Slice**                              | **Tendency Units**            |
@@ -215,7 +217,8 @@ The third step is to enable output of variables from the diag_table, which will 
 
 .. _avail_tend_processes:
 
-.. table:: Processes that can change non-chemical tracer and state variables. The third column is the ``process`` part of ``dtend_variable_process``.
+.. table:: Processes that can change non-chemical tracer and state variables. The third column is the
+           ``process`` part of ``dtend_variable_process``.
 
    +================================+================+===============+============================================================+
    | **Process**                    | **diag_table** | **Process**   | **Array Slice**                                            |
@@ -263,9 +266,6 @@ Outputting Tendencies
 
 UFS
 ^^^
-
-. In this example, we enable microphysics
-tendency from eight tracers; and the total physics and non-physics tendencies of temperature.
 
 After enabling tendency calculation (using ``ldiag3d``, ``qdiag3d``, and ``diag_select``), you must also
 enable output of those tendencies using the ``diag_table``. Enter the new lines with the variables you want
@@ -344,6 +344,31 @@ Setting ``ldiag3d=F`` and ``qdiag3d=T`` will result in an error message:
  
 If you want to output tracer tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T. Then use
 ``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches.
+
+Why are my total physics or total photochemistry tendencies zero?
+-----------------------------------------------------------------
+
+There are three likely reasons:
+
+* You forgot to enable calculation of physics tendencies. Make sure ``ldiag3d`` and ``qdiag3d`` are T, and
+  make sure ``diag_select`` selects physics tendencies
+* The suite did not enable the ``phys_tend`` scheme, which calculates the total physics and total
+  photochemistry tendencies.
+* You did not enable calculation of the individual tendencies, such as ozone. The ``phys_tend`` sums those
+  to make the total tendencies.
+
+Why are my other tendencies zero, even though the model says they're supported for my configuration?
+----------------------------------------------------------------------------------------------------
+
+The tendencies will be zero if they're never calculated. Check that you enabled the tendencies with
+appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``.
+
+Another possibility is that the tendencies in question really are zero. The list of "available" tendencies
+is set at the model level, where the exact details of schemes and suites are not known. This can lead to
+some tendencies erroniously being listed as available. For example, some PBL schemes have ozone tendencies
+and some don't, so some may have zero ozone tendencies. Also, some schemes don't have tendencies of state
+variables or tracers. Instead, they modify different variables which other schemes use to affect the state
+variables and tracers. Unfortunately, not all of the 3D variables in CCPP have diagnostic tendencies.
 
 ====================================
 Output of Auxiliary Arrays from CCPP
