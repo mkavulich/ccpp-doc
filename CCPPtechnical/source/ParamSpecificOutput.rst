@@ -58,10 +58,11 @@ in the column above a grid cell, influences from temperature, and influences fro
 information about the NRL 2015 ozone photochemistry scheme, consult the `CCPP Scientific Documentation
 <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
 
-There are three steps involved in selecting the tendencies to output: enable diagnostics, select which tendencies to
-calculate, and select which ones to output. To determine what tendencies are available for your
-configuration, enable tendencies, but select only one of them, as discussed later. (Non-physics temperature
-tendency is available for all suites.) Then rerun with the desired tendencies enabled.
+There are numerous tendencies in CCPP, and you need to know which ones exist for your configuration to
+enable them. The model will output a list of available tendencies for your configuration if you run with
+diagnostic tendencies enabled. To avoid overusing memory, you should enable just one tendency, which is
+available for all suites, the non-physics (ie. dynamics) tendency of temperature. Details of how to do this,
+and how to use the information, is below.
 
 Enabling Tendencies
 -------------------
@@ -88,7 +89,8 @@ While the tendencies output by the SCM are instantaneous, the tendencies output 
 over the number of hours specified by the user in variable ``fhzero`` in the ``&gfs_physics_nml`` portion of the
 namelist file ``input.nml``. Variable ``fhzero`` must be an integer (it cannot be zero). 
 
-This example namelist selects all tendencies from microphysics processes, and all tendencies of temperature. The naming convention for ``dtend_select`` is explained in the next section.
+This example namelist selects all tendencies from microphysics processes, and all tendencies of
+temperature. The naming convention for ``dtend_select`` is explained in the next section.
 
 .. code:: fortran
 
@@ -110,63 +112,20 @@ of the variable:
 
    dtend_variable_process
 
-The ``variable`` is a shorthand name of the tracer or state variable, and the ``process`` is a shorthand for
-the process that is changing the variable (such as ``mp`` for microphysics).
+The ``dtend_`` string stands for "diagnostic tendency" and is used to avoid variable name clashes. Replace
+``variable`` with the short name of the tracer or state variable (see :numref:`Table %s
+<avail_tend_variables>`). Replace ``process`` with the short name of the process that is changing the
+variable (see :numref:`Table %s <avail_tend_processes>`). For example, microphysics (``mp``) temperature
+(``temp``) tendency is ``dtend_temp_mp``.
 
-With the many suites and many combinations of schemes, it is hard to say which variable/process combinations
-are available for your particular configuration. To find a list, enable diagnostics, but disable all
-tracer/process combinations except one:
-
-.. code:: fortran
-
-   &gfs_physics_nml
-     ldiag3d = .true. ! enable basic diagnostics
-     qdiag3d = .true. ! also enable tracer diagnostics
-     dtend_select = 'dtend_temp_nophys' ! All configurations have non-physics temperature tendencies
-     ! ... other namelist parameters ...
-   /
-
-After recompiling and running the model, you will see lines like this in the model's standard output stream:
-
-.. code:: console
-
-   0: ExtDiag( 233) = dtend(:,:,   6) = dtend_temp_mp (gfs_phys: temperature tendency due to microphysics)
-   0: ExtDiag( 251) = dtend(:,:,   8) = dtend_temp_rdamp (gfs_phys: temperature tendency due to Rayleigh damping)
-   0: ExtDiag( 254) = dtend(:,:,   9) = dtend_temp_cnvgwd (gfs_phys: temperature tendency due to convective gravity wave drag)
-   0: ExtDiag( 259) = dtend(:,:,  10) = dtend_temp_phys (gfs_phys: temperature tendency due to physics)
-   0: ExtDiag( 271) = dtend(:,:,  11) = dtend_temp_nophys (gfs_dyn: temperature tendency due to non-physics processes)
-   0: ExtDiag( 234) = dtend(:,:,  54) = dtend_qv_mp (gfs_phys: water vapor specific humidity tendency due to microphysics)
-   0: ExtDiag( 235) = dtend(:,:,  58) = dtend_liq_wat_mp (gfs_phys: cloud condensate (or liquid water) tendency due to microphysics)
-   0: ExtDiag( 236) = dtend(:,:,  62) = dtend_rainwat_mp (gfs_phys: rain water tendency due to microphysics)
-   0: ExtDiag( 237) = dtend(:,:,  66) = dtend_ice_wat_mp (gfs_phys: ice water tendency due to microphysics)
-   0: ExtDiag( 238) = dtend(:,:,  70) = dtend_snowwat_mp (gfs_phys: snow water tendency due to microphysics)
-   0: ExtDiag( 239) = dtend(:,:,  74) = dtend_graupel_mp (gfs_phys: graupel tendency due to microphysics)
-   0: ExtDiag( 241) = dtend(:,:,  82) = dtend_cld_amt_mp (gfs_phys: cloud amount integer tendency due to microphysics)
-
-Now that you know what variables are available, you can choose which to enable:
-
-.. code:: fortran
-
-   &gfs_physics_nml
-     ldiag3d = .true. ! enable basic diagnostics
-     qdiag3d = .true. ! also enable tracer diagnostics
-     dtend_select = 'dtend*mp', 'dtend_temp_*' ! Asterisks (*) and question marks (?) have the same meaning as shell globs
-     ! The default for dtend_select is '*' which selects everything
-     ! ... other namelist parameters ...
-   /
-
-Note that any combined tendencies, such as the total temperature tendency from physics (dtend_temp_phys),
-will only include other tendencies that were calculated. Hence, if you only calculate PBL and microphysics
-tendencies then your "total temperature tendency" will actually just be the total of PBL and microphysics.
-
-The third step is to enable output of variables, which will be discussed in the next section.
+The next section will tell you how to determine which tendency variables are available for your model.
 
 |
 |
 
 .. _avail_tend_variables:
 
-.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable``
+.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``Variable``
            part of ``dtend_variable_process``.
 
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
@@ -206,7 +165,7 @@ The third step is to enable output of variables, which will be discussed in the 
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
    | Graupel Number Concentration                    | ``graupel_nc`` | ``qdiag3d``    | ``dtend(:,:,dtidx(100+ntgnc,:))``            | kg\ :sup:`-1` s\ :sup:`-1`    |
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
-   | Turbulent Kinetic Energy                        | ``sgs_tke``    | ``qdiag3d``    | ``dtend(:,:,dtidx(100+ntke,:))``             | J s\ :sup:`-2`                |
+   | Turbulent Kinetic Energy                        | ``sgs_tke``    | ``qdiag3d``    | ``dtend(:,:,dtidx(100+ntke,:))``             | J s\ :sup:`-1`                |
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
    | Mass Weighted Rime Factor                       | ``q_rimef``    | ``qdiag3d``    | ``dtend(:,:,dtidx(100+nqrimef,:))``          | kg kg\ :sup:`-1` s\ :sup:`-1` |
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
@@ -225,47 +184,110 @@ The third step is to enable output of variables, which will be discussed in the 
 .. _avail_tend_processes:
 
 .. table:: Processes that can change non-chemical tracer and state variables. The third column is the
-           ``process`` part of ``dtend_variable_process``.
+           ``process`` part of ``dtend_variable_process``. (Note that the "Sum of Physics Processes"
+           includes all photochemical processes.)
 
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | **Process**                    | **diag_table** | **Short**     | **Array Slice**                                            |
-   |                                | **Module**     | **Name**      |                                                            |
-   |                                | **Name**       |               |                                                            |
-   +================================+================+===============+============================================================+
-   | Planetary Boundary Layer       | ``gfs_phys``   | ``pbl``       | ``dtend(:,:,dtidx(:,index_of_process_pbl))``               |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Deep Convection                | ``gfs_phys``   | ``deepcnv``   | ``dtend(:,:,dtidx(:,index_of_process_dcnv))``              |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Shallow Convection             | ``gfs_phys``   | ``shalcnv``   | ``dtend(:,:,dtidx(:,index_of_process_scnv))``              |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Microphysics                   | ``gfs_phys``   | ``mp``        | ``dtend(:,:,dtidx(:,index_of_process_mp))``                |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Production and Loss Rate       | ``gfs_phys``   | ``prodloss``  | ``dtend(:,:,dtidx(:,index_of_process_prod_loss))``         |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Ozone Mixing Ratio             | ``gfs_phys``   | ``o3mix``     | ``dtend(:,:,dtidx(:,index_of_process_ozmix))``             |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Temperature                    | ``gfs_phys``   | ``temp``      | ``dtend(:,:,dtidx(:,index_of_process_temp))``              |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Overhead Ozone Column          | ``gfs_phys``   | ``o3column``  | ``dtend(:,:,dtidx(:,index_of_process_overhead_ozone))``    |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Convective Transport           | ``gfs_phys``   | ``cnvtrans``  | ``dtend(:,:,dtidx(:,index_of_process_conv_trans))``        |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Long Wave Radiation            | ``gfs_phys``   | ``lw``        | ``dtend(:,:,dtidx(:,index_of_process_longwave))``          |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Short Wave Radiation           | ``gfs_phys``   | ``sw``        | ``dtend(:,:,dtidx(:,index_of_process_shortwave))``         |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Orographic Gravity Wave Drag   | ``gfs_phys``   | ``orogwd``    | ``dtend(:,:,dtidx(:,index_of_process_orographic_gwd))``    |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Rayleigh Damping               | ``gfs_phys``   | ``rdamp``     | ``dtend(:,:,dtidx(:,index_of_process_rayleigh_damping))``  |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Convective Gravity Wave Drag   | ``gfs_phys``   | ``cnvgwd``    | ``dtend(:,:,dtidx(:,index_of_process_nonorographic_gwd))`` |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Sum of Photochemical Processes | ``gfs_phys``   | ``photochem`` | ``dtend(:,:,dtidx(:,index_of_process_photochem))``         |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Sum of Physics Processes       | ``gfs_phys``   | ``phys``      | ``dtend(:,:,dtidx(:,index_of_process_physics))``           |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | Sum of Non-Physics Processes   | ``gfs_dyn``    | ``nophys``    | ``dtend(:,:,dtidx(:,index_of_process_non_physics))``       |
-   +--------------------------------+----------------+---------------+------------------------------------------------------------+
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | **Process**                           | **diag_table** | **Short**     | **Array Slice**                                            |
+   |                                       | **Module**     | **Name**      |                                                            |
+   |                                       | **Name**       |               |                                                            |
+   +=======================================+================+===============+============================================================+
+   | Planetary Boundary Layer              | ``gfs_phys``   | ``pbl``       | ``dtend(:,:,dtidx(:,index_of_process_pbl))``               |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Deep Convection                       | ``gfs_phys``   | ``deepcnv``   | ``dtend(:,:,dtidx(:,index_of_process_dcnv))``              |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Shallow Convection                    | ``gfs_phys``   | ``shalcnv``   | ``dtend(:,:,dtidx(:,index_of_process_scnv))``              |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Microphysics                          | ``gfs_phys``   | ``mp``        | ``dtend(:,:,dtidx(:,index_of_process_mp))``                |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Convective Transport                  | ``gfs_phys``   | ``cnvtrans``  | ``dtend(:,:,dtidx(:,index_of_process_conv_trans))``        |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Long Wave Radiation                   | ``gfs_phys``   | ``lw``        | ``dtend(:,:,dtidx(:,index_of_process_longwave))``          |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Short Wave Radiation                  | ``gfs_phys``   | ``sw``        | ``dtend(:,:,dtidx(:,index_of_process_shortwave))``         |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Orographic Gravity Wave Drag          | ``gfs_phys``   | ``orogwd``    | ``dtend(:,:,dtidx(:,index_of_process_orographic_gwd))``    |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Rayleigh Damping                      | ``gfs_phys``   | ``rdamp``     | ``dtend(:,:,dtidx(:,index_of_process_rayleigh_damping))``  |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Convective Gravity Wave Drag          | ``gfs_phys``   | ``cnvgwd``    | ``dtend(:,:,dtidx(:,index_of_process_nonorographic_gwd))`` |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Production and Loss (Photochemical)   | ``gfs_phys``   | ``prodloss``  | ``dtend(:,:,dtidx(:,index_of_process_prod_loss))``         |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Ozone Mixing Ratio (Photochemical)    | ``gfs_phys``   | ``o3mix``     | ``dtend(:,:,dtidx(:,index_of_process_ozmix))``             |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Temperature-Induced (Photochemical)   | ``gfs_phys``   | ``temp``      | ``dtend(:,:,dtidx(:,index_of_process_temp))``              |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Overhead Ozone Column (Photochemical) | ``gfs_phys``   | ``o3column``  | ``dtend(:,:,dtidx(:,index_of_process_overhead_ozone))``    |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Sum of Photochemical Processes        | ``gfs_phys``   | ``photochem`` | ``dtend(:,:,dtidx(:,index_of_process_photochem))``         |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Sum of Physics Processes              | ``gfs_phys``   | ``phys``      | ``dtend(:,:,dtidx(:,index_of_process_physics))``           |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+   | Sum of Non-Physics Processes          | ``gfs_dyn``    | ``nophys``    | ``dtend(:,:,dtidx(:,index_of_process_non_physics))``       |
+   +---------------------------------------+----------------+---------------+------------------------------------------------------------+
+
+
+Selecting Tendencies
+--------------------
+
+With the many suites and many combinations of schemes, it is hard to say which variable/process combinations
+are available for your particular configuration. To find a list, enable diagnostics, but disable all
+tracer/process combinations except one:
+
+.. code:: fortran
+
+   &gfs_physics_nml
+     ldiag3d = .true. ! enable basic diagnostics
+     qdiag3d = .true. ! also enable tracer diagnostics
+     dtend_select = 'dtend_temp_nophys' ! All configurations have non-physics temperature tendencies
+     ! ... other namelist parameters ...
+   /
+
+After recompiling and running the model, you will see lines like this in the model's standard output stream:
+
+.. code:: console
+
+   0: ExtDiag( 233) = dtend(:,:,   6) = dtend_temp_mp (gfs_phys: temperature tendency due to microphysics)
+   0: ExtDiag( 251) = dtend(:,:,   8) = dtend_temp_rdamp (gfs_phys: temperature tendency due to Rayleigh damping)
+   0: ExtDiag( 254) = dtend(:,:,   9) = dtend_temp_cnvgwd (gfs_phys: temperature tendency due to convective gravity wave drag)
+   0: ExtDiag( 259) = dtend(:,:,  10) = dtend_temp_phys (gfs_phys: temperature tendency due to physics)
+   0: ExtDiag( 271) = dtend(:,:,  11) = dtend_temp_nophys (gfs_dyn: temperature tendency due to non-physics processes)
+   0: ExtDiag( 234) = dtend(:,:,  54) = dtend_qv_mp (gfs_phys: water vapor specific humidity tendency due to microphysics)
+   0: ExtDiag( 235) = dtend(:,:,  58) = dtend_liq_wat_mp (gfs_phys: cloud condensate (or liquid water) tendency due to microphysics)
+   0: ExtDiag( 236) = dtend(:,:,  62) = dtend_rainwat_mp (gfs_phys: rain water tendency due to microphysics)
+   0: ExtDiag( 237) = dtend(:,:,  66) = dtend_ice_wat_mp (gfs_phys: ice water tendency due to microphysics)
+   0: ExtDiag( 238) = dtend(:,:,  70) = dtend_snowwat_mp (gfs_phys: snow water tendency due to microphysics)
+   0: ExtDiag( 239) = dtend(:,:,  74) = dtend_graupel_mp (gfs_phys: graupel tendency due to microphysics)
+   0: ExtDiag( 241) = dtend(:,:,  82) = dtend_cld_amt_mp (gfs_phys: cloud amount integer tendency due to microphysics)
+
+There are three critical pieces of information in each line. Taking the last line as an example,
+
+1. ``dtend_cld_amt_mp`` -- this is both the name of the variable in the ``diag_table``, and the name of the
+   variable in ``dtend_select``
+2. ``gfs_phys`` -- the ``diag_table`` module name. 
+3. "cloud amount integer tendency due to microphysics" -- meaning of the variable.
+
+Note that the `dtend_temp_nophys` differs from the others in that it is in the `gfs_dyn` module
+instead of `gfs_phys` because it sums non-physics processes.
+
+Now that you know what variables are available, you can choose which to enable:
+
+.. code:: fortran
+
+   &gfs_physics_nml
+     ldiag3d = .true. ! enable basic diagnostics
+     qdiag3d = .true. ! also enable tracer diagnostics
+     dtend_select = 'dtend*mp', 'dtend_temp_*' ! Asterisks (*) and question marks (?) have the same meaning as shell globs
+     ! The default for dtend_select is '*' which selects everything
+     ! ... other namelist parameters ...
+   /
+
+Note that any combined tendencies, such as the total temperature tendency from physics (dtend_temp_phys),
+will only include other tendencies that were calculated. Hence, if you only calculate PBL and microphysics
+tendencies then your "total temperature tendency" will actually just be the total of PBL and microphysics.
+
+The third step is to enable output of variables, which will be discussed in the next section.
 
 
 Outputting Tendencies
