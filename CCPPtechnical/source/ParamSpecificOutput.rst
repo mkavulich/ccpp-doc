@@ -167,9 +167,9 @@ The third step is to enable output of variables from the diag_table, which will 
            part of ``dtend_variable_process``.
 
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
-   | **State Variable Or Tracer**                    | **Variable**   | **Associated** | **Array Slice**                              | **Tendency Units**            |
-   |                                                 | **Short**      | **Namelist**   |                                              |                               |
-   |                                                 | **Name**       | **Variables**  |                                              |                               |
+   | **Variable**                                    | **Short**      | **Associated** | **Array Slice**                              | **Tendency Units**            |
+   |                                                 | **Name**       | **Namelist**   |                                              |                               |
+   |                                                 |                | **Variables**  |                                              |                               |
    +=================================================+================+================+==============================================+===============================+
    | Temperature                                     | ``temp``       | ``ldiag3d``    | ``dtend(:,:,dtidx(index_of_temperature,:))`` | K s\ :sup:`-1`                |
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
@@ -223,9 +223,9 @@ The third step is to enable output of variables from the diag_table, which will 
            ``process`` part of ``dtend_variable_process``.
 
    +--------------------------------+----------------+---------------+------------------------------------------------------------+
-   | **Process**                    | **diag_table** | **Process**   | **Array Slice**                                            |
-   |                                | **Module**     | **Short**     |                                                            |
-   |                                | **Name**       | **Name**      |                                                            |
+   | **Process**                    | **diag_table** | **Short**     | **Array Slice**                                            |
+   |                                | **Module**     | **Name**      |                                                            |
+   |                                | **Name**       |               |                                                            |
    +================================+================+===============+============================================================+
    | Planetary Boundary Layer       | ``gfs_phys``   | ``pbl``       | ``dtend(:,:,dtidx(:,index_of_process_pbl))``               |
    +--------------------------------+----------------+---------------+------------------------------------------------------------+
@@ -346,6 +346,21 @@ Setting ``ldiag3d=F`` and ``qdiag3d=T`` will result in an error message:
 If you want to output tracer tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T. Then use
 ``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches your choice of tendencies specified through ``diag_select``.
 
+Why are my tendencies zero, even though the model says they're supported for my configuration?
+----------------------------------------------------------------------------------------------
+
+For total physics or total photochemistry tendencies, see the next question.
+
+The tendencies will be zero if they're never calculated. Check that you enabled the tendencies with
+appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``. 
+
+Another possibility is that the tendencies in question really are zero. The list of "available" tendencies
+is set at the model level, where the exact details of schemes and suites are not known. This can lead to
+some tendencies erroneously being listed as available. For example, some PBL schemes have ozone tendencies
+and some don't, so some may have zero ozone tendencies. Also, some schemes don't have tendencies of state
+variables or tracers. Instead, they modify different variables, which other schemes use to affect the state
+variables and tracers. Unfortunately, not all of the 3D variables in CCPP have diagnostic tendencies.
+
 Why are my total physics or total photochemistry tendencies zero?
 -----------------------------------------------------------------
 
@@ -357,19 +372,6 @@ There are three likely reasons:
   photochemistry tendencies.
 * You did not enable calculation of the individual tendencies, such as ozone. The ``phys_tend`` sums those
   to make the total tendencies.
-
-Why are my other tendencies zero, even though the model says they're supported for my configuration?
-----------------------------------------------------------------------------------------------------
-
-The tendencies will be zero if they're never calculated. Check that you enabled the tendencies with
-appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``. 
-
-Another possibility is that the tendencies in question really are zero. The list of "available" tendencies
-is set at the model level, where the exact details of schemes and suites are not known. This can lead to
-some tendencies erroneously being listed as available. For example, some PBL schemes have ozone tendencies
-and some don't, so some may have zero ozone tendencies. Also, some schemes don't have tendencies of state
-variables or tracers. Instead, they modify different variables, which other schemes use to affect the state
-variables and tracers. Unfortunately, not all of the 3D variables in CCPP have diagnostic tendencies.
 
 ====================================
 Output of Auxiliary Arrays from CCPP
