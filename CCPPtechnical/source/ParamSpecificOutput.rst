@@ -126,7 +126,7 @@ tracer/process combinations except one:
      ! ... other namelist parameters ...
    /
 
-You will see lines like this in the model's standard output stream:
+After recompiling and running the model, you will see lines like this in the model's standard output stream:
 
 .. code:: console
 
