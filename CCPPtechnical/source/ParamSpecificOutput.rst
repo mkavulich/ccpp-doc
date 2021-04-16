@@ -103,7 +103,7 @@ This example namelist selects all tendencies from microphysics processes, and al
 Tendency Names
 --------------
 
-Tendency variables follow this naming pattern, which is used to enable calculation (``input.nml``) and output
+Tendency variables follow the naming pattern below, which is used to enable calculation (``input.nml``) and output
 of the variable:
 
 .. code::
@@ -159,7 +159,7 @@ Note that any combined tendencies, such as the total temperature tendency from p
 will only include other tendencies that were calculated. Hence, if you only calculate PBL and microphysics
 tendencies then your "total temperature tendency" will actually just be the total of PBL and microphysics.
 
-The third step is to enable output of variables from the diag_table, which will be discussed in the next section.
+The third step is to enable output of variables, which will be discussed in the next section.
 
 .. _avail_tend_variables:
 
