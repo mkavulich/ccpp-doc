@@ -104,7 +104,7 @@ Tendency Names
 --------------
 
 Tendency variables follow this naming pattern, which is used to enable calculation (``input.nml``) and output
-(``diag_table``) of the variable:
+of the variable:
 
 .. code::
 
