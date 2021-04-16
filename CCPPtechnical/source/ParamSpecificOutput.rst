@@ -58,7 +58,7 @@ in the column above a grid cell, influences from temperature, and influences fro
 information about the NRL 2015 ozone photochemistry scheme, consult the `CCPP Scientific Documentation
 <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
 
-There are three steps of selecting the tendencies to output: enable diagnostics, select which tendencies to
+There are three steps involved in selecting the tendencies to output: enable diagnostics, select which tendencies to
 calculate, and select which ones to output. To determine what tendencies are available for your
 configuration, enable tendencies, but select only one of them, as discussed later. (Non-physics temperature
 tendency is available for all suites.) Then rerun with the desired tendencies enabled.
