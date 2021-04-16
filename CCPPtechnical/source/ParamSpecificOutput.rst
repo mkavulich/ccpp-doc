@@ -368,7 +368,7 @@ Another possibility is that the tendencies in question really are zero. The list
 is set at the model level, where the exact details of schemes and suites are not known. This can lead to
 some tendencies erroneously being listed as available. For example, some PBL schemes have ozone tendencies
 and some don't, so some may have zero ozone tendencies. Also, some schemes don't have tendencies of state
-variables or tracers. Instead, they modify different variables which other schemes use to affect the state
+variables or tracers. Instead, they modify different variables, which other schemes use to affect the state
 variables and tracers. Unfortunately, not all of the 3D variables in CCPP have diagnostic tendencies.
 
 ====================================
