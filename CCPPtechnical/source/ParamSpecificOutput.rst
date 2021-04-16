@@ -121,11 +121,10 @@ variable (see :numref:`Table %s <avail_tend_processes>`). For example, microphys
 The next section will tell you how to determine which tendency variables are available for your model.
 
 |
-|
 
 .. _avail_tend_variables:
 
-.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``Variable``
+.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable``
            part of ``dtend_variable_process``. The Index column is the first index of ``dtidx``. Hence "X
            Wind" is at ``dtend(:,:,dtidx(index_of_x_wind,:))``.
 
@@ -179,7 +178,6 @@ The next section will tell you how to determine which tendency variables are ava
    | Oxygen Concentration                            | ``o2``         | ``qdiag3d``    | ``100+nto2``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
    +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
 
-|
 |
 
 .. _avail_tend_processes:
@@ -269,8 +267,8 @@ There are three critical pieces of information in each line. Taking the last lin
 2. ``gfs_phys`` -- the ``diag_table`` module name. 
 3. "cloud amount integer tendency due to microphysics" -- meaning of the variable.
 
-Note that the `dtend_temp_nophys` differs from the others in that it is in the `gfs_dyn` module
-instead of `gfs_phys` because it sums non-physics processes.
+Note that the ``dtend_temp_nophys`` differs from the others in that it is in the ``gfs_dyn`` module
+instead of ``gfs_phys`` because it sums non-physics processes.
 
 Now that you know what variables are available, you can choose which to enable:
 
@@ -284,7 +282,7 @@ Now that you know what variables are available, you can choose which to enable:
      ! ... other namelist parameters ...
    /
 
-Note that any combined tendencies, such as the total temperature tendency from physics (dtend_temp_phys),
+Note that any combined tendencies, such as the total temperature tendency from physics (``dtend_temp_phys``),
 will only include other tendencies that were calculated. Hence, if you only calculate PBL and microphysics
 tendencies then your "total temperature tendency" will actually just be the total of PBL and microphysics.
 
