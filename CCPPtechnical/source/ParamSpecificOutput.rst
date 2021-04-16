@@ -103,7 +103,7 @@ This example namelist selects all tendencies from microphysics processes, and al
 Tendency Names
 --------------
 
-Tendency variables follow this naming pattern, which is used to enable calculation (``input.nml``) and output
+Tendency variables follow the naming pattern below, which is used to enable calculation (``input.nml``) and output
 of the variable:
 
 .. code::
