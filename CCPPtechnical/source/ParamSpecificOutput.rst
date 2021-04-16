@@ -27,7 +27,7 @@ considered in future implementations.
 These capabilities have been tested and are expected to work with the following suites:
 
 * UFS: GFSv15p2, GFSv16beta, RRFS_v1alpha suites
-* SCM: GFSv15p2, GFSv16beta, and GSD_v1 suites 
+* SCM: GFSv15p2, GFSv16beta, RRFS_v1alpha, and GSD_v1 suites 
 
 ==========
 Tendencies
