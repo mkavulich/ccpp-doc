@@ -88,7 +88,7 @@ While the tendencies output by the SCM are instantaneous, the tendencies output 
 over the number of hours specified by the user in variable ``fhzero`` in the ``&gfs_physics_nml`` portion of the
 namelist file ``input.nml``. Variable ``fhzero`` must be an integer (it cannot be zero). 
 
-This example namelist selects all tendencies from microphysics processes, and all tendencies of temperature.
+This example namelist selects all tendencies from microphysics processes, and all tendencies of temperature. The naming convention for ``dtend_select`` is explained in the next section.
 
 .. code:: fortran
 
