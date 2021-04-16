@@ -108,7 +108,7 @@ Tendency variables follow this naming pattern, which is used to enable calculati
 
 .. code::
 
-   dtend_VARIABLE_PROCESS
+   dtend_variable_process
 
 The ``variable`` is a shorthand name of the tracer or state variable, and the ``process`` is a shorthand for
 the process that is changing the variable (such as ``mp`` for microphysics).
