@@ -161,6 +161,9 @@ tendencies then your "total temperature tendency" will actually just be the tota
 
 The third step is to enable output of variables, which will be discussed in the next section.
 
+|
+|
+
 .. _avail_tend_variables:
 
 .. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable``
@@ -216,6 +219,8 @@ The third step is to enable output of variables, which will be discussed in the 
    | Oxygen Concentration                            | ``o2``         | ``qdiag3d``    | ``dtend(:,:,dtidx(100+nto2,:))``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
    +-------------------------------------------------+----------------+----------------+----------------------------------------------+-------------------------------+
 
+|
+|
 
 .. _avail_tend_processes:
 
