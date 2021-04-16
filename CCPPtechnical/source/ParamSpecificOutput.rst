@@ -26,7 +26,7 @@ considered in future implementations.
 
 These capabilities have been tested and are expected to work with the following suites:
 
-* UFS: GFSv16, GSDv0, GFSv15p2, RRFS, GFS 2017
+* UFS: GFSv15p2, GFSv16beta, RRFS_v1alpha suites
 * SCM: GFSv15p2, GFSv16beta, and GSD_v1 suites 
 
 ==========
@@ -596,4 +596,3 @@ Suppose you want to output two 2D arrays from schemeA and two 2D arrays from sch
 set the namelist to ``naux2d=4`` and ``naux3d=0``. In the code for schemeA, you should populate
 ``aux2d(:,1)`` and ``aux2d(:,2)``, while in the code for scheme B you should populate ``aux2d(:,3)``
 and ``aux2d(:,4)``. 
-
