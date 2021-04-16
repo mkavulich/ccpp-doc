@@ -344,7 +344,7 @@ Setting ``ldiag3d=F`` and ``qdiag3d=T`` will result in an error message:
    Logic error in GFS_typedefs.F90: qdiag3d requires ldiag3d
  
 If you want to output tracer tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T. Then use
-``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches.
+``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches your choice of tendencies specified through ``diag_select``.
 
 Why are my total physics or total photochemistry tendencies zero?
 -----------------------------------------------------------------
