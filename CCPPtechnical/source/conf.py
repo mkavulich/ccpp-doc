@@ -104,7 +104,7 @@ html_theme_options = {"body_max_width": "none"}
 html_static_path = ['_static']
 
 def setup(app):
-    app.add_stylesheet('custom.css')  # may also be an URL
+    app.add_css_file('custom.css')  # may also be an URL
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -142,7 +142,7 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
-    'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Schramm, J., L. Bernardet, L. Carson, G. Firl, D. Heinzeller, L. Pan, and M. Zhang, 2021. CCPP Technical Documentation Release v5.0.0. Available at https://ccpp-techdoc.readthedocs.io/_/downloads/en/v5.0.0/pdf/.}\sphinxmaketitle'
+    'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Schramm, J., L. Bernardet, L. Carson, G. Firl, D. Heinzeller, L. Pan, and M. Zhang, 2021. CCPP Technical Documentation Release v5.0.0. Available at https://ccpp-techdoc.readthedocs.io/\textunderscore/downloads/en/v5.0.0/pdf/.}\sphinxmaketitle'
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
