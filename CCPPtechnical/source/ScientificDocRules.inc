@@ -321,11 +321,9 @@ least the following components:
 
   !! \section arg_table_SUBROUTINE_NAME Argument Table
 
-* For subroutines that are non-empty, a second comment indicating that a table
+* A second comment indicating that a table
   of metadata to describe the subroutine arguments will be included from a separate file
-  in HTML format (in this case, file ``SUBROUTINE_NAME.html``). Note that empty
-  subroutines, as is sometimes the case for ``init`` and ``finalize`` subroutines,
-  do not require the inclusion of a file with metadata information.
+  in HTML format (in this case, file ``SUBROUTINE_NAME.html``).
   Please refer to the section below for information on how to generate the HTML files
   with metadata information from the ``.meta`` files.
 
@@ -522,7 +520,7 @@ Including metadata information
 As described above, a table of metadata information should be included in the documentation
 for every CCPP entrypoint scheme. Before doxygen is run, the table for each scheme must be manually
 created in separate
-files in HTML format, with one file per non-empty scheme. The HTML files are included in the
+files in HTML format, with one file per scheme. The HTML files are included in the
 Fortran files using the doygen markup below.
 
 .. code-block:: fortran
