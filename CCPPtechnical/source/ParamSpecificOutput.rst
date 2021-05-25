@@ -247,18 +247,15 @@ After recompiling and running the model, you will see lines like this in the mod
 
 .. code:: console
 
-   0: ExtDiag( 233) = dtend(:,:,   6) = dtend_temp_mp (gfs_phys: temperature tendency due to microphysics)
-   0: ExtDiag( 251) = dtend(:,:,   8) = dtend_temp_rdamp (gfs_phys: temperature tendency due to Rayleigh damping)
-   0: ExtDiag( 254) = dtend(:,:,   9) = dtend_temp_cnvgwd (gfs_phys: temperature tendency due to convective gravity wave drag)
-   0: ExtDiag( 259) = dtend(:,:,  10) = dtend_temp_phys (gfs_phys: temperature tendency due to physics)
-   0: ExtDiag( 271) = dtend(:,:,  11) = dtend_temp_nophys (gfs_dyn: temperature tendency due to non-physics processes)
-   0: ExtDiag( 234) = dtend(:,:,  54) = dtend_qv_mp (gfs_phys: water vapor specific humidity tendency due to microphysics)
-   0: ExtDiag( 235) = dtend(:,:,  58) = dtend_liq_wat_mp (gfs_phys: cloud condensate (or liquid water) tendency due to microphysics)
-   0: ExtDiag( 236) = dtend(:,:,  62) = dtend_rainwat_mp (gfs_phys: rain water tendency due to microphysics)
-   0: ExtDiag( 237) = dtend(:,:,  66) = dtend_ice_wat_mp (gfs_phys: ice water tendency due to microphysics)
-   0: ExtDiag( 238) = dtend(:,:,  70) = dtend_snowwat_mp (gfs_phys: snow water tendency due to microphysics)
-   0: ExtDiag( 239) = dtend(:,:,  74) = dtend_graupel_mp (gfs_phys: graupel tendency due to microphysics)
-   0: ExtDiag( 241) = dtend(:,:,  82) = dtend_cld_amt_mp (gfs_phys: cloud amount integer tendency due to microphysics)
+   dtend selected: gfs_phys dtend_qv_mp = water vapor specific humidity tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_liq_wat_mp = cloud condensate (or liquid water) tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_rainwat_mp = rain water tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_ice_wat_mp = ice water tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_snowwat_mp = snow water tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_graupel_mp = graupel tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_cld_amt_mp = cloud amount integer tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_temp_phys = temperature tendency due to physics (K s-1)
+   dtend selected: gfs_dyn dtend_temp_nophys = temperature tendency due to non-physics processes (K s-1)
 
 There are three critical pieces of information in each line. Taking the last line as an example,
 
