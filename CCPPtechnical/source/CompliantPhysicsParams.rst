@@ -96,7 +96,8 @@ More details are found below:
 
 * All external information required by the scheme must be passed in via the argument list. Statements
   such as  ``‘use EXTERNAL_MODULE’`` should not be used for passing in data and all physical constants
-  should go through the argument list.
+  should go through the argument list. See :numref:`Section %s <UsingConstants>` for more information on
+  how to use physical constants.
 
 * Note that standard names, variable names, module names, scheme names and subroutine names are all case sensitive.
 
@@ -417,6 +418,90 @@ Additional coding rules are listed under the *Coding Standards* section of the N
 Overarching System team document on Code, Data, and Documentation Management for NOAA Environmental
 Modeling System (NEMS) Modeling Applications and Suites (available at
 https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit#heading=h.97v79689onyd).
+
+.. _UsingConstants:
+
+Using Constants
+===============
+There are two principles that must be followed when using physical constants within CCPP-compliant physics schemes:
+
+#. All schemes should use a single, consistent set of constants.
+#. The host model must control (define and use) that single set, to provide consistency between a host model and the physics.
+
+As long as a host application provides metadata describing its physical constants so that the CCPP framework can pass them to the physics schemes, these two principles are realized, and the CCPP physics schemes are model-agnostic.  Since CCPP-compliant hosts provide metadata about the available physical constants, they can be passed into schemes like any other data. 
+
+For simple schemes that consist of one or two files and only a few "helper" subroutines, passing in physical constants via the argument list and propagating those constants down to any subroutines that need them is the most direct approach.  The following example shows how the constant ``karman`` can be passed into a physics scheme:
+
+.. code-block:: console
+
+   subroutine my_physics_run(im,km,ux,vx,tx,karman)
+     ...
+   real(kind=kind_phys),intent(in)   ::  karman
+
+Where the following has been added to the ``my_physics.meta`` file:
+
+.. code-block:: console
+
+   [karman]
+     standard_name = von_karman_constant
+     long_name = von karman constant
+     units = none
+     dimensions = ()
+     type = real
+     intent = in
+     optional = F
+
+This allows the vonKarman constant to be defined by the host model and be passed in through the CCPP scheme subroutine interface.
+
+For pre-existing complex schemes that contain many software layers and/or many "helper" subroutines that require physical constants, another method is accepted to ensure that the two principles are met while eliminating the need to modify many subroutine interfaces. This method passes the physical constants once through the argument list for the top-level ``_init`` subroutine for the scheme. This top-level ``_init`` subroutine also imports scheme-specific constants from a user-defined module.  For example, constants can be set in a module as:
+
+.. code-block:: console
+
+   module my_scheme_common
+     use machine,     only : kind_phys
+     implicit none
+     real(kind=kind_phys)   ::  pi, omega1, omega2
+   end module my_scheme_common
+
+Within the ``_init`` subroutine body, the constants in the ``my_scheme_common`` module can be set with the ones that are passed in via the argument list, including any derived ones. For example:
+
+.. code-block:: console
+
+   module my_scheme
+     use machine, only: kind_phys
+     implicit none
+     private
+     public my_scheme_init, my_scheme_run, my_scheme_finalize
+     logical :: is_initialized = .false.
+   contains
+     subroutine my_scheme_init (a, b, con_pi, con_omega)
+       use my_scheme_common, only: pi, omega1, omega2
+         ...
+       pi = con_pi
+       omega1 = con_omega
+       omega2 = 2.*omega1
+         ...
+       is_initialized = .true.
+     end subroutine my_scheme_init
+
+     subroutine my_scheme_run (a, b)
+       use my_scheme_common, only: pi, omega1, omega2
+         ...
+     end subroutine my_scheme_run
+
+     subroutine my_scheme_finalize
+         ...
+       is_initialized = .false.
+       pi = -999.
+       omega1 = -999.
+       omega2 = -999.
+         ...
+     end subroutine my_scheme_finalize
+   end module my_scheme
+
+After this point, physical constants can be imported from ``my_scheme_common`` wherever they are needed.  Although there may be some duplication in memory, constants within the scheme will be guaranteed to be consistent with the rest of physics and will only be set/derived once during the initialization phase. Of course, this will require that any constants in ``my_scheme_common`` that are coming from the host model cannot use the Fortran ``parameter`` keyword. To guard against inadvertently using constants in ``my_scheme_common`` without setting them from the host, they should be initially set to some invalid value. To ensure that this only happens once, the ``is_initialized`` flag should be set to true after setting/deriving constants. To clean up during the finalize phase of the scheme, the ``is_initialized`` flag can be set back to false and the constants can be set back to an invalid value.
+
+In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed.  The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer.   It is not recommended to use the ``physcons`` module, since it is specific to FV3.
 
 Parallel Programming Rules
 ==========================
