@@ -133,7 +133,7 @@ contain two types of metadata tables: ``ccpp-table-properties`` and ``ccpp-arg-t
 The contents of these tables are described in the sections below.
 
 Metadata files (``.meta``) are in a relaxed config file format and contain metadata
-for one or more CCPP entry point schemes.
+for one or more CCPP entry points.
 
 ccpp-table-properties
 ---------------------
@@ -248,9 +248,9 @@ An example metadata file for the CCPP scheme ``mp_thompson.meta`` is shown in :r
      type = scheme
    ...
 
-*Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single
-[ccpp-table-properties] and how it defines dependencies for multiple [ccpp-arg-table].
-In this example the timestep_init and timestep_finalize phases are not used*
+*Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single*
+``[ccpp-table-properties]`` *and how it defines dependencies for multiple* ``[ccpp-arg-table]`` *.
+In this example the* ``timestep_init`` *and* ``timestep_finalize`` *phases are not used*.
 
 ccpp-arg-table
 --------------
