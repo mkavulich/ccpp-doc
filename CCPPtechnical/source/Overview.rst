@@ -77,7 +77,7 @@ and suites to be included and supported. The governance of the CCPP-Framework is
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
 and https://dtcenter.org/gmtb/users/ccpp).
 
-The table below lists all parameterizations supported in CCPP and the
+The table below lists all parameterizations supported in CCPP public releases and the
 `CCPP Scientific Documentation <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc>`_
 describes the parameterizations in detail. The parameterizations
 are grouped in suites, which can be classified primarily as operational or experimental.
