@@ -410,14 +410,14 @@ The ``cu_gf_driver.meta`` file was modified accordingly:
    +  standard_name = auxiliary_2d_arrays
    +  long_name = auxiliary 2d arrays to output (for debugging)
    +  units = none
-   +  dimensions = (horizontal_dimension,number_of_3d_auxiliary_arrays)
+   +  dimensions = (horizontal_loop_extent,number_of_3d_auxiliary_arrays)
    +  type = real
    +  kind = kind_phys
    +[aux3d]
    +  standard_name = auxiliary_3d_arrays
    +  long_name = auxiliary 3d arrays to output (for debugging)
    +  units = none
-   +  dimensions = (horizontal_dimension,vertical_dimension,number_of_3d_auxiliary_arrays)
+   +  dimensions = (horizontal_loop_extent,vertical_dimension,number_of_3d_auxiliary_arrays)
    +  type = real
    +  kind = kind_phys
 
