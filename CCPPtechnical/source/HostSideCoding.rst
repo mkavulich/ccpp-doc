@@ -189,12 +189,12 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
 
 .. _HorizontalDimensionOptionsHost:
 
-`horizontal_dimension` vs. `horizontal_loop_extent`
-===================================================
+``horizontal_dimension`` vs. ``horizontal_loop_extent``
+=======================================================
 
-Please refer to section :numref:`Section %s <HorizontalDimensionOptionsSchemes>` for a description of the differences between `horizontal_dimension` and `horizontal_loop_extent`. In order to use the correct horizontal dimension, it is necessary to know and understand the data storage model on the host side.
+Please refer to section :numref:`Section %s <HorizontalDimensionOptionsSchemes>` for a description of the differences between ``horizontal_dimension`` and ``horizontal_loop_extent``. In order to use the correct horizontal dimension, it is necessary to know and understand the data storage model on the host side.
 
-For the examples in listing :ref:`Listing 6.2 <example_vardefs_meta>`, the host model stores all horizontal grid columns of each variable in one contiguous block, therefore `horizontal_dimension` is the correct choice. Alternatively, a host model could store (non-contiguous) blocks of data in an array of DDTs with a length of the total number of blocks, as shown in listing :ref:`Listing 6.3 <example_vardefs_meta_blocked_data>`.
+For the examples in listing :ref:`Listing 6.2 <example_vardefs_meta>`, the host model stores all horizontal grid columns of each variable in one contiguous block, therefore ``horizontal_dimension`` is the correct choice. Alternatively, a host model could store (non-contiguous) blocks of data in an array of DDTs with a length of the total number of blocks, as shown in listing :ref:`Listing 6.3 <example_vardefs_meta_blocked_data>`.
 
 .. _example_vardefs_meta_blocked_data:
 
@@ -223,7 +223,7 @@ For the examples in listing :ref:`Listing 6.2 <example_vardefs_meta>`, the host 
      dimensions = ()
      type = ex_ddt
      kind =
-   [ext(ccpp_block_number)]
+   [ext]
      standard_name = example_ddt_instance_all_blocks
      long_name = ex. ddt inst
      units = DDT

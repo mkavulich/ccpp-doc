@@ -324,22 +324,22 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` should start with this se
 
 .. _HorizontalDimensionOptionsSchemes:
 
-`horizontal_dimension` vs. `horizontal_loop_extent`
-===================================================
+``horizontal_dimension`` vs. ``horizontal_loop_extent``
+=======================================================
 
 It is important to understand the difference between these metadata dimension names.
 
-* `horizontal_dimension` refers to all (horizontal) grid columns that an MPI process owns/is responsible for, and that are passed to the physics in the `init`, `timestep_init`, `timestep_final`, and `final` phases.
+* ``horizontal_dimension`` refers to all (horizontal) grid columns that an MPI process owns/is responsible for, and that are passed to the physics in the ``init``, ``timestep_init``, ``timestep_final``, and ``final`` phases.
 
-* `horizontal_loop_extent` or, equivalent, `ccpp_constant_one:horizontal_loop_extent` stands for a subset of grid columns that are passed to the physics during the time integration, i.e. in the `run` phase.
+* ``horizontal_loop_extent`` or, equivalent, ``ccpp_constant_one:horizontal_loop_extent`` stands for a subset of grid columns that are passed to the physics during the time integration, i.e. in the ``run`` phase.
 
-* Note that `horizontal_loop_extent` is identical to `horizontal_dimension` for host models that pass all columns to the physics during the time integration.
+* Note that ``horizontal_loop_extent`` is identical to ``horizontal_dimension`` for host models that pass all columns to the physics during the time integration.
 
 Since physics developers cannot know whether a host model is passing all columns to the physics during the time integration or just a subset of it, the following rules apply to all schemes:
 
-* Variables that depend on the horizontal decomposition must use `horizontal_dimension` in the metadata tables for the following phases: `init`, `timestep_init`, `timestep_final`, `final`.
+* Variables that depend on the horizontal decomposition must use ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
 
-* Variables that depend on the horizontal decomposition must use `horizontal_loop_extent` or `ccpp_constant_one:horizontal_loop_extent` in the `run` phase.
+* Variables that depend on the horizontal decomposition must use ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
 
 Input/output Variable (argument) Rules
 ======================================
