@@ -189,8 +189,9 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
 
 .. _HorizontalDimensionOptionsHost:
 
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ``horizontal_dimension`` vs. ``horizontal_loop_extent``
-=======================================================
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 Please refer to section :numref:`Section %s <HorizontalDimensionOptionsSchemes>` for a description of the differences between ``horizontal_dimension`` and ``horizontal_loop_extent``. In order to use the correct horizontal dimension, it is necessary to know and understand the data storage model on the host side.
 

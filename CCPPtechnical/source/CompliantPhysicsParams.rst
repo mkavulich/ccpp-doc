@@ -325,7 +325,7 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` should start with this se
 .. _HorizontalDimensionOptionsSchemes:
 
 ``horizontal_dimension`` vs. ``horizontal_loop_extent``
-=======================================================
+-------------------------------------------------------
 
 It is important to understand the difference between these metadata dimension names.
 
