@@ -411,9 +411,27 @@ Input/output Variable (argument) Rules
   where necessary. This tactic should be avoided wherever possible, and is not acceptable merely
   as a convenience.
 
-* If a scheme is to make use of CCPP’s subcycling capability, the loop counter can be obtained
-  from CCPP as an ``intent(in)`` variable (see a :ref:`mandatory list of variables <MandatoryVariables>`
-  that are provided by the CCPP-Framework and/or the host model for this and other purposes).
+* If a scheme is to make use of CCPP’s subcycling capability, the current loop counter and the loop extent can be obtained from CCPP as ``intent(in)`` variables (see a :ref:`mandatory list of variables <MandatoryVariables>` that are provided by the CCPP-Framework and/or the host model for this and other purposes).
+
+* It is preferable to use assumed-size array declarations for input/output variables for CCPP schemes, i.e. instead of
+
+  .. code-block:: fortran
+
+     real(kind=kind_phys), dimension(is:ie,ks:ke), intent(inout) :: foo
+
+  one should use
+
+  .. code-block:: fortran
+
+     real(kind=kind_phys), dimension(:,:), intent(inout) :: foo
+
+  This allows the compiler to perform bounds checking and detect errors that otherwise may go unnoticed.
+
+  **Warning:** Fortran assumes that the lower bound of assumed-size arrays is ``1``. If ``foo`` has lower bounds ``is`` and ``ks`` that are different from ``1``, then these must be specified explicitly:
+
+  .. code-block:: fortran
+
+     real(kind=kind_phys), dimension(is:,ks:), intent(inout) :: foo
 
 .. _CodingRules:
 
