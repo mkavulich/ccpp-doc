@@ -114,14 +114,14 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
      standard_name = example_ddt
      long_name = ex. ddt
      units = DDT
-     dimensions = (horizontal_dimension,vertical_dimension)
+     dimensions = ()
      type = ex_ddt
      kind =
    [ext]
      standard_name = example_ddt_instance
      long_name = ex. ddt inst
      units = DDT
-     dimensions = (horizontal_dimension,vertical_dimension)
+     dimensions = ()
      type = ex_ddt
      kind =
    [errmsg]
@@ -185,6 +185,79 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
      kind = kind_phys
 
 *Listing 6.2: Example host model metadata file (* ``.meta`` *).*
+
+
+.. _HorizontalDimensionOptionsHost:
+
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+``horizontal_dimension`` vs. ``horizontal_loop_extent``
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+Please refer to section :numref:`Section %s <HorizontalDimensionOptionsSchemes>` for a description of the differences between ``horizontal_dimension`` and ``horizontal_loop_extent``. In order to use the correct horizontal dimension, it is necessary to know and understand the data storage model on the host side.
+
+For the examples in listing :ref:`Listing 6.2 <example_vardefs_meta>`, the host model stores all horizontal grid columns of each variable in one contiguous block, therefore ``horizontal_dimension`` is the correct choice. Alternatively, a host model could store (non-contiguous) blocks of data in an array of DDTs with a length of the total number of blocks, as shown in listing :ref:`Listing 6.3 <example_vardefs_meta_blocked_data>`.
+
+.. _example_vardefs_meta_blocked_data:
+
+.. code-block:: fortran
+
+   ########################################################################
+   [ccpp-table-properties]
+     name = arg_table_example_vardefs
+     type = module
+
+   [ccpp-arg-table]
+     name = arg_table_example_vardefs
+     type = module
+   ...
+   [ex_ddt]
+     standard_name = example_ddt
+     long_name = ex. ddt
+     units = DDT
+     dimensions = ()
+     type = ex_ddt
+     kind =
+   [ext(ccpp_block_number)]
+     standard_name = example_ddt_instance
+     long_name = ex. ddt inst
+     units = DDT
+     dimensions = ()
+     type = ex_ddt
+     kind =
+   [ext]
+     standard_name = example_ddt_instance_all_blocks
+     long_name = ex. ddt inst
+     units = DDT
+     dimensions = (ccpp_block_count)
+     type = ex_ddt
+     kind =
+   ...
+
+   ########################################################################
+   [ccpp-table-properties]
+     name = arg_table_example_ddt
+     type = ddt
+
+   [ccpp-arg-table]
+     name = arg_table_example_ddt
+     type = ddt
+   [ext%1]
+     standard_name = example_flag
+     long_name = ex. flag
+     units = flag
+     dimensions = 
+     type = logical
+     kind =
+   [ext%r]
+     standard_name = example_real3
+     long_name = ex. real
+     units = kg
+     dimensions = (horizontal_loop_extent,vertical_dimension)
+     type = real
+     kind = r15
+   ...
+
+*Listing 6.3: Example host model metadata file (* ``.meta`` *) for a host model using blocked data structures.*
 
 .. _ActiveAttribute:
 
@@ -308,12 +381,13 @@ The CCPP Application Programming Interface (API) is comprised of a set of clearl
 Data Structure to Transfer Variables between Dynamics and Physics 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The ``cdata`` structure is used for holding five variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.meta`` (:ref:`Listing 6.3 <MandatoryVariables>`). 
+The ``cdata`` structure is used for holding six variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.meta`` (:ref:`Listing 6.4 <MandatoryVariables>`). 
 
 
 * Error flag for handling in CCPP (``errmsg``).
 * Error message associated with the error flag (``errflg``).
 * Loop counter for subcycling loops (``loop_cnt``).
+* Loop extent for subcycling loops (``loop_max``).
 * Number of block for explicit data blocking in CCPP (``blk_no``).
 * Number of thread for threading in CCPP (``thrd_no``).
 
@@ -364,6 +438,12 @@ The ``cdata`` structure is used for holding five variables that must always be a
     units = index
     dimensions = ()
     type = integer
+  [loop_max]
+    standard_name = ccpp_loop_extent
+    long_name = loop extent for subcycling loops in CCPP
+    units = count
+    dimensions = ()
+    type = integer
   [blk_no]
     standard_name = ccpp_block_number
     long_name = number of block for explicit data blocking in CCPP
@@ -377,14 +457,12 @@ The ``cdata`` structure is used for holding five variables that must always be a
     dimensions = ()
     type = integer
 
-*Listing 6.3: Mandatory variables provided by the CCPP-Framework from* ``ccpp/framework/src/ccpp_types.meta`` *.
+*Listing 6.4: Mandatory variables provided by the CCPP-Framework from* ``ccpp/framework/src/ccpp_types.meta`` *.
 These variables must not be defined by the host model.*
 
-Two of the variables are mandatory and must be passed to every physics scheme: ``errmsg`` and ``errflg``. The variables ``loop_cnt``, ``blk_no``, and ``thrd_no`` can be passed to the schemes if required, but are not mandatory.  The ``cdata`` structure is only used to hold these five variables, since the host model variables are directly passed to the physics without the need for an intermediate data structure.
+Two of the variables are mandatory and must be passed to every physics scheme: ``errmsg`` and ``errflg``. The variables ``loop_cnt``, ``loop_max``, ``blk_no``, and ``thrd_no`` can be passed to the schemes if required, but are not mandatory.  The ``cdata`` structure is only used to hold these six variables, since the host model variables are directly passed to the physics without the need for an intermediate data structure.
 
 Note that ``cdata`` is not restricted to being a scalar but can be a multidimensional array, depending on the needs of the host model. For example, a model that uses a one-dimensional array of blocks for better cache-reuse may require ``cdata`` to be a one-dimensional array of the same size. Another example of a multi-dimensional array of ``cdata`` is in the SCM, which uses a one-dimensional cdata array for N independent columns. 
-
-Due to a restriction in the Fortran language, there are no standard pointers that are generic pointers, such as the C language allows. The CCPP system therefore has an underlying set of pointers in the C language that are used to point to the original data within the host application cap. The user does not see this C data structure, but deals only with the public face of the Fortran ``cdata`` DDT. The type ``ccpp_t`` is defined in ``ccpp/framework/src/ccpp_types.meta`` and declared in ``ccpp/framework/src/ccpp_types.F90``.
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Initializing and Finalizing the CCPP
@@ -495,7 +573,7 @@ The purpose of the host model *cap* is to abstract away the communication betwee
 
 * Providing interfaces to call the CCPP
 
-  * The *cap* must provide functions or subroutines that can be called at the appropriate places in the host model time integration loop and that internally call ``ccpp_init``, ``ccpp_physics_init``, ``ccpp_physics_run``, ``ccpp_physics_finalize`` and ``ccpp_finalize``, and handle any errors returned See :ref:`Listing 6.4 <example_ccpp_host_cap>`. 
+  * The *cap* must provide functions or subroutines that can be called at the appropriate places in the host model time integration loop and that internally call ``ccpp_init``, ``ccpp_physics_init``, ``ccpp_physics_run``, ``ccpp_physics_finalize`` and ``ccpp_finalize``, and handle any errors returned See :ref:`Listing 6.5 <example_ccpp_host_cap>`. 
 
 .. _example_ccpp_host_cap:
 
@@ -568,7 +646,7 @@ The purpose of the host model *cap* is to abstract away the communication betwee
 
  end module example_ccpp_host_cap
 
-*Listing 6.4: Fortran template for a CCPP host model cap from* ``ccpp/framework/doc/DevelopersGuide/host_cap_template.F90``.
+*Listing 6.5: Fortran template for a CCPP host model cap from* ``ccpp/framework/doc/DevelopersGuide/host_cap_template.F90``.
 
 The following sections describe two implementations of host model caps to serve as examples. For each of the functions listed above, a description for how it is implemented in each host model is included.
 
