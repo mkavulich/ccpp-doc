@@ -26,8 +26,8 @@ considered in future implementations.
 
 These capabilities have been tested and are expected to work with the following suites:
 
-* UFS: GFSv15p2 suite
-* SCM: GFSv15p2, GFSv16beta, and GSD_v1 suites 
+* UFS: GFSv15p2, GFSv16beta, RRFS_v1alpha suites
+* SCM: GFSv15p2, GFSv16beta, RRFS_v1alpha, and GSD_v1 suites 
 
 ==========
 Tendencies
@@ -38,122 +38,253 @@ them. It also contains a list of frequently-asked questions in :numref:`Section 
 
 Available Tendencies
 --------------------
-At this time, it is possible to output 40 different tendencies. Not all schemes produce all tendencies.
-For example, the orographic and convective gravity wave drag (GWD) schemes produce tendencies of
-temperature and momentum, but not of specific humidity and ozone. Similarly, only the planetary boundary
-layer (PBL), deep and shallow convection, and microphysics schemes produce specific humidity tendencies.
-A complete list of the tendencies that can be output is shown in :numref:`Table %s <avail_tendencies>`.
 
-In addition to the tendencies from specific schemes, the output includes tendencies from all physics
-schemes (“All” in :numref:`Table %s <avail_tendencies>`) and from all non-physics processes (“None” in
-:numref:`Table %s <avail_tendencies>`).  Examples of non-physical processes are dynamical core processes
-such as advection and nudging toward climatological fields.
+The model can produce tendencies for temperature, wind, and all non-chemical tracers (see
+:numref:`Table %s <avail_tend_variables>`) for several different schemes. Not all schemes produce all
+tendencies.  For example, the orographic and convective gravity wave drag (GWD) schemes produce tendencies
+of temperature and wind, but not of tracers. Similarly, only the planetary boundary layer (PBL), deep
+and shallow convection, and microphysics schemes produce specific humidity tendencies.  Some PBL and
+convection schemes will have tendencies for tracers, and others won't.
+
+In addition to the tendencies from specific schemes, the output includes tendencies from all photochemical
+processes, all physics processes, and all non-physics processes (last three rows of :numref:`Table %s
+<avail_tend_processes>`). Examples of non-physical processes are dynamical core processes such as advection
+and nudging toward climatological fields.
 
 In the supported suites, there are two types of schemes that produce ozone tendencies: PBL and ozone
 photochemistry. The total tendency produced by the ozone photochemistry scheme (NRL 2015 scheme) is
-subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone
-present in the column above a grid cell, influences from temperature, and influences from mixing ratio.
-For more information about the NRL 2015 ozone photochemistry scheme, consult the CCPP Scientific
-Documentation `here <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
+subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone present
+in the column above a grid cell, influences from temperature, and influences from mixing ratio.  For more
+information about the NRL 2015 ozone photochemistry scheme, consult the `CCPP Scientific Documentation
+<https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
 
-.. _avail_tendencies:
+There are numerous tendencies in CCPP, and you need to know which ones exist for your configuration to
+enable them. The model will output a list of available tendencies for your configuration if you run with
+diagnostic tendencies enabled. To avoid overusing memory, you should enable just one tendency, which is
+available for all suites, the non-physics (ie. dynamics) tendency of temperature. Details of how to do this,
+and how to use the information, is below.
 
-.. table:: Complete list of available tendencies
-
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   | **Tendency**      | **Associated**   |   **From CCPP scheme**     |  **Array**        | **Units**                     |
-   |                   | **Namelist**     |                            |                   |                               |
-   |                   | **Variables**    |                            |                   |                               |
-   +===================+==================+============================+===================+===============================+
-   | Temperature       | ldiag3d          | Long-wave radiation        | dt3dt_lw          | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Short-wave radiation       | dt3dt_sw          | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | PBL                        | dt3dt_pbl         | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Deep convection            | dt3dt_deepcnv     | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Shallow convection         | dt3dt_shalcnv     | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Microphysics               | dt3dt_mp          | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Orographic GWD             | dt3dt_orogwd      | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Rayleigh damping           | dt3dt_rdamp       | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Convective GWD             | dt3dt_cnvgwd      | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | All                        | dt3dt_phys        | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | None                       | dt3dt_nophys      | K s\ :sup:`-1`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   | Meridional Wind   | ldiag3d          | PBL                        | dv3dt_pbl         | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Deep convection            | dv3dt_deepcnv     | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Shallow convection         | dv3dt_shalcnv     | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Microphysics               | dv3dt_mp          | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Orographic GW              | dv3dt_orogwd      | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Rayleigh damping           | dv3dt_rdamp       | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Convective GW              | dv3dt_cnvgmw      | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | All                        | dv3dt_phys        | m s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | None                       | dv3dt_nophys      | n s\ :sup:`-2`                |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   | Specific humidity | ldiag3d, qdiag3d | PBL                        | dq3dt_pbl         | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Deep convection            | dq3dt_deepcnv     | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Shallow convection         | dq3dt_shalcnv     | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Microphysics               | dq3dt_mp          | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | All                        | dq3dt_phys        | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | None                       | dq3dt_nophys      | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   | Ozone             | ldiag3d, qdiag3d | PBL                        | dq3dt_o3pbl       | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Ozone: Production and loss | dq3dt_o3prodloss  | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Ozone: Mixing              | dq3dt_o3mix       | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Ozone: Temperature         | dq3dt_o3temp      | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | Ozone: Column              | dq3dt_o3column    | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | All                        | dq3dt_o3phys      | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-   |                   |                  | None                       | dq3dt_o3nophys    | kg kg\ :sup:`-1` s\ :sup:`-1` |
-   +-------------------+------------------+----------------------------+-------------------+-------------------------------+
-
-Activating Tendencies
----------------------
+Enabling Tendencies
+-------------------
 
 For performance reasons, the preparation of tendencies for output is off by default in the UFS and
 can be turned on via a set of namelist options. Since the SCM is not operational and has a relatively
 tiny memory footprint, these tendencies are turned on by default in the SCM. 
 
-There are two namelist variables associated with this capability: ``ldiag3d`` and ``qdiag3d``. To prepare the
-tendencies of temperature and momentum, it is necessary to set ``ldiag3d`` to true in the ``&gfs_physics_nml``
-portion of the namelist file ``input.nml``. To prepare the tendencies of temperature, momentum, specific
-humidity and ozone, it is necessary to set both ``ldiag3d`` and ``qdiag3d`` to true in the ``&gfs_physics_nml``
-portion of the namelist file ``input.nml``. The capability to prepare only the tendencies of specific
-humidity and ozone is not supported. Recall that these options must be changed from their defaults for
-the UFS to activate this functionality, but they are already set by default for the SCM.
+There are three namelist variables associated with this capability: ``ldiag3d``, ``qdiag3d``, and
+``dtend_select``. These are set in the ``&gfs_physics_nml`` portion of the namelist file ``input.nml``.
 
-Note that there is a third namelist variable, ``lssav``, associated with the output of
-parameterization-specific information. The value of ``lssav`` is overwritten to true in the code, so
-the value used in the namelist is irrelevant. 
+* ``ldiag3d`` enables tendencies for state variables (horizontal wind and temperature)
+* ``qdiag3d`` enables tendencies for tracers; ``ldiag3d`` must also be enabled
+* ``dtend_select`` enables only a subset of the tendencies turned on by ``ldiag3d`` and ``qdiag3d``
+
+If ``dtend_select`` is not specified, the default is to select all tendencies enabled by the settings of
+``ldiag3d`` and ``qdiag3d``.
+
+Note that there is a fourth namelist variable, ``lssav``, associated with the output of
+parameterization-specific information. The value of ``lssav`` is overwritten to true in the code, so the
+value used in the namelist is irrelevant.
 
 While the tendencies output by the SCM are instantaneous, the tendencies output by the UFS are averaged
 over the number of hours specified by the user in variable ``fhzero`` in the ``&gfs_physics_nml`` portion of the
 namelist file ``input.nml``. Variable ``fhzero`` must be an integer (it cannot be zero). 
+
+This example namelist selects all tendencies from microphysics processes, and all tendencies of
+temperature. The naming convention for ``dtend_select`` is explained in the next section.
+
+.. code:: fortran
+
+   &gfs_physics_nml
+     ldiag3d = .true. ! enable basic diagnostics
+     qdiag3d = .true. ! also enable tracer diagnostics
+     dtend_select = 'dtend*mp', 'dtend_temp_*' ! Asterisks (*) and question marks (?) have the same meaning as shell globs
+     ! The default for dtend_select is '*' which selects everything
+     ! ... other namelist parameters ...
+   /
+
+Tendency Names
+--------------
+
+Tendency variables follow the naming pattern below, which is used to enable calculation (``input.nml``) and output
+of the variable:
+
+.. code::
+
+   dtend_variable_process
+
+The ``dtend_`` string stands for "diagnostic tendency" and is used to avoid variable name clashes. Replace
+``variable`` with the short name of the tracer or state variable (see :numref:`Table %s
+<avail_tend_variables>`). Replace ``process`` with the short name of the process that is changing the
+variable (see :numref:`Table %s <avail_tend_processes>`). For example, microphysics (``mp``) temperature
+(``temp``) tendency is ``dtend_temp_mp``.
+
+The next section will tell you how to determine which tendency variables are available for your model.
+
+|
+
+.. _avail_tend_variables:
+
+.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable``
+           part of ``dtend_variable_process``. The Index column is the first index of ``dtidx``. Hence "X
+           Wind" is at ``dtend(:,:,dtidx(index_of_x_wind,:))``.
+
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | **Variable**                                    | **Short**      | **Associated** | **dtidx**                | **Tendency Units**            |
+   |                                                 | **Name**       | **Namelist**   | **Index**                |                               |
+   |                                                 |                | **Variables**  |                          |                               |
+   +=================================================+================+================+==========================+===============================+
+   | Temperature                                     | ``temp``       | ``ldiag3d``    | ``index_of_temperature`` | K s\ :sup:`-1`                |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | X Wind                                          | ``u``          | ``ldiag3d``    | ``index_of_x_wind``      | m s\ :sup:`-2`                |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Y Wind                                          | ``v``          | ``ldiag3d``    | ``index_of_y_wind``      | m s\ :sup:`-2`                |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Water Vapor Specific Humidity                   | ``qv``         | ``qdiag3d``    | ``100+ntqv``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Ozone Concentration                             | ``o3``         | ``qdiag3d``    | ``100+ntoz``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Cloud Condensate or Liquid Water                | ``liq_wat``    | ``qdiag3d``    | ``100+ntcw``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Ice Water                                       | ``ice_wat``    | ``qdiag3d``    | ``100+ntiw``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Rain Water                                      | ``rainwat``    | ``qdiag3d``    | ``100+ntrw``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Snow Water                                      | ``snowwat``    | ``qdiag3d``    | ``100+ntsw``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Graupel                                         | ``graupel``    | ``qdiag3d``    | ``100+ntgl``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Cloud Amount                                    | ``cld_amt``    | ``qdiag3d``    | ``100+ntclamt``          | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Liquid Number Concentration                     | ``water_nc``   | ``qdiag3d``    | ``100+ntlnc``            | kg\ :sup:`-1` s\ :sup:`-1`    |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Ice Number Concentration                        | ``ice_nc``     | ``qdiag3d``    | ``100+ntinc``            | kg\ :sup:`-1` s\ :sup:`-1`    |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Rain Number Concentration                       | ``rain_nc``    | ``qdiag3d``    | ``100+ntrnc``            | kg\ :sup:`-1` s\ :sup:`-1`    |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Snow Number Concentration                       | ``snow_nc``    | ``qdiag3d``    | ``100+ntsnc``            | kg\ :sup:`-1` s\ :sup:`-1`    |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Graupel Number Concentration                    | ``graupel_nc`` | ``qdiag3d``    | ``100+ntgnc``            | kg\ :sup:`-1` s\ :sup:`-1`    |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Turbulent Kinetic Energy                        | ``sgs_tke``    | ``qdiag3d``    | ``100+ntke``             | J s\ :sup:`-1`                |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Mass Weighted Rime Factor                       | ``q_rimef``    | ``qdiag3d``    | ``100+nqrimef``          | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Number Concentration Of Water-Friendly Aerosols | ``liq_aero``   | ``qdiag3d``    | ``100+ntwa``             | kg\ :sup:`-1` s\ :sup:`-1`    |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Number Concentration Of Ice-Friendly Aerosols   | ``ice_aero``   | ``qdiag3d``    | ``100+ntia``             | kg\ :sup:`-1` s\ :sup:`-1`    |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Oxygen Ion Concentration                        | ``o_ion``      | ``qdiag3d``    | ``100+nto``              | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+   | Oxygen Concentration                            | ``o2``         | ``qdiag3d``    | ``100+nto2``             | kg kg\ :sup:`-1` s\ :sup:`-1` |
+   +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
+
+|
+
+.. _avail_tend_processes:
+
+.. table:: Processes that can change non-chemical tracer and state variables. The third column is the
+           ``process`` part of ``dtend_variable_process``. The dtidx index is second index of dtidx, hence
+           "Deep Convection" is at ``dtend(:,:,dtidx(:,index_of_process_dcnv))``.
+
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | **Process**                           | **diag_table** | **Short**     | **dtidx**                              |
+   |                                       | **Module**     | **Name**      | **Index**                              |
+   |                                       | **Name**       |               |                                        |
+   +=======================================+================+===============+========================================+
+   | Planetary Boundary Layer              | ``gfs_phys``   | ``pbl``       | ``index_of_process_pbl``               |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Deep Convection                       | ``gfs_phys``   | ``deepcnv``   | ``index_of_process_dcnv``              |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Shallow Convection                    | ``gfs_phys``   | ``shalcnv``   | ``index_of_process_scnv``              |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Microphysics                          | ``gfs_phys``   | ``mp``        | ``index_of_process_mp``                |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Convective Transport                  | ``gfs_phys``   | ``cnvtrans``  | ``index_of_process_conv_trans``        |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Long Wave Radiation                   | ``gfs_phys``   | ``lw``        | ``index_of_process_longwave``          |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Short Wave Radiation                  | ``gfs_phys``   | ``sw``        | ``index_of_process_shortwave``         |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Orographic Gravity Wave Drag          | ``gfs_phys``   | ``orogwd``    | ``index_of_process_orographic_gwd``    |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Rayleigh Damping                      | ``gfs_phys``   | ``rdamp``     | ``index_of_process_rayleigh_damping``  |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Convective Gravity Wave Drag          | ``gfs_phys``   | ``cnvgwd``    | ``index_of_process_nonorographic_gwd`` |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Production and Loss (Photochemical)   | ``gfs_phys``   | ``prodloss``  | ``index_of_process_prod_loss``         |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Ozone Mixing Ratio (Photochemical)    | ``gfs_phys``   | ``o3mix``     | ``index_of_process_ozmix``             |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Temperature-Induced (Photochemical)   | ``gfs_phys``   | ``temp``      | ``index_of_process_temp``              |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Overhead Ozone Column (Photochemical) | ``gfs_phys``   | ``o3column``  | ``index_of_process_overhead_ozone``    |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Sum of Photochemical Processes        | ``gfs_phys``   | ``photochem`` | ``index_of_process_photochem``         |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Sum of Physics Processes              | ``gfs_phys``   | ``phys``      | ``index_of_process_physics``           |
+   | (Including Photochemical)             |                |               |                                        |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+   | Sum of Non-Physics Processes          | ``gfs_dyn``    | ``nophys``    | ``index_of_process_non_physics``       |
+   +---------------------------------------+----------------+---------------+----------------------------------------+
+
+Selecting Tendencies
+--------------------
+
+With the many suites and many combinations of schemes, it is hard to say which variable/process combinations
+are available for your particular configuration. To find a list, enable diagnostics, but disable all
+tracer/process combinations except one:
+
+.. code:: fortran
+
+   &gfs_physics_nml
+     ldiag3d = .true. ! enable basic diagnostics
+     qdiag3d = .true. ! also enable tracer diagnostics
+     dtend_select = 'dtend_temp_nophys' ! All configurations have non-physics temperature tendencies
+     ! ... other namelist parameters ...
+   /
+
+After recompiling and running the model, you will see lines like this in the model's standard output stream:
+
+.. code:: console
+
+   dtend selected: gfs_phys dtend_qv_mp = water vapor specific humidity tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_liq_wat_mp = cloud condensate (or liquid water) tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_rainwat_mp = rain water tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_ice_wat_mp = ice water tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_snowwat_mp = snow water tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_graupel_mp = graupel tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_cld_amt_mp = cloud amount integer tendency due to microphysics (kg kg-1 s-1)
+   dtend selected: gfs_phys dtend_temp_phys = temperature tendency due to physics (K s-1)
+   dtend selected: gfs_dyn dtend_temp_nophys = temperature tendency due to non-physics processes (K s-1)
+
+There are three critical pieces of information in each line. Taking the last line as an example,
+
+1. ``dtend_cld_amt_mp`` -- this is both the name of the variable in the ``diag_table``, and the name of the
+   variable in ``dtend_select``
+2. ``gfs_phys`` -- the ``diag_table`` module name. 
+3. "cloud amount integer tendency due to microphysics" -- meaning of the variable.
+
+Note that the ``dtend_temp_nophys`` differs from the others in that it is in the ``gfs_dyn`` module
+instead of ``gfs_phys`` because it sums non-physics processes.
+
+Now that you know what variables are available, you can choose which to enable:
+
+.. code:: fortran
+
+   &gfs_physics_nml
+     ldiag3d = .true. ! enable basic diagnostics
+     qdiag3d = .true. ! also enable tracer diagnostics
+     dtend_select = 'dtend*mp', 'dtend_temp_*' ! Asterisks (*) and question marks (?) have the same meaning as shell globs
+     ! The default for dtend_select is '*' which selects everything
+     ! ... other namelist parameters ...
+   /
+
+Note that any combined tendencies, such as the total temperature tendency from physics (``dtend_temp_phys``),
+will only include other tendencies that were calculated. Hence, if you only calculate PBL and microphysics
+tendencies then your "total temperature tendency" will actually just be the total of PBL and microphysics.
+
+The third step is to enable output of variables, which will be discussed in the next section.
+
 
 Outputting Tendencies
 ---------------------
@@ -161,16 +292,25 @@ Outputting Tendencies
 UFS
 ^^^
 
-When ``ldiag3d`` and ``qdiag3d`` are set to true, the tendencies described in
-:numref:`Table %s <avail_tendencies>` are prepared for output. Finer control over which 
-variables will actually be output is available through the diag table. The user must edit
-the diag table and enter new lines at the end with the variables desired in the output. For
-example, adding the line below results in the output of the temperature tendencies due to
-long wave radiation:
+After enabling tendency calculation (using ``ldiag3d``, ``qdiag3d``, and ``diag_select``), you must also
+enable output of those tendencies using the ``diag_table``. Enter the new lines with the variables you want
+output. Continuing our example from before, this will enable output of some microphysics tracer tendencies,
+and the total tendencies of temperature:
 
-.. code-block:: console
+.. code:: console
 
-   "gfs_phys",    "dt3dt_lw",         "dt3dt_lw",         "fv3_history",  "all",  .false.,  "none",  2
+   "gfs_phys", "dtend_qv_mp",       "dtend_qv_mp",       "fv3_history", "all", .false., "none", 2
+   "gfs_phys", "dtend_liq_wat_mp",  "dtend_liq_wat_mp",  "fv3_history", "all", .false., "none", 2
+   "gfs_phys", "dtend_rainwat_mp",  "dtend_rainwat_mp",  "fv3_history", "all", .false., "none", 2
+   "gfs_phys", "dtend_ice_wat_mp",  "dtend_ice_wat_mp",  "fv3_history", "all", .false., "none", 2
+   "gfs_phys", "dtend_snowwat_mp",  "dtend_snowwat_mp",  "fv3_history", "all", .false., "none", 2
+   "gfs_phys", "dtend_graupel_mp",  "dtend_graupel_mp",  "fv3_history", "all", .false., "none", 2
+   "gfs_phys", "dtend_cld_amt_mp",  "dtend_cld_amt_mp",  "fv3_history", "all", .false., "none", 2
+   "gfs_phys", "dtend_temp_phys",   "dtend_temp_phys",   "fv3_history", "all", .false., "none", 2
+   "gfs_dyn",  "dtend_temp_nophys", "dtend_temp_nophys", "fv3_history", "all", .false., "none", 2
+
+Note that all tendencies, except non-physics tendencies, are in the ``gfs_phys`` diagnostic module. The
+non-physics tendencies are in the ``gfs_dyn`` module. This is reflected in the :numref:`Table %s <avail_tend_processes>`.
 
 Note that some host models, such as the UFS, have a limit of how many fields can be output in a run.
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
@@ -179,15 +319,15 @@ by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in f
 Further documentation of the ``diag_table`` file can be found in the UFS Weather Model User’s Guide
 `here <https://ufs-weather-model.readthedocs.io/en/latest/InputsOutputs.html#diag-table-file>`_.
 
-After running, the requested arrays will be present in the output files.  
+When the model completes, the fv3_history will contain these new variables.
 
 SCM
 ^^^
 
-The default behavior of the SCM is to output instantaneous values of all variables in
-:numref:`Table %s <avail_tendencies>`. Tendencies are computed in file ``gmtb_scm_output.F90`` in
-the subroutines output_init and output_append. If the values of ``ldiag3d`` or ``qdiag3d`` are set
-to false, the variables are still written to output but are given missing values.
+The default behavior of the SCM is to output instantaneous values of all tendency variables, and
+``dtend_select`` is not recognized. Tendencies are computed in file ``gmtb_scm_output.F90`` in the
+subroutines output_init and output_append. If the values of ``ldiag3d`` or ``qdiag3d`` are set to false, the
+variables are still written to output but are given missing values.
 
 .. _AvailTendFAQ:
 
@@ -214,7 +354,8 @@ In this case, increase ``max_output_fields`` in ``input.nml``:
 Why did I run out of memory when outputting tendencies?
 -------------------------------------------------------
 
-Trying to output all tendencies may cause memory problems.  Choose your output variables carefully!
+Trying to output all tendencies may cause memory problems.  Use ``dtend_select`` and choose your output
+variables carefully!
 
 Why did I get a runtime logic error when outputting tendencies?
 ---------------------------------------------------------------
@@ -225,7 +366,35 @@ Setting ``ldiag3d=F`` and ``qdiag3d=T`` will result in an error message:
 
    Logic error in GFS_typedefs.F90: qdiag3d requires ldiag3d
  
-If you want to output specific humidity and/or ozone tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T.
+If you want to output tracer tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T. Then use
+``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches your choice of tendencies specified through ``diag_select``.
+
+Why are my tendencies zero, even though the model says they're supported for my configuration?
+----------------------------------------------------------------------------------------------
+
+For total physics or total photochemistry tendencies, see the next question.
+
+The tendencies will be zero if they're never calculated. Check that you enabled the tendencies with
+appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``. 
+
+Another possibility is that the tendencies in question really are zero. The list of "available" tendencies
+is set at the model level, where the exact details of schemes and suites are not known. This can lead to
+some tendencies erroneously being listed as available. For example, some PBL schemes have ozone tendencies
+and some don't, so some may have zero ozone tendencies. Also, some schemes don't have tendencies of state
+variables or tracers. Instead, they modify different variables, which other schemes use to affect the state
+variables and tracers. Unfortunately, not all of the 3D variables in CCPP have diagnostic tendencies.
+
+Why are my total physics or total photochemistry tendencies zero?
+-----------------------------------------------------------------
+
+There are three likely reasons:
+
+* You forgot to enable calculation of physics tendencies. Make sure ``ldiag3d`` and ``qdiag3d`` are T, and
+  make sure ``diag_select`` selects physics tendencies.
+* The suite did not enable the ``phys_tend`` scheme, which calculates the total physics and total
+  photochemistry tendencies.
+* You did not enable calculation of the individual tendencies, such as ozone. The ``phys_tend`` sums those
+  to make the total tendencies.
 
 ====================================
 Output of Auxiliary Arrays from CCPP
@@ -452,4 +621,3 @@ Suppose you want to output two 2D arrays from schemeA and two 2D arrays from sch
 set the namelist to ``naux2d=4`` and ``naux3d=0``. In the code for schemeA, you should populate
 ``aux2d(:,1)`` and ``aux2d(:,2)``, while in the code for scheme B you should populate ``aux2d(:,3)``
 and ``aux2d(:,4)``. 
-
