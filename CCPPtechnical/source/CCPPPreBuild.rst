@@ -118,12 +118,13 @@ Once the configuration in ``ccpp_prebuild_config.py`` is complete, the ``ccpp_pr
 
 For developers adding a CCPP-compliant physics scheme, running ``ccpp_prebuild.py`` periodically is recommended to check that the metadata provided with the physics schemes matches what the host model provided. For the :term:`UFS` Atmosphere, running ``ccpp_prebuild.py`` manually is identical to running it for the SCM (since the relative paths to their respective ``ccpp_prebuild_config.py`` files are identical), except it may be necessary to add the ``--suites`` command-line argument.
 
-As alluded to above, the ``ccpp_prebuild.py`` script has five command line options, with the path to a host-model specific configuration file (``--config``) being the only necessary input option:
+As alluded to above, the ``ccpp_prebuild.py`` script has six command line options, with the path to a host-model specific configuration file (``--config``) being the only required option:
 
  |  ``-h, --help``         show this help message and exit
  |  ``--config``           ``PATH_TO_CONFIG/config_file``      path to CCPP *prebuild* configuration file
  |  ``--clean``            remove files created by this script, then exit
- |  ``--debug``            enable debugging output
+ |  ``--verbose``          enable verbose output
+ |  ``--debug``            enable additional checks on array sizes
  |  ``--suites`` SUITES    SDF(s) to use (comma-separated, without path)
 
 .. note::
@@ -137,9 +138,9 @@ An example invocation of running the script (called from the host model’s top 
    ./ccpp/framework/scripts/ccpp_prebuild.py \
      --config=./ccpp/config/ccpp_prebuild_config.py \
      --suites=FV3_GFS_v15p2 \
-     --debug
+     --verbose
 
-which uses a configuration script located at the specified path. The debug option can be used for more verbose output from the script.
+which uses a configuration script located at the specified path. The verbose option can be used for more verbose output from the script.
 
 The :term:`SDF`\(s) must be included and specified using the ``--suites`` command-line argument. Such files are included with the SCM and ufs-weather-model repositories, and must be included with the code of any host model to use the :term:`CCPP`\.  An example of a build using two :term:`SDF`\s is:
 
@@ -148,6 +149,8 @@ The :term:`SDF`\(s) must be included and specified using the ``--suites`` comman
    ./ccpp/framework/scripts/ccpp_prebuild.py \
      --config=./ccpp/config/ccpp_prebuild_config.py \
      --suites=FV3_GFS_v15p2,FV3_GFS_v16beta
+
+The ``--debug`` command-line argument enables additional checks on array sizes before building the software caps.
 
 If the :term:`CCPP` *prebuild* step is successful, the last output line will be:
 
