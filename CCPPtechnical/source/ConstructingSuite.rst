@@ -17,7 +17,10 @@ The format of the :term:`SDF` is specified by a schema and all host models that 
 The name of the suite is listed at the top of the :term:`SDF`, right after the XML declaration, and must be consistent with the name of the :term:`SDF`: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below.
 The suite name is followed by the version of the XML schema used.
 
-One of the groups in the :term:`SDF` can be the ``time_vary`` step, which is run only once when the model is first initialized.
+!!! DH I am not happy with this choice as an example. It is one of the complicated ones, because when the timestep_init phase was introduced,
+the meaning of the time_vary group and the way to code those schemes has changed !!!
+
+One of the groups in the :term:`SDF` can be the ``time_vary`` step, which, for the UFS and SCM, corresponts to the ``timestep_init`` phase.
 
 .. code-block:: xml
 
@@ -36,12 +39,12 @@ One of the groups in the :term:`SDF` can be the ``time_vary`` step, which is run
 Groups
 --------------
 
-The concept of grouping physics in the :term:`SDF` (reflected in the ``<group name="XYZ">`` elements) enables “groups” of parameterizations to be called with other computation (such as related to the dycore, I/O, etc.) in between. One can edit the groups to suit the needs of the host application. For example, if a subset of physics schemes needs to be more tightly connected with the dynamics and called more frequently, one could create a group consisting of that subset and place a ``ccpp_run`` call in the appropriate place in the host application. The remainder of the parameterization groups could be called using ``ccpp_run`` calls in a different part of the host application code.
+The concept of grouping physics in the :term:`SDF` (reflected in the ``<group name="XYZ">`` elements) enables “groups” of parameterizations to be called with other computation (such as related to the dycore, I/O, etc.) in between. One can edit the groups to suit the needs of the host application. For example, if a subset of physics schemes needs to be more tightly connected with the dynamics and called more frequently, one could create a group consisting of that subset and place a ``ccpp_physics_run`` call in the appropriate place in the host application. The remainder of the parameterization groups could be called using ``ccpp_physics_run`` calls in a different part of the host application code.
 
 -----------------
 Subcycling
 -----------------
-The :term:`SDF` allows subcycling of schemes, or calling a subset of schemes at a smaller time step than others. The ``<subcycle loop = n>`` element in the :term:`SDF` controls this function. All schemes within such an element are called n times during one ccpp_run call. An example of this is found in the ``FV3_GFS_v15.xml`` :term:`SDF`, where the surface schemes are executed twice for each timestep (implementing a predictor/corrector paradigm):
+The :term:`SDF` allows subcycling of schemes, or calling a subset of schemes at a smaller time step than others. The ``<subcycle loop = n>`` element in the :term:`SDF` controls this function. All schemes within such an element are called  ``n`` times during one ``ccpp_physics_run`` call. An example of this is found in the ``FV3_GFS_v15.xml`` :term:`SDF`, where the surface schemes are executed twice for each timestep (implementing a predictor/corrector paradigm):
 
 .. code-block:: xml
 
@@ -57,14 +60,13 @@ The :term:`SDF` allows subcycling of schemes, or calling a subset of schemes at 
       <scheme>GFS_surface_loop_control_part2</scheme>
     </subcycle>
 
-Note that currently no time step information is included in the :term:`SDF` and that the subcycling of schemes resembles more an iteration over schemes with the loop counter being available as integer variable with standard name ccpp_loop_counter. If subcycling is used for a set of parameterizations, the smaller time step must be an input argument for those schemes.
+Note that currently no time step information is included in the :term:`SDF` and that the subcycling of schemes resembles more an iteration over schemes with the loop counter being available as integer variable with standard name ``ccpp_loop_counter``. If subcycling is used for a set of parameterizations, the smaller time step must be an input argument for those schemes, or computed in the scheme from the default physics time step (``timestep_for_physics``) and the number of subcycles (``ccpp_loop_extent``).
 
 ----------------------
 Order of Schemes
 ----------------------
 
-Schemes may be interdependent and the order in which the schemes are run may make a difference in the model output. Reading the :term:`SDF`\(s) and defining the order of schemes for each suite happens at compile time. 
-Some schemes require additional interstitial code that must be run before or after the scheme and cannot be part of the scheme itself. This can be due to dependencies on other schemes and/or the order of the schemes as determined in the :term:`SDF`.  Note that more than one SDF can be supplied at compile time, but only one can be used at runtime.
+Schemes may be interdependent and the order in which the schemes are run may make a difference in the model output. Reading the :term:`SDF`\(s) and defining the order of schemes for each suite happens at compile time. Some schemes require additional interstitial code that must be run before or after the scheme and cannot be part of the scheme itself. This can be due to dependencies on other schemes and/or the order of the schemes as determined in the :term:`SDF`.  Note that more than one SDF can be supplied at compile time, but only one can be used at runtime.
 
 =========================
 Interstitial Schemes
@@ -79,7 +81,7 @@ SDF Examples
 Simplest Case: Single Group and no Subcycling
 ----------------------------------------------------
 
-Consider the simplest case, in which all physics schemes are to be called together in a single group with no subcycling (i.e. ``subcycle loop=”1”``).  The subcycle loop must be set in each group.  The :term:`SDF` ``suite_Suite_A.xml`` could contain the following:
+Consider the simplest case, in which all physics schemes are to be called together in a single group with no subcycling (i.e. ``subcycle loop="1"``).  The subcycle loop must be set in each group.  The :term:`SDF` ``suite_Suite_A.xml`` could contain the following:
 
 .. code-block:: console
 
@@ -105,7 +107,7 @@ Consider the simplest case, in which all physics schemes are to be called togeth
    </suite>
 
 
-Note the syntax of the :term:`SDF` file. The root (the first element to appear in the xml file) is the ``suite`` with the ``name`` of the suite given as an attribute. In this example, the suite name is ``Suite_A``. Within each suite are groups, which specify a physics group to call (i.e. ``physics, fast_physics, time_vary, radiation, stochastics``). Each group has an option to subcycle. The value given for loop determines the number of times all of the schemes within the ``subcycle`` element are called. Finally, the ``scheme`` elements are children of the ``subcycle`` elements and are listed in the order they will be executed. In this example, ``scheme_1_pre`` and ``scheme_1_post`` are scheme-specific preprocessing and postprocessing interstitial schemes, respectively. The suite-level preprocessing and postprocessing interstitial ``schemes scheme_2_generic_pre`` and ``scheme_2_generic_post`` are also called in this example. ``Suite_A_interstitial_2`` is a scheme for ``suite_A`` and connects various schemes within this suite.
+Note the syntax of the :term:`SDF` file. The root (the first element to appear in the xml file) is the ``suite`` with the ``name`` of the suite given as an attribute. In this example, the suite name is ``Suite_A``. Within each suite are groups, which specify a physics group to call (i.e. ``physics``, ``fast_physics``, ``time_vary``, ``radiation``, ``stochastics``). Each group has an option to subcycle. The value given for loop determines the number of times all of the schemes within the ``subcycle`` element are called. Finally, the ``scheme`` elements are children of the ``subcycle`` elements and are listed in the order they will be executed. In this example, ``scheme_1_pre`` and ``scheme_1_post`` are scheme-specific preprocessing and postprocessing interstitial schemes, respectively. The suite-level preprocessing and postprocessing interstitial ``schemes scheme_2_generic_pre`` and ``scheme_2_generic_post`` are also called in this example. ``Suite_A_interstitial_2`` is a scheme for ``suite_A`` and connects various schemes within this suite.
 
 -------------------------------
 Case with Multiple Groups
@@ -123,7 +125,7 @@ Some models require that the physics be called in groups, with non-physics compu
          <scheme>SchemeX</scheme>
          <scheme>SchemeY</scheme>
          <scheme>SchemeZ</scheme>
-     </subcycle>
+       </subcycle>
      </group>
      <group name="g2">
        <subcycle loop="1">
@@ -249,7 +251,7 @@ Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in t
      </group>
    </suite>
 
-The suite name is ``SCM_GFS_v16beta``. Three groups (``time_vary, radiation, and physics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
+The suite name is ``SCM_GFS_v16beta``. Three groups (``time_vary``, ``radiation``, and ``physics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
 
 * ``GFS_time_vary_pre``: GFS physics suite time setup
 * ``GFS_rrtmg_setup``: Rapid Radiative Transfer Model for Global Circulation Models (RRTMG) setup

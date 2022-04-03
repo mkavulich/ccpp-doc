@@ -22,7 +22,7 @@ points. In order to minimize the layers of code in the CCPP, the implementation 
 discouraged, that is, it is preferable that the CCPP be composed of atomic parameterizations. One
 example is the implementation of the MG microphysics, in which a simple entry point
 leads to two versions of the scheme, MG2 and MG3.  A cleaner implementation would be to retire MG2
-in favor of MG3, to put MG2 and MG3 as separate schemes, or to create a single scheme that can behave
+in favor of MG3, to turn MG2 and MG3 into separate schemes, or to create a single scheme that can behave
 as MG2 and MG3 depending on namelist options.
 
 The implementation of a driver is reasonable under the following circumstances:
@@ -39,8 +39,8 @@ The implementation of a driver is reasonable under the following circumstances:
   ``radsw_main.F90``, or ``radlw_main.F90`` in the ``ccpp-physics/physics`` directory.
 
 * To perform unit conversions or array transformations, such as flipping the vertical direction
-  and rearranging the index order, for example, ``cu_gf_driver.F90`` in the ``ccpp-physics/physics``
-  directory.
+  and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
+  in the ``ccpp-physics/physics`` directory.
 
 Schemes in the CCPP are classified into two categories: primary schemes and interstitial schemes.
 A primary scheme is one that updates the state variables and tracers or that
@@ -71,7 +71,7 @@ General Rules
 A CCPP-compliant scheme is in the form of Fortran modules. :ref:`Listing 2.1 <scheme_template>` contains
 the template for a CCPP-compliant scheme (``ccpp/framework/doc/DevelopersGuide/scheme_template.F90``),
 which includes at least one of these five components: the *_timestep_init*, *_init*,
-*_run*, *_finalize*, and *_timestep_finalize* subroutines. Each ``.f`` or ``.F90``
+*_run*, *_finalize*, and *_timestep_finalize* subroutines. Each ``.F`` or ``.F90``
 file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory
 as described in :numref:`Section %s <MetadataRules>`
 
@@ -90,14 +90,15 @@ More details are found below:
   scheme name. The *_run* subroutine contains the
   code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
   they will be executed at the beginning and at the end of the host model physics timestep,
-  respectively. If present, the *_init* and *_finalize* subroutines
-  associated with a scheme are run before and after the *_run* phase of the scheme.
-  The *_init* and *_finalize* phases can be used even if the *_run* phase if absent.
+  respectively. Further, if present, the *_init* and *_finalize* subroutines
+  associated with a scheme are run at the beginning and at the end of the model run.
   The *_init* and *_finalize* subroutines may be called more than once depending
   on the host model’s parallelization strategy, and as such must be idempotent (the answer
-  must be the same when the subroutine is called multiple times).
+  must be the same when the subroutine is called multiple times). This can be achieved
+  by using a module variable *is_initialized* that keeps track whether a scheme has been
+  initialized or not.
 
-* Each ``.f`` or ``.F90`` file with one or more CCPP entry point schemes must be accompanied by a a ``.meta`` file containing
+* Each ``.F`` or ``.F90`` file with one or more CCPP entry point schemes must be accompanied by a a ``.meta`` file containing
   metadata about the arguments to the scheme(s). For more information, see :numref:`Section %s <MetadataRules>`.
 
 * All schemes must be preceded by the three lines below. These are markup comments used by Doxygen,
@@ -128,7 +129,7 @@ More details are found below:
 Metadata Table Rules
 ====================
 
-Each CCPP-compliant physics scheme (``.f`` or ``.F90`` file) must have a corresponding metadata file (``.meta``)
+Each CCPP-compliant physics scheme (``.F`` or ``.F90`` file) must have a corresponding metadata file (``.meta``)
 that contains information about CCPP entry point schemes and their dependencies.  These files
 contain two types of metadata tables: ``ccpp-table-properties`` and ``ccpp-arg-table``, both of which are mandatory.
 The contents of these tables are described in the sections below.
@@ -152,7 +153,9 @@ The ``[ccpp-table-properties]`` section is required in every metadata file and h
 #. ``dependencies``: type/kind/variable definitions and physics schemes often depend on code in other files
    (e.g. "use machine" --> depends on machine.F). These dependencies must be listed in a comma-separated list.
    Relative path(s) to those file(s) must be specified here or using the ``relative_path`` entry described below.
-   Dependency attributes are additive; multiple lines containing dependencies can be used.
+   Dependency attributes are additive; multiple lines containing dependencies can be used. With the exception of
+   specific files, such as `machine.F`, which provides the `kind_phys` Fortran kind definition, shared dependencies
+   between schemes are discouraged.
 
 #. ``relative_path``: If specified, the relative path is added to every file listed in the ``dependencies``.
 
@@ -256,7 +259,7 @@ In this example the* ``timestep_init`` *and* ``timestep_finalize`` *phases are n
 ccpp-arg-table
 --------------
 
-For each CCPP compliant scheme, the ``ccpp-arg-table`` should start with this set of lines
+For each CCPP compliant scheme, the ``ccpp-arg-table`` starts with this set of lines
 
 .. code-block:: fortran
 
@@ -284,11 +287,10 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` should start with this se
     type = <type>
     kind = <kind>
     intent = <intent>
-    optional = <optional>
 
 * The ``intent`` argument is only valid in ``scheme`` metadata tables, as it is not applicable to the other ``types``.
 
-* The following attributes are optional: ``long_name``, ``kind``, and ``optional``.
+* The following attributes are optional: ``long_name``, ``kind``.
 
 * Lines can be combined using ``|`` as a separator, e.g.,
 
@@ -341,7 +343,7 @@ Since physics developers cannot know whether a host model is passing all columns
 
 * Variables that depend on the horizontal decomposition must use ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
 
-Input/output Variable (argument) Rules
+Input/Output Variable (argument) Rules
 ======================================
 
 * Variables available for CCPP physics schemes are identified by their unique
@@ -388,18 +390,23 @@ Input/output Variable (argument) Rules
      type = real
      kind = kind_phys
 
+  For performance reason, slices of arrays should be contiguous in memory, which, in Fortran,
+  implies that the dimension that is split is the rightmost (outermost) dimension as in the example above.
+
 * The two mandatory variables that any scheme-related subroutine must accept as ``intent(out)`` arguments are
   ``errmsg`` and ``errflg`` (see also coding rules in :numref:`Section %s <CodingRules>`).
 
 * At present, only two types of variable definitions are supported by the CCPP-framework:
 
-   * Standard Intrinsic Fortran variables are preferred (``character``, ``integer``, ``logical``, ``real``).
+   * Standard intrinsic Fortran variables are preferred (``character``, ``integer``, ``logical``, ``real``, ``complex``).
      For character variables, the length should be specified as ``*`` in order to allow the host model
      to specify the corresponding variable with a length of its own choice. All others can have a
      ``kind`` attribute of a ``kind`` type defined by the host model.
+
    * Derived data types (DDTs). While the use of DDTs is discouraged, some use cases may
      justify their application (e.g. DDTs for chemistry that contain tracer arrays or information on
-     whether tracers are advected). It should be understood that use of DDTs within schemes
+     whether tracers are advected). These DDTs must be defined by the scheme itself, not by the
+     host model. It should be understood that use of DDTs within schemes
      forces their use in host models and potentially limits a scheme’s portability. Where possible,
      DDTs should be broken into components that could be usable for another scheme of the same type.
 
@@ -438,7 +445,9 @@ Input/output Variable (argument) Rules
 Coding Rules
 ============
 
-* Code must comply to modern Fortran standards (Fortran 90/95/2003).
+* Code must comply to modern Fortran standards (Fortran 90/95/2003), where possible.
+
+* Uppercase file endings (`.F`, `.F90`) are preferred to enable preprocessing by default.
 
 * Labeled ``end`` statements should be used for modules, subroutines and functions,
   for example, ``module scheme_template → end module scheme_template``.
@@ -452,7 +461,7 @@ Coding Rules
 * Decomposition-dependent host model data inside the module cannot be permanent,
   i.e. variables that contain domain-dependent data cannot be kept using the ``save`` attribute.
 
-* ``goto`` statements are not alowed.
+* The use of ``goto`` statements is discouraged.
 
 * ``common`` blocks are not allowed.
 
@@ -462,7 +471,7 @@ Coding Rules
 
 .. code-block:: bash
 
-   write (errmsg, ‘(*(a))’) ‘Logic error in scheme xyz: …’
+   errmsg = ‘Logic error in scheme xyz: …’
    errflg = 1
    return
 
@@ -488,7 +497,7 @@ There are two principles that must be followed when using physical constants wit
 #. All schemes should use a single, consistent set of constants.
 #. The host model must control (define and use) that single set, to provide consistency between a host model and the physics.
 
-As long as a host application provides metadata describing its physical constants so that the CCPP framework can pass them to the physics schemes, these two principles are realized, and the CCPP physics schemes are model-agnostic.  Since CCPP-compliant hosts provide metadata about the available physical constants, they can be passed into schemes like any other data. 
+As long as a host application provides metadata describing its physical constants so that the CCPP framework can pass them to the physics schemes, these two principles are realized, and the CCPP physics schemes are model-agnostic.  Since CCPP-compliant hosts provide metadata about the available physical constants, they can be passed into schemes like any other data.
 
 For simple schemes that consist of one or two files and only a few "helper" subroutines, passing in physical constants via the argument list and propagating those constants down to any subroutines that need them is the most direct approach.  The following example shows how the constant ``karman`` can be passed into a physics scheme:
 
@@ -523,7 +532,7 @@ For pre-existing complex schemes that contain many software layers and/or many "
      real(kind=kind_phys)   ::  pi, omega1, omega2
    end module my_scheme_common
 
-Within the ``_init`` subroutine body, the constants in the ``my_scheme_common`` module can be set with the ones that are passed in via the argument list, including any derived ones. For example:
+Within the ``_init`` subroutine body, the constants in the ``my_scheme_common`` module can be set to the ones that are passed in via the argument list, including any derived ones. For example:
 
 .. code-block:: console
 
@@ -559,15 +568,15 @@ Within the ``_init`` subroutine body, the constants in the ``my_scheme_common`` 
      end subroutine my_scheme_finalize
    end module my_scheme
 
-After this point, physical constants can be imported from ``my_scheme_common`` wherever they are needed.  Although there may be some duplication in memory, constants within the scheme will be guaranteed to be consistent with the rest of physics and will only be set/derived once during the initialization phase. Of course, this will require that any constants in ``my_scheme_common`` that are coming from the host model cannot use the Fortran ``parameter`` keyword. To guard against inadvertently using constants in ``my_scheme_common`` without setting them from the host, they should be initially set to some invalid value. To ensure that this only happens once, the ``is_initialized`` flag should be set to true after setting/deriving constants. To clean up during the finalize phase of the scheme, the ``is_initialized`` flag can be set back to false and the constants can be set back to an invalid value.
+After this point, physical constants can be imported from ``my_scheme_common`` wherever they are needed.  Although there may be some duplication in memory, constants within the scheme will be guaranteed to be consistent with the rest of physics and will only be set/derived once during the initialization phase. Of course, this will require that any constants in ``my_scheme_common`` that are coming from the host model cannot use the Fortran ``parameter`` keyword. To guard against inadvertently using constants in ``my_scheme_common`` without setting them from the host, they should be initially set to some invalid value. The above example also demonstrates the use of ``is_initialized`` to guarantee idempotence of the ``_init`` routine. To clean up during the finalize phase of the scheme, the ``is_initialized`` flag can be set back to false and the constants can be set back to an invalid value.
 
-In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed.  The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer.   It is not recommended to use the ``physcons`` module, since it is specific to FV3.
+In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed. The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer. It is not recommended to use the ``physcons`` module, since it is specific to FV3 and will be removed in the future.
 
 Parallel Programming Rules
 ==========================
 
 Most often shared memory (OpenMP: Open Multi-Processing) and MPI (Message Passing Interface)
-communication are done outside the physics in which case the physics looping and arrays already
+communication are done outside the physics in which case the loops and arrays already
 take into account the sizes of the threaded tasks through their input indices and array
 dimensions.  The following rules should be observed when including OpenMP or MPI communication
 in a physics scheme:
@@ -577,23 +586,19 @@ in a physics scheme:
   argument in the argument list (:ref:`Listing 6.2 <MandatoryVariables>`).
 
 * MPI communication is allowed in the ``_timestep_init``, ``_init``, ``_finalize``,
-  and ``_timestep_finalize`` phases for the purpose
-  of computing, reading or writing scheme-specific data that is independent of the host
-  model’s data decomposition.
+  and ``_timestep_finalize`` phases for the purpose of computing, reading or writing
+  scheme-specific data that is independent of the host model’s data decomposition.
 
 * If MPI is used, it is restricted to global communications: barrier, broadcast,
-  gather, scatter, reduction.
+  gather, scatter, reduction. Point-to-point communication is not allowed. The
+  MPI communicator must be passed to the physics scheme by the host model, the
+  use of ``MPI_COMM_WORLD`` is not allowed (:ref:`see list of mandatory variables <MandatoryVariables>`).
 
 *  An example of a valid use of MPI is the initial read of a lookup table of aerosol
    properties by one or more MPI processes, and its subsequent broadcast to all processes.
-   Several restrictions apply:
 
-   * The implementation of reading and writing of data must be scalable to perform
-     efficiently from a few to millions of tasks.
-   * The MPI communicator must be provided by the host model as an ``intent(in)``
-     argument in the argument list (:ref:`see list of mandatory variables <MandatoryVariables>`).
-   * Point-to-point communication is not allowed.
-   * The use of MPI_COMM_WORLD is not allowed.
+* The implementation of reading and writing of data must be scalable to perform
+  efficiently from a few to thousands of tasks.
 
 * Calls to MPI and OpenMP functions, and the import of the MPI and OpenMP libraries,
   must be guarded by C preprocessor directives as illustrated in the following listing.

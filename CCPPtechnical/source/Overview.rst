@@ -132,7 +132,7 @@ the GFS surface layer, the unified gravity wave drag (uGWD), the Noah Land Surfa
 the 2015 Navy Research Laboratory (NRL) ozone and stratospheric water vapor schemes, and the
 NSST ocean scheme. The three developmental suites are candidates for future operational implementations. The GFS_v16beta
 suite is the same as the GFS_v15p2 suite except using the Turbulent Kinetic Energy (TKE)-based EDMF
-PBL scheme. The Chikira-Sugiyama (csawmg) suite uses the Morrison-Gettelman 3 (M-G3) microphysics
+PBL scheme. The Chikira-Sugiyama (csawmg) suite uses the Morrison-Gettelman 3 (MG-3) microphysics
 scheme and Chikira-Sugiyama convection scheme with Arakawa-Wu extension (CSAW). The NOAA Global
 Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-Yamada-Nakanishi-Niino
 (MYNN) PBL and shallow convection, Grell-Freitas (GF) deep

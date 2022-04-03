@@ -42,14 +42,14 @@ doxygen inline comment blocks begin with “!>”, and subsequent lines begin wi
 which means that regular Fortran comments using ``“!”`` are not parsed by doxygen.
 
 In the first line of each Fortran file, a brief one-sentence overview of the file purpose
-is present using the doxygen command ``“\\file”``:
+is present using the doxygen command ``\file``:
 
 .. code-block:: console
 
-   ! !>  \file cires_ugwp.F90
+   !> \file cires_ugwp.F90
    !! This file contains the Unified Gravity Wave Physics (UGWP) scheme by Valery Yudin (University of Colorado, CIRES)
 
-A parameter definition begins with ``“!<”``, where the sign ``‘<’`` just tells
+A parameter definition begins with ``“!<”``, where the sign ``‘<’`` tells
    Doxygen that documentation follows. Example:
 
 .. code-block:: console
@@ -75,16 +75,16 @@ documentation style could be divided into four categories:
 Doxygen files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Doxygen provides the ``“\\file”`` tag as a way to provide documentation on the
+Doxygen provides the ``\file`` tag as a way to provide documentation on the
 Fortran source code file level. That is, in the generated documentation,
 one may navigate by source code filenames (if desired) rather than through
 a “functional” navigation. The most important documentation organization is
 through the “module” concept mentioned below, because the division of a scheme
 into multiple source files is often functionally irrelevant. Nevertheless,
-using a ``“\\file”`` tag provides an alternate path to navigate the documentation
+using a ``\file`` tag provides an alternate path to navigate the documentation
 and it should be included in every source file. Therefore, it is prudent to
 include a small documentation block to describe what code is in each file
-using the ``“\\file”`` tag, e.g.:
+using the ``\file`` tag, e.g.:
 
 .. code-block:: fortran
 
@@ -107,7 +107,7 @@ typically contain a longer description of a project or suite. You can refer to
 any source code entity from within the page.
 
 The DTC maintains a main page, created by the Doxygen command
-``“\\mainpage”``, containing an overall description and background of the CCPP.
+``\mainpage``, containing an overall description and background of the CCPP.
 Physics developers do not have to edit the file with the mainpage, which has a
 user-visible title, but not label:
 
@@ -119,9 +119,9 @@ user-visible title, but not label:
     */
 
 All other pages listed under the main page are created using the Doxygen
-tag ``“\\page”`` described in the next section. In any Doxygen page,
-you can refer to any entity of source code by using Doxygen tag ``“\\ref”``
-or ``“@ref”``. Example in ``suite_FV3_GFS_v15p2.xml.txt``:
+tag ``\page`` described in the next section. In any Doxygen page,
+you can refer to any entity of source code by using Doxygen tag ``\ref``
+or ``@ref``. Example in ``suite_FV3_GFS_v15p2.xml.txt``:
 
 The GFS v15p2 physics suite uses the parameterizations in the following order,
 as defined in
@@ -147,8 +147,8 @@ as defined in
    - \ref STOCHY_PHYS
 
 The HTML result is `here <https://dtcenter.org/GMTB/v5.0.0/sci_doc/GFS_v15p2_page.html>`_.
-You can see that the ``“-”`` signs before ``“@ref”`` generate a list with bullets.
-Doxygen command ``“\\c”`` displays its argument using a typewriter font.
+You can see that the ``-`` signs before ``@ref`` generate a list with bullets.
+Doxygen command ``\c`` displays its argument using a typewriter font.
 
 Physics Scheme Pages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -156,11 +156,11 @@ Physics Scheme Pages
 Each major scheme in CCPP should have its own scheme page containing an
 overview of the parameterization.  These pages are not tied to the Fortran
 code directly; instead, they are created with a separate text file that starts
-with the command ``“\\page”``.  Scheme pages are stored in the ``ccpp-physics/physics/docs/pdftxt``
+with the command ``\page``.  Scheme pages are stored in the ``ccpp-physics/physics/docs/pdftxt``
 directory. Each page has a label (e.g., “GFS_SAMFdeep” in the following example) and a
 user-visible title (“GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection
 Scheme” in the following example).  It is noted that labels must be unique
-across the entire doxygen project so that the ``“\\ref”`` command can be used
+across the entire doxygen project so that the ``\ref`` command can be used
 to create an unambiguous link to the structuring element. It therefore makes
 sense to choose label names that refer to their context.
 
@@ -186,11 +186,11 @@ sense to choose label names that refer to their context.
 
 The physics scheme page will often describe the following:
 
-1. Description section (``“\\section”``), which usually includes:
+1. Description section (``\section``), which usually includes:
 
-      * Scientific origin and scheme history (``“\\cite”``)
+      * Scientific origin and scheme history (``\cite``)
       * Key features and differentiating points
-      * A picture is worth a thousand words (``“\\image”``)
+      * A picture is worth a thousand words (``\image``)
 
         To insert images into doxygen documentation, you’ll need to have your
         images ready in a graphical format, such as Portable Network Graphic (png), depending
@@ -204,25 +204,25 @@ The physics scheme page will often describe the following:
 
    \image  html  gfdl_cloud_mp_diagram.png "Figure 1: GFDL MP at a glance (Courtesy of S.J. Lin at GFDL)" width=10cm
 
-2. Intraphysics Communication Section (``“\\section”``)
+2. Intraphysics Communication Section (``\section``)
 
     The argument table for CCPP entry point subroutine ``{scheme}_run`` will be in this section.
-    It is created by inserting a reference link (``“\\ref”``) to the table in the Fortran code
+    It is created by inserting a reference link (``\ref``) to the table in the Fortran code
     for the scheme.
 
-3. General Algorithm Section (``“\\section”``)
+3. General Algorithm Section (``\section``)
 
-   The general description of the algorithn will be in this section.  It is created by inserting
-   a reference link (``“\\ref”``) in the Fortran code for the scheme.
+   The general description of the algorithn will be in this section. It is created by inserting
+   a reference link (``\ref``) in the Fortran code for the scheme.
 
-The symbols ``“/\*\*”`` and ``“*/”`` need to be the first and last entries of the page.
+The symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
 See an example of GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection Scheme
 page in the previous page.
 
 
 Note that separate pages can also be created to document something that is not a scheme.
 For example, a page could be created to describe a suite, or how a set of schemes work
-together.  Doxygen automatically generates an index of all pages that is visible at the
+together. Doxygen automatically generates an index of all pages that is visible at the
 top-level of the documentation, thus allowing the user to quickly find, and navigate
 between, the available pages.
 
@@ -299,17 +299,17 @@ For example:
    !...................................
 
 In the same comment block where a group is defined for a physics scheme,
-there should be some additional documentation. First, using the ``“\\brief”``
+there should be some additional documentation. First, using the ``\brief``
 command, a brief one or two sentence description of the scheme should be
 included. After a blank doxygen comment line, begin the scheme origin
-and history using ``“\\version”``, ``“\\author”`` and ``“\\date”``.
+and history using ``\version``, ``\author`` and ``\date``.
 
 Each subroutine that is a CCPP entry point to a parameterization, should
 be further documented with a documentation block immediately preceding
 its definition in the source. The documentation block should include at
 least the following components:
 
-* A brief one- or two-sentence description with the ``"\\brief"`` tag
+* A brief one- or two-sentence description with the ``\brief`` tag
 
 * A more detailed one or two paragraph description of the function of the subroutine
 
@@ -339,13 +339,13 @@ least the following components:
 
 * At the end of initial subroutine documentation block, a “Detailed algorithm”
   section is started and the entirety of the code  is encompassed with the
-  ``“!> @{”`` and ``“!> @}”`` delimiters. This way, any comments explaining detailed
+  ``!> @{`` and ``!> @}`` delimiters. This way, any comments explaining detailed
   aspects of the code are automatically included in the “Detailed Algorithm” section.
 
 For subroutines that are not a CCPP entry point to a scheme, no inclusion of
 metadata information is required.
-But it is suggested that following ``“\\ingroup”`` and ``“\\brief”``, use
-``“\\param”`` to define each argument with local name, a short description and unit, i.e.,
+But it is suggested that following ``\ingroup`` and ``\brief``, use
+``\param`` to define each argument with local name, a short description and unit, i.e.,
 
 .. code-block:: console
 
@@ -517,6 +517,9 @@ the call graph for subroutine *mpdrv* in GFDL cloud microphysics generated by do
 Including metadata information
 -----------------------------------------------
 
+!!! DH 20220402 - this directory structure is valid only for SCM, not for UFS !!!
+!!! Generally, you want to run this script from the same directory where ccpp_prebuild.py is run !!!
+
 As described above, a table of metadata information should be included in the documentation
 for every CCPP entrypoint scheme. Before doxygen is run, the table for each scheme must be manually
 created in separate
@@ -568,6 +571,7 @@ In order to generate the doxygen-based documentation, one needs to follow five s
    machine Hera and the NCAR machine Cheyenne, the doxygen executable resides in ``/usr/bin``,
    which should be in your ``$PATH``.  If you need to install doxygen in another location, add
    the following line into the ``.cshrc`` file in your home directory:
+   !!! DH BAD ADVISE - DON'T TELL USERS TO POLLUTE THEIR STANDARD ENVIRONMENT, THIS IS BAD PRACTICE !!!
 
    ``alias doxygen /path/to/doxygen``
 

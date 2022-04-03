@@ -3,23 +3,20 @@
 *****************************************
 CCPP Configuration and Build Options
 *****************************************
-While the *CCPP-Framework* code can be compiled independently, the *CCPP-Physics* code can only be used within a host modeling system that provides the variables and the kind, type, and DDT definitions. As such, it is advisable to integrate the CCPP configuration and build process with the host model’s. Part of the build process, known as the *prebuild* step since it precedes compilation, involves running a Python script that performs multiple functions. These functions include configuring the *CCPP-Physics* for use with the host model and autogenerating FORTRAN code to communicate variables between the physics and the dynamical core. The *prebuild* step will be discussed in detail in :numref:`Chapter %s <CCPPPreBuild>`.
+While the *CCPP-Framework* code, consisting of a single Fortran source file and associated metadata file, can be compiled and tested independently, the *CCPP-Physics* code can only be used within a host modeling system that provides the variables required to execute the physics. As such, it is advisable to integrate the CCPP configuration and build process with the host model build system. Part of the build process, known as the *prebuild* step since it precedes compilation, involves running a Python script that performs multiple functions. These functions include configuring the *CCPP-Physics* for use with the host model and autogenerating FORTRAN code to communicate variables between the physics and the dynamical core. The *prebuild* step will be discussed in detail in :numref:`Chapter %s <CCPPPreBuild>`.
 
-The SCM and the UFS Atmosphere are supported for use with the CCPP. In the case of the UFS Atmosphere as the host model, there are several build options. The choice can be specified through command-line options supplied to the ``compile.sh`` script for manual compilation or through a regression test (RT) configuration file. Detailed instructions for building the UFS Atmosphere and the SCM are discussed in the
+The SCM and the UFS Atmosphere are supported for use with the CCPP. In the case of the UFS Atmosphere as the host model, build configuration options can be specified as cmake options to the ``build.sh`` script for manual compilation or through a regression test (RT) configuration file. Detailed instructions for building the UFS Atmosphere and the SCM are discussed in the
 `UFS Weather Model User Guide <https://ufs-weather-model.readthedocs.io/en/ufs-v2.0.0/BuildingAndRunning.html#building-the-weather-model>`_ and the
-`SCM User Guide <https://dtcenter.org/GMTB/v5.0/scm-ccpp-guide-v5.0.pdf>`_.
-
-By default, the code is compiled with CCPP enabled, that is, *CCPP-Framework* and *CCPP-physics* are linked to the executable. Any parameterization to be called as part of a suite must be CCPP-compliant and available in *CCPP-Physics*.  Physics scheme selection and order is determined at runtime by an external suite definition file (SDF; see :numref:`Chapter %s <ConstructingSuite>` for further details on the SDF). 
-
-For all options that activate the CCPP, the ``ccpp_prebuild.py`` Python script must be run. This may be done manually or as part of a host model build-time script. In the case of the SCM,         ``ccpp_prebuild.py`` must be run manually, as it is not incorporated in that model’s build system. In the case of the UFS Atmosphere, ``ccpp_prebuild.py`` is run automatically as a step in the build system, although it can be run manually for debugging purposes.
+`SCM User Guide <https://dtcenter.org/GMTB/v5.0/scm-ccpp-guide-v5.0.pdf>`_. For both SCM and UFS< the ``ccpp_prebuild.py`` script is run automatically as a step in the build system, although it can be run manually for debugging purposes.
 
 The path to a host-model specific configuration file is the only required argument to ``ccpp_prebuild.py``. 
-Such files are included with the SCM and ufs-weather-model repositories, and must be included with the code of
+Such files are included with the ccpp-scm and ufs-weather-model repositories, and must be included with the code of
 any host model to use the CCPP. :numref:`Figure %s <ccpp_static_build>` depicts the main functions of the
 ``ccpp_prebuild.py`` script for the build.  Using information included in the configuration file
 and the SDF(s), the script parses the SDF(s) and only matches provided/requested variables that are used
 within the particular physics suite(s).  The script autogenerates software caps for the physics suite(s) as a
-whole and for each physics group as defined in the SDF(s). At runtime, a single SDF is used to select the
+whole and for each physics group as defined in the SDF(s), as well as for an API that the host model calls into
+from the (manually written) host model cap. At runtime, a single SDF is used to select the
 suite that will be executed in the run. This arrangement allows for efficient variable recall (which
 is done once for all physics schemes within each group of a suite), leads to a reduced memory footprint of the
 CCPP, and speeds up execution.

@@ -129,7 +129,7 @@ As alluded to above, the ``ccpp_prebuild.py`` script has six command line option
 
 .. note::
 
-   If the --suites option is omitted, all suites will be compiled into the executable.
+   If the ``--suites`` option is omitted, all suites will be compiled into the executable.
 
 An example invocation of running the script (called from the host model’s top level directory) would be:
 
