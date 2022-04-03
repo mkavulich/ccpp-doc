@@ -140,7 +140,7 @@ An example invocation of running the script (called from the host model’s top 
      --suites=FV3_GFS_v15p2 \
      --verbose
 
-which uses a configuration script located at the specified path. The verbose option can be used for more verbose output from the script.
+which uses a configuration script located at the specified path. The ``--verbose`` option can be used for more verbose output from the script.
 
 The :term:`SDF`\(s) must be included and specified using the ``--suites`` command-line argument. Such files are included with the SCM and ufs-weather-model repositories, and must be included with the code of any host model to use the :term:`CCPP`\.  An example of a build using two :term:`SDF`\s is:
 
