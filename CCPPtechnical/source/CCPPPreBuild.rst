@@ -150,7 +150,7 @@ The :term:`SDF`\(s) must be included and specified using the ``--suites`` comman
      --config=./ccpp/config/ccpp_prebuild_config.py \
      --suites=FV3_GFS_v15p2,FV3_GFS_v16beta
 
-The ``--debug`` command-line argument enables additional checks on array sizes before building the software caps.
+The ``--debug`` command-line argument enables additional checks on array sizes inside the auto-generated software caps, prior to entering any of the schemes.
 
 If the :term:`CCPP` *prebuild* step is successful, the last output line will be:
 
