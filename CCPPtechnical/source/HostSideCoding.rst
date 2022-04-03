@@ -132,9 +132,9 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
      type = character
      kind = len=64
    [errflg]
-     standard_name = ccpp_error_flag
-     long_name = error flag for error handling in CCPP
-     units = flag
+     standard_name = ccpp_error_code
+     long_name = error code for error handling in CCPP
+     units = 1
      dimensions = ()
      type = integer
 
@@ -384,8 +384,8 @@ Data Structure to Transfer Variables between Dynamics and Physics
 The ``cdata`` structure is used for holding six variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.meta`` (:ref:`Listing 6.4 <MandatoryVariables>`). 
 
 
-* Error flag for handling in CCPP (``errmsg``).
-* Error message associated with the error flag (``errflg``).
+* Error code for handling in CCPP (``errmsg``).
+* Error message associated with the error code (``errflg``).
 * Loop counter for subcycling loops (``loop_cnt``).
 * Loop extent for subcycling loops (``loop_max``).
 * Number of block for explicit data blocking in CCPP (``blk_no``).
@@ -420,9 +420,9 @@ The ``cdata`` structure is used for holding six variables that must always be av
     name = ccpp_t 
     type = ddt
   [errflg]
-    standard_name = ccpp_error_flag
-    long_name = error flag for error handling in CCPP
-    units = flag
+    standard_name = ccpp_error_code
+    long_name = error code for error handling in CCPP
+    units = 1
     dimensions = () 
     type = integer
   [errmsg]
@@ -713,7 +713,7 @@ The host model *cap* is responsible for:
 
   At the first timestep, if the forward scheme is selected (i.e. ``scm_state%time_scheme == 1``), call ``do_time_step()`` to apply forcing and ``ccpp_physics_run()`` calls at each column; if the leapfrog scheme is selected (i.e. ``scm_state%time_scheme == 2``), call ``ccpp_physics_run()`` directly at each column.
 
-  At a later time integration, call ``do_time_step()`` to apply forcing and ``ccpp_physics_run()`` calls at each column. Since there is no need to execute anything between physics groups in the SCM, the ``ccpp_physics_run`` call is only given cdata and an error flag as arguments.
+  At a later time integration, call ``do_time_step()`` to apply forcing and ``ccpp_physics_run()`` calls at each column. Since there is no need to execute anything between physics groups in the SCM, the ``ccpp_physics_run`` call is only given cdata and an error code as arguments.
 
  * Calling ``ccpp_physics_finalize()`` and ``ccpp_finalize()``
 
