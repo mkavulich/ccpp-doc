@@ -27,9 +27,9 @@ The following branches are recommended for CCPP developers:
 +----------------------------------------+-------------+
 | Repository                             | Branch name |
 +========================================+=============+
-| https://github.com/NCAR/ccpp-physics   | master      |
+| https://github.com/NCAR/ccpp-physics   | main        |
 +----------------------------------------+-------------+
-| https://github.com/NCAR/ccpp-framework | master      |
+| https://github.com/NCAR/ccpp-framework | main        |
 +----------------------------------------+-------------+
 
 --------------------------------------
@@ -40,21 +40,25 @@ The following is the directory structure for the ccpp/framework (condensed versi
 
 .. code-block:: console
 
-   ├── cmake                  # cmake files for building
    ├── doc                    # Documentation for design/implementation and developers guide
    │   ├── DevelopersGuide
-   │   │   └── images
+   │   ├── HelloWorld         # Toy model to use of the CCPP Framework
    │   └── img
+   ├── loggging               # Logging handler for future capgen.py
+   ├── schema                 # XML scheme for suite definition files
    ├── schemes                # Example ccpp_prebuild_config.py
    │   ├── check
    ├── scripts                # Scripts for ccpp_prebuild.py, metadata parser, etc.
+   │   ├── conversion_tools
    │   ├── fortran_tools
    │   └── parse_tools
    ├── src                    # CCPP framework source code
-   │   └── tests              # SDFs and code for testing
-   ├── test
-   │   └── nemsfv3gfs         # NEMSfv3gfs regression test scripts
-   └── tests                  # Development for framework upgrades
+   ├── test                   # Unit/system testing framework for future capgen.py
+   │   ├── advection_test
+   │   ├── capgen_test
+   │   ├── hash_table_tests
+   │   └── unit_tests
+   └── tests                  # System testing framework for ccpp_prebuild.py
 
 
 --------------------------------------
@@ -69,6 +73,7 @@ The following is the directory structure for the ccpp/physics (condensed version
    │   ├── docs                # Scientific documentation (doxygen)
    │   │   ├── img             # Figures for doxygen
    │   │   └── pdftxt          # Text files for documentation
+   └── tools                   # Tools used by CI system for basic checks (encoding ...)
 
 
 =====================================================
@@ -97,7 +102,7 @@ Note that personal forks are not required until a user wishes to make code contr
 -----------------------------------
 Checking out the Code
 -----------------------------------
-Instructions are provided here for the ccpp-physics repository. Similar steps are required for the ccpp-frameworkx repository. The process for checking out the CCPP is described in the following, assuming access via https rather than ssh. We strongly recommend setting up passwordless access to GitHub (see https://help.github.com/categories/authenticating-to-github).
+Instructions are provided here for the ccpp-physics repository. Similar steps are required for the ccpp-framework repository. The process for checking out the CCPP is described in the following, assuming access via https rather than ssh. We strongly recommend setting up passwordless access to GitHub (see https://help.github.com/categories/authenticating-to-github).
 
 Start with checking out the main repository from the NCAR GitHub
 
@@ -148,7 +153,7 @@ As opposed to branches without modifications described in step 3, changes to the
 
    cd ccpp-physics
    git remote update
-   git pull upstream dtc/develop
+   git pull upstream main
 
 .. _committing-changes:
 
@@ -181,8 +186,7 @@ This command will show what branch you have checked out on your fork:
 .. code-block:: console
 
    * features/my_local_development_branch
-     dtc/develop
-     master
+     main
 
 After making modifications and testing, you can commit the changes to your fork.  First check what files have been modified:
 
@@ -238,8 +242,6 @@ Go to the github.com web interface, and navigate to your repository fork and bra
 
 If your development also requires changes in other repositories, you must open PRs in those repositories as well. In the PR message for each repository, please note the associate PRs submitted to other repositories.
 
-Several people (aka CODEOWNERS) are automatically added to the list of reviewers on the right hand side. If others should be reviewing the code, click on the “reviewers” item on the right hand side and enter their GitHub usernames
-
-Once the PR has been approved, the change is merged to master by one of the code owners. If there are pending conflicts, this means that the code is not up to date with the trunk. To resolve those, pull the target branch from upstream as described above, solve the conflicts and push the changes to the branch on your fork (this also updates the PR).
+Several people (aka CODEOWNERS) are automatically added to the list of reviewers on the right hand side. Once the PR has been approved, the change is merged to main by one of the code owners. If there are pending conflicts, this means that the code is not up to date with the trunk. To resolve those, pull the target branch from upstream as described above, solve the conflicts and push the changes to the branch on your fork (this also updates the PR).
 
 Note. GitHub offers a draft pull request feature that allows users to push their code to GitHub and create a draft PR. Draft PRs cannot be merged and do not automatically initiate notifications to the CODEOWNERS, but allow users to prepare the PR and flag it as “ready for review” once they feel comfortable with it.
