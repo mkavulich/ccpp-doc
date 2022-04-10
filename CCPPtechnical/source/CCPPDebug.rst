@@ -22,8 +22,7 @@ Two categories of debugging with CCPP
     Debugging the actual physical parameterizations is identical in CCPP and in physics-driver based models. The parameterizations have access to the same data and debug print statements can be added in exactly the same way.
 
 * Debugging on a suite level
-    Debugging on a suite level, i.e. outside physical parameterizations, corresponds to debugging on the physics-driver level in traditional, physics-driver based models. In the CCPP, this can be achieved by using dedicated CCPP-compliant debugging schemes, which have access to all the data by requesting them via the metadata files. These schemes can then be called in any place in a SDF, except the ``fast_physics`` and ``time_vary`` group, to produce the desired debugging output. The advantage of this approach is that debugging schemes can be moved from one place to another or duplicated by simply moving/copying a single line in the SDF before recompiling the code. The disadvantage is that different debugging schemes may be needed, depending on the host model and their data structures.
-    For example, the UFS models use blocked data structures, which - at present - requires different debugging schemes for the ``time_vary`` group in the SDF. The blocked data structures are commonly known as “GFS types”, are defined in ``GFS_typedefs.F90`` and exposed to the CCPP in ``GFS_typedefs.meta``. The rationale for this storage model is a better cache reuse by breaking up contiguous horizontal grid columns into N blocks with a predefined block size, and allocating each of the GFS types N times. For example, the 3-dimensional air temperature is stored as
+    Debugging on a suite level, i.e. outside physical parameterizations, corresponds to debugging on the physics-driver level in traditional, physics-driver based models. In the CCPP, this can be achieved by using dedicated CCPP-compliant debugging schemes, which have access to all the data by requesting them via the metadata files. These schemes can then be called in any place in a SDF, except the ``fast_physics`` group, to produce the desired debugging output. The advantage of this approach is that debugging schemes can be moved from one place to another or duplicated by simply moving/copying a single line in the SDF before recompiling the code. The disadvantage is that different debugging schemes may be needed, depending on the host model and their data structures. For example, the UFS models use blocked data structures. The blocked data structures are commonly known as “GFS types”, are defined in ``GFS_typedefs.F90`` and exposed to the CCPP in ``GFS_typedefs.meta``. The rationale for this storage model is a better cache reuse by breaking up contiguous horizontal grid columns into N blocks with a predefined block size, and allocating each of the GFS types N times. For example, the 3-dimensional air temperature is stored as
 
     .. code-block:: console
 
@@ -90,10 +89,10 @@ Descriptions of the CCPP-compliant debugging schemes for the UFS
   
   
 * ``GFS_abort``
-    This scheme is indispensable to terminate a model run at some point in the call to the physics to avoid time out. It can be customized to meet the developer's requirements.
+    This scheme can be used to terminate a model run at some point in the call to the physics. It can be customized to meet the developer's requirements.
 
     .. code-block:: console
-    
+
         subroutine GFS_abort_run (Model, blkno, errmsg, errflg)
             use machine,               only: kind_phys
             use GFS_typedefs,          only: GFS_control_type
@@ -194,7 +193,7 @@ Below is an example for an SDF that prints debugging output from the standard/pe
       <!-- <finalize></finalize> -->
       </suite>
 
-**Users should be aware that the additional debugging output slows down model runs. It is recommended to reduce the forecast length (as often done for debugging purposes) or increase the walltime limit to debug efficiently.**
+**Users should be aware that the additional debugging output slows down model runs. It is recommended to reduce the forecast length (as often done for debugging purposes) or increase the walltime limit to debug efficiently. Other options to reduce the size of the output written to stdout/stderr is to use fewer MPI tasks, no OpenMP threading, or to set the blocksize such that each MPI task only has one block.**
 
 ---------------------------------------------------------------------------
 How to customize the debugging schemes and the output for arrays in the UFS

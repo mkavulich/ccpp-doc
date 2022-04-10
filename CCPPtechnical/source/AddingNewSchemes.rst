@@ -20,6 +20,10 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
 
     * If information from the previous timestep is needed, it is important to identify if the host model readily provides this information. For example, in the Model for Prediction Across Scales (MPAS), variables containing the values of several quantities in the preceding timesteps are available. When that is not the case, as in the UFS Atmosphere, interstitial schemes are needed to compute these variables. As an example, the reader is referred to the GF convective scheme, which makes use of interstitials to obtain the previous timestep information.
 
+    * Consider allocating the new variable only when needed (i.e. when the new scheme is used and/or when a certain control flag is set). If this is a viable option, following the existing examples in ``GFS_typedefs.F90`` and ``GFS_typedefs.meta`` for allocating the variable and setting the ``active`` attribute in the metadata correctly.
+
+* If an entirely new variable needs to be added, consult the CCPP standard names dictionary and the rules for creating new standard names at https://github.com/escomp/CCPPStandardNames. If in doubt, use the GitHub discussions page in the CCPP Framework repository (https://github.com/ncar/ccpp-framework) to discuss the suggested new standard name(s) with the CCPP developers.
+
 * Examine scheme-specific and suite interstitials to see what needs to be replaced/changed; then check existing scheme interstitial and determine what needs to replicated. Identify if your new scheme requires additional interstitial code that must be run before or after the scheme and that cannot be part of the scheme itself, for example because of dependencies on other schemes and/or the order the scheme is run in the SDF.
 
 * Follow the guidelines outlined in :numref:`Chapter %s <CompliantPhysParams>` to make your scheme CCPP-compliant. Make sure to use an uppercase suffix ``.F90`` to enable C preprocessing.
@@ -27,7 +31,7 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
 * Locate the CCPP *prebuild* configuration files for the target host model, for example:
 
     * ``ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py`` for the UFS Atmosphere
-    * ``gmtb-scm/ccpp/config/ccpp_prebuild_config.py`` for the SCM
+    * ``ccpp-scm/ccpp/config/ccpp_prebuild_config.py`` for the SCM
 
 * Add the new scheme to the Python dictionary in ``ccpp_prebuild_config.py`` using the same path
   as the existing schemes:
@@ -57,13 +61,13 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
 * Edit the SDF and add the new scheme at the place it should be run. SDFs are located in
 
     * ``ufs-weather-model/FV3/ccpp/suites`` for the UFS Atmosphere
-    * ``gmtb-scm/ccpp/suites`` for the SCM
+    * ``ccpp-scm/ccpp/suites`` for the SCM
 
 * Before running, check for consistency between the namelist and the SDF. There is no default consistency check between the SDF and the namelist unless the developer adds one. Errors may result in segmentation faults in running something you did not intend to run if the arrays are not allocated.
 
 * Test and debug the new scheme:
 
-    * Typical problems include segment faults related to variables and array allocation.
+    * Typical problems include segment faults related to variables and array allocations.
     * Make sure SDF and namelist are compatible. Inconsistencies may result in segmentation faults because arrays are not allocated or in unintended scheme(s) being executed.
     * A scheme called GFS_debug (``GFS_debug.F90``) may be added to the SDF where needed to print state variables and interstitial variables. If needed, edit the scheme beforehand to add new variables that need to be printed.
     * Check *prebuild* script for success/failure and associated messages; run *prebuild* script with the `--debug` and `--verbose` flags.
@@ -72,5 +76,3 @@ This chapter contains a brief description on how to add a new scheme to the *CCP
     * Double-check the metadata file associated with your scheme to make sure that all information, including standard names and units, correspond to the correct local variables.
 
 * Done. Note that no further modifications of the build system are required, since the *CCPP-Framework* will autogenerate the necessary makefiles that allow the host model to compile the scheme.
-
-
