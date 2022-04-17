@@ -14,26 +14,7 @@ In addition to the primary parameterization categories (such as radiation, bound
 
 The format of the :term:`SDF` is specified by a schema and all host models that use CCPP include file ``suite.xsd`` to describe the schema.
 
-The name of the suite is listed at the top of the :term:`SDF`, right after the XML declaration, and must be consistent with the name of the :term:`SDF`: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below.
-The suite name is followed by the version of the XML schema used.
-
-!!! DH I am not happy with this choice as an example. It is one of the complicated ones, because when the timestep_init phase was introduced,
-the meaning of the time_vary group and the way to code those schemes has changed !!!
-
-One of the groups in the :term:`SDF` can be the ``time_vary`` step, which, for the UFS and SCM, corresponts to the ``timestep_init`` phase.
-
-.. code-block:: xml
-
-   <suite name="ABC" ver="1">
-     <!-- <init></init> -->
-     <group name="time_vary">
-       <subcycle loop="1">
-         <scheme>GFS_time_vary_pre</scheme>
-         <scheme>GFS_rrtmg_setup</scheme>
-         <scheme>GFS_rad_time_vary</scheme>
-         <scheme>GFS_phys_time_vary</scheme>
-       </subcycle>
-     </group>
+The name of the suite is listed at the top of the :term:`SDF`, right after the XML declaration, and must be consistent with the name of the :term:`SDF`: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below. The suite name is followed by the version of the XML schema used.
 
 --------------
 Groups

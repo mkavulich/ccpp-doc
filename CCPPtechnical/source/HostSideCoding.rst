@@ -10,7 +10,7 @@ This chapter describes the connection of a host model with the pool of :term:`CC
 Variable Requirements on the Host Model Side
 ==================================================
 
-All variables required to communicate between the host model and the physics, as well as to communicate between physics schemes, need to be allocated by the host model. An exception is variables ``errflg``, ``errmsg``, ``loop_cnt``, ``blk_no``, and ``thrd_no``, which are allocated by the CCPP-Framework, as explained in :numref:`Section %s <DataStructureTransfer>`. A list of all variables required for the current pool of physics can be found in ``ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES_XYZ.pdf`` (XYZ: SCM, FV3).
+All variables required to communicate between the host model and the physics, as well as to communicate between physics schemes, need to be allocated by the host model. An exception is variables ``errflg``, ``errmsg``, ``loop_cnt``, ``blk_no``, and ``thrd_no``, which are allocated by the CCPP-Framework, as explained in :numref:`Section %s <DataStructureTransfer>`. A list of all variables required for the current pool of physics can be found in ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_XYZ.pdf`` (XYZ: SCM, FV3).
 
 At present, only two types of variable definitions are supported by the CCPP-Framework:
 
@@ -405,7 +405,7 @@ The CCPP Application Programming Interface (API) is comprised of a set of clearl
 Data Structure to Transfer Variables between Dynamics and Physics
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The ``cdata`` structure is used for holding six variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp/framework/src/ccpp_types.meta`` (:ref:`Listing 6.5 <MandatoryVariables>`).
+The ``cdata`` structure is used for holding six variables that must always be available to the physics schemes. These variables are listed in a metadata table in ``ccpp-framework/src/ccpp_types.meta`` (:ref:`Listing 6.5 <MandatoryVariables>`).
 
 
 * Error code for handling in CCPP (``errmsg``).
@@ -481,7 +481,7 @@ The ``cdata`` structure is used for holding six variables that must always be av
     dimensions = ()
     type = integer
 
-*Listing 6.5: Mandatory variables provided by the CCPP-Framework from* ``ccpp/framework/src/ccpp_types.meta`` *. !!! DH* HOST MODEL DEPENDENT DIR. STRUCTURE !!!
+*Listing 6.5: Mandatory variables provided by the CCPP-Framework from* ``ccpp-framework/src/ccpp_types.meta`` *.
 These variables must not be defined by the host model.*
 
 Two of the variables are mandatory and must be passed to every physics scheme: ``errmsg`` and ``errflg``. The variables ``loop_cnt``, ``loop_max``, ``blk_no``, and ``thrd_no`` can be passed to the schemes if required, but are not mandatory. They are, however, required for the auto-generated caps to pass the correct data to the physics and to realize the subcycling of schemes. The ``cdata`` structure is only used to hold these six variables, since the host model variables are directly passed to the physics without the need for an intermediate data structure.

@@ -257,18 +257,14 @@ After recompiling and running the model, you will see lines like this in the mod
    dtend selected: gfs_phys dtend_temp_phys = temperature tendency due to physics (K s-1)
    dtend selected: gfs_dyn dtend_temp_nophys = temperature tendency due to non-physics processes (K s-1)
 
-!!! DH* How specific to UFS and SCM are these tendencies? Not every model uses ``diag_table`` ... also: ``gfs_dyn`` and ``gfs_phys``
-!!! My thinking is that the tendencies themselves are not tied to ``diag_table``, but for outputting them with the UFS ``diag_table`` comes into play (as explained in the next section). If that is the case, then I would try to move any text mentioning ``diag_table`` and ``gfs_dyn``/``gfs_phys`` into the next section.
+There are three critical pieces of information in each line. Taking the third last line as an example,
 
-There are three critical pieces of information in each line. Taking the last line as an example,
-
-1. ``dtend_cld_amt_mp`` -- this is both the name of the variable in the ``diag_table``, and the name of the
-   variable in ``dtend_select``
-2. ``gfs_phys`` -- the ``diag_table`` module name. 
-3. "cloud amount integer tendency due to microphysics" -- meaning of the variable.
+1. ``dtend_cld_amt_mp`` -- this is the name of the variable in ``dtend_select``; for the UFS, it is also the name of the variable in the ``diag_table``
+2. ``gfs_phys`` -- the ``diag_table`` module name (specific to the UFS, can be ignored for other models)
+3. "cloud amount integer tendency due to microphysics" -- meaning of the variable
 
 Note that the ``dtend_temp_nophys`` differs from the others in that it is in the ``gfs_dyn`` module
-instead of ``gfs_phys`` because it sums non-physics processes.
+instead of ``gfs_phys`` because it sums non-physics processes. This is only relevant for the UFS.
 
 Now that you know what variables are available, you can choose which to enable:
 
@@ -331,7 +327,6 @@ The default behavior of the SCM is to output instantaneous values of all tendenc
 ``dtend_select`` is not recognized. Tendencies are computed in file ``scm_output.F90`` in the
 subroutines output_init and output_append. If the values of ``ldiag3d`` or ``qdiag3d`` are set to false, the
 variables are still written to output but are given missing values.
-!!! DH* @grantfirl, is this still true?
 
 .. _AvailTendFAQ:
 

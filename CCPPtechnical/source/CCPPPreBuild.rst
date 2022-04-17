@@ -8,9 +8,7 @@ Technical Aspects of the CCPP *Prebuild*
 *Prebuild* Script Function
 =============================
 
-!!! DH* MODEL-DEPENDENT DIR STRUCTURE !!!
-
-The :term:`CCPP` *prebuild* script ``ccpp/framework/scripts/ccpp_prebuild.py`` is the central piece of code that
+The :term:`CCPP` *prebuild* script ``ccpp-framework/scripts/ccpp_prebuild.py`` is the central piece of code that
 connects the host model with the :term:`CCPP-Physics` schemes (see :numref:`%s <ccpp_static_build>`). This script must be run
 before compiling the :term:`CCPP-Physics` library and the host model cap. This may be done manually or as part
 of a host model build-time script. Both the UFS and SCM have incorporated the calls to ``ccpp_prebuild.py`` in their build systems.
@@ -18,11 +16,9 @@ of a host model build-time script. Both the UFS and SCM have incorporated the ca
 The :term:`CCPP` *prebuild* script automates several tasks based on the information collected from the metadata
 on the host model side and from the individual physics schemes (``.meta`` files; see :numref:`Figure %s <ccpp_prebuild>`):
 
-!!! DH* UPDATE LIST AS IN PAPER
-
- * Compiles a list of variables required to run all schemes in the :term:`CCPP-Physics` pool.
-
  * Compiles a list of variables provided by the host model.
+ 
+ * Compiles a list of variables required to run all schemes in the :term:`CCPP-Physics` pool.
 
  * Matches these variables by their ``standard_name``, checks for missing variables and mismatches of their
    attributes (e.g., units, rank, type, kind). Performs automatic unit conversions if a mismatch of units
@@ -52,7 +48,7 @@ Script Configuration
 
 To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configuration file for this model must be created in the host model’s repository. The easiest way is to copy an existing configuration file for the SCM in sub-directory ``ccpp/config`` of the ccpp-scm repository. The configuration in ``ccpp_prebuild_config.py`` depends largely on (a) the directory structure of the host model itself, (b) where the ``ccpp-framework`` and the ``ccpp-physics`` directories are located relative to the directory structure of the host model, and (c) from which directory the ``ccpp_prebuild.py`` script is executed before/during the build process (this is referred to as basedir in ``ccpp_prebuild_config_XYZ.py``).
 
-:ref:`Listing 8.1 <ccpp_prebuild_example>` contains an example for the CCPP-SCM prebuild config. Here, it is assumed that both ``ccpp-framework`` and ``ccpp-physics`` are located in directories ``ccpp/framework`` and ``ccpp/physics`` of the top-level directory of the host model, and that ``ccpp_prebuild.py`` is executed from the same top-level directory.
+:ref:`Listing 8.1 <ccpp_prebuild_example>` contains an example for the CCPP-SCM prebuild config. Here, both ``ccpp-framework`` and ``ccpp-physics`` are located in directories ``ccpp/framework`` and ``ccpp/physics`` of the top-level directory of the host model, and ``ccpp_prebuild.py`` is executed from the same top-level directory.
 
 .. _ccpp_prebuild_example:
 
@@ -144,11 +140,9 @@ Although most of the variables in the ``ccpp_prebuild_config.py`` script are des
 Running ccpp_prebuild.py
 =============================
 
-Once the configuration in ``ccpp_prebuild_config.py`` is complete, the ``ccpp_prebuild.py`` script can be run from the top level directory. For the SCM, this script must be run to reconcile data provided by the SCM with data required by the physics schemes before compilation and to generate physics caps and makefile segments. For the :term:`UFS` Atmosphere host model, the ``ccpp_prebuild.py`` script is called automatically by the ufs-weather-model build system when the :term:`CCPP` build is requested (by running the :term:`CCPP` regression tests or by passing the option CCPP=Y and others to the ``compile.sh`` script; see the compile commands defined in the :term:`CCPP` regression test configurations for further details).
+Once the configuration in ``ccpp_prebuild_config.py`` is complete, the ``ccpp_prebuild.py`` script can be run from a specific directory, dependent on the host model. For the SCM, this is the top level directory, i.e. the correct call to the script is ``./ccpp/framework/scripts/ccpp_prebuild.py``. For the :term:`UFS` Atmosphere host model, the script needs to be called from subdirectory ``FV3/ccpp``, relative to the top-level ``ufs-weather-model`` directory. In the following, we use the SCM directory structure. Note that for both SCM and :term:`UFS`, the ``ccpp_prebuild.py`` script is called automatically by the build system.
 
-For developers adding a CCPP-compliant physics scheme, running ``ccpp_prebuild.py`` periodically is recommended to check that the metadata provided with the physics schemes matches what the host model provided. For the :term:`UFS` Atmosphere, running ``ccpp_prebuild.py`` manually is identical to running it for the SCM (since the relative paths to their respective ``ccpp_prebuild_config.py`` files are identical), except it may be necessary to add the ``--suites`` command-line argument.
-
-As alluded to above, the ``ccpp_prebuild.py`` script has six command line options, with the path to a host-model specific configuration file (``--config``) being the only required option:
+For developers adding a CCPP-compliant physics scheme, running ``ccpp_prebuild.py`` periodically is recommended to check that the metadata provided with the physics schemes matches what the host model provided. As alluded to above, the ``ccpp_prebuild.py`` script has six command line options, with the path to a host-model specific configuration file (``--config``) being the only required option:
 
  |  ``-h, --help``         show this help message and exit
  |  ``--config``           ``PATH_TO_CONFIG/config_file``      path to CCPP *prebuild* configuration file
@@ -157,7 +151,7 @@ As alluded to above, the ``ccpp_prebuild.py`` script has six command line option
  |  ``--debug``            enable additional checks on array sizes
  |  ``--suites`` SUITES    SDF(s) to use (comma-separated, without path)
 
-An example invocation of running the script (called from the host model’s top level directory) would be:
+An example invocation of running the script (called from the SCM’s top level directory) would be:
 
 .. code-block:: console
 

@@ -69,7 +69,7 @@ primary and interstitial schemes.
 General Rules
 =============
 A CCPP-compliant scheme is in the form of Fortran modules. :ref:`Listing 2.1 <scheme_template>` contains
-the template for a CCPP-compliant scheme (``ccpp/framework/doc/DevelopersGuide/scheme_template.F90``),
+the template for a CCPP-compliant scheme (``ccpp-framework/doc/DevelopersGuide/scheme_template.F90``),
 which includes at least one of these five components: the *_timestep_init*, *_init*,
 *_run*, *_finalize*, and *_timestep_finalize* subroutines. Each ``.F`` or ``.F90``
 file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory
@@ -314,7 +314,7 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` starts with this set of l
 * The order of arguments in the entry point subroutines must match the order of entries in the metadata file.
 
 * :ref:`Listing 2.4 <meta_template>` contains the template for a CCPP-compliant scheme
-  (``ccpp/framework/doc/DevelopersGuide/scheme_template.meta``),
+  (``ccpp-framework/doc/DevelopersGuide/scheme_template.meta``),
 
 .. _meta_template:
 .. literalinclude:: ./_static/scheme_template.meta
@@ -352,7 +352,7 @@ Input/Output Variable (argument) Rules
   are used in the CCPP (see below for further information).
 
 * A list of available standard names and an example of naming conventions can be found in
-  ``ccpp/framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the
+  ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the
   name of the host model.  Running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`)
   will generate a LaTeX source file that can be compiled to produce
   a PDF file with all variables defined by the host model and requested by the physics schemes.
