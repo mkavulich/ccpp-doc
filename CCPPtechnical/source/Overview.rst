@@ -10,16 +10,18 @@ for Atmospheric Research (NCAR), the Navy, National Oceanic and Atmospheric Admi
 (NOAA) Research Laboratories, NOAA National Weather Service, and other groups. Physics
 interoperability, or the ability to run a given physics :term:`suite` in various host models,
 has been a goal of this multi-agency group for several years. An initial mechanism to
-run the physics of NOAA’s Global Forecast System (GFS) model in other host models was
-developed by the NOAA Environmental Modeling Center (EMC) and later augmented by the
-NOAA Geophysical Fluid Dynamics Laboratory (GFDL). The :term:`CCPP` expanded on that work by
-meeting additional requirements put forth by
+run the physics of NOAA’s Global Forecast System (GFS) model in other host models,
+the Interoperable Physics Driver (IPD), was developed by the NOAA Environmental Modeling
+Center (EMC) and later augmented by the NOAA Geophysical Fluid Dynamics Laboratory (GFDL).
+
+The :term:`CCPP` expanded on that work by meeting additional requirements put forth by
 `NOAA <https://dtcenter.org/gmtb/users/ccpp/developers/requirements/CCPP_REQUIREMENTS.pdf>`_,
 and brought new functionalities to the physics-dynamics interface. Those include
 the ability to choose the order of parameterizations, to subcycle individual
 parameterizations by running them more frequently than other parameterizations,
 and to group arbitrary sets of parameterizations allowing other computations in
-between them (e.g., dynamics and coupling computations).
+between them (e.g., dynamics and coupling computations). The IPD was phased out in
+2021 in favor of the :term:`CCPP` as a single way to interface with physics in the :term:`UFS`
 
 The architecture of the CCPP and its connection to a host model is shown in
 :numref:`Figure %s <ccpp_arch_host>`.
@@ -132,7 +134,7 @@ the GFS surface layer, the unified gravity wave drag (uGWD), the Noah Land Surfa
 the 2015 Navy Research Laboratory (NRL) ozone and stratospheric water vapor schemes, and the
 NSST ocean scheme. The three developmental suites are candidates for future operational implementations. The GFS_v16beta
 suite is the same as the GFS_v15p2 suite except using the Turbulent Kinetic Energy (TKE)-based EDMF
-PBL scheme. The Chikira-Sugiyama (csawmg) suite uses the Morrison-Gettelman 3 (M-G3) microphysics
+PBL scheme. The Chikira-Sugiyama (csawmg) suite uses the Morrison-Gettelman 3 (MG-3) microphysics
 scheme and Chikira-Sugiyama convection scheme with Arakawa-Wu extension (CSAW). The NOAA Global
 Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-Yamada-Nakanishi-Niino
 (MYNN) PBL and shallow convection, Grell-Freitas (GF) deep

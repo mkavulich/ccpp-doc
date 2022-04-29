@@ -257,15 +257,14 @@ After recompiling and running the model, you will see lines like this in the mod
    dtend selected: gfs_phys dtend_temp_phys = temperature tendency due to physics (K s-1)
    dtend selected: gfs_dyn dtend_temp_nophys = temperature tendency due to non-physics processes (K s-1)
 
-There are three critical pieces of information in each line. Taking the last line as an example,
+There are three critical pieces of information in each line. Taking the third last line as an example,
 
-1. ``dtend_cld_amt_mp`` -- this is both the name of the variable in the ``diag_table``, and the name of the
-   variable in ``dtend_select``
-2. ``gfs_phys`` -- the ``diag_table`` module name. 
-3. "cloud amount integer tendency due to microphysics" -- meaning of the variable.
+1. ``dtend_cld_amt_mp`` -- this is the name of the variable in ``dtend_select``; for the UFS, it is also the name of the variable in the ``diag_table``
+2. ``gfs_phys`` -- the ``diag_table`` module name (specific to the UFS, can be ignored for other models)
+3. "cloud amount integer tendency due to microphysics" -- meaning of the variable
 
 Note that the ``dtend_temp_nophys`` differs from the others in that it is in the ``gfs_dyn`` module
-instead of ``gfs_phys`` because it sums non-physics processes.
+instead of ``gfs_phys`` because it sums non-physics processes. This is only relevant for the UFS.
 
 Now that you know what variables are available, you can choose which to enable:
 
@@ -325,7 +324,7 @@ SCM
 ^^^
 
 The default behavior of the SCM is to output instantaneous values of all tendency variables, and
-``dtend_select`` is not recognized. Tendencies are computed in file ``gmtb_scm_output.F90`` in the
+``dtend_select`` is not recognized. Tendencies are computed in file ``scm_output.F90`` in the
 subroutines output_init and output_append. If the values of ``ldiag3d`` or ``qdiag3d`` are set to false, the
 variables are still written to output but are given missing values.
 
@@ -369,12 +368,12 @@ Setting ``ldiag3d=F`` and ``qdiag3d=T`` will result in an error message:
 If you want to output tracer tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T. Then use
 ``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches your choice of tendencies specified through ``diag_select``.
 
-Why are my tendencies zero, even though the model says they're supported for my configuration?
-----------------------------------------------------------------------------------------------
+Why are my tendencies zero, even though the model says they are supported for my configuration?
+-----------------------------------------------------------------------------------------------
 
 For total physics or total photochemistry tendencies, see the next question.
 
-The tendencies will be zero if they're never calculated. Check that you enabled the tendencies with
+The tendencies will be zero if they are never calculated. Check that you enabled the tendencies with
 appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``. 
 
 Another possibility is that the tendencies in question really are zero. The list of "available" tendencies
@@ -406,7 +405,7 @@ onto the CCPP-provided arrays and to add them to the subroutine arguments) and i
 parameterization metadata descriptor file(s) (to provide metadata on the new subroutine
 arguments). In the UFS, the namelist is used to control the temporal averaging period.
 These code changes are intended to be used by scientists during the development process
-and are not intended to be incorporated into the master code. Therefore, developers
+and are not intended to be incorporated into the authoritative code. Therefore, developers
 must remove any code related to these additional diagnostics before submitting a pull
 request to the ccpp-physics repository.
 
@@ -427,7 +426,7 @@ The UFS and SCM already contain code to declare and initialize the arrays:
 
 * dimensions are declared and initialized in ``GFS_typedefs.F90``
 * metadata for these arrays and dimensions are defined in ``GFS_typedefs.meta``
-* arrays are populated in ``GFS_diagnostics.F90`` (UFS) or ``gmtb_scm_output.F90`` (SCM)
+* arrays are populated in ``GFS_diagnostics.F90`` (UFS) or ``scm_output.F90`` (SCM)
 
 The remainder of this section describes changes the developer needs to make in the
 physics code and  in the host model control files to enable the capability. An 
@@ -443,12 +442,12 @@ Physics-side changes
 In order to output auxiliary arrays, developers need to change at least the following
 two files within the physics (see also example in :numref:`Section %s <CodeModExample>`):
 
-* A CCPP entrypoint scheme
+* A CCPP entrypoint scheme (Fortran source code)
    * Add array(s) and its/their dimension(s) to the list of subroutine arguments
    * Declare array(s) with appropriate intent and dimension(s).  Note that array(s) do not
      need to be allocated by the developer.  This is done automatically in ``GFS_typedefs.F90``.
    * Populate array(s) with desirable diagnostic for output
-* The file with metadata for modified scheme(s)
+* Associated CCPP metadata files for modified scheme(s)
    * Add entries for the array(s) and its/their dimension(s) and provide metadata
 
 Host-side changes
@@ -467,7 +466,7 @@ example provided in :numref:`Section %s <CodeModExample>`)
    * Specify whether the output should be for instantaneous or time-averaged quantities using
      variables ``aux2d_time_avg`` and ``aux_3d_time_avg``. These arrays are dimensioned ``naux2d``
      and ``naux3d``, respectively, and, if not specified in the namelist, take the default value F.
-   * Specify the period of averaging for the arrays using variable fhzero (in hours).
+   * Specify the period of averaging for the arrays using variable ``fhzero`` (in hours).
 * File ``diag_table``
    * Enable output of the arrays at runtime.
    * 2D and 3D arrays are written to the output files.
@@ -586,7 +585,7 @@ The ``cu_gf_driver.meta`` file was modified accordingly:
    +  standard_name = auxiliary_3d_arrays
    +  long_name = auxiliary 3d arrays to output (for debugging)
    +  units = none
-   +  dimensions = (horizontal_loop_extent,vertical_dimension,number_of_3d_auxiliary_arrays)
+   +  dimensions = (horizontal_loop_extent,vertical_layer_dimension,number_of_3d_auxiliary_arrays)
    +  type = real
    +  kind = kind_phys
 
