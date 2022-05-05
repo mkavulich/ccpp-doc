@@ -6,7 +6,7 @@ CCPP Overview
 
 Ideas for the Common Community Physics Package (:term:`CCPP`) originated within the Earth System Prediction Capability (ESPC)
 physics interoperability group, which has representatives from the US National Center
-for Atmospheric Research (NCAR), the Navy, National Oceanic and Atmospheric Administration
+for Atmospheric Research (:term:`NCAR`), the Navy, National Oceanic and Atmospheric Administration
 (NOAA) Research Laboratories, NOAA National Weather Service, and other groups. Physics
 interoperability, or the ability to run a given physics :term:`suite` in various host models,
 has been a goal of this multi-agency group for several years. An initial mechanism to

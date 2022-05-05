@@ -45,6 +45,11 @@ Glossary
       A CCPP build property in which a set of physics suites is specified
       at compile time from which one can be chosen at runtime.
 
+   NCAR
+      The National Center for Atmospheric Research - a US federally funded research and development 
+      center (FFRDC) managed by the University Corporation for Atmospheric Research (UCAR) and 
+      funded by the National Science Foundation (NSF).
+
    NEMS
       The NOAA Environmental Modeling System - a software infrastructure that supports 
       NCEP/EMC’s forecast products. The coupling software is based on ESMF and the NUOPC layer.

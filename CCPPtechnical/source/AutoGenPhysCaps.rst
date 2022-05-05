@@ -82,7 +82,7 @@ The *prebuild* step will produce the following files for any host model. Note th
    ccpp_static_api.F90
 
 ``ccpp_static_api.F90`` is an interface, which contains subroutines ``ccpp_physics_init``,
- ``ccpp_physics_timestep_init``,``ccpp_physics_run``, ``ccpp_physics_timestep_finalize``, and ``ccpp_physics_finalize``. 
+``ccpp_physics_timestep_init``, ``ccpp_physics_run``, ``ccpp_physics_timestep_finalize``, and ``ccpp_physics_finalize``. 
 Each subroutine uses a ``suite_name`` and an optional argument, ``group_name``, to call the groups 
 of a specified suite (e.g. ``fast_physics``, ``physics``, ``time_vary``, ``radiation``, ``stochastic``, etc.), 
 or to call the entire suite. For example, ``ccpp_static_api.F90`` would contain module ``ccpp_static_api``
