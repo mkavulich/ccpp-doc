@@ -81,15 +81,15 @@ The following is the directory structure for the ``ccpp-physics`` repository (co
 GitHub Workflow (setting up development repositories)
 =====================================================
 
-The CCPP development practices make use of the GitHub forking workflow. For users not familiar with this concept, this website provides some background information and a tutorial.
+The CCPP development practices make use of the GitHub forking workflow. For users not familiar with this concept, `this website <https://www.earthdatascience.org/workshops/intro-version-control-git/about-forks/>`_ provides some background information and a tutorial.
 
 ---------------
 Creating Forks
 ---------------
 
-The GitHub forking workflow relies on forks (personal copies) of the shared repositories on GitHub. These forks need to be created only once, and only for directories that users will contribute changes to. The following steps describe how to create a fork for the example of the ccpp-physics submodule/repository:
+The GitHub forking workflow relies on forks (personal copies) of the shared repositories on GitHub. A personal fork needs to be created only once, and only for repositories that users will contribute changes to. The following steps describe how to create a fork for the example of the ccpp-physics submodule/repository:
 
- Go to https://github.com/NCAR/ccpp-physics and make sure you are signed in as your GitHub user.
+ Go to https://github.com/NCAR/ccpp-physics and make sure you are signed in to your GitHub account.
 
  Select the "fork" button in the upper right corner.
 
@@ -98,14 +98,14 @@ The GitHub forking workflow relies on forks (personal copies) of the shared repo
 
  Note that the repo name in the upper left (blue) will be either "NCAR" or "your GitHub name” which tells you which fork you are looking at.
 
-Note that personal forks are not required until a user wishes to make code contributions. The procedure for how to check out the code laid out below can be followed without having created any forks beforehand.
+Note that personal forks are not required until a user wishes to make code contributions. The procedure for how to check out the code laid out below can be followed without having created a fork beforehand.
 
 -----------------------------------
 Checking out the Code
 -----------------------------------
-Instructions are provided here for the ccpp-physics repository. Similar steps are required for the ccpp-framework repository. The process for checking out the CCPP is described in the following, assuming access via https rather than ssh. We strongly recommend setting up passwordless access to GitHub (see https://help.github.com/categories/authenticating-to-github).
+Instructions are provided here for the ccpp-physics repository. Similar steps are required for the ccpp-framework repository. The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token` <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
 
-Start with checking out the main repository from the NCAR GitHub
+Start by checking out the main repository from the :term:`NCAR` GitHub Organization:
 
 .. code-block:: console
 
