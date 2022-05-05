@@ -9,8 +9,8 @@ Technical Aspects of the CCPP *Prebuild*
 =============================
 
 The :term:`CCPP` *prebuild* script ``ccpp-framework/scripts/ccpp_prebuild.py`` is the central piece of code that
-connects the host model with the :term:`CCPP-Physics` schemes (see :numref:`%s <ccpp_static_build>`). This script must be run
-before compiling the :term:`CCPP-Physics` library and the host model cap. This may be done manually or as part
+connects the host model with the :term:`CCPP Physics` schemes (see :numref:`%s <ccpp_static_build>`). This script must be run
+before compiling the :term:`CCPP Physics` library and the host model cap. This may be done manually or as part
 of a host model build-time script. Both the UFS and SCM have incorporated the calls to ``ccpp_prebuild.py`` in their build systems.
 
 The :term:`CCPP` *prebuild* script automates several tasks based on the information collected from the metadata
@@ -18,7 +18,7 @@ on the host model side and from the individual physics schemes (``.meta`` files;
 
  * Compiles a list of variables provided by the host model.
  
- * Compiles a list of variables required to run all schemes in the :term:`CCPP-Physics` pool.
+ * Compiles a list of variables required to run all schemes in the :term:`CCPP Physics` pool.
 
  * Matches these variables by their ``standard_name``, checks for missing variables and mismatches of their
    attributes (e.g., units, rank, type, kind). Performs automatic unit conversions if a mismatch of units

@@ -7,11 +7,11 @@ Glossary
       Model agnostic, vetted, collection of codes containing atmospheric physical parameterizations
       and suites for use in NWP along with a framework that connects the physics to host models
 
-   *CCPP-Framework*
+   *CCPP Framework*
      The infrastructure that connects physics schemes with a host model; also refers to a software
      repository of the same name 
 
-   *CCPP-Physics*
+   *CCPP Physics*
       The pool of CCPP-compliant physics schemes; also refers to a software repository of the same name
 
    "Fast" physics

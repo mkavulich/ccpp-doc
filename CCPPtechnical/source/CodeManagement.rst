@@ -33,10 +33,10 @@ The following branches are recommended for CCPP developers:
 +----------------------------------------+-------------+
 
 --------------------------------------
-Directory Structure of ccpp-framework
+Directory Structure of CCPP Framework
 --------------------------------------
 
-The following is the directory structure for the ``ccpp-framework``
+The following is the directory structure for the ``ccpp-framework`` repository
  (condensed version):
 
 .. code-block:: console
@@ -63,10 +63,10 @@ The following is the directory structure for the ``ccpp-framework``
 
 
 --------------------------------------
-Directory Structure of ccpp-physics
+Directory Structure of CCPP Physics
 --------------------------------------
 
-The following is the directory structure for the ``ccpp-physics`` (condensed version):
+The following is the directory structure for the ``ccpp-physics`` repository (condensed version):
 
 .. code-block:: console
 
