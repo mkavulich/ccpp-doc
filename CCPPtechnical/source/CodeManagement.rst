@@ -103,7 +103,7 @@ Note that personal forks are not required until a user wishes to make code contr
 -----------------------------------
 Checking out the Code
 -----------------------------------
-Instructions are provided here for the ccpp-physics repository. Similar steps are required for the ccpp-framework repository. The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token` <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
+Instructions are provided here for the ccpp-physics repository; the instructions for the ccpp-framework repository are analogous. The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
 
 Start by checking out the main repository from the :term:`NCAR` GitHub Organization:
 
@@ -113,26 +113,70 @@ Start by checking out the main repository from the :term:`NCAR` GitHub Organizat
    cd ccpp-physics
    git remote rename origin upstream
 
-Checking out remote branches means that your local branches are in a detached state, since you cannot commit directly to a remote branch. As long as you are not making any code modifications, this is not a problem. If during your development work changes are made to the corresponding upstream branch, you can simply navigate to this repository and check out the updated version:
+In the above commands we have also renamed the "origin" repository to "upstream" within this clone. This will be required if you plan on making changes and contributing them back to your fork, but is otherwise unnecessary. This step prevents accidentally pushing changes to the main repository rather than your fork later on.
+
+From here you can view the available branches in the ccpp-physics repository with the ``git branch`` command:
+
+.. code-block:: console
+   :emphasize-lines: 4-20
+
+   git fetch --all
+   git branch -a
+
+   * main
+     remotes/upstream/HEAD -> upstream/main
+     remotes/upstream/dtc/hwrf-physics
+     remotes/upstream/emc_training_march_2019
+     remotes/upstream/emc_training_march_2019_rftim
+     remotes/upstream/feature/DOE_PBL_project
+     remotes/upstream/feature/rrtmgp-doxygen
+     remotes/upstream/feature/unified_standard_names
+     remotes/upstream/gfs_suite2_physics_test_tag_20190222
+     remotes/upstream/gsd_suite4_physics_test_tag_20181210
+     remotes/upstream/main
+     remotes/upstream/mraerosol
+     remotes/upstream/release/P7a
+     remotes/upstream/release/P7b
+     remotes/upstream/release/public-v4
+     remotes/upstream/release/public-v5
+     remotes/upstream/release/public-v6
+
+As you can see, you are placed on the ``main`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. All new development should start from that point, but if you would like to view code from another branch this is simple with the ``git checkout`` command. 
+
+.. code-block:: console
+   :emphasize-lines: 3-4
+
+   git checkout release/public-v6
+
+   branch 'release/public-v6' set up to track 'upstream/release/public-v6'.
+   Switched to a new branch 'release/public-v6'
+
+.. note::
+   Never used git or GitHub before? Confused by what all this means or why we do it? Check out `this presentation from the UFS SRW Training workshop <https://dtcenter.org/sites/default/files/events/2021/18-code-management-making-contributions-kavulich.pdf>`_ for a "from basic principles" explanation!
+
+After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v6`` named ``release/public-v6``. To return to the main branch, simply use ``git checkout main``.
+
+If you wish to make changes that you will eventually contribute back to the public code base, you should always create a new "feature" branch that will track those particular changes.
 
 .. code-block:: console
 
-   git remote update
-   git checkout upstream/master
-   cd ..
+   git checkout upstream/main
+   git checkout -b feature/my_new_local_development_branch
 
-However, if you are making code changes, you must create a local branch.
+.. note::
 
-.. code-block:: console
+   By checking out the remote ``upstream/main`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch. 
 
-   git checkout -b my_local_development_branch
+You can now make changes to the code, and commit those changes locally using ``git commit`` in order to track 
 
-Once you are ready to contribute the code to the upstream repository, you need to create a PR (see next section). In order to do so, you first need to create your own fork of this repository (see previous section) and configure your fork as an additional remote destination, which we typically label as origin. For example:
+
+
+Once you are ready to contribute the code back to the main (``upstream``) ccpp-physics repository, you need to create a `pull request <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`_ (see `Creating a pull request`_). In order to do so, you first need to create your own fork of this repository (see `Creating Forks`_) and configure your fork as an additional remote destination, which we typically label as ``origin``. For example:
 
 .. code-block:: console
 
    git remote add origin https://github.com/YOUR_GITHUB_USER/ccpp-physics
-   git remote update
+   git fetch origin
 
 Then, push your local branch to your fork:
 
@@ -229,9 +273,9 @@ Contributing Code, Code Review Process
 =========================================
 Once your development is mature, and the testing has been completed (see next section), you are ready to create a PR using GitHub to propose your changes for review.
 
--------------------
-Creating a PR
--------------------
+-----------------------
+Creating a Pull Request
+-----------------------
 Go to the github.com web interface, and navigate to your repository fork and branch. In most cases, this will be in the ccpp-physics repository, hence the following example:
 
  | Navigate to: https://github.com/<yourusername>/ccpp-physics
