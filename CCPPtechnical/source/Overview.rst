@@ -14,8 +14,7 @@ run the physics of NOAA’s Global Forecast System (GFS) model in other host mod
 the Interoperable Physics Driver (IPD), was developed by the NOAA Environmental Modeling
 Center (EMC) and later augmented by the NOAA Geophysical Fluid Dynamics Laboratory (GFDL).
 
-The :term:`CCPP` expanded on that work by meeting additional requirements put forth by
-`NOAA <https://dtcenter.org/gmtb/users/ccpp/developers/requirements/CCPP_REQUIREMENTS.pdf>`_,
+The :term:`CCPP` expanded on that work by meeting `additional requirements put forth by NOAA <https://dtcenter.org/sites/default/files/community-code/ccpp-requirements-historical.pdf>`_, 
 and brought new functionalities to the physics-dynamics interface. Those include
 the ability to choose the order of parameterizations, to subcycle individual
 parameterizations by running them more frequently than other parameterizations,
@@ -26,7 +25,7 @@ between them (e.g., dynamics and coupling computations). The IPD was phased out 
 The architecture of the CCPP and its connection to a host model is shown in
 :numref:`Figure %s <ccpp_arch_host>`.
 Two elements of the CCPP are highlighted: a library of physical parameterizations
-(*CCPP Physics*) that conforms to selected standards and an infrastructure (*CCPP Framework*)
+(:term:`CCPP Physics`) that conforms to selected standards and an infrastructure (:term:`CCPP Framework`)
 that enables connecting the physics to a host model. The third element (not shown)
 is the CCPP Single Column Model (SCM), a simple host model that can be used with the CCPP
 Physics and Framework.
@@ -77,7 +76,7 @@ of the CCPP Physics is currently led by NOAA, and the DTC works with EMC and the
 National Weather Service Office of Science and Technology Integration to determine schemes
 and suites to be included and supported. The governance of the CCPP Framework is jointly
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
-and https://dtcenter.org/gmtb/users/ccpp).
+and https://dtcenter.org/community-code/common-community-physics-package-ccpp).
 
 The table below lists all parameterizations supported in CCPP public releases and the
 `CCPP Scientific Documentation <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc>`_
@@ -124,7 +123,7 @@ Application.
    | Ocean              | NSST            | NSST            | NSST        | NSST             | NSST                    |
    +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
 
-*The second row indicates which host model the suite is supported for.
+The second row indicates which host model the suite is supported for.
 The suites that are currently supported in the CCPP are listed in the third row. The
 types of parameterization are denoted in the first column, where H2O represents the stratospheric water
 vapor parameterization. The GFS_v15p2 suite includes the GFDL microphysics, a Eddy-Diffusivity Mass
@@ -141,7 +140,7 @@ Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-
 convection schemes, and the Rapid Update Cycle (RUC) LSM. Suite RRFS_v1alpha is
 targeted for the Rapid Refresh Forecast System
 (RRFS) and differs from the GSD_v1 suite by not using parameterized convection and employing the
-Noah-Multiparameterization (MP) LSM.*
+Noah-Multiparameterization (MP) LSM.
 
 Those interested in the history of previous CCPP releases should know that the
 first public release of the CCPP took place in April 2018 and included all the
@@ -179,7 +178,7 @@ Additional Resources
 ========================
 
 For the latest version of the released code and additional documentation,
-please visit the `DTC Website <http://www.dtcenter.org/ccpp>`_.
+please visit the `DTC Website <https://dtcenter.org/community-code/common-community-physics-package-ccpp>`_.
 
 Please send questions and comments to the CCPP Forum at https://dtcenter.org/forum/ccpp-user-support.
 When using the CCPP with the UFS, questions can also be posted

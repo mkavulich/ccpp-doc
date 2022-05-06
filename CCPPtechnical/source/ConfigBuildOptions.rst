@@ -7,7 +7,7 @@ While the *CCPP Framework* code, consisting of a single Fortran source file and 
 
 The SCM and the UFS Atmosphere are supported for use with the CCPP. In the case of the UFS Atmosphere as the host model, build configuration options can be specified as cmake options to the ``build.sh`` script for manual compilation or through a regression test (RT) configuration file. Detailed instructions for building the UFS Atmosphere and the SCM are discussed in the
 `UFS Weather Model User Guide <https://ufs-weather-model.readthedocs.io/en/ufs-v2.0.0/BuildingAndRunning.html#building-the-weather-model>`_ and the
-`SCM User Guide <https://dtcenter.org/GMTB/v5.0/scm-ccpp-guide-v5.0.pdf>`_. For both SCM and UFS< the ``ccpp_prebuild.py`` script is run automatically as a step in the build system, although it can be run manually for debugging purposes.
+`SCM User Guide <https://dtcenter.org/sites/default/files/paragraph/scm-ccpp-guide-v5.0.0.pdf>`_. For both SCM and UFS the ``ccpp_prebuild.py`` script is run automatically as a step in the build system, although it can be run manually for debugging purposes.
 
 The path to a host-model specific configuration file is the only required argument to ``ccpp_prebuild.py``. 
 Such files are included with the ccpp-scm and ufs-weather-model repositories, and must be included with the code of
