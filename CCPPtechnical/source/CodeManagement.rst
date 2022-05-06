@@ -171,7 +171,7 @@ You can now make changes to the code, and commit those changes locally using ``g
 
 
 
-Once you are ready to contribute the code back to the main (``upstream``) ccpp-physics repository, you need to create a `pull request <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`_ (see `Creating a pull request`_). In order to do so, you first need to create your own fork of this repository (see `Creating Forks`_) and configure your fork as an additional remote destination, which we typically label as ``origin``. For example:
+Once you are ready to contribute the code back to the main (``upstream``) ccpp-physics repository, you need to create a `pull request (PR) <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`_ (see `Creating a pull request`_). In order to do so, you first need to create your own fork of this repository (see `Creating Forks`_) and configure your fork as an additional remote destination, which we typically label as ``origin``. For example:
 
 .. code-block:: console
 
@@ -266,12 +266,12 @@ This should show that your working copy is up to date with what is in the reposi
    Your branch is up to date with 'origin/features/my_local_development_branch'.
    nothing to commit, working tree clean
 
-At this point you can continue development or create a PR as discussed in the next section.
+At this point you can continue development or create a PR as discussed in `Creating a Pull Request`_.
 
 =========================================
 Contributing Code, Code Review Process
 =========================================
-Once your development is mature, and the testing has been completed (see next section), you are ready to create a PR using GitHub to propose your changes for review.
+Once your development is mature, and the testing has been completed, you are ready to create a PR using GitHub to propose your changes for review.
 
 -----------------------
 Creating a Pull Request
@@ -285,8 +285,9 @@ Go to the github.com web interface, and navigate to your repository fork and bra
  | Fill in a detailed description, including reporting on any testing you did
  | Click on “Create pull request”
 
-If your development also requires changes in other repositories, you must open PRs in those repositories as well. In the PR message for each repository, please note the associate PRs submitted to other repositories.
+If your development also requires changes in other repositories, you must open PRs in those repositories as well. In the PR message for each repository, please note the associated PRs submitted to other repositories.
 
 Several people (aka CODEOWNERS) are automatically added to the list of reviewers on the right hand side. Once the PR has been approved, the change is merged to main by one of the code owners. If there are pending conflicts, this means that the code is not up to date with the trunk. To resolve those, pull the target branch from upstream as described above, solve the conflicts and push the changes to the branch on your fork (this also updates the PR).
 
-Note. GitHub offers a draft pull request feature that allows users to push their code to GitHub and create a draft PR. Draft PRs cannot be merged and do not automatically initiate notifications to the CODEOWNERS, but allow users to prepare the PR and flag it as “ready for review” once they feel comfortable with it.
+.. note::
+   GitHub offers a "Draft pull request" feature that allows users to push their code to GitHub and create a draft PR. Draft PRs cannot be merged and do not automatically initiate notifications to the CODEOWNERS, but allow users to prepare the PR and flag it as “ready for review” once they feel comfortable with it. To open a draft rather than a ready-for-review PR, select the arrow next to the green "Create pull request" button, and select "Create draft pull request". Then continue the above steps as usual.
