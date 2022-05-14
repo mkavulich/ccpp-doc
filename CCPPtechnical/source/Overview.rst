@@ -4,8 +4,7 @@
 CCPP Overview
 *************************
 
-Ideas for the Common Community Physics Package (:term:`CCPP`) originated within the Earth System Prediction Capability (ESPC)
-physics interoperability group, which has representatives from the US National Center
+Ideas for the Common Community Physics Package (:term:`CCPP`) originated within the Earth System Prediction Capability physics interoperability group (now the `Interagency Council for Advancing Meteorological Services; ICAMS <https://www.icams-portal.gov/>`_), which has representatives from the US National Center
 for Atmospheric Research (:term:`NCAR`), the Navy, National Oceanic and Atmospheric Administration
 (NOAA) Research Laboratories, NOAA National Weather Service, and other groups. Physics
 interoperability, or the ability to run a given physics :term:`suite` in various host models,
@@ -167,7 +166,7 @@ upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the
 .. [#] As of this writing, the CCPP has been validated with two host models: the CCPP
     SCM and the atmospheric component of
     NOAA’s Unified Forecast System (UFS) (hereafter the UFS Atmosphere) that utilizes
-    the Finite-Volume Cubed Sphere (FV3) dycore.  The CCPP can be utilized both with the
+    the Finite-Volume Cubed Sphere (FV3) dynamical core.  The CCPP can be utilized both with the
     global and limited-area configurations of the UFS Atmosphere. CCPP v4.1.0 is the latest
     release compatible with the global UFS Medium-Range Weather Application. CCPP v5.0.0 is only
     compatible with the limited-area UFS Short-Range Weather Application.  The CCPP

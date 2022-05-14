@@ -52,7 +52,7 @@ Schemes may be interdependent and the order in which the schemes are run may mak
 =========================
 Interstitial Schemes
 =========================
-The :term:`SDF` can have an arbitrary number of additional interstitial schemes in between the primary parameterizations to preprocess or postprocess data. There are two main types of interstitial schemes, scheme-specific and suite-level. The scheme-specific interstitial scheme is needed for one specific scheme and the suite-leve interstitial scheme processes data that are relevant for various schemes within a suite.
+The :term:`SDF` can have an arbitrary number of additional interstitial schemes in between the primary parameterizations to preprocess or postprocess data. There are two main types of interstitial schemes, scheme-specific and suite-level. The scheme-specific interstitial scheme is needed for one specific scheme and the suite-level interstitial scheme processes data that are relevant for various schemes within a suite.
 
 =========================
 SDF Examples

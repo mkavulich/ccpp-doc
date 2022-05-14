@@ -212,7 +212,7 @@ The physics scheme page will often describe the following:
 
 3. General Algorithm Section (``\section``)
 
-   The general description of the algorithn will be in this section. It is created by inserting
+   The general description of the algorithm will be in this section. It is created by inserting
    a reference link (``\ref``) in the Fortran code for the scheme.
 
 The symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
@@ -527,7 +527,7 @@ Fortran files using the doygen markup below.
    !! \htmlinclude SUBROUTINE_NAME.html
    !!
 
-The tables should be created using a Python script distrbuted
+The tables should be created using a Python script distributed
 with the CCPP Framework, ``ccpp-framework/scripts/metadata2html.py``. The syntax for running this
 script from the same directory that is ``ccpp_prebuild.py`` is called is (for the example of the SCM,
 where both scripts need to be called from the host model top-level directory):
