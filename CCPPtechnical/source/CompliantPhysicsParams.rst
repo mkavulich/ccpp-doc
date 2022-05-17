@@ -6,7 +6,7 @@ CCPP-Compliant Physics Parameterizations
 
 The rules for a scheme to be considered CCPP-compliant are summarized in this section. It
 should be noted that making a scheme CCPP-compliant is a necessary but not guaranteed step
-for the acceptance of the scheme in the pool of supported CCPP-Physics. Acceptance is
+for the acceptance of the scheme in the pool of supported CCPP Physics. Acceptance is
 dependent on scientific innovation, demonstrated value, and compliance with the rules
 described below. The criteria for acceptance of a scheme into the CCPP is under development.
 
@@ -396,7 +396,7 @@ Input/Output Variable (argument) Rules
 * The two mandatory variables that any scheme-related subroutine must accept as ``intent(out)`` arguments are
   ``errmsg`` and ``errflg`` (see also coding rules in :numref:`Section %s <CodingRules>`).
 
-* At present, only two types of variable definitions are supported by the CCPP-framework:
+* At present, only two types of variable definitions are supported by the CCPP Framework:
 
    * Standard intrinsic Fortran variables are preferred (``character``, ``integer``, ``logical``, ``real``, ``complex``).
      For character variables, the length should be specified as ``*`` in order to allow the host model
@@ -418,7 +418,7 @@ Input/Output Variable (argument) Rules
   where necessary. This tactic should be avoided wherever possible, and is not acceptable merely
   as a convenience.
 
-* If a scheme is to make use of CCPP’s subcycling capability, the current loop counter and the loop extent can be obtained from CCPP as ``intent(in)`` variables (see a :ref:`mandatory list of variables <MandatoryVariables>` that are provided by the CCPP-Framework and/or the host model for this and other purposes).
+* If a scheme is to make use of CCPP’s subcycling capability, the current loop counter and the loop extent can be obtained from CCPP as ``intent(in)`` variables (see a :ref:`mandatory list of variables <MandatoryVariables>` that are provided by the CCPP Framework and/or the host model for this and other purposes).
 
 * It is preferable to use assumed-size array declarations for input/output variables for CCPP schemes, i.e. instead of
 
@@ -449,7 +449,7 @@ Coding Rules
 
 * Uppercase file endings (`.F`, `.F90`) are preferred to enable preprocessing by default.
 
-* Labeled ``end`` statements should be used for modules, subroutines and functions,
+* Labeled ``end`` statements should be used for modules, subroutines, functions, and type definitions;
   for example, ``module scheme_template → end module scheme_template``.
 
 * Implicit variable declarations are not allowed. The ``implicit none`` statement is mandatory and
@@ -486,7 +486,7 @@ Coding Rules
 Additional coding rules are listed under the *Coding Standards* section of the NOAA NGGPS
 Overarching System team document on Code, Data, and Documentation Management for NOAA Environmental
 Modeling System (NEMS) Modeling Applications and Suites (available at
-https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit#heading=h.97v79689onyd).
+https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit).
 
 .. _UsingConstants:
 

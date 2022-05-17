@@ -4,15 +4,15 @@
 Host Side Coding
 **************************************************
 
-This chapter describes the connection of a host model with the pool of :term:`CCPP-Physics` schemes through the :term:`CCPP-Framework`.
+This chapter describes the connection of a host model with the pool of :term:`CCPP Physics` schemes through the :term:`CCPP Framework`.
 
 ==================================================
 Variable Requirements on the Host Model Side
 ==================================================
 
-All variables required to communicate between the host model and the physics, as well as to communicate between physics schemes, need to be allocated by the host model. An exception is variables ``errflg``, ``errmsg``, ``loop_cnt``, ``blk_no``, and ``thrd_no``, which are allocated by the CCPP-Framework, as explained in :numref:`Section %s <DataStructureTransfer>`. A list of all variables required for the current pool of physics can be found in ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_XYZ.pdf`` (XYZ: SCM, FV3).
+All variables required to communicate between the host model and the physics, as well as to communicate between physics schemes, need to be allocated by the host model. An exception is variables ``errflg``, ``errmsg``, ``loop_cnt``, ``blk_no``, and ``thrd_no``, which are allocated by the CCPP Framework, as explained in :numref:`Section %s <DataStructureTransfer>`. A list of all variables required for the current pool of physics can be found in ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_XYZ.pdf`` (XYZ: SCM, FV3).
 
-At present, only two types of variable definitions are supported by the CCPP-Framework:
+At present, only two types of variable definitions are supported by the CCPP Framework:
 
 * Standard Fortran variables (character, integer, logical, real) defined in a module or in the main program. For character variables, a fixed length is required. All others can have a kind attribute of a kind type defined by the host model.
 * Derived data types (DDTs) defined in a module or the main program. While the use of DDTs as arguments to physics schemes in general is discouraged (see :numref:`Section %s <IOVariableRules>`), it is perfectly acceptable for the host model to define the variables requested by physics schemes as components of DDTs and pass these components to CCPP by using the correct local_name (e.g., ``myddt%thecomponentIwant``; see :numref:`Section %s <VariableTablesHostModel>`.)
@@ -33,7 +33,7 @@ To establish the link between host model variables and physics scheme variables,
    !! \htmlinclude example_vardefs.html
    !!
 
-For each variable required by the pool of CCPP-Physics schemes, one and only one entry must exist on the host model side. The connection between a variable in the host model and in the physics scheme is made through its ``standard_name``.
+For each variable required by the pool of CCPP Physics schemes, one and only one entry must exist on the host model side. The connection between a variable in the host model and in the physics scheme is made through its ``standard_name``.
 
 The following requirements must be met when defining metadata for variables in the host model (see also :ref:`Listing 6.1 <example_vardefs>`
 and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadata).
@@ -256,9 +256,9 @@ For the examples in listing :ref:`Listing 6.2 <example_vardefs_meta>`, the host 
     :width: 800px
     :height: 265px
 
-    *This figure depicts the difference between non-blocked (contiguous) and blocked data structures.
+    *This figure depicts the difference between non-blocked (contiguous) and blocked data structures.*
 
-When blocked data structures are used by the host model, ``horizontal_loop_extent`` corresponds to the block size, and the sum of all block sizes equals ``horizontal_dimension``. In either case, the correct horizontal dimension for host model variables is ``horizontal_loop_extent``. In the time integration (run) phase, the physics are called for one block at a time (although possibly in parallel using OpenMP threading). In all other phases, the CCPP-Framework automatically combines the discontiguous blocked data into contiguous arrays before calling into a physics scheme, as shown in :ref:`Listing 6.4 <example_automatic_deblocking_of_data>`.
+When blocked data structures are used by the host model, ``horizontal_loop_extent`` corresponds to the block size, and the sum of all block sizes equals ``horizontal_dimension``. In either case, the correct horizontal dimension for host model variables is ``horizontal_loop_extent``. In the time integration (run) phase, the physics are called for one block at a time (although possibly in parallel using OpenMP threading). In all other phases, the CCPP Framework automatically combines the discontiguous blocked data into contiguous arrays before calling into a physics scheme, as shown in :ref:`Listing 6.4 <example_automatic_deblocking_of_data>`.
 
 .. _example_automatic_deblocking_of_data:
 
@@ -280,7 +280,7 @@ When blocked data structures are used by the host model, ``horizontal_loop_exten
    end do
    deallocate(bar_local)
 
-*Listing 6.4: Automatic combination of blocked data structures in the auto-generated caps
+*Listing 6.4: Automatic combination of blocked data structures in the auto-generated caps*
 
 
 .. _ActiveAttribute:
@@ -481,7 +481,7 @@ The ``cdata`` structure is used for holding six variables that must always be av
     dimensions = ()
     type = integer
 
-*Listing 6.5: Mandatory variables provided by the CCPP-Framework from* ``ccpp-framework/src/ccpp_types.meta`` *.
+*Listing 6.5: Mandatory variables provided by the CCPP Framework from* ``ccpp-framework/src/ccpp_types.meta`` *.
 These variables must not be defined by the host model.*
 
 Two of the variables are mandatory and must be passed to every physics scheme: ``errmsg`` and ``errflg``. The variables ``loop_cnt``, ``loop_max``, ``blk_no``, and ``thrd_no`` can be passed to the schemes if required, but are not mandatory. They are, however, required for the auto-generated caps to pass the correct data to the physics and to realize the subcycling of schemes. The ``cdata`` structure is only used to hold these six variables, since the host model variables are directly passed to the physics without the need for an intermediate data structure.
@@ -502,7 +502,7 @@ Note that optional arguments are denoted with square brackets.
 Suite Initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The suite initialization step consists of allocating (if required) and initializing the ``cdata`` structure(s), it does not call the CCPP-Physics or any auto-generated code. The simplest example is a suite initialization step that consists of initializing a scalar ``cdata`` instance with ``cdata%blk_no = 1`` and ``cdata%thrd_no = 1``.
+The suite initialization step consists of allocating (if required) and initializing the ``cdata`` structure(s), it does not call the CCPP Physics or any auto-generated code. The simplest example is a suite initialization step that consists of initializing a scalar ``cdata`` instance with ``cdata%blk_no = 1`` and ``cdata%thrd_no = 1``.
 
 A more complicated example is when multiple ``cdata`` structures are in use, namely one for the the CCPP phases that require access to all data of an MPI task (a scalar that is initialized in the same way as above), and one for the ``run`` phase, where chunks of blocked data are processed in parallel by multiple OpenMP threads, as shown in Listing :ref:`Listing 6.6 <SuiteInitComplicated>`.
 
@@ -541,7 +541,7 @@ A more complicated example is when multiple ``cdata`` structures are in use, nam
      end do
    end do
 
-*Listing 6.6: A morre complex suite initialization step that consists of allocating and initializing multiple ``cdata`` structures.
+*Listing 6.6: A morre complex suite initialization step that consists of allocating and initializing multiple ``cdata`` structures.*
 
 Depending on the implementation of CCPP in the host model, the suite name for the suite to be executed must be set in this step as well (omitted in Listing :ref:`Listing 6.6 <SuiteInitComplicated>`).
 
@@ -627,7 +627,7 @@ This subroutine is part of the CCPP API and is auto-generated.  A typical call t
 Host Caps
 ========================================================
 
-The purpose of the host model *cap* is to abstract away the communication between the host model and the CCPP-Physics schemes. While CCPP calls can be placed directly inside the host model code (as is done for the relatively simple SCM), it is recommended to separate the *cap* in its own module for clarity and simplicity (as is done for the UFS Atmosphere). While the details of implementation will be specific to each host model, the host model *cap* is responsible for the following general functions:
+The purpose of the host model *cap* is to abstract away the communication between the host model and the CCPP Physics schemes. While CCPP calls can be placed directly inside the host model code (as is done for the relatively simple SCM), it is recommended to separate the *cap* in its own module for clarity and simplicity (as is done for the UFS Atmosphere). While the details of implementation will be specific to each host model, the host model *cap* is responsible for the following general functions:
 
 * Allocating memory for variables needed by physics
 
@@ -719,7 +719,7 @@ The purpose of the host model *cap* is to abstract away the communication betwee
 
  end module example_ccpp_host_cap
 
-*Listing 6.7: Fortran template for a CCPP host model cap. After each call to ``ccpp_physics_*``, the host model should check the return code ``ierr`` and handle any errors (omitted for readability).
+*Listing 6.7: Fortran template for a CCPP host model cap. After each call to ``ccpp_physics_*``, the host model should check the return code ``ierr`` and handle any errors (omitted for readability).*
 
 Readers are referred to the actual implementations of the cap functions in the CCPP-SCM and the UFS for further information. For the SCM, the cap functions are implemented in:
 * ``ccpp-scm/scm/src/scm.F90``

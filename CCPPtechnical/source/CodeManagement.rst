@@ -33,10 +33,10 @@ The following branches are recommended for CCPP developers:
 +----------------------------------------+-------------+
 
 --------------------------------------
-Directory Structure of ccpp-framework
+Directory Structure of CCPP Framework
 --------------------------------------
 
-The following is the directory structure for the ``ccpp-framework``
+The following is the directory structure for the ``ccpp-framework`` repository
  (condensed version):
 
 .. code-block:: console
@@ -63,10 +63,10 @@ The following is the directory structure for the ``ccpp-framework``
 
 
 --------------------------------------
-Directory Structure of ccpp-physics
+Directory Structure of CCPP Physics
 --------------------------------------
 
-The following is the directory structure for the ``ccpp-physics`` (condensed version):
+The following is the directory structure for the ``ccpp-physics`` repository (condensed version):
 
 .. code-block:: console
 
@@ -81,15 +81,15 @@ The following is the directory structure for the ``ccpp-physics`` (condensed ver
 GitHub Workflow (setting up development repositories)
 =====================================================
 
-The CCPP development practices make use of the GitHub forking workflow. For users not familiar with this concept, this website provides some background information and a tutorial.
+The CCPP development practices make use of the GitHub forking workflow. For users not familiar with this concept, `this website <https://www.earthdatascience.org/workshops/intro-version-control-git/about-forks/>`_ provides some background information and a tutorial.
 
 ---------------
 Creating Forks
 ---------------
 
-The GitHub forking workflow relies on forks (personal copies) of the shared repositories on GitHub. These forks need to be created only once, and only for directories that users will contribute changes to. The following steps describe how to create a fork for the example of the ccpp-physics submodule/repository:
+The GitHub forking workflow relies on forks (personal copies) of the shared repositories on GitHub. A personal fork needs to be created only once, and only for repositories that users will contribute changes to. The following steps describe how to create a fork for the example of the ccpp-physics submodule/repository:
 
- Go to https://github.com/NCAR/ccpp-physics and make sure you are signed in as your GitHub user.
+ Go to https://github.com/NCAR/ccpp-physics and make sure you are signed in to your GitHub account.
 
  Select the "fork" button in the upper right corner.
 
@@ -98,14 +98,14 @@ The GitHub forking workflow relies on forks (personal copies) of the shared repo
 
  Note that the repo name in the upper left (blue) will be either "NCAR" or "your GitHub name” which tells you which fork you are looking at.
 
-Note that personal forks are not required until a user wishes to make code contributions. The procedure for how to check out the code laid out below can be followed without having created any forks beforehand.
+Note that personal forks are not required until a user wishes to make code contributions. The procedure for how to check out the code laid out below can be followed without having created a fork beforehand.
 
 -----------------------------------
 Checking out the Code
 -----------------------------------
-Instructions are provided here for the ccpp-physics repository. Similar steps are required for the ccpp-framework repository. The process for checking out the CCPP is described in the following, assuming access via https rather than ssh. We strongly recommend setting up passwordless access to GitHub (see https://help.github.com/categories/authenticating-to-github).
+Instructions are provided here for the ccpp-physics repository; the instructions for the ccpp-framework repository are analogous. The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
 
-Start with checking out the main repository from the NCAR GitHub
+Start by checking out the main repository from the :term:`NCAR` GitHub Organization:
 
 .. code-block:: console
 
@@ -113,26 +113,70 @@ Start with checking out the main repository from the NCAR GitHub
    cd ccpp-physics
    git remote rename origin upstream
 
-Checking out remote branches means that your local branches are in a detached state, since you cannot commit directly to a remote branch. As long as you are not making any code modifications, this is not a problem. If during your development work changes are made to the corresponding upstream branch, you can simply navigate to this repository and check out the updated version:
+In the above commands we have also renamed the "origin" repository to "upstream" within this clone. This will be required if you plan on making changes and contributing them back to your fork, but is otherwise unnecessary. This step prevents accidentally pushing changes to the main repository rather than your fork later on.
+
+From here you can view the available branches in the ccpp-physics repository with the ``git branch`` command:
+
+.. code-block:: console
+   :emphasize-lines: 4-20
+
+   git fetch --all
+   git branch -a
+
+   * main
+     remotes/upstream/HEAD -> upstream/main
+     remotes/upstream/dtc/hwrf-physics
+     remotes/upstream/emc_training_march_2019
+     remotes/upstream/emc_training_march_2019_rftim
+     remotes/upstream/feature/DOE_PBL_project
+     remotes/upstream/feature/rrtmgp-doxygen
+     remotes/upstream/feature/unified_standard_names
+     remotes/upstream/gfs_suite2_physics_test_tag_20190222
+     remotes/upstream/gsd_suite4_physics_test_tag_20181210
+     remotes/upstream/main
+     remotes/upstream/mraerosol
+     remotes/upstream/release/P7a
+     remotes/upstream/release/P7b
+     remotes/upstream/release/public-v4
+     remotes/upstream/release/public-v5
+     remotes/upstream/release/public-v6
+
+As you can see, you are placed on the ``main`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. All new development should start from that point, but if you would like to view code from another branch this is simple with the ``git checkout`` command. 
+
+.. code-block:: console
+   :emphasize-lines: 3-4
+
+   git checkout release/public-v6
+
+   branch 'release/public-v6' set up to track 'upstream/release/public-v6'.
+   Switched to a new branch 'release/public-v6'
+
+.. note::
+   Never used git or GitHub before? Confused by what all this means or why we do it? Check out `this presentation from the UFS SRW Training workshop <https://dtcenter.org/sites/default/files/events/2021/18-code-management-making-contributions-kavulich.pdf>`_ for a "from basic principles" explanation!
+
+After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v6`` named ``release/public-v6``. To return to the main branch, simply use ``git checkout main``.
+
+If you wish to make changes that you will eventually contribute back to the public code base, you should always create a new "feature" branch that will track those particular changes.
 
 .. code-block:: console
 
-   git remote update
-   git checkout upstream/master
-   cd ..
+   git checkout upstream/main
+   git checkout -b feature/my_new_local_development_branch
 
-However, if you are making code changes, you must create a local branch.
+.. note::
 
-.. code-block:: console
+   By checking out the remote ``upstream/main`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch. 
 
-   git checkout -b my_local_development_branch
+You can now make changes to the code, and commit those changes locally using ``git commit`` in order to track 
 
-Once you are ready to contribute the code to the upstream repository, you need to create a PR (see next section). In order to do so, you first need to create your own fork of this repository (see previous section) and configure your fork as an additional remote destination, which we typically label as origin. For example:
+
+
+Once you are ready to contribute the code back to the main (``upstream``) ccpp-physics repository, you need to create a `pull request (PR) <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`_ (see `Creating a pull request`_). In order to do so, you first need to create your own fork of this repository (see `Creating Forks`_) and configure your fork as an additional remote destination, which we typically label as ``origin``. For example:
 
 .. code-block:: console
 
    git remote add origin https://github.com/YOUR_GITHUB_USER/ccpp-physics
-   git remote update
+   git fetch origin
 
 Then, push your local branch to your fork:
 
@@ -222,16 +266,16 @@ This should show that your working copy is up to date with what is in the reposi
    Your branch is up to date with 'origin/features/my_local_development_branch'.
    nothing to commit, working tree clean
 
-At this point you can continue development or create a PR as discussed in the next section.
+At this point you can continue development or create a PR as discussed in `Creating a Pull Request`_.
 
 =========================================
 Contributing Code, Code Review Process
 =========================================
-Once your development is mature, and the testing has been completed (see next section), you are ready to create a PR using GitHub to propose your changes for review.
+Once your development is mature, and the testing has been completed, you are ready to create a PR using GitHub to propose your changes for review.
 
--------------------
-Creating a PR
--------------------
+-----------------------
+Creating a Pull Request
+-----------------------
 Go to the github.com web interface, and navigate to your repository fork and branch. In most cases, this will be in the ccpp-physics repository, hence the following example:
 
  | Navigate to: https://github.com/<yourusername>/ccpp-physics
@@ -241,8 +285,9 @@ Go to the github.com web interface, and navigate to your repository fork and bra
  | Fill in a detailed description, including reporting on any testing you did
  | Click on “Create pull request”
 
-If your development also requires changes in other repositories, you must open PRs in those repositories as well. In the PR message for each repository, please note the associate PRs submitted to other repositories.
+If your development also requires changes in other repositories, you must open PRs in those repositories as well. In the PR message for each repository, please note the associated PRs submitted to other repositories.
 
 Several people (aka CODEOWNERS) are automatically added to the list of reviewers on the right hand side. Once the PR has been approved, the change is merged to main by one of the code owners. If there are pending conflicts, this means that the code is not up to date with the trunk. To resolve those, pull the target branch from upstream as described above, solve the conflicts and push the changes to the branch on your fork (this also updates the PR).
 
-Note. GitHub offers a draft pull request feature that allows users to push their code to GitHub and create a draft PR. Draft PRs cannot be merged and do not automatically initiate notifications to the CODEOWNERS, but allow users to prepare the PR and flag it as “ready for review” once they feel comfortable with it.
+.. note::
+   GitHub offers a "Draft pull request" feature that allows users to push their code to GitHub and create a draft PR. Draft PRs cannot be merged and do not automatically initiate notifications to the CODEOWNERS, but allow users to prepare the PR and flag it as “ready for review” once they feel comfortable with it. To open a draft rather than a ready-for-review PR, select the arrow next to the green "Create pull request" button, and select "Create draft pull request". Then continue the above steps as usual.

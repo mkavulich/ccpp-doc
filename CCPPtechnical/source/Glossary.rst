@@ -7,11 +7,11 @@ Glossary
       Model agnostic, vetted, collection of codes containing atmospheric physical parameterizations
       and suites for use in NWP along with a framework that connects the physics to host models
 
-   *CCPP-Framework*
+   *CCPP Framework*
      The infrastructure that connects physics schemes with a host model; also refers to a software
      repository of the same name 
 
-   *CCPP-Physics*
+   *CCPP Physics*
       The pool of CCPP-compliant physics schemes; also refers to a software repository of the same name
 
    "Fast" physics
@@ -44,6 +44,11 @@ Glossary
    Multi-suite CCPP build
       A CCPP build property in which a set of physics suites is specified
       at compile time from which one can be chosen at runtime.
+
+   NCAR
+      The National Center for Atmospheric Research - a US federally funded research and development 
+      center (FFRDC) managed by the University Corporation for Atmospheric Research (UCAR) and 
+      funded by the National Science Foundation (NSF).
 
    NEMS
       The NOAA Environmental Modeling System - a software infrastructure that supports 

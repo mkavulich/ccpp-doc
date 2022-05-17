@@ -4,9 +4,9 @@
 CCPP Overview
 *************************
 
-Ideas for this project originated within the Earth System Prediction Capability (ESPC)
+Ideas for the Common Community Physics Package (:term:`CCPP`) originated within the Earth System Prediction Capability (ESPC)
 physics interoperability group, which has representatives from the US National Center
-for Atmospheric Research (NCAR), the Navy, National Oceanic and Atmospheric Administration
+for Atmospheric Research (:term:`NCAR`), the Navy, National Oceanic and Atmospheric Administration
 (NOAA) Research Laboratories, NOAA National Weather Service, and other groups. Physics
 interoperability, or the ability to run a given physics :term:`suite` in various host models,
 has been a goal of this multi-agency group for several years. An initial mechanism to
@@ -14,8 +14,7 @@ run the physics of NOAA’s Global Forecast System (GFS) model in other host mod
 the Interoperable Physics Driver (IPD), was developed by the NOAA Environmental Modeling
 Center (EMC) and later augmented by the NOAA Geophysical Fluid Dynamics Laboratory (GFDL).
 
-The :term:`CCPP` expanded on that work by meeting additional requirements put forth by
-`NOAA <https://dtcenter.org/gmtb/users/ccpp/developers/requirements/CCPP_REQUIREMENTS.pdf>`_,
+The :term:`CCPP` expanded on that work by meeting `additional requirements put forth by NOAA <https://dtcenter.org/sites/default/files/community-code/ccpp-requirements-historical.pdf>`_, 
 and brought new functionalities to the physics-dynamics interface. Those include
 the ability to choose the order of parameterizations, to subcycle individual
 parameterizations by running them more frequently than other parameterizations,
@@ -26,7 +25,7 @@ between them (e.g., dynamics and coupling computations). The IPD was phased out 
 The architecture of the CCPP and its connection to a host model is shown in
 :numref:`Figure %s <ccpp_arch_host>`.
 Two elements of the CCPP are highlighted: a library of physical parameterizations
-(*CCPP-Physics*) that conforms to selected standards and an infrastructure (*CCPP-Framework*)
+(:term:`CCPP Physics`) that conforms to selected standards and an infrastructure (:term:`CCPP Framework`)
 that enables connecting the physics to a host model. The third element (not shown)
 is the CCPP Single Column Model (SCM), a simple host model that can be used with the CCPP
 Physics and Framework.
@@ -38,19 +37,19 @@ Physics and Framework.
    *Architecture of the CCPP and its connection to a host model,
    represented here as the driver for an atmospheric model (yellow box). The dynamical
    core (dycore), physics, and other aspects of the model (such as coupling) are
-   connected to the driving host through the pool of physics caps. The CCPP-Physics is
+   connected to the driving host through the pool of physics caps. The CCPP Physics is
    denoted by the gray box at the bottom of the physics, and encompasses the
    parameterizations, which are accompanied by physics caps.*
 
 The host model needs to have functional documentation (metadata) for any variable that will be
-passed to or received from the physics. The :term:`CCPP-Framework` is used to compare the variables
+passed to or received from the physics. The :term:`CCPP Framework` is used to compare the variables
 requested by each physical :term:`parameterization` against those provided by the host model [#]_, and
 to check whether they are available, otherwise an error will be issued. This process serves
 to expose the variables passed between physics and dynamics, and to clarify how information
-is exchanged among parameterizations. During runtime, the CCPP-Framework is responsible for
+is exchanged among parameterizations. During runtime, the CCPP Framework is responsible for
 communicating the necessary variables between the host model and the parameterizations.
 
-The :term:`CCPP-Physics` contains the parameterizations and suites that are used operationally in
+The :term:`CCPP Physics` contains the parameterizations and suites that are used operationally in
 the UFS Atmosphere, as well as parameterizations that are under development for possible
 transition to operations in the future. The CCPP aims to support the broad community
 while benefiting from the community. In such a CCPP ecosystem
@@ -60,7 +59,7 @@ investigation and development. Innovations created and effectively tested by the
 community can be funneled back to the operational centers for further improvement of the
 operational forecasts.
 
-Both the CCPP-Framework and the CCPP-Physics are developed as open source code, follow
+Both the CCPP Framework and the CCPP Physics are developed as open source code, follow
 industry-standard code management practices, and are freely distributed through GitHub
 (https://github.com/NCAR/ccpp-physics and https://github.com/NCAR/ccpp-framework).
 This documentation is housed in repository https://github.com/NCAR/ccpp-doc.
@@ -73,11 +72,11 @@ This documentation is housed in repository https://github.com/NCAR/ccpp-doc.
    *CCPP ecosystem.*
 
 The CCPP is governed by the groups that contribute to its development. The governance
-of the CCPP-Physics is currently led by NOAA, and the DTC works with EMC and the
+of the CCPP Physics is currently led by NOAA, and the DTC works with EMC and the
 National Weather Service Office of Science and Technology Integration to determine schemes
-and suites to be included and supported. The governance of the CCPP-Framework is jointly
+and suites to be included and supported. The governance of the CCPP Framework is jointly
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
-and https://dtcenter.org/gmtb/users/ccpp).
+and https://dtcenter.org/community-code/common-community-physics-package-ccpp).
 
 The table below lists all parameterizations supported in CCPP public releases and the
 `CCPP Scientific Documentation <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc>`_
@@ -124,7 +123,7 @@ Application.
    | Ocean              | NSST            | NSST            | NSST        | NSST             | NSST                    |
    +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
 
-*The second row indicates which host model the suite is supported for.
+The second row indicates which host model the suite is supported for.
 The suites that are currently supported in the CCPP are listed in the third row. The
 types of parameterization are denoted in the first column, where H2O represents the stratospheric water
 vapor parameterization. The GFS_v15p2 suite includes the GFDL microphysics, a Eddy-Diffusivity Mass
@@ -141,7 +140,7 @@ Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-
 convection schemes, and the Rapid Update Cycle (RUC) LSM. Suite RRFS_v1alpha is
 targeted for the Rapid Refresh Forecast System
 (RRFS) and differs from the GSD_v1 suite by not using parameterized convection and employing the
-Noah-Multiparameterization (MP) LSM.*
+Noah-Multiparameterization (MP) LSM.
 
 Those interested in the history of previous CCPP releases should know that the
 first public release of the CCPP took place in April 2018 and included all the
@@ -173,13 +172,13 @@ upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the
     release compatible with the global UFS Medium-Range Weather Application. CCPP v5.0.0 is only
     compatible with the limited-area UFS Short-Range Weather Application.  The CCPP
     has also been run experimentally with a Navy model. Work is under
-    way to connect and validate the use of the CCPP-Framework with NCAR models.
+    way to connect and validate the use of the CCPP Framework with NCAR models.
 
 Additional Resources
 ========================
 
 For the latest version of the released code and additional documentation,
-please visit the `DTC Website <http://www.dtcenter.org/ccpp>`_.
+please visit the `DTC Website <https://dtcenter.org/community-code/common-community-physics-package-ccpp>`_.
 
 Please send questions and comments to the CCPP Forum at https://dtcenter.org/forum/ccpp-user-support.
 When using the CCPP with the UFS, questions can also be posted
