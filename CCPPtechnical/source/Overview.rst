@@ -90,52 +90,57 @@ Application.
 
 .. _scheme_suite_table:
 
-.. table:: Suites supported in the CCPP
+.. table:: *Suites supported in the CCPP*
 
-   +--------------------+-----------------+--------------------------------------------------+-------------------------+
-   |                    | **Operational** |                  **Developmental**                                         |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   |  Host              | SCM/MRW/SRW     | SCM/MRW         | SCM         | SCM              | SCM/SRW                 |
-   +====================+=================+=================+=============+==================+=========================+
-   |                    | **GFS_v15p2**   | **GFS_v16beta** | **csawmg**  | **GSD_v1**       | **RRFS_v1alpha**        |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Microphysics       | GFDL            | GFDL            | M-G3        | Thompson         | Thompson                |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | PBL                | K-EDMF          | TKE EDMF        | K-EDMF      | MYNN             | MYNN                    |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Deep convection    | SAS             | saSAS           | CSAW        | GF               | GF                      |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Shallow convection | SAS             | saSAS           | saSAS       | MYNN and GF      | MYNN                    |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Radiation          | RRTMG           | RRTMG           | RRTMG       | RRTMG            | RRTMG                   |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Surface layer      | GFS             | GFS             | GFS         | GFS              | GFS                     |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Gravity Wave Drag  | uGWD            | uGWD            | uGWD        | uGWD             | uGWD                    |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Land surface       | Noah            | Noah            | Noah        | RUC              | Noah-MP                 |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Ozone              | NRL 2015        | NRL 2015        | NRL 2015    | NRL 2015         | NRL 2015                |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | H\ :sub:`2`\ O     | NRL 2015        | NRL 2015        | NRL 2015    | NRL 2015         | NRL 2015                |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
-   | Ocean              | NSST            | NSST            | NSST        | NSST             | NSST                    |
-   +--------------------+-----------------+-----------------+-------------+------------------+-------------------------+
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   |                    | Operational      |Developmental                                                                       |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   |  Host              | SCM/MRW/SRW      | SCM/MRW        | SCM            | SCM/SRW        | SCM/SRW        | SCM/SRW        |
+   +====================+==================+================+================+================+================+================+
+   |                    | **GFS_v16**      | **GFS_v17_p8** | **RAP**        | **RRFS_v1beta**| **WoFS**       | **HRRR**       |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Microphysics       | GFDL             | Thompson       | Thompson       | Thompson       | NSSL           | Thompson       |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | PBL                | TKE EDMF         | TKE EDMF       | MYNN-EDMF      | MYNN-EDMF      | MYNN-EDMF      | MYNN-EDMF      |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Deep convection    | saSAS            | saSAS + CA     | GF             | *N/A*          | *N/A*          | *N/A*          |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Shallow convection | saMF             | saMF           | GF             | *N/A*          | *N/A*          | *N/A*          |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Radiation          | RRTMG            | RRTMG          | RRTMG          | RRTMG          | RRTMG          | RRTMG          |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Surface layer      | GFS              | GFS            | MYNN-SFL       | MYNN-SFL       | MYNN-SFL       | MYNN-SFL       |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Gravity Wave Drag  | CIRES-uGWP       | Unified-uGWP   | drag_suite     | CIRES-uGWP     | CIRES-UGWP     | drag_suite     |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Land surface       | Noah             | Noah-MP        | RUC            | Noah-MP        | Noah-MP        | RUC            |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Ozone              | NRL 2015         | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | H\ :sub:`2`\ O     | NRL 2015         | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   | Ocean              | NSST             | NSST           | NSST           | NSST           | NSST           | NSST           |
+   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
 
 The second row indicates which host model the suite is supported for.
 The suites that are currently supported in the CCPP are listed in the third row. The
 types of parameterization are denoted in the first column, where H2O represents the stratospheric water
-vapor parameterization. The GFS_v15p2 suite includes the GFDL microphysics, a Eddy-Diffusivity Mass
-Flux (K-EDMF) planetary boundary layer (PBL) scheme, scale-aware (sa) Simplified Arakawa-Schubert
-(SAS) convection, Rapid Radiation Transfer Model for General Circulation Models (RRTMG) radiation,
-the GFS surface layer, the unified gravity wave drag (uGWD), the Noah Land Surface Model (LSM),
-the 2015 Navy Research Laboratory (NRL) ozone and stratospheric water vapor schemes, and the
-NSST ocean scheme. The three developmental suites are candidates for future operational implementations. The GFS_v16beta
-suite is the same as the GFS_v15p2 suite except using the Turbulent Kinetic Energy (TKE)-based EDMF
+vapor parameterization. The operational GFS_v16 suite includes the GFDL microphysics, 
+the Turbulent Kinetic Energy (TKE)-based EDMF planetary boundary layer (PBL) scheme,
+scale-aware (sa) Simplified Arakawa-Schubert (SAS) deep convection,
+scale-aware mass-flux (saMF) shallow convection,
+Rapid Radiation Transfer Model for General Circulation Models (RRTMG) radiation,
+the GFS surface layer,
+the Cooperative Institute for Research in the Environmental Sciences (CIRES) unified gravity wave drag (uGWD), 
+the Noah Land Surface Model (LSM),
+the 2015 Navy Research Laboratory (NRL) ozone and stratospheric water vapor schemes, 
+and the NSST ocean scheme. The five developmental suites are candidates for future operational implementations. 
+The GFS_v17_p8 suite features several differences from the GFS_v16 suite, using 
+the Thompson microphysics scheme
 PBL scheme. The Chikira-Sugiyama (csawmg) suite uses the Morrison-Gettelman 3 (MG-3) microphysics
 scheme and Chikira-Sugiyama convection scheme with Arakawa-Wu extension (CSAW). The NOAA Global
 Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-Yamada-Nakanishi-Niino
-(MYNN) PBL and shallow convection, Grell-Freitas (GF) deep
+(MYNN) PBL (MYNN-EDMF) and surface layer/shallow cloud, Grell-Freitas (GF) deep
 convection schemes, and the Rapid Update Cycle (RUC) LSM. Suite RRFS_v1alpha is
 targeted for the Rapid Refresh Forecast System
 (RRFS) and differs from the GSD_v1 suite by not using parameterized convection and employing the
@@ -161,15 +166,16 @@ upgrade with the capability to build the code using Python 3 (previously only Py
 was supported).
 The CCPP v5.0 release, issued in February 2021, was a major
 upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the RRFS_v1alpha suite.
-
+The CCPP v6.0 release, issued in June 2022, was a major upgrade in conjunction with the release of the UFS MRW and SRW v2.0 releases.
+This release introduced several new pre-operational schemes.
 
 .. [#] As of this writing, the CCPP has been validated with two host models: the CCPP
     SCM and the atmospheric component of
     NOAA’s Unified Forecast System (UFS) (hereafter the UFS Atmosphere) that utilizes
     the Finite-Volume Cubed Sphere (FV3) dynamical core.  The CCPP can be utilized both with the
-    global and limited-area configurations of the UFS Atmosphere. CCPP v4.1.0 is the latest
-    release compatible with the global UFS Medium-Range Weather Application. CCPP v5.0.0 is only
-    compatible with the limited-area UFS Short-Range Weather Application.  The CCPP
+    global and limited-area configurations of the UFS Atmosphere. CCPP v6.0.0 is the latest
+    release compatible with the global UFS Medium-Range Weather Application and the
+    limited-area UFS Short-Range Weather Application.  The CCPP
     has also been run experimentally with a Navy model. Work is under
     way to connect and validate the use of the CCPP Framework with NCAR models.
 
