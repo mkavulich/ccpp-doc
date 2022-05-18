@@ -1,5 +1,26 @@
 .. _Overview:
 
+.. raw:: html
+
+   <style type="text/css">
+     span.gray {color: DimGray;}
+     span.bolditalic {
+       font-weight: bold;
+       font-style: italic;
+     }
+   </style>
+
+.. role:: bi
+   :class: bolditalic
+
+.. role:: g
+   :class: gray
+
+.. role:: gbi
+   :class: bolditalic gray
+
+
+
 *************************
 CCPP Overview
 *************************
@@ -80,7 +101,11 @@ and https://dtcenter.org/community-code/common-community-physics-package-ccpp).
 The table below lists all parameterizations supported in CCPP public releases and the
 `CCPP Scientific Documentation <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc>`_
 describes the parameterizations in detail. The parameterizations
-are grouped in suites, which can be classified primarily as operational or experimental.
+are grouped in suites, which can be classified primarily as *operational*, *developmental*, or *experimental*.
+*Operational* suites are those used by operational, real-time weather prediction models. For this release, the only operational scheme is GFS_v16, which is used for `version 16 <https://www.weather.gov/media/notification/scn_21-20_gfsv16.0_aaa_update.pdf>`_ of the GFS model.
+*Developmental* suites are those that are officially supported for this CCPP release with one or more host models, but are not currently used in any operational models. These may include pure scientific schemes, or "release candidate" schemes proposed for use with future operational models.
+Finally, *experimental* suites are included in the `ccpp_physics` repository, but are not supported for community use. These may be used experimentally, but proceed at your own risk.
+
 There are also variants, which are suites that vary slightly from the other ones
 for some practical reason, such as to enable a suite even when certain fields are
 missing from the initial conditions. Suites are supported for use with specific
@@ -92,35 +117,35 @@ Application.
 
 .. table:: *Suites supported in the CCPP*
 
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   |                    | Operational      |Developmental                                                                       |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   |  Host              | SCM/MRW/SRW      | SCM/MRW        | SCM            | SCM/SRW        | SCM/SRW        | SCM/SRW        |
-   +====================+==================+================+================+================+================+================+
-   |                    | **GFS_v16**      | **GFS_v17_p8** | **RAP**        | **RRFS_v1beta**| **WoFS**       | **HRRR**       |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Microphysics       | GFDL             | Thompson       | Thompson       | Thompson       | NSSL           | Thompson       |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | PBL                | TKE EDMF         | TKE EDMF       | MYNN-EDMF      | MYNN-EDMF      | MYNN-EDMF      | MYNN-EDMF      |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Deep convection    | saSAS            | saSAS + CA     | GF             | *N/A*          | *N/A*          | *N/A*          |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Shallow convection | saMF             | saMF           | GF             | *N/A*          | *N/A*          | *N/A*          |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Radiation          | RRTMG            | RRTMG          | RRTMG          | RRTMG          | RRTMG          | RRTMG          |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Surface layer      | GFS              | GFS            | MYNN-SFL       | MYNN-SFL       | MYNN-SFL       | MYNN-SFL       |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Gravity Wave Drag  | CIRES-uGWP       | Unified-uGWP   | drag_suite     | CIRES-uGWP     | CIRES-UGWP     | drag_suite     |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Land surface       | Noah             | Noah-MP        | RUC            | Noah-MP        | Noah-MP        | RUC            |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Ozone              | NRL 2015         | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | H\ :sub:`2`\ O     | NRL 2015         | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       | NRL 2015       |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
-   | Ocean              | NSST             | NSST           | NSST           | NSST           | NSST           | NSST           |
-   +--------------------+------------------+----------------+----------------+----------------+----------------+----------------+
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   |                     | :bi:`Operational`| :gbi:`Developmental`                                                                 |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Physics Suite       | GFS_v16          | :g:`GFS_v17_p8`  | :g:`RAP`       |:g:`RRFS_v1beta`| :g:`WoFS`      | :g:`HRRR`      |
+   +=====================+==================+==================+================+================+================+================+
+   | **Supported hosts** | **SCM/MRW/SRW**  | :g:`**SCM/MRW**` | :g:`**SCM**`   |:g:`**SCM/SRW**`|:g:`**SCM/SRW**`|:g:`**SCM/SRW**`|
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Microphysics        | GFDL             | :g:`Thompson`    | :g:`Thompson`  | :g:`Thompson`  | :g:`NSSL`      | :g:`Thompson`  |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | PBL                 | TKE EDMF         | :g:`TKE EDMF`    | :g:`MYNN-EDMF` | :g:`MYNN-EDMF` | :g:`MYNN-EDMF` | :g:`MYNN-EDMF` |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Deep convection     | saSAS            | :g:`saSAS + CA`  | :g:`GF`        | :g:`*N/A*`     | :g:`*N/A*`     | :g:`*N/A*`     |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Shallow convection  | saMF             | :g:`saMF`        | :g:`GF`        | :g:`*N/A*`     | :g:`*N/A*`     | :g:`*N/A*`     |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Radiation           | RRTMG            | :g:`RRTMG`       | :g:`RRTMG`     | :g:`RRTMG`     | :g:`RRTMG`     | :g:`RRTMG`     |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Surface layer       | GFS              | :g:`GFS`         | :g:`MYNN-SFL`  | :g:`MYNN-SFL`  | :g:`MYNN-SFL`  | :g:`MYNN-SFL`  |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Gravity Wave Drag   | CIRES-uGWP       | :g:`Unified-uGWP`| :g:`drag_suite`| :g:`CIRES-uGWP`| :g:`CIRES-UGWP`| :g:`drag_suite`|
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Land surface        | Noah             | :g:`Noah-MP`     | :g:`RUC`       | :g:`Noah-MP`   | :g:`Noah-MP`   | :g:`RUC`       |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Ozone               | NRL 2015         | :g:`NRL 2015`    | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | H\ :sub:`2`\ O      | NRL 2015         | :g:`NRL 2015`    | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
+   | Ocean               | NSST             | :g:`NSST`        | :g:`NSST`      | :g:`NSST`      | :g:`NSST`      | :g:`NSST`      |
+   +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
 
 The second row indicates which host model the suite is supported for.
 The suites that are currently supported in the CCPP are listed in the third row. The
