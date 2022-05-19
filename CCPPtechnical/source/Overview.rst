@@ -104,14 +104,7 @@ describes the parameterizations in detail. The parameterizations
 are grouped in suites, which can be classified primarily as *operational*, *developmental*, or *experimental*.
 *Operational* suites are those used by operational, real-time weather prediction models. For this release, the only operational scheme is GFS_v16, which is used for `version 16 <https://www.weather.gov/media/notification/scn_21-20_gfsv16.0_aaa_update.pdf>`_ of the GFS model.
 *Developmental* suites are those that are officially supported for this CCPP release with one or more host models, but are not currently used in any operational models. These may include pure scientific schemes, or "release candidate" schemes proposed for use with future operational models.
-Finally, *experimental* suites are included in the `ccpp_physics` repository, but are not supported for community use. These may be used experimentally, but proceed at your own risk.
-
-There are also variants, which are suites that vary slightly from the other ones
-for some practical reason, such as to enable a suite even when certain fields are
-missing from the initial conditions. Suites are supported for use with specific
-host models, such as the SCM, and the versions of the UFS Weather Model used in
-the UFS Medium-Range Weather (MRW) Application or the UFS Short-Range Weather (SRW)
-Application.
+Finally, *experimental* suites are included in the `ccpp_physics` repository, but are not supported for community use. These may be used experimentally, but they have not been extensively tested, so users should proceed at your their risk.
 
 .. _scheme_suite_table:
 
@@ -136,40 +129,40 @@ Application.
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Surface layer       | GFS              | :g:`GFS`         | :g:`MYNN-SFL`  | :g:`MYNN-SFL`  | :g:`MYNN-SFL`  | :g:`MYNN-SFL`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
-   | Gravity Wave Drag   | CIRES-uGWP       | :g:`Unified-uGWP`| :g:`drag_suite`| :g:`CIRES-uGWP`| :g:`CIRES-UGWP`| :g:`drag_suite`|
+   | Gravity Wave Drag   | CIRES-uGWP       | :g:`Unified-uGWP`| :g:`GSL drag`  | :g:`CIRES-uGWP`| :g:`CIRES-uGWP`| :g:`GSL drag`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Land surface        | Noah             | :g:`Noah-MP`     | :g:`RUC`       | :g:`Noah-MP`   | :g:`Noah-MP`   | :g:`RUC`       |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Ozone               | NRL 2015         | :g:`NRL 2015`    | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
-   | H\ :sub:`2`\ O      | NRL 2015         | :g:`NRL 2015`    | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  |
+   | Strat H\ :sub:`2`\ O| NRL 2015         | :g:`NRL 2015`    | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  | :g:`NRL 2015`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Ocean               | NSST             | :g:`NSST`        | :g:`NSST`      | :g:`NSST`      | :g:`NSST`      | :g:`NSST`      |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
 
-The second row indicates which host model the suite is supported for.
-The suites that are currently supported in the CCPP are listed in the third row. The
-types of parameterization are denoted in the first column, where H2O represents the stratospheric water
-vapor parameterization. The operational GFS_v16 suite includes the GFDL microphysics, 
-the Turbulent Kinetic Energy (TKE)-based EDMF planetary boundary layer (PBL) scheme,
-scale-aware (sa) Simplified Arakawa-Schubert (SAS) deep convection,
-scale-aware mass-flux (saMF) shallow convection,
-Rapid Radiation Transfer Model for General Circulation Models (RRTMG) radiation,
-the GFS surface layer,
-the Cooperative Institute for Research in the Environmental Sciences (CIRES) unified gravity wave drag (uGWD), 
-the Noah Land Surface Model (LSM),
-the 2015 Navy Research Laboratory (NRL) ozone and stratospheric water vapor schemes, 
-and the NSST ocean scheme. The five developmental suites are candidates for future operational implementations. 
-The GFS_v17_p8 suite features several differences from the GFS_v16 suite, using 
-the Thompson microphysics scheme
-PBL scheme. The Chikira-Sugiyama (csawmg) suite uses the Morrison-Gettelman 3 (MG-3) microphysics
-scheme and Chikira-Sugiyama convection scheme with Arakawa-Wu extension (CSAW). The NOAA Global
-Systems Division (GSD) v1 suite (GSD_v1) includes Thompson microphysics, Mellor-Yamada-Nakanishi-Niino
-(MYNN) PBL (MYNN-EDMF) and surface layer/shallow cloud, Grell-Freitas (GF) deep
-convection schemes, and the Rapid Update Cycle (RUC) LSM. Suite RRFS_v1alpha is
-targeted for the Rapid Refresh Forecast System
-(RRFS) and differs from the GSD_v1 suite by not using parameterized convection and employing the
-Noah-Multiparameterization (MP) LSM.
+Only the suites that are currently supported in the CCPP are listed in the table. Currently all supported suites use the 2015 Navy Research Laboratory (NRL) `ozone <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__o_z_p_h_y_s.html>`_ and `stratospheric water vapor <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__h2_o_p_h_y_s.html>`_ schemes,
+and the `NSST <https://dtcenter.ucar.edu/GMTB/v4.0/sci_doc/GFS_NSST.html>`_ ocean scheme.
+
+The operational GFS_v16 suite includes `GFDL microphysics <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_d_l_cloud.html>`_, 
+the `Turbulent Kinetic Energy (TKE)-based Eddy Diffusivity Mass-Flux (EDMF) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__s_a_t_m_e_d_m_f_v_d_i_f_q.html>`_ planetary boundary layer (PBL) scheme,
+`scale-aware (sa) Simplified Arakawa-Schubert (SAS) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__s_a_m_fdeep.html>`_ deep convection,
+`scale-aware mass-flux (saMF) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__s_a_m_fshal.html>`_ shallow convection,
+`Rapid Radiation Transfer Model for General Circulation Models (RRTMG) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__r_r_t_m_g.html>`_ radiation,
+`GFS surface layer <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__s_f_c_l_y_r.html>`_ scheme,
+the `Cooperative Institute for Research in the Environmental Sciences (CIRES) unified gravity wave drag (uGWD) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__u_g_w_p_v0.html>`_ scheme, 
+and the `Noah Land Surface Model (LSM) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__n_o_a_h.html>`_.
+
+The five developmental suites are either analogues for current operational physics schemes, or candidates for future operational implementations.
+
+* The GFS_v17_p8 suite is the current (as of June 2022) proposed suite for the next operational GFS implementation (version 17), and features several differences from the GFS_v16 suite, using `Thompson <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_t_h_o_m_p_s_o_n.html>`_ microphysics, `saSAS plus Cellular Automata (CA) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__s_a_m_fdeep.html>`_ deep convection, `Unified uGWP <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__u_n_i_f_i_e_d__u_g_w_p.html>`_ gravity wave drag, and `Noah Multiparameterization (Noah-MP) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_noah_m_p.html>`_ land surface parameterization.
+
+* The RAP scheme is similar to the operational Rapid Refresh (RAP) model physics package, and features Thompson microphysics, `Mellor-Yamada-Nakanishi-Niino (MYNN) EDMF <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_m_y_n_n_e_d_m_f.html>`_ PBL, `Grell-Freitas (GF) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_c_u__g_f.html>`_ deep convection and shallow convection schemes, RRTMG radiation, `MYNN surface layer (SFL) <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_s_f_c__m_y_n_n_s_f_l.html>`_ scheme, `Global Systems Laboratory (GSL) drag <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s_drag_suite.html>`_ gravity wave drag scheme, and the `Rapid Update Cycle (RUC) Land Surface Model <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_r_u_c_l_s_m.html>`_.
+
+* The RRFS_v1beta suite is being used for development of the future `Rapid Refresh Forecast System (RRFS) <https://gsl.noaa.gov/focus-areas/unified_forecast_system/rrfs>`_, which is scheduled for implementation in late 2023. This scheme features Thompson microphysics, MYNN EDMF PBL, RRTMG radiation, MYNN SFL, CIRES uGWD, and Noah-MP land surface (it does not feature convective parameterization).
+
+* The `Warn-on-Forecast System (WoFS) <https://wof.nssl.noaa.gov/>`_ suite is being used by the WoFS project at the National Severe Storms Laboratory (NSSL) for real-time and potential future operational high-resolution modeling products. The WoFS suite is identical to the RRFS_v1beta suite, except using `NSSL 2-moment <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_n_s_s_l_m_i_c_r_o_page.html>`_ microphysics.
+
+* Finally, the HRRR scheme is similar to the operational High-Resolution Rapid Refresh (HRRR) model physics package, and is identical to the RAP scheme except it does not have convective parameterization due to its intended use at higher convective-permitting resolutions.
 
 Those interested in the history of previous CCPP releases should know that the
 first public release of the CCPP took place in April 2018 and included all the
@@ -192,7 +185,6 @@ was supported).
 The CCPP v5.0 release, issued in February 2021, was a major
 upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the RRFS_v1alpha suite.
 The CCPP v6.0 release, issued in June 2022, was a major upgrade in conjunction with the release of the UFS MRW and SRW v2.0 releases.
-This release introduced several new pre-operational schemes.
 
 .. [#] As of this writing, the CCPP has been validated with two host models: the CCPP
     SCM and the atmospheric component of
