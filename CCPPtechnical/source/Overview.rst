@@ -4,6 +4,8 @@
 
    <style type="text/css">
      span.gray {color: DimGray;}
+     span.bold {font-weight: bold;}
+     span.italic {font-style: italic;}
      span.bolditalic {
        font-weight: bold;
        font-style: italic;
@@ -11,13 +13,19 @@
    </style>
 
 .. role:: bi
-   :class: bolditalic
+   :class: bold italic
 
 .. role:: g
    :class: gray
 
+.. role:: gb
+   :class: bold gray
+
+.. role:: gi
+   :class: italic gray
+
 .. role:: gbi
-   :class: bolditalic gray
+   :class: bold italic gray
 
 
 
@@ -104,7 +112,7 @@ describes the parameterizations in detail. The parameterizations
 are grouped in suites, which can be classified primarily as *operational*, *developmental*, or *experimental*.
 *Operational* suites are those used by operational, real-time weather prediction models. For this release, the only operational scheme is GFS_v16, which is used for `version 16 <https://www.weather.gov/media/notification/scn_21-20_gfsv16.0_aaa_update.pdf>`_ of the GFS model.
 *Developmental* suites are those that are officially supported for this CCPP release with one or more host models, but are not currently used in any operational models. These may include pure scientific schemes, or "release candidate" schemes proposed for use with future operational models.
-Finally, *experimental* suites are included in the `ccpp_physics` repository, but are not supported for community use. These may be used experimentally, but they have not been extensively tested, so users should proceed at your their risk.
+Finally, *experimental* suites are included in the ``ccpp_physics`` repository, but are not supported for community use. These may be used experimentally, but they have not been extensively tested, so users should proceed at your their risk.
 
 .. _scheme_suite_table:
 
@@ -115,15 +123,15 @@ Finally, *experimental* suites are included in the `ccpp_physics` repository, bu
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Physics Suite       | GFS_v16          | :g:`GFS_v17_p8`  | :g:`RAP`       |:g:`RRFS_v1beta`| :g:`WoFS`      | :g:`HRRR`      |
    +=====================+==================+==================+================+================+================+================+
-   | **Supported hosts** | **SCM/MRW/SRW**  | :g:`**SCM/MRW**` | :g:`**SCM**`   |:g:`**SCM/SRW**`|:g:`**SCM/SRW**`|:g:`**SCM/SRW**`|
+   | **Supported hosts** | **SCM/MRW/SRW**  | :gb:`SCM/MRW`    | :gb:`SCM`      |:gb:`SCM/SRW`   | :gb:`SCM/SRW`  | :gb:`SCM/SRW`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Microphysics        | GFDL             | :g:`Thompson`    | :g:`Thompson`  | :g:`Thompson`  | :g:`NSSL`      | :g:`Thompson`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | PBL                 | TKE EDMF         | :g:`TKE EDMF`    | :g:`MYNN-EDMF` | :g:`MYNN-EDMF` | :g:`MYNN-EDMF` | :g:`MYNN-EDMF` |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
-   | Deep convection     | saSAS            | :g:`saSAS + CA`  | :g:`GF`        | :g:`*N/A*`     | :g:`*N/A*`     | :g:`*N/A*`     |
+   | Deep convection     | saSAS            | :g:`saSAS + CA`  | :g:`GF`        | :gi:`N/A`      | :gi:`N/A`      | :gi:`N/A`      |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
-   | Shallow convection  | saMF             | :g:`saMF`        | :g:`GF`        | :g:`*N/A*`     | :g:`*N/A*`     | :g:`*N/A*`     |
+   | Shallow convection  | saMF             | :g:`saMF`        | :g:`GF`        | :gi:`N/A`      | :gi:`N/A`      | :gi:`N/A`      |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Radiation           | RRTMG            | :g:`RRTMG`       | :g:`RRTMG`     | :g:`RRTMG`     | :g:`RRTMG`     | :g:`RRTMG`     |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
