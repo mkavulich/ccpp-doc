@@ -185,7 +185,7 @@ updated version of the operational
 GFS v15 and replaced suite GFS_v15. It also contained three developmental suites:
 csawmg with minor updates, GSD_v1 (an update over the previously released GSD_v0),
 and GFS_v16beta, which was the target suite at the time for implementation in the
-upcoming operational GFSv16 (it replaced suite GFSv15plus).
+upcoming operational GFSv16 (it replaced suite GFSv15plus). CCPP v4.0 was the first release supported for use with the UFS Weather Model, more specifically as part of the UFS Medium-Range Weather (MRW) Application.
 The CCPP v4.1 release, issued in October 2020, was a minor
 upgrade with the capability to build the code using Python 3 (previously only Python 2
 was supported).
