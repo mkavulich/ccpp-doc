@@ -68,12 +68,25 @@ primary and interstitial schemes.
 
 General Rules
 =============
-A CCPP-compliant scheme is in the form of Fortran modules. :ref:`Listing 2.1 <scheme_template>` contains
-the template for a CCPP-compliant scheme, 
-which includes at least one of these five components: the *_timestep_init*, *_init*,
-*_run*, *_finalize*, and *_timestep_finalize* subroutines. Each ``.F`` or ``.F90``
-file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory
-as described in :numref:`Section %s <MetadataRules>`
+A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme must be in its own module, and must include at least one of the
+following subroutines (entry points): *_timestep_init*, *_init*, *_run*, *_finalize*,
+and *_timestep_finalize*. The module name and the subroutine names must be consistent with the
+scheme name. The *_run* subroutine contains the
+code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
+they will be executed at the beginning and at the end of the host model physics timestep,
+respectively. Further, if present, the *_init* and *_finalize* subroutines
+associated with a scheme are run at the beginning and at the end of the model run.
+The *_init* and *_finalize* subroutines may be called more than once depending
+on the host model’s parallelization strategy, and as such must be idempotent (the answer
+must be the same when the subroutine is called multiple times). This can be achieved
+by using a module variable `is_initialized` that keeps track whether a scheme has been
+initialized or not.
+
+
+:ref:`Listing 2.1 <scheme_template>` contains the template for a CCPP-compliant scheme, which 
+includes the *_run* subroutine for an example "*scheme_template*" scheme. Each ``.F`` or ``.F90``
+file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the 
+same directory as described in :numref:`Section %s <MetadataRules>`
 
 .. _scheme_template:
 .. literalinclude:: ./_static/scheme_template.F90
@@ -82,45 +95,20 @@ as described in :numref:`Section %s <MetadataRules>`
 
 *Listing 2.1: Fortran template for a CCPP-compliant scheme showing the _run subroutine. The structure for the other phases (_timestep_init, _init, _finalize, and _timestep_finalize is identical.*
 
-More details are found below:
+The three lines above beginning ``!> \section`` are required; they are markup comments used by Doxygen 
+to create the scientific documentation. Those lines specifically insert an external file containing metadata
+information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in
+:numref:`Section %s <SciDoc>`.
 
-* Each scheme must be in its own module and must include at least one of the
-  following subroutines (entry points): *_timestep_init*, *_init*, *_run*, *_finalize*,
-  and *_timestep_finalize*. The module name and the subroutine names must be consistent with the
-  scheme name. The *_run* subroutine contains the
-  code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
-  they will be executed at the beginning and at the end of the host model physics timestep,
-  respectively. Further, if present, the *_init* and *_finalize* subroutines
-  associated with a scheme are run at the beginning and at the end of the model run.
-  The *_init* and *_finalize* subroutines may be called more than once depending
-  on the host model’s parallelization strategy, and as such must be idempotent (the answer
-  must be the same when the subroutine is called multiple times). This can be achieved
-  by using a module variable *is_initialized* that keeps track whether a scheme has been
-  initialized or not.
+All external information required by the scheme must be passed in via the argument list, including physical constants. Statements
+such as ``use EXTERNAL_MODULE`` should not be used for passing in any data.
+See :numref:`Section %s <UsingConstants>` for more information on
+how to use physical constants.
 
-* Each ``.F`` or ``.F90`` file with one or more CCPP entry point schemes must be accompanied by a a ``.meta`` file containing
-  metadata about the arguments to the scheme(s). For more information, see :numref:`Section %s <MetadataRules>`.
+Note that standard names, variable names, module names, scheme names and subroutine names are all case insensitive.
 
-* All schemes must be preceded by the three lines below. These are markup comments used by Doxygen,
-  the software employed to create the scientific documentation, to insert an external file containing metadata
-  information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in
-  :numref:`Section %s <SciDoc>`.
-
-.. code-block:: fortran
-
-   !> \section arg_table_schemename_run Argument Table
-   !! \htmlinclude schemename_run.html
-   !!
-
-* All external information required by the scheme must be passed in via the argument list. Statements
-  such as  ``‘use EXTERNAL_MODULE’`` should not be used for passing in data and all physical constants
-  should go through the argument list. See :numref:`Section %s <UsingConstants>` for more information on
-  how to use physical constants.
-
-* Note that standard names, variable names, module names, scheme names and subroutine names are all case insensitive.
-
-* Interstitial modules (``scheme_pre`` and ``scheme_post``) can be included if any part of the physics
-  scheme must be executed before (``_pre``) or after (``_post``) the ``module scheme`` defined above.
+Interstitial modules (*schemename_pre* and *schemename_post*) can be included in a scheme's module if any part of the physics
+scheme must be executed before (*_pre*) or after (*_post*) the ``module scheme`` defined above.
 
 .. _IOVariableRules:
 
