@@ -10,14 +10,14 @@ for the acceptance of the scheme in the pool of supported CCPP Physics. Acceptan
 dependent on scientific innovation, demonstrated value, and compliance with the rules
 described below. The criteria for acceptance of a scheme into the CCPP is under development.
 
-It is recommended that parameterizations be comprised of the smallest units that will be used.
+It is recommended that parameterizations be partitioned into the smallest units that will be used independently.
 For example, if a given set of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
 recommended to code two separate schemes to allow more flexibility.
 
 Some schemes in the CCPP have been implemented using a driver as an entry point. In this context,
-a driver is defined as a wrapper that sits on top of the actual scheme and provides the CCPP entry
+a driver is defined as a wrapper of code around the actual scheme, providing the CCPP entry
 points. In order to minimize the layers of code in the CCPP, the implementation of a driver is
 discouraged, that is, it is preferable that the CCPP be composed of atomic parameterizations. One
 example is the implementation of the MG microphysics, in which a simple entry point
@@ -42,11 +42,11 @@ The implementation of a driver is reasonable under the following circumstances:
   and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
   in the ``ccpp-physics/physics`` directory.
 
-Schemes in the CCPP are classified into two categories: primary schemes and interstitial schemes.
-A primary scheme is one that updates the state variables and tracers or that
+Schemes in the CCPP are classified into two categories: *primary* schemes and *interstitial* schemes.
+A *primary* scheme is one that updates the state variables and tracers or that
 produces tendencies for updating state variables and tracers based on the
 representation of major physical processes, such as radiation, convection,
-microphysics, etc. Exclusions are:
+microphysics, etc. This does **not** include:
 
 * Schemes that compute tendencies exclusively for diagnostic purposes.
 
@@ -55,8 +55,8 @@ microphysics, etc. Exclusions are:
 
 * Schemes that update the model state based on tendencies generated in primary schemes.
 
-Interstitial schemes are modularized pieces of code that
-perform data preparation, diagnostics, or other “glue” functions and allow primary schemes to work
+*Interstitial* schemes are modularized pieces of code that
+perform data preparation, diagnostics, or other “glue” functions, and allow primary schemes to work
 together as a suite. They can be categorized as “scheme-specific” or “suite-level”. Scheme-specific
 interstitial schemes augment a specific primary scheme (to provide additional functionality).
 Suite-level interstitial schemes provide additional functionality on top of a class of primary schemes,
@@ -69,7 +69,7 @@ primary and interstitial schemes.
 General Rules
 =============
 A CCPP-compliant scheme is in the form of Fortran modules. :ref:`Listing 2.1 <scheme_template>` contains
-the template for a CCPP-compliant scheme (``ccpp-framework/doc/DevelopersGuide/scheme_template.F90``),
+the template for a CCPP-compliant scheme, 
 which includes at least one of these five components: the *_timestep_init*, *_init*,
 *_run*, *_finalize*, and *_timestep_finalize* subroutines. Each ``.F`` or ``.F90``
 file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory
