@@ -39,8 +39,6 @@ Acronyms
    +----------------+---------------------------------------------------+
    | ESMF           | The Earth System Modeling Framework               |
    +----------------+---------------------------------------------------+
-   | ESPC           | Earth System Prediction Capability                |
-   +----------------+---------------------------------------------------+
    | FMS            | Flexible Modeling System                          |
    +----------------+---------------------------------------------------+
    | FV3            | Finite-Volume Cubed Sphere                        |
@@ -56,6 +54,9 @@ Acronyms
    | HEDMF          | Hybrid eddy-diffusivity mass-flux                 |
    +----------------+---------------------------------------------------+
    | HTML           | Hypertext Markup Language                         |
+   +----------------+---------------------------------------------------+
+   | ICAMS          | Interagency Council for Advancing Meteorological  |
+   |                | Services                                          |
    +----------------+---------------------------------------------------+
    | IPD            | Interoperable Physics Driver                      |
    +----------------+---------------------------------------------------+
