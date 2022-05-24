@@ -69,9 +69,10 @@ primary and interstitial schemes.
 General Rules
 =============
 A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme must be in its own module, and must include at least one of the
-following subroutines (entry points): *_timestep_init*, *_init*, *_run*, *_finalize*,
+following subroutines (*entry points*): *_timestep_init*, *_init*, *_run*, *_finalize*,
 and *_timestep_finalize*. The module name and the subroutine names must be consistent with the
-scheme name. The *_run* subroutine contains the
+scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*, 
+*schemename_run*, etc. The *_run* subroutine contains the
 code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
 they will be executed at the beginning and at the end of the host model physics timestep,
 respectively. Further, if present, the *_init* and *_finalize* subroutines
@@ -79,12 +80,12 @@ associated with a scheme are run at the beginning and at the end of the model ru
 The *_init* and *_finalize* subroutines may be called more than once depending
 on the host model’s parallelization strategy, and as such must be idempotent (the answer
 must be the same when the subroutine is called multiple times). This can be achieved
-by using a module variable `is_initialized` that keeps track whether a scheme has been
+by using a module variable ``is_initialized`` that keeps track whether a scheme has been
 initialized or not.
 
 
-:ref:`Listing 2.1 <scheme_template>` contains the template for a CCPP-compliant scheme, which 
-includes the *_run* subroutine for an example "*scheme_template*" scheme. Each ``.F`` or ``.F90``
+:ref:`Listing 2.1 <scheme_template>` contains a template for a CCPP-compliant scheme, which 
+includes the *_run* subroutine for an example *scheme_template* scheme. Each ``.F`` or ``.F90``
 file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the 
 same directory as described in :numref:`Section %s <MetadataRules>`
 
@@ -93,11 +94,11 @@ same directory as described in :numref:`Section %s <MetadataRules>`
    :language: fortran
    :lines: 10-48
 
-*Listing 2.1: Fortran template for a CCPP-compliant scheme showing the _run subroutine. The structure for the other phases (_timestep_init, _init, _finalize, and _timestep_finalize is identical.*
+*Listing 2.1: Fortran template for a CCPP-compliant scheme showing the _run subroutine. The structure for the other phases (*\ _timestep_init, _init, _finalize, *and* _timestep_finalize\ *) is identical.*
 
-The three lines above beginning ``!> \section`` are required; they are markup comments used by Doxygen 
-to create the scientific documentation. Those lines specifically insert an external file containing metadata
-information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in
+The three lines in the example template beginning ``!> \section`` are required. They begin with `!` and so will be treated as comments by the Fortran compiler, but are interpreted by Doxygen 
+as part of the process to create scientific documentation. Those lines specifically insert an external file containing metadata
+information (in this case, ``scheme_template_run.html``) in the documentation. See more on this topic in
 :numref:`Section %s <SciDoc>`.
 
 All external information required by the scheme must be passed in via the argument list, including physical constants. Statements
@@ -211,7 +212,7 @@ An example for type and variable definitions in ``GFS_typedefs.meta`` is shown i
 *Listing 2.2: Example of a CCPP-compliant metadata file showing the use of the [ccpp-table-properties] section and
 how it relates to [ccpp-arg-table].*
 
-An example metadata file for the CCPP scheme ``mp_thompson.meta`` is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
+An example metadata file for the CCPP scheme ``mp_thompson.meta`` (with many of the ccpp-arg-table entries omitted) is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
 
 .. _table-properties-mp-thompson:
 .. code-block:: fortran
@@ -219,29 +220,50 @@ An example metadata file for the CCPP scheme ``mp_thompson.meta`` is shown in :r
    [ccpp-table-properties]
      name = mp_thompson
      type = scheme
-     dependencies = machine.F,module_mp_radar.F90,module_mp_thompson.F90
-     dependencies = module_mp_thompson_make_number_concentrations.F90
+     dependencies = machine.F,module_mp_radar.F90,module_mp_thompson.F90,module_mp_thompson_make_number_concentrations.F90
 
    ########################################################################
    [ccpp-arg-table]
-    name = mp_thompson_init
-    type = scheme
+     name = mp_thompson_init
+     type = scheme
+   [ncol]
+     standard_name = horizontal_dimension
+     long_name = horizontal dimension
+     units = count
+     dimensions = ()
+     type = integer
+     intent = in
    ...
 
    ########################################################################
    [ccpp-arg-table]
      name = mp_thompson_run
      type = scheme
+   [ncol]
+     standard_name = horizontal_loop_extent
+     long_name = horizontal loop extent
+     units = count
+     dimensions = ()
+     type = integer
+     intent = in
    ...
 
    ########################################################################
    [ccpp-arg-table]
      name = mp_thompson_finalize
      type = scheme
+   [errmsg]
+     standard_name = ccpp_error_message
+     long_name = error message for error handling in CCPP
+     units = none
+     dimensions = ()
+     type = character
+     kind = len=*
+     intent = out
    ...
 
 *Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single*
-``[ccpp-table-properties]`` *and how it defines dependencies for multiple* ``[ccpp-arg-table]`` *.
+``[ccpp-table-properties]`` *entry and how it defines dependencies for multiple* ``[ccpp-arg-table]`` *entries.
 In this example the* ``timestep_init`` *and* ``timestep_finalize`` *phases are not used*.
 
 ccpp-arg-table
