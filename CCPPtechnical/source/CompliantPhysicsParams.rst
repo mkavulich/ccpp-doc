@@ -151,7 +151,7 @@ The ``[ccpp-table-properties]`` section is required in every metadata file and h
 The information in this section table allows the CCPP to compile only the schemes and dependencies needed by the
 selected CCPP suite(s).
 
-An example for type and variable definitions in ``GFS_typedefs.meta`` is shown in
+An example for type and variable definitions from the file ``ccpp-physics/physics/radlw_param.meta`` is shown in
 :ref:`Listing 2.2 <table-properties-typedefs>`.
 
 .. note::
@@ -161,53 +161,62 @@ An example for type and variable definitions in ``GFS_typedefs.meta`` is shown i
 .. _table-properties-typedefs:
 .. code-block:: fortran
 
-   ########################################################################
    [ccpp-table-properties]
-     name = GFS_statein_type
+     name = topflw_type
      type = ddt
      dependencies =
-
+   
    [ccpp-arg-table]
-     name = GFS_statein_type
+     name = topflw_type
      type = ddt
-   [phii]
-     standard_name = geopotential_at_interface
-   ...
+   
    ########################################################################
    [ccpp-table-properties]
-     name = GFS_stateout_type
+     name = sfcflw_type
      type = ddt
      dependencies =
-
+   
    [ccpp-arg-table]
-     name = GFS_stateout_type
+     name = sfcflw_type
      type = ddt
-   [gu0]
-     standard_name = x_wind_updated_by_physics
-   ...
+   
    ########################################################################
    [ccpp-table-properties]
-     name = GFS_typedefs
-     type = module
-     relative_path = ../../ccpp/physics/physics
-     dependencies = machine.F,physcons.F90,radlw_param.f,radsw_param.f
-     dependencies = GFDL_parse_tracers.F90,rte-rrtmgp/rrtmgp/mo_gas_optics_rrtmgp.F90
-     dependencies = rte-rrtmgp/rte/mo_optical_props.F90
-     dependencies = rte-rrtmgp/extensions/cloud_optics/mo_cloud_optics.F90
-     dependencies = rte-rrtmgp/rrtmgp/mo_gas_concentrations.F90
-     dependencies = rte-rrtmgp/rte/mo_rte_config.F90
-     dependencies = rte-rrtmgp/rte/mo_source_functions.F90
-
+     name = proflw_type
+     type = ddt
+     dependencies =
+   
    [ccpp-arg-table]
-     name = GFS_typedefs
+     name = proflw_type
+     type = ddt
+   
+   ########################################################################
+   [ccpp-table-properties]
+     name = module_radlw_parameters
      type = module
-   [GFS_cldprop_type]
-     standard_name = GFS_cldprop_type
-     long_name = definition of type GFS_cldprop_type
+     dependencies =
+   
+   [ccpp-arg-table]
+     name = module_radlw_parameters
+     type = module
+   [topflw_type]
+     standard_name = topflw_type
+     long_name = definition of type topflw_type
      units = DDT
      dimensions = ()
-     type = GFS_cldprop_type
-   ...
+     type = topflw_type
+   [sfcflw_type]
+     standard_name = sfcflw_type
+     long_name = definition of type sfcflw_type
+     units = DDT
+     dimensions = ()
+     type = sfcflw_type
+   [proflw_type]
+     standard_name = proflw_type
+     long_name = definition of type proflw_type
+     units = DDT
+     dimensions = ()
+     type = proflw_type
 
 *Listing 2.2: Example of a CCPP-compliant metadata file showing the use of the [ccpp-table-properties] section and
 how it relates to [ccpp-arg-table].*
