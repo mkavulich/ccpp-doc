@@ -109,7 +109,7 @@ how to use physical constants.
 Note that standard names, variable names, module names, scheme names and subroutine names are all case insensitive.
 
 Interstitial modules (*schemename_pre* and *schemename_post*) can be included in a scheme's module if any part of the physics
-scheme must be executed before (*_pre*) or after (*_post*) the ``module scheme`` defined above.
+scheme must be executed before (*_pre*) or after (*_post*) the scheme defined above.
 
 .. _IOVariableRules:
 
@@ -130,20 +130,20 @@ ccpp-table-properties
 ---------------------
 The ``[ccpp-table-properties]`` section is required in every metadata file and has four valid entries:
 
-#. ``type``:  In the CCPP Physics, ``type`` can be ``scheme``, ``module``, or ``ddt`` and must match the
+#. ``type``:  In the CCPP Physics, ``type`` can be ``scheme``, ``module``, or ``ddt`` (derived data type) and must match the
    ``type`` in the associated ``[ccpp-arg-table]`` section(s).
 
 #. ``name``:  This depends on the ``type``. For types ``ddt`` and ``module`` (for
    variable/type/kind definitions), ``name`` must match the name of the **single** associated
    ``[ccpp-arg-table]`` section. For type ``scheme``, the name must match the root names of the
    ``[ccpp-arg-table]`` sections for that scheme, without the suffixes
-   ``_timestep_init``,``_init``, ``_run``, ``_finalize``, or ``_timestep_finalize``.
+   ``_timestep_init``, ``_init``, ``_run``, ``_finalize``, or ``_timestep_finalize``.
 
 #. ``dependencies``: type/kind/variable definitions and physics schemes often depend on code in other files
-   (e.g. "use machine" --> depends on machine.F). These dependencies must be listed in a comma-separated list.
+   (e.g. "use machine" --> depends on ``machine.F``). These dependencies must be provided as a comma-separated list.
    Relative path(s) to those file(s) must be specified here or using the ``relative_path`` entry described below.
    Dependency attributes are additive; multiple lines containing dependencies can be used. With the exception of
-   specific files, such as `machine.F`, which provides the `kind_phys` Fortran kind definition, shared dependencies
+   specific files, such as ``machine.F``, which provides the `kind_phys` Fortran kind definition, shared dependencies
    between schemes are discouraged.
 
 #. ``relative_path``: If specified, the relative path is added to every file listed in the ``dependencies``.
@@ -156,7 +156,7 @@ An example for type and variable definitions in ``GFS_typedefs.meta`` is shown i
 
 .. note::
 
-   A single metadata file may require multiple instances of the [ccpp-table-properties] section.
+   A single metadata file may require multiple instances of the ``[ccpp-table-properties]`` section. For example, if a scheme requires multiple derived data types, each should have its own ``[ccpp-table-properties]`` entry. Subsequent ``[ccpp-table-properties]`` sections should be preceded by a separating line of ``#`` characters, as shown in the examples on this page.
 
 .. _table-properties-typedefs:
 .. code-block:: fortran
@@ -212,7 +212,7 @@ An example for type and variable definitions in ``GFS_typedefs.meta`` is shown i
 *Listing 2.2: Example of a CCPP-compliant metadata file showing the use of the [ccpp-table-properties] section and
 how it relates to [ccpp-arg-table].*
 
-An example metadata file for the CCPP scheme ``mp_thompson.meta`` (with many of the ccpp-arg-table entries omitted) is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
+An example metadata file for the CCPP scheme ``mp_thompson.meta`` (with many sections omitted as indicated by ``...``) is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
 
 .. _table-properties-mp-thompson:
 .. code-block:: fortran
@@ -269,7 +269,7 @@ In this example the* ``timestep_init`` *and* ``timestep_finalize`` *phases are n
 ccpp-arg-table
 --------------
 
-For each CCPP compliant scheme, the ``ccpp-arg-table`` starts with this set of lines
+For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or derived data type starts with this set of lines
 
 .. code-block:: fortran
 
