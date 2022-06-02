@@ -363,19 +363,32 @@ Since physics developers cannot know whether a host model is passing all columns
 
   * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
 
+Standard names
+==============
+
+Variables available for CCPP physics schemes are identified by their unique *standard name*. This
+policy is in place to ensure that variables will always be unique and unambiguous when communicating
+between different schemes and different host models. Schemes are free to use their own variable
+names within their individual codes, but these variables must be assigned to a *standard name* within
+the scheme's metadata table as described in :numref:`Section %s <IOVariableRules>`.
+
+Standard names are listed and defined in a GitHub repository (https://github.com/ESCOMP/CCPPStandardNames),
+along with rules for adding new standard names as needed. While an effort is made to comply with 
+existing *standard name* definitions of the Climate and Forecast (CF) conventions (http://cfconventions.org), 
+additional names are used in the CCPP to cover the wide range of use cases the CCPP intends to include.
+Each hash of the CCPP Physics repository contains information in the top-level ``README.md`` file
+indicating which version of the CCPPStandardNames repository corresponds to that version of CCPP code.
+
+A list of available standard names for each host model can be found in 
+``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the name of 
+the host model.  Running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`)
+will generate a LaTeX source file that can be compiled to produce a PDF file with all variables
+defined by the host model and requested by the physics schemes.
+
+.. _IOVariableRules:
+
 Input/Output Variable (argument) Rules
 ======================================
-
-* Variables available for CCPP physics schemes are identified by their unique
-  ``standard_name``. While an effort is made to comply with existing ``standard_name``
-  definitions of the Climate and Forecast (CF) conventions (http://cfconventions.org), additional names
-  are used in the CCPP (see below for further information).
-
-* A list of available standard names and an example of naming conventions can be found in
-  ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the
-  name of the host model.  Running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`)
-  will generate a LaTeX source file that can be compiled to produce
-  a PDF file with all variables defined by the host model and requested by the physics schemes.
 
 * A ``standard_name`` cannot be assigned to more than one local variable (``local_name``).
   The ``local_name`` of a variable can be chosen freely and does not have to match the
