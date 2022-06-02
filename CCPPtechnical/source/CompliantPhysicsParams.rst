@@ -332,8 +332,7 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
 
 * The order of arguments in the entry point subroutines must match the order of entries in the metadata file.
 
-* :ref:`Listing 2.4 <meta_template>` contains the template for a CCPP-compliant scheme
-  (``ccpp-framework/doc/DevelopersGuide/scheme_template.meta``),
+:ref:`Listing 2.4 <meta_template>` contains the template .meta file for an example CCPP-compliant scheme (``scheme_template.meta``)
 
 .. _meta_template:
 .. literalinclude:: ./_static/scheme_template.meta
@@ -358,9 +357,11 @@ It is important to understand the difference between these metadata dimension na
 
 Since physics developers cannot know whether a host model is passing all columns to the physics during the time integration or just a subset of it, the following rules apply to all schemes:
 
-* Variables that depend on the horizontal decomposition must use ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
+* Variables that depend on the horizontal decomposition must use 
 
-* Variables that depend on the horizontal decomposition must use ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
+  * ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
+
+  * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
 
 Input/Output Variable (argument) Rules
 ======================================
