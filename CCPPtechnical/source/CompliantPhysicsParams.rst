@@ -396,7 +396,7 @@ Input/Output Variable (argument) Rules
 
 * All variable information (standard_name, units, dimensions) must match the specifications on
   the host model side, but sub-slices can be used/added in the host model. For example, when
-  using the UFS Atmosphere as the host model, tendencies are split in ``GFS_typedefs.meta``
+  using the UFS Weather Model as the host model, tendencies are split in ``GFS_typedefs.meta``
   so they can be used in the necessary physics scheme:
 
 .. code-block:: fortran
@@ -423,7 +423,7 @@ Input/Output Variable (argument) Rules
      type = real
      kind = kind_phys
 
-  For performance reason, slices of arrays should be contiguous in memory, which, in Fortran,
+  For performance reasons, slices of arrays should be contiguous in memory, which, in Fortran,
   implies that the dimension that is split is the rightmost (outermost) dimension as in the example above.
 
 * The two mandatory variables that any scheme-related subroutine must accept as ``intent(out)`` arguments are
