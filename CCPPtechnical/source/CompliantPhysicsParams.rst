@@ -69,8 +69,8 @@ primary and interstitial schemes.
 General Rules
 =============
 A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme must be in its own module, and must include at least one of the
-following subroutines (*entry points*): *_timestep_init*, *_init*, *_run*, *_finalize*,
-and *_timestep_finalize*. The module name and the subroutine names must be consistent with the
+following subroutines (*entry points*): *_init*, *_timestep_init*, *_run*, *_timestep_finalize*,
+and *_finalize*. The module name and the subroutine names must be consistent with the
 scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*, 
 *schemename_run*, etc. The *_run* subroutine contains the
 code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
@@ -108,10 +108,9 @@ how to use physical constants.
 
 Note that standard names, variable names, module names, scheme names and subroutine names are all case insensitive.
 
-Interstitial modules (*schemename_pre* and *schemename_post*) can be included in a scheme's module if any part of the physics
-scheme must be executed before (*_pre*) or after (*_post*) the scheme defined above.
-
-.. _IOVariableRules:
+Interstitial modules (*schemename_pre* and *schemename_post*) can be included if any part of the 
+physics scheme must be executed sequentially before (*_pre*) or after (*_post*) the scheme, but
+can not be included in the scheme itself (e.g., for including host-specific code).
 
 .. _MetadataRules:
 
@@ -379,10 +378,7 @@ additional names are used in the CCPP to cover the wide range of use cases the C
 Each hash of the CCPP Physics repository contains information in the top-level ``README.md`` file
 indicating which version of the CCPPStandardNames repository corresponds to that version of CCPP code.
 
-A list of available standard names for each host model can be found in 
-``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the name of 
-the host model.  Running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`)
-will generate a LaTeX source file that can be compiled to produce a PDF file with all variables
+An up-to-date list of available standard names for each host model can be found by running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`), which will generate a LaTeX source file that can be compiled to produce a PDF file with all variables 
 defined by the host model and requested by the physics schemes.
 
 .. _IOVariableRules:
