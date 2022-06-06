@@ -395,29 +395,29 @@ Input/Output Variable (argument) Rules
   using the UFS Weather Model as the host model, tendencies are split in ``GFS_typedefs.meta``
   so they can be used in the necessary physics scheme:
 
-.. code-block:: fortran
+  .. code-block:: fortran
 
-   [dt3dt(:,:,1)]
-     standard_name = cumulative_change_in_temperature_due_to_longwave_radiation
-     long_name = cumulative change in temperature due to longwave radiation
-     units = K
-     dimensions = (horizontal_dimension,vertical_dimension)
-     type = real
-     kind = kind_phys
-   [dt3dt(:,:,2)]
-     standard_name = cumulative_change_in_temperature_due_to_shortwave_radiation
-     long_name = cumulative change in temperature due to shortwave radiation
-     units = K
-     dimensions = (horizontal_dimension,vertical_dimension)
-     type = real
-     kind = kind_phys
-   [dt3dt(:,:,3)]
-     standard_name = cumulative_change_in_temperature_due_to_PBL
-     long_name = cumulative change in temperature due to PBL
-     units = K
-     dimensions = (horizontal_dimension,vertical_dimension)
-     type = real
-     kind = kind_phys
+     [dt3dt(:,:,1)]
+       standard_name = cumulative_change_in_temperature_due_to_longwave_radiation
+       long_name = cumulative change in temperature due to longwave radiation
+       units = K
+       dimensions = (horizontal_dimension,vertical_dimension)
+       type = real
+       kind = kind_phys
+     [dt3dt(:,:,2)]
+       standard_name = cumulative_change_in_temperature_due_to_shortwave_radiation
+       long_name = cumulative change in temperature due to shortwave radiation
+       units = K
+       dimensions = (horizontal_dimension,vertical_dimension)
+       type = real
+       kind = kind_phys
+     [dt3dt(:,:,3)]
+       standard_name = cumulative_change_in_temperature_due_to_PBL
+       long_name = cumulative change in temperature due to PBL
+       units = K
+       dimensions = (horizontal_dimension,vertical_dimension)
+       type = real
+       kind = kind_phys
 
   For performance reasons, slices of arrays should be contiguous in memory, which, in Fortran,
   implies that the dimension that is split is the rightmost (outermost) dimension as in the example above.
@@ -474,7 +474,7 @@ Input/Output Variable (argument) Rules
 Coding Rules
 ============
 
-* Code must comply to modern Fortran standards (Fortran 90/95/2003), where possible.
+* Code must comply to modern Fortran standards (Fortran 90 or newer), where possible.
 
 * Uppercase file endings (`.F`, `.F90`) are preferred to enable preprocessing by default.
 
@@ -494,17 +494,17 @@ Coding Rules
 
 * ``common`` blocks are not allowed.
 
+* Schemes are not allowed to abort/stop execution.
+
 * Errors are handled by the host model using the two mandatory arguments ``errmsg`` and
   ``errflg``. In the event of an error, a meaningful error message should be assigned to ``errmsg``
-  and set ``errflg`` to a value other than 0, for example:
+  and ``errflg`` set to a value other than 0. For example:
 
 .. code-block:: bash
 
-   errmsg = ‘Logic error in scheme xyz: …’
+   errmsg = ‘Logic error in scheme xyz: ...’
    errflg = 1
    return
-
-* Schemes are not allowed to abort/stop the program.
 
 * Schemes are not allowed to perform I/O operations except for reading lookup tables
   or other information needed to initialize the scheme, including stdout and stderr.
@@ -549,7 +549,7 @@ Where the following has been added to the ``my_physics.meta`` file:
      intent = in
      optional = F
 
-This allows the vonKarman constant to be defined by the host model and be passed in through the CCPP scheme subroutine interface.
+This allows the von Karman constant to be defined by the host model and be passed in through the CCPP scheme subroutine interface.
 
 For pre-existing complex schemes that contain many software layers and/or many "helper" subroutines that require physical constants, another method is accepted to ensure that the two principles are met while eliminating the need to modify many subroutine interfaces. This method passes the physical constants once through the argument list for the top-level ``_init`` subroutine for the scheme. This top-level ``_init`` subroutine also imports scheme-specific constants from a user-defined module.  For example, constants can be set in a module as:
 
@@ -599,13 +599,17 @@ Within the ``_init`` subroutine body, the constants in the ``my_scheme_common`` 
 
 After this point, physical constants can be imported from ``my_scheme_common`` wherever they are needed.  Although there may be some duplication in memory, constants within the scheme will be guaranteed to be consistent with the rest of physics and will only be set/derived once during the initialization phase. Of course, this will require that any constants in ``my_scheme_common`` that are coming from the host model cannot use the Fortran ``parameter`` keyword. To guard against inadvertently using constants in ``my_scheme_common`` without setting them from the host, they should be initially set to some invalid value. The above example also demonstrates the use of ``is_initialized`` to guarantee idempotence of the ``_init`` routine. To clean up during the finalize phase of the scheme, the ``is_initialized`` flag can be set back to false and the constants can be set back to an invalid value.
 
-In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed. The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer. It is not recommended to use the ``physcons`` module, since it is specific to FV3 and will be removed in the future.
+In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed. The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer. 
+
+.. note::
+
+   The ``physcons`` module in FV3 **should not** be used, as it is specific to that dynamic core and will be removed in the future.
 
 Parallel Programming Rules
 ==========================
 
-Most often shared memory (OpenMP: Open Multi-Processing) and MPI (Message Passing Interface)
-communication are done outside the physics in which case the loops and arrays already
+Most often, shared memory (OpenMP: Open Multi-Processing) and distributed memory (MPI: Message Passing Interface)
+communication is done outside the physics, in which case the loops and arrays already
 take into account the sizes of the threaded tasks through their input indices and array
 dimensions.  The following rules should be observed when including OpenMP or MPI communication
 in a physics scheme:
