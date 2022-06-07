@@ -176,6 +176,7 @@ across the entire doxygen project so that the ``\ref`` command can be used
 to create an unambiguous link to the structuring element. It therefore makes
 sense to choose label names that refer to their context.
 
+.. _doxygen_page_example:
 .. code-block:: console
 
    /**
@@ -198,39 +199,42 @@ sense to choose label names that refer to their context.
 
 The physics scheme page will often describe the following:
 
-1. Description section (``\section``), which usually includes:
+1. A "Description" section, which usually includes:
 
-      * Scientific origin and scheme history (``\cite``)
-      * Key features and differentiating points
-      * A picture is worth a thousand words (``\image``)
-
-        To insert images into doxygen documentation, you’ll need to have your
-        images ready in a graphical format, such as Portable Network Graphic (png), depending
+   * Scientific origin and scheme history
+      * External sources and citations can be referenced with ``\cite`` tags
+   * Key features and differentiating points compared to other schemes
+   * Tables, schematics, other images inserted using the ``\image`` tag
+      * To insert images into doxygen documentation, you’ll need to prepare your
+        images in a graphical format, such as Portable Network Graphic (png), depending
         on which type of doxygen output you are planning to generate. For example, for LaTeX
         output, the images must be provided in Encapsulated PostScript (.eps), while for
         HTML output the images can be provided in the png format. Images are stored in
         ``ccpp-physics/physics/docs/img`` directory.  Example of including an image for
         HTML output:
 
-.. code-block:: console
+        .. code-block:: console
 
-   \image  html  gfdl_cloud_mp_diagram.png "Figure 1: GFDL MP at a glance (Courtesy of S.J. Lin at GFDL)" width=10cm
+           \image  html  gfdl_cloud_mp_diagram.png "Figure 1: GFDL MP at a glance (Courtesy of S.J. Lin at GFDL)" width=10cm
 
-2. Intraphysics Communication Section (``\section``)
+2. An "Intraphysics Communication" section
 
-    The argument table for CCPP entry point subroutine ``{scheme}_run`` will be in this section.
-    It is created by inserting a reference link (``\ref``) to the table in the Fortran code
-    for the scheme.
+   The argument table for CCPP entry point subroutine ``{scheme}_run`` will be in this section.
+   It is created by inserting a reference link (``\ref``) to the corresponding Doxygen label in the Fortran code
+   for the scheme. In the :ref:`above example <doxygen_page_example>`, the ``\ref arg_table_samfdeepcnv_run``
+   tag references the section of Doxygen-annotated source code in ``ccpp-physics/physics/samfdeepcnv.f``
+   that contains the scheme's argument table and any other relevant information:
 
-3. General Algorithm Section (``\section``)
+   .. code-block:: console
+
+      !! \section arg_table_samfdeepcnv_run Argument Table
+
+3. A "General Algorithm" section
 
    The general description of the algorithm will be in this section. It is created by inserting
-   a reference link (``\ref``) in the Fortran code for the scheme.
+   a reference link (``\ref``) pointing to the corresponding Doxygen-annotated source code for the scheme.
 
-The symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
-See an example of GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection Scheme
-page in the previous page.
-
+As can be seen in the above examples, symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
 
 Note that separate pages can also be created to document something that is not a scheme.
 For example, a page could be created to describe a suite, or how a set of schemes work
