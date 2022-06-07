@@ -3,8 +3,7 @@
 Scientific Documentation Rules
 ==============================
 
-Technically, scientific documentation is not needed for a parameterization
-to work with the CCPP. However, scientific and technical documents are
+Scientific and technical documents are
 important for code maintenance and for fostering understanding among stakeholders.
 As such, physics schemes are required to include scientific documentation in order to be included in the CCPP. This
 section describes the process used for documenting parameterizations in the CCPP.
@@ -24,7 +23,7 @@ so that doxygen will parse them correctly, where to put various comments within
 the code, how to include information from the ``.meta`` files,
 and how to configure and run doxygen to generate HTML
 output. For an example of the HTML rendering of the CCPP Scientific Documentation, see
-https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/index.html.
+https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/index.html
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate
@@ -38,20 +37,20 @@ started in writing documentation for a new scheme.
 Doxygen Comments and Commands
 -----------------------------
 
-All doxygen commands start with a backslash (``“\”``) or an at-sign (``“@”``). The
-doxygen inline comment blocks begin with “!>”, and subsequent lines begin with ``“!!”``,
-which means that regular Fortran comments using ``“!”`` are not parsed by doxygen.
+All doxygen commands start with a backslash ("``\``") or an at-sign ("``@``"). The
+doxygen inline comment blocks begin with "``!>``", and subsequent lines begin with "``!!``",
+which means that regular Fortran comments using "``!``" are not parsed by doxygen.
 
-In the first line of each Fortran file, a brief one-sentence overview of the file purpose
-is present using the doxygen command ``\file``:
+In the first line of each Fortran file, a brief one-sentence overview of the file's purpose
+should be included, using the doxygen command ``\file``:
 
 .. code-block:: console
 
    !> \file cires_ugwp.F90
    !! This file contains the Unified Gravity Wave Physics (UGWP) scheme by Valery Yudin (University of Colorado, CIRES)
 
-A parameter definition begins with ``“!<”``, where the sign ``‘<’`` tells
-   Doxygen that documentation follows. Example:
+A parameter definition begins with "``!<``", where the "``<``" sign tells
+Doxygen that documentation follows. Example:
 
 .. code-block:: console
 
@@ -76,8 +75,8 @@ documentation style could be divided into four categories:
 Doxygen files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Doxygen provides the ``\file`` tag as a way to provide documentation on the
-Fortran source code file level. That is, in the generated documentation,
+Doxygen provides the ``\file`` tag as a way to provide documentation on the level of
+Fortran source code files. That is, in the generated documentation,
 one may navigate by source code filenames (if desired) rather than through
 a “functional” navigation. The most important documentation organization is
 through the “module” concept mentioned below, because the division of a scheme
@@ -89,8 +88,8 @@ using the ``\file`` tag, e.g.:
 
 .. code-block:: fortran
 
-   !>\file cu_gf_driver.F90
-   !! This file is scale-aware Grell-Freitas cumulus scheme driver.
+   !>\file cu_gf_deep.F90
+   !! This file is the Grell-Freitas deep convection scheme.
 
 The brief description for each file is displayed next to the source filename
 on the doxygen-generated “File List” page:
@@ -101,55 +100,65 @@ on the doxygen-generated “File List” page:
 Doxygen Overview Page
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Pages in Doxygen can be used for documentation that is not directly attached
-to a source code entity such as file or module. They are external text files
-that generate pages with a high-level scientific overview and
-typically contain a longer description of a project or suite. You can refer to
-any source code entity from within the page.
+*Pages* in Doxygen can be used for documentation that is not directly attached to a source code
+entity such as a file or module. In the context of CCPP they are used for external text files that
+generate pages with a high-level scientific overview, typically containing a longer description of
+a project or suite. You can refer to any source code entity from within a page.
 
 The DTC maintains a main page, created by the Doxygen command
-``\mainpage``, containing an overall description and background of the CCPP.
-Physics developers do not have to edit the file with the mainpage, which has a
-user-visible title, but not label:
+``\mainpage``, which contains an overall description and background of the CCPP.
+Physics developers do not have to edit the file with the mainpage (``mainpage.txt``), which is 
+formatted like this:
 
 .. code-block:: console
 
-    /**
-    \mainpage Introduction
-    ...
-    */
+   /**
+   \mainpage Introduction
+   ...
+   */
 
 All other pages listed under the main page are created using the Doxygen
 tag ``\page`` described in the next section. In any Doxygen page,
 you can refer to any entity of source code by using Doxygen tag ``\ref``
-or ``@ref``. Example in ``suite_FV3_GFS_v15p2.xml.txt``:
-
-The GFS v15p2 physics suite uses the parameterizations in the following order,
-as defined in
+or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
 
 .. code-block:: console
 
-  \c FV3_GFS_v15p2 :
-   - \ref fast_sat_adj
-   - \ref GFS_RRTMG
-   - \ref GFS_SFCLYR
-   - \ref GFS_NSST
-   - \ref GFS_NOAH
-   - \ref GFS_SFCSICE
-   - \ref GFS_HEDMF
-   - \ref cires_ugwp
-   - \ref GFS_RAYLEIGH
-   - \ref GFS_OZPHYS
-   - \ref GFS_H2OPHYS
-   - \ref GFS_SAMFdeep
-   - \ref GFS_SAMFshal
-   - \ref GFDL_cloud
-   - \ref GFS_CALPRECIPTYPE
-   - \ref STOCHY_PHYS
+   /**
+   \page GFS_v16_page GFS_v16 Suite 
 
-The HTML result is `here <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_v15p2_page.html>`_.
-You can see that the ``-`` signs before ``@ref`` generate a list with bullets.
-Doxygen command ``\c`` displays its argument using a typewriter font.
+   \section gfsv16_suite_overview Overview
+
+   Version 16 of the Global Forecast System (GFS) was implemented operationally by the NOAA
+   National Centers for Environmental Prediction (NCEP) in 2021. This suite is available for
+   use with the UFS SRW App and with the CCPP SCM.
+
+   The GFS_v16 suite uses the parameterizations in the following order:
+    - \ref GFS_RRTMG
+    - \ref GFS_SFCLYR
+    - \ref GFS_NSST
+    - \ref GFS_OCEAN
+    - \ref GFS_NOAH
+    - \ref GFS_SFCSICE
+    - \ref GFS_SATMEDMFVDIFQ
+    - \ref GFS_UGWP_v0
+    - \ref GFS_OZPHYS
+    - \ref GFS_H2OPHYS
+    - \ref GFS_SAMFdeep
+    - \ref GFS_SAMFshal
+    - \ref GFDL_cloud
+
+   \section sdf_gfsv16b Suite Definition File
+   \include  suite_FV3_GFS_v16.xml
+   ...
+   */
+
+The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s_v16_page.html>`_.
+You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the 
+``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands 
+indicate section breaks, and the ``\include`` commands will include the contents of another file.
+
+Other valid Doxygen commands for style, markup, and other functionality can be found in the `Doxygen documentation <https://thislinkistotallybroken.ilovemywife.net>`_.
 
 Physics Scheme Pages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -157,8 +166,10 @@ Physics Scheme Pages
 Each major scheme in CCPP should have its own scheme page containing an
 overview of the parameterization.  These pages are not tied to the Fortran
 code directly; instead, they are created with a separate text file that starts
-with the command ``\page``.  Scheme pages are stored in the ``ccpp-physics/physics/docs/pdftxt``
-directory. Each page has a label (e.g., “GFS_SAMFdeep” in the following example) and a
+with the command ``\page``.  For CCPP, the stand-alone Doxygen pages, including the main page
+and the scheme pages, are contained in the *ccpp-physics* repository, under the
+``ccpp-physics/physics/docs/pdftxt/`` directory. Each page (aside from the main page) has a 
+*label* (e.g., “GFS_SAMFdeep” in the following example) and a
 user-visible title (“GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection
 Scheme” in the following example).  It is noted that labels must be unique
 across the entire doxygen project so that the ``\ref`` command can be used
@@ -174,8 +185,8 @@ sense to choose label names that refer to their context.
     updated version of the previous Simplified Arakawa-Schubert (SAS) scheme
     with scale and aerosol awareness and parameterizes the effect of deep
     convection on the environment (represented by the model state variables)
-    in the following way …
-
+    in the following way...
+   ...
    \section intra_deep  Intraphysics Communication
    \ref arg_table_samfdeepcnv_run
 
