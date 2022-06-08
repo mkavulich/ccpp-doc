@@ -10,7 +10,7 @@ for the acceptance of the scheme in the pool of supported CCPP Physics. Acceptan
 dependent on scientific innovation, demonstrated value, and compliance with the rules
 described below. The criteria for acceptance of a scheme into the CCPP is under development.
 
-It is recommended that parameterizations be partitioned into the smallest units that will be used independently.
+It is recommended that parameterizations be comprised of the smallest units that will be used independently.
 For example, if a given set of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
@@ -378,7 +378,7 @@ additional names are used in the CCPP to cover the wide range of use cases the C
 Each hash of the CCPP Physics repository contains information in the top-level ``README.md`` file
 indicating which version of the CCPPStandardNames repository corresponds to that version of CCPP code.
 
-An up-to-date list of available standard names for each host model can be found by running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`), which will generate a LaTeX source file that can be compiled to produce a PDF file with all variables 
+An up-to-date list of available standard names for a given host model can be found by running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`), which will generate a LaTeX source file that can be compiled to produce a PDF file with all variables 
 defined by the host model and requested by the physics schemes.
 
 .. _IOVariableRules:
@@ -392,7 +392,7 @@ Input/Output Variable (argument) Rules
 
 * All variable information (standard_name, units, dimensions) must match the specifications on
   the host model side, but sub-slices can be used/added in the host model. For example, when
-  using the UFS Weather Model as the host model, tendencies are split in ``GFS_typedefs.meta``
+  using the UFS Atmosphere as the host model, tendencies are split in ``GFS_typedefs.meta``
   so they can be used in the necessary physics scheme:
 
 .. code-block:: fortran
