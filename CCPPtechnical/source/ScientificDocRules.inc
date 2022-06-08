@@ -6,8 +6,9 @@ Scientific Documentation Rules
 Technically, scientific documentation is not needed for a parameterization
 to work with the CCPP. However, scientific and technical documents are
 important for code maintenance and for fostering understanding among stakeholders.
-As such, it is required of physics schemes in order to be included in the CCPP. This
+As such, physics schemes are required to include scientific documentation in order to be included in the CCPP. This
 section describes the process used for documenting parameterizations in the CCPP.
+
 Doxygen was chosen as a tool for generating human-readable output due to its
 built-in functionality with Fortran, its high level of configurability, and its
 ability to parse inline comments within the source code. Keeping documentation

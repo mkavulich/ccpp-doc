@@ -10,14 +10,14 @@ for the acceptance of the scheme in the pool of supported CCPP Physics. Acceptan
 dependent on scientific innovation, demonstrated value, and compliance with the rules
 described below. The criteria for acceptance of a scheme into the CCPP is under development.
 
-It is recommended that parameterizations be comprised of the smallest units that will be used.
+It is recommended that parameterizations be comprised of the smallest units that will be used independently.
 For example, if a given set of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
 recommended to code two separate schemes to allow more flexibility.
 
 Some schemes in the CCPP have been implemented using a driver as an entry point. In this context,
-a driver is defined as a wrapper that sits on top of the actual scheme and provides the CCPP entry
+a driver is defined as a wrapper of code around the actual scheme, providing the CCPP entry
 points. In order to minimize the layers of code in the CCPP, the implementation of a driver is
 discouraged, that is, it is preferable that the CCPP be composed of atomic parameterizations. One
 example is the implementation of the MG microphysics, in which a simple entry point
@@ -42,11 +42,11 @@ The implementation of a driver is reasonable under the following circumstances:
   and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
   in the ``ccpp-physics/physics`` directory.
 
-Schemes in the CCPP are classified into two categories: primary schemes and interstitial schemes.
-A primary scheme is one that updates the state variables and tracers or that
+Schemes in the CCPP are classified into two categories: *primary* schemes and *interstitial* schemes.
+A *primary* scheme is one that updates the state variables and tracers or that
 produces tendencies for updating state variables and tracers based on the
 representation of major physical processes, such as radiation, convection,
-microphysics, etc. Exclusions are:
+microphysics, etc. This does **not** include:
 
 * Schemes that compute tendencies exclusively for diagnostic purposes.
 
@@ -55,8 +55,8 @@ microphysics, etc. Exclusions are:
 
 * Schemes that update the model state based on tendencies generated in primary schemes.
 
-Interstitial schemes are modularized pieces of code that
-perform data preparation, diagnostics, or other “glue” functions and allow primary schemes to work
+*Interstitial* schemes are modularized pieces of code that
+perform data preparation, diagnostics, or other “glue” functions, and allow primary schemes to work
 together as a suite. They can be categorized as “scheme-specific” or “suite-level”. Scheme-specific
 interstitial schemes augment a specific primary scheme (to provide additional functionality).
 Suite-level interstitial schemes provide additional functionality on top of a class of primary schemes,
@@ -68,61 +68,49 @@ primary and interstitial schemes.
 
 General Rules
 =============
-A CCPP-compliant scheme is in the form of Fortran modules. :ref:`Listing 2.1 <scheme_template>` contains
-the template for a CCPP-compliant scheme (``ccpp-framework/doc/DevelopersGuide/scheme_template.F90``),
-which includes at least one of these five components: the *_timestep_init*, *_init*,
-*_run*, *_finalize*, and *_timestep_finalize* subroutines. Each ``.F`` or ``.F90``
-file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the same directory
-as described in :numref:`Section %s <MetadataRules>`
+A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme must be in its own module, and must include at least one of the
+following subroutines (*entry points*): *_init*, *_timestep_init*, *_run*, *_timestep_finalize*,
+and *_finalize*. The module name and the subroutine names must be consistent with the
+scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*, 
+*schemename_run*, etc. The *_run* subroutine contains the
+code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
+they will be executed at the beginning and at the end of the host model physics timestep,
+respectively. Further, if present, the *_init* and *_finalize* subroutines
+associated with a scheme are run at the beginning and at the end of the model run.
+The *_init* and *_finalize* subroutines may be called more than once depending
+on the host model’s parallelization strategy, and as such must be idempotent (the answer
+must be the same when the subroutine is called multiple times). This can be achieved
+by using a module variable ``is_initialized`` that keeps track whether a scheme has been
+initialized or not.
+
+
+:ref:`Listing 2.1 <scheme_template>` contains a template for a CCPP-compliant scheme, which 
+includes the *_run* subroutine for an example *scheme_template* scheme. Each ``.F`` or ``.F90``
+file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the 
+same directory as described in :numref:`Section %s <MetadataRules>`
 
 .. _scheme_template:
 .. literalinclude:: ./_static/scheme_template.F90
    :language: fortran
    :lines: 10-48
 
-*Listing 2.1: Fortran template for a CCPP-compliant scheme showing the _run subroutine. The structure for the other phases (_timestep_init, _init, _finalize, and _timestep_finalize is identical.*
+*Listing 2.1: Fortran template for a CCPP-compliant scheme showing the _run subroutine. The structure for the other phases (*\ _timestep_init, _init, _finalize, *and* _timestep_finalize\ *) is identical.*
 
-More details are found below:
+The three lines in the example template beginning ``!> \section`` are required. They begin with `!` and so will be treated as comments by the Fortran compiler, but are interpreted by Doxygen 
+as part of the process to create scientific documentation. Those lines specifically insert an external file containing metadata
+information (in this case, ``scheme_template_run.html``) in the documentation. See more on this topic in
+:numref:`Section %s <SciDoc>`.
 
-* Each scheme must be in its own module and must include at least one of the
-  following subroutines (entry points): *_timestep_init*, *_init*, *_run*, *_finalize*,
-  and *_timestep_finalize*. The module name and the subroutine names must be consistent with the
-  scheme name. The *_run* subroutine contains the
-  code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
-  they will be executed at the beginning and at the end of the host model physics timestep,
-  respectively. Further, if present, the *_init* and *_finalize* subroutines
-  associated with a scheme are run at the beginning and at the end of the model run.
-  The *_init* and *_finalize* subroutines may be called more than once depending
-  on the host model’s parallelization strategy, and as such must be idempotent (the answer
-  must be the same when the subroutine is called multiple times). This can be achieved
-  by using a module variable *is_initialized* that keeps track whether a scheme has been
-  initialized or not.
+All external information required by the scheme must be passed in via the argument list, including physical constants. Statements
+such as ``use EXTERNAL_MODULE`` should not be used for passing in any data.
+See :numref:`Section %s <UsingConstants>` for more information on
+how to use physical constants.
 
-* Each ``.F`` or ``.F90`` file with one or more CCPP entry point schemes must be accompanied by a a ``.meta`` file containing
-  metadata about the arguments to the scheme(s). For more information, see :numref:`Section %s <MetadataRules>`.
+Note that standard names, variable names, module names, scheme names and subroutine names are all case insensitive.
 
-* All schemes must be preceded by the three lines below. These are markup comments used by Doxygen,
-  the software employed to create the scientific documentation, to insert an external file containing metadata
-  information (in this case, ``schemename_run.html``) in the documentation. See more on this topic in
-  :numref:`Section %s <SciDoc>`.
-
-.. code-block:: fortran
-
-   !> \section arg_table_schemename_run Argument Table
-   !! \htmlinclude schemename_run.html
-   !!
-
-* All external information required by the scheme must be passed in via the argument list. Statements
-  such as  ``‘use EXTERNAL_MODULE’`` should not be used for passing in data and all physical constants
-  should go through the argument list. See :numref:`Section %s <UsingConstants>` for more information on
-  how to use physical constants.
-
-* Note that standard names, variable names, module names, scheme names and subroutine names are all case insensitive.
-
-* Interstitial modules (``scheme_pre`` and ``scheme_post``) can be included if any part of the physics
-  scheme must be executed before (``_pre``) or after (``_post``) the ``module scheme`` defined above.
-
-.. _IOVariableRules:
+Interstitial modules (*schemename_pre* and *schemename_post*) can be included if any part of the 
+physics scheme must be executed sequentially before (*_pre*) or after (*_post*) the scheme, but
+can not be included in the scheme itself (e.g., for including host-specific code).
 
 .. _MetadataRules:
 
@@ -141,20 +129,20 @@ ccpp-table-properties
 ---------------------
 The ``[ccpp-table-properties]`` section is required in every metadata file and has four valid entries:
 
-#. ``type``:  In the CCPP Physics, ``type`` can be ``scheme``, ``module``, or ``ddt`` and must match the
+#. ``type``:  In the CCPP Physics, ``type`` can be ``scheme``, ``module``, or ``ddt`` (derived data type) and must match the
    ``type`` in the associated ``[ccpp-arg-table]`` section(s).
 
 #. ``name``:  This depends on the ``type``. For types ``ddt`` and ``module`` (for
    variable/type/kind definitions), ``name`` must match the name of the **single** associated
    ``[ccpp-arg-table]`` section. For type ``scheme``, the name must match the root names of the
    ``[ccpp-arg-table]`` sections for that scheme, without the suffixes
-   ``_timestep_init``,``_init``, ``_run``, ``_finalize``, or ``_timestep_finalize``.
+   ``_timestep_init``, ``_init``, ``_run``, ``_finalize``, or ``_timestep_finalize``.
 
 #. ``dependencies``: type/kind/variable definitions and physics schemes often depend on code in other files
-   (e.g. "use machine" --> depends on machine.F). These dependencies must be listed in a comma-separated list.
+   (e.g. "use machine" --> depends on ``machine.F``). These dependencies must be provided as a comma-separated list.
    Relative path(s) to those file(s) must be specified here or using the ``relative_path`` entry described below.
    Dependency attributes are additive; multiple lines containing dependencies can be used. With the exception of
-   specific files, such as `machine.F`, which provides the `kind_phys` Fortran kind definition, shared dependencies
+   specific files, such as ``machine.F``, which provides the `kind_phys` Fortran kind definition, shared dependencies
    between schemes are discouraged.
 
 #. ``relative_path``: If specified, the relative path is added to every file listed in the ``dependencies``.
@@ -162,68 +150,77 @@ The ``[ccpp-table-properties]`` section is required in every metadata file and h
 The information in this section table allows the CCPP to compile only the schemes and dependencies needed by the
 selected CCPP suite(s).
 
-An example for type and variable definitions in ``GFS_typedefs.meta`` is shown in
+An example for type and variable definitions from the file ``ccpp-physics/physics/radlw_param.meta`` is shown in
 :ref:`Listing 2.2 <table-properties-typedefs>`.
 
 .. note::
 
-   A single metadata file may require multiple instances of the [ccpp-table-properties] section.
+   A single metadata file may require multiple instances of the ``[ccpp-table-properties]`` section. For example, if a scheme requires multiple derived data types, each should have its own ``[ccpp-table-properties]`` entry. Subsequent ``[ccpp-table-properties]`` sections should be preceded by a separating line of ``#`` characters, as shown in the examples on this page.
 
 .. _table-properties-typedefs:
 .. code-block:: fortran
 
-   ########################################################################
    [ccpp-table-properties]
-     name = GFS_statein_type
+     name = topflw_type
      type = ddt
      dependencies =
-
+   
    [ccpp-arg-table]
-     name = GFS_statein_type
+     name = topflw_type
      type = ddt
-   [phii]
-     standard_name = geopotential_at_interface
-   ...
+   
    ########################################################################
    [ccpp-table-properties]
-     name = GFS_stateout_type
+     name = sfcflw_type
      type = ddt
      dependencies =
-
+   
    [ccpp-arg-table]
-     name = GFS_stateout_type
+     name = sfcflw_type
      type = ddt
-   [gu0]
-     standard_name = x_wind_updated_by_physics
-   ...
+   
    ########################################################################
    [ccpp-table-properties]
-     name = GFS_typedefs
-     type = module
-     relative_path = ../../ccpp/physics/physics
-     dependencies = machine.F,physcons.F90,radlw_param.f,radsw_param.f
-     dependencies = GFDL_parse_tracers.F90,rte-rrtmgp/rrtmgp/mo_gas_optics_rrtmgp.F90
-     dependencies = rte-rrtmgp/rte/mo_optical_props.F90
-     dependencies = rte-rrtmgp/extensions/cloud_optics/mo_cloud_optics.F90
-     dependencies = rte-rrtmgp/rrtmgp/mo_gas_concentrations.F90
-     dependencies = rte-rrtmgp/rte/mo_rte_config.F90
-     dependencies = rte-rrtmgp/rte/mo_source_functions.F90
-
+     name = proflw_type
+     type = ddt
+     dependencies =
+   
    [ccpp-arg-table]
-     name = GFS_typedefs
+     name = proflw_type
+     type = ddt
+   
+   ########################################################################
+   [ccpp-table-properties]
+     name = module_radlw_parameters
      type = module
-   [GFS_cldprop_type]
-     standard_name = GFS_cldprop_type
-     long_name = definition of type GFS_cldprop_type
+     dependencies =
+   
+   [ccpp-arg-table]
+     name = module_radlw_parameters
+     type = module
+   [topflw_type]
+     standard_name = topflw_type
+     long_name = definition of type topflw_type
      units = DDT
      dimensions = ()
-     type = GFS_cldprop_type
-   ...
+     type = topflw_type
+   [sfcflw_type]
+     standard_name = sfcflw_type
+     long_name = definition of type sfcflw_type
+     units = DDT
+     dimensions = ()
+     type = sfcflw_type
+   [proflw_type]
+     standard_name = proflw_type
+     long_name = definition of type proflw_type
+     units = DDT
+     dimensions = ()
+     type = proflw_type
 
 *Listing 2.2: Example of a CCPP-compliant metadata file showing the use of the [ccpp-table-properties] section and
 how it relates to [ccpp-arg-table].*
 
-An example metadata file for the CCPP scheme ``mp_thompson.meta`` is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
+An example metadata file for the CCPP scheme ``mp_thompson.meta`` (with many sections omitted as indicated by ``...``) is shown in :ref:`Listing 2.3 <table-properties-mp-thompson>`.
 
 .. _table-properties-mp-thompson:
 .. code-block:: fortran
@@ -231,35 +228,56 @@ An example metadata file for the CCPP scheme ``mp_thompson.meta`` is shown in :r
    [ccpp-table-properties]
      name = mp_thompson
      type = scheme
-     dependencies = machine.F,module_mp_radar.F90,module_mp_thompson.F90
-     dependencies = module_mp_thompson_make_number_concentrations.F90
+     dependencies = machine.F,module_mp_radar.F90,module_mp_thompson.F90,module_mp_thompson_make_number_concentrations.F90
 
    ########################################################################
    [ccpp-arg-table]
-    name = mp_thompson_init
-    type = scheme
+     name = mp_thompson_init
+     type = scheme
+   [ncol]
+     standard_name = horizontal_dimension
+     long_name = horizontal dimension
+     units = count
+     dimensions = ()
+     type = integer
+     intent = in
    ...
 
    ########################################################################
    [ccpp-arg-table]
      name = mp_thompson_run
      type = scheme
+   [ncol]
+     standard_name = horizontal_loop_extent
+     long_name = horizontal loop extent
+     units = count
+     dimensions = ()
+     type = integer
+     intent = in
    ...
 
    ########################################################################
    [ccpp-arg-table]
      name = mp_thompson_finalize
      type = scheme
+   [errmsg]
+     standard_name = ccpp_error_message
+     long_name = error message for error handling in CCPP
+     units = none
+     dimensions = ()
+     type = character
+     kind = len=*
+     intent = out
    ...
 
 *Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single*
-``[ccpp-table-properties]`` *and how it defines dependencies for multiple* ``[ccpp-arg-table]`` *.
+``[ccpp-table-properties]`` *entry and how it defines dependencies for multiple* ``[ccpp-arg-table]`` *entries.
 In this example the* ``timestep_init`` *and* ``timestep_finalize`` *phases are not used*.
 
 ccpp-arg-table
 --------------
 
-For each CCPP compliant scheme, the ``ccpp-arg-table`` starts with this set of lines
+For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or derived data type starts with this set of lines
 
 .. code-block:: fortran
 
@@ -313,8 +331,7 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` starts with this set of l
 
 * The order of arguments in the entry point subroutines must match the order of entries in the metadata file.
 
-* :ref:`Listing 2.4 <meta_template>` contains the template for a CCPP-compliant scheme
-  (``ccpp-framework/doc/DevelopersGuide/scheme_template.meta``),
+:ref:`Listing 2.4 <meta_template>` contains the template .meta file for an example CCPP-compliant scheme (``scheme_template.meta``)
 
 .. _meta_template:
 .. literalinclude:: ./_static/scheme_template.meta
@@ -339,23 +356,35 @@ It is important to understand the difference between these metadata dimension na
 
 Since physics developers cannot know whether a host model is passing all columns to the physics during the time integration or just a subset of it, the following rules apply to all schemes:
 
-* Variables that depend on the horizontal decomposition must use ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
+* Variables that depend on the horizontal decomposition must use 
 
-* Variables that depend on the horizontal decomposition must use ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
+  * ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
+
+  * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
+
+Standard names
+==============
+
+Variables available for CCPP physics schemes are identified by their unique *standard name*. This
+policy is in place to ensure that variables will always be unique and unambiguous when communicating
+between different schemes and different host models. Schemes are free to use their own variable
+names within their individual codes, but these variables must be assigned to a *standard name* within
+the scheme's metadata table as described in :numref:`Section %s <IOVariableRules>`.
+
+Standard names are listed and defined in a GitHub repository (https://github.com/ESCOMP/CCPPStandardNames),
+along with rules for adding new standard names as needed. While an effort is made to comply with 
+existing *standard name* definitions of the Climate and Forecast (CF) conventions (http://cfconventions.org), 
+additional names are used in the CCPP to cover the wide range of use cases the CCPP intends to include.
+Each hash of the CCPP Physics repository contains information in the top-level ``README.md`` file
+indicating which version of the CCPPStandardNames repository corresponds to that version of CCPP code.
+
+An up-to-date list of available standard names for a given host model can be found by running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`), which will generate a LaTeX source file that can be compiled to produce a PDF file with all variables 
+defined by the host model and requested by the physics schemes.
+
+.. _IOVariableRules:
 
 Input/Output Variable (argument) Rules
 ======================================
-
-* Variables available for CCPP physics schemes are identified by their unique
-  ``standard_name``. While an effort is made to comply with existing ``standard_name``
-  definitions of the Climate and Forecast (CF) conventions (http://cfconventions.org), additional names
-  are used in the CCPP (see below for further information).
-
-* A list of available standard names and an example of naming conventions can be found in
-  ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_${HOST}.pdf``, where ``${HOST}`` is the
-  name of the host model.  Running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`)
-  will generate a LaTeX source file that can be compiled to produce
-  a PDF file with all variables defined by the host model and requested by the physics schemes.
 
 * A ``standard_name`` cannot be assigned to more than one local variable (``local_name``).
   The ``local_name`` of a variable can be chosen freely and does not have to match the
@@ -390,7 +419,7 @@ Input/Output Variable (argument) Rules
      type = real
      kind = kind_phys
 
-  For performance reason, slices of arrays should be contiguous in memory, which, in Fortran,
+  For performance reasons, slices of arrays should be contiguous in memory, which, in Fortran,
   implies that the dimension that is split is the rightmost (outermost) dimension as in the example above.
 
 * The two mandatory variables that any scheme-related subroutine must accept as ``intent(out)`` arguments are

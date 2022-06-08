@@ -26,8 +26,9 @@ considered in future implementations.
 
 These capabilities have been tested and are expected to work with the following suites:
 
-* UFS: GFSv15p2, GFSv16beta, RRFS_v1alpha suites
-* SCM: GFSv15p2, GFSv16beta, RRFS_v1alpha, and GSD_v1 suites 
+* SCM: GFS_v16, GFS_v17_p8, RAP, RRFS_v1beta, WoFS, HRRR
+* ufs-weather-model (global): GFS_v17_p8
+* ufs-weather-model (regional): GFS_v16, RRFS_v1beta, WoFS, HRRR
 
 ==========
 Tendencies
@@ -56,7 +57,7 @@ photochemistry. The total tendency produced by the ozone photochemistry scheme (
 subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone present
 in the column above a grid cell, influences from temperature, and influences from mixing ratio.  For more
 information about the NRL 2015 ozone photochemistry scheme, consult the `CCPP Scientific Documentation
-<https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_OZPHYS.html>`_.
+<https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__o_z_p_h_y_s.html>`_.
 
 There are numerous tendencies in CCPP, and you need to know which ones exist for your configuration to
 enable them. The model will output a list of available tendencies for your configuration if you run with
