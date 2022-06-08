@@ -20,13 +20,13 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'CCPP Technical'
-copyright = '2020 '
-author = 'J. Schramm, L. Bernardet, L. Carson, \\\ G. Firl, D. Heinzeller, L. Pan, and M. Zhang'
+copyright = '2022 '
+author = 'J. Schramm, L. Bernardet, L. Carson, G. Firl, \\\ D. Heinzeller, L. Pan, M. Zhang, and M. Kavulich'
 
 # The short X.Y version
-version = ''
+version = '6.0'
 # The full version, including alpha/beta/rc tags
-release = ''
+release = '6.0.0'
 
 numfig = True
 
