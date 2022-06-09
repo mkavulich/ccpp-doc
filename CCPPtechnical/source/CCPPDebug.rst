@@ -158,7 +158,7 @@ Below is an example for an SDF that prints debugging output from the standard/pe
 
       <?xml version="1.0" encoding="UTF-8"?>
 
-      <suite name="FV3_GFS_v15p2" lib="ccppphys" ver="4">
+      <suite name="FV3_GFS_v16" version="1">
       <!-- <init></init> -->
       <group name="fast_physics">
         ...
@@ -172,7 +172,8 @@ Below is an example for an SDF that prints debugging output from the standard/pe
           <scheme>GFS_diagtoscreen</scheme>
           <scheme>GFS_interstitialtoscreen</scheme>
           <scheme>GFS_rrtmg_pre</scheme>
-          <scheme>rrtmg_sw_pre</scheme>
+          <scheme>GFS_radiation_surface</scheme>
+          <scheme>rad_sw_pre</scheme>
           <scheme>rrtmg_sw</scheme>
           <scheme>rrtmg_sw_post</scheme>
           <scheme>rrtmg_lw_pre</scheme>

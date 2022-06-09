@@ -157,7 +157,7 @@ An example invocation of running the script (called from the SCM’s top level d
 
    ./ccpp/framework/scripts/ccpp_prebuild.py \
      --config=./ccpp/config/ccpp_prebuild_config.py \
-     --suites=FV3_GFS_v15p2 \
+     --suites=FV3_GFS_v16 \
      --verbose
 
 which uses a configuration script located at the specified path. The ``--verbose`` option can be used for more verbose output from the script.
@@ -168,7 +168,7 @@ The :term:`SDF`\(s) to compile into the executable can be specified using the ``
 
    ./ccpp/framework/scripts/ccpp_prebuild.py \
      --config=./ccpp/config/ccpp_prebuild_config.py \
-     --suites=FV3_GFS_v15p2,FV3_GFS_v16beta
+     --suites=FV3_GFS_v16,RRFS_v1beta
 
 .. note::
 
@@ -185,7 +185,7 @@ To remove all files created by ``ccpp_prebuild.py``, for example as part of a ho
 .. code-block:: console
 
   ./ccpp/framework/scripts/ccpp_prebuild.py --config=./ccpp/config/ccpp_prebuild_config.py \
-  --suites=FV3_GFS_v15p2,FV3_GFS_v16beta --clean
+  --suites=FV3_GFS_v16,RRFS_v1beta --clean
 
 =============================
 Troubleshooting
