@@ -66,18 +66,18 @@ primary and interstitial schemes.
 
 In general, physics parameterizations in the CCPP framework are broken down into five *phases*:
 
- * The *init* phase, which performs actions needed to set up the scheme before the model integration
-   begins. Examples of actions needed in this phase include the reading/computation of
-   lookup tables, setting of constants (as described in :numref:`Section %s <UsingConstants>`), etc.
- * The *timestep_init* phase, which performs actions needed at the start of each physics timestep. 
-   Examples of actions needed in this phase include updating of time-based settings (e.g. solar angle),
-   reading lookup table values, etc.
- * The *run* phase, which is the main body of the scheme. Here is where the physics is integrated
-   forward to the next timestep.
- * The *timestep_finalize* phase, which performs post-integration calculations such as computing
-   statistics or diagnostic tendancies.
- * The *finalize* phase, which performs cleanup and finalizing actions at the end of model integration.
-   Examples of actions needed in this phase include deallocating variables, closing files, etc.
+* The *init* phase, which performs actions needed to set up the scheme before the model integration
+  begins. Examples of actions needed in this phase include the reading/computation of
+  lookup tables, setting of constants (as described in :numref:`Section %s <UsingConstants>`), etc.
+* The *timestep_init* phase, which performs actions needed at the start of each physics timestep. 
+  Examples of actions needed in this phase include updating of time-based settings (e.g. solar angle),
+  reading lookup table values, etc.
+* The *run* phase, which is the main body of the scheme. Here is where the physics is integrated
+  forward to the next timestep.
+* The *timestep_finalize* phase, which performs post-integration calculations such as computing
+  statistics or diagnostic tendancies.
+* The *finalize* phase, which performs cleanup and finalizing actions at the end of model integration.
+  Examples of actions needed in this phase include deallocating variables, closing files, etc.
 
 The various phases have different rules when it comes to parallelization, especially with regards
 to how data is blocked among parallel processes; see :numref:`Section %s <ParallelProgramming>`
@@ -381,6 +381,8 @@ Since physics developers cannot know whether a host model is passing all columns
   * ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
 
   * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
+
+.. _StandardNames:
 
 Standard names
 ==============
