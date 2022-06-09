@@ -603,7 +603,7 @@ In summary, there are two ways to pass constants to a physics scheme.  The first
 
 .. note::
 
-   The ``physcons`` module in FV3 **should not** be used, as it is specific to that dynamic core and will be removed in the future.
+   Use of the *physcons* module (``ccpp-physics/physics/physcons.F90``) is **not recommended**, since it is specific to FV3 and will be removed in the future.
 
 Parallel Programming Rules
 ==========================
