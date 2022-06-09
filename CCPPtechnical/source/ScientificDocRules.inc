@@ -472,10 +472,18 @@ Fortran files using the doygen markup below.
    !! \htmlinclude SUBROUTINE_NAME.html
    !!
 
-The tables should be created using a Python script distributed
-with the CCPP Framework, ``ccpp-framework/scripts/metadata2html.py``. The syntax for running this
-script from the same directory that is ``ccpp_prebuild.py`` is called in. For the example of the SCM,
-where both scripts need to be called from the host model top-level directory:
+The tables should be created using a Python script distributed with the CCPP Framework, 
+``ccpp-framework/scripts/metadata2html.py``.
+
+.. note::
+   You will need to set the environment variable ``PYTHONPATH`` to include the directories 
+   ``ccpp/framework/scripts`` and ``ccpp/framework/scripts/parse_tools``. As an example for bash-like shells:
+
+   .. code-block::
+
+      export PYTHONPATH=`pwd`/ccpp/framework/scripts:`pwd`/ccpp/framework/scripts/parse_tools
+
+For the example of the SCM, where both scripts need to be called from the host model top-level directory:
 
 .. code-block:: fortran
 
