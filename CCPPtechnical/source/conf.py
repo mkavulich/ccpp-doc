@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 project = 'CCPP Technical'
 copyright = '2022 '
-author = 'J. Schramm, L. Bernardet, L. Carson, G. Firl, \\\ D. Heinzeller, L. Pan, M. Zhang, and M. Kavulich'
+author = 'Bernardet, L., G. Firl, D. Heinzeller, L. Pan, \\\ M. Zhang, M. Kavulich, L Carson, and J. Schramm'
 
 # The short X.Y version
 version = '6.0'
@@ -142,7 +142,7 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
-    'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Schramm, J., L. Bernardet, L. Carson, G. Firl, D. Heinzeller, L. Pan, M. Zhang, and M. Kavulich, 2022. CCPP Technical Documentation Release v6.0.0. Available at https://ccpp-techdoc.readthedocs.io/\textunderscore/downloads/en/v6.0.0/pdf/.}\sphinxmaketitle'
+    'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Bernardet, L., G. Firl, D. Heinzeller, L. Pan, M. Zhang, M. Kavulich, J. Schramm, and L. Carson, 2022. CCPP Technical Documentation Release v6.0.0. Available at https://ccpp-techdoc.readthedocs.io/\textunderscore/downloads/en/v6.0.0/pdf/.}\sphinxmaketitle'
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
