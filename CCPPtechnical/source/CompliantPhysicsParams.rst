@@ -292,7 +292,7 @@ An example metadata file for the CCPP scheme ``mp_thompson.meta`` (with many sec
 
 *Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single*
 ``[ccpp-table-properties]`` *entry and how it defines dependencies for multiple* ``[ccpp-arg-table]`` *entries.
-In this example the* ``timestep_init`` *and* ``timestep_finalize`` *phases are not used*.
+In this example the* timestep_init *and* timestep_finalize *phases are not used*.
 
 ccpp-arg-table
 --------------
@@ -368,9 +368,9 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
 
 It is important to understand the difference between these metadata dimension names.
 
-* ``horizontal_dimension`` refers to all (horizontal) grid columns that an MPI process owns/is responsible for, and that are passed to the physics in the ``init``, ``timestep_init``, ``timestep_final``, and ``final`` phases.
+* ``horizontal_dimension`` refers to all (horizontal) grid columns that an MPI process owns/is responsible for, and that are passed to the physics in the *init*, *timestep_init*, *timestep_final*, and *final* phases.
 
-* ``horizontal_loop_extent`` or, equivalent, ``ccpp_constant_one:horizontal_loop_extent`` stands for a subset of grid columns that are passed to the physics during the time integration, i.e. in the ``run`` phase.
+* ``horizontal_loop_extent`` or, equivalent, ``ccpp_constant_one:horizontal_loop_extent`` stands for a subset of grid columns that are passed to the physics during the time integration, i.e. in the *run* phase.
 
 * Note that ``horizontal_loop_extent`` is identical to ``horizontal_dimension`` for host models that pass all columns to the physics during the time integration.
 
@@ -378,9 +378,9 @@ Since physics developers cannot know whether a host model is passing all columns
 
 * Variables that depend on the horizontal decomposition must use 
 
-  * ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
+  * ``horizontal_dimension`` in the metadata tables for the following phases: *init*, *timestep_init*, *timestep_final*, *final*.
 
-  * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
+  * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the *run* phase.
 
 .. _StandardNames:
 
@@ -657,7 +657,7 @@ The following rules should be observed when including OpenMP or MPI communicatio
   that the number of OpenMP threads to use is obtained from the host model as an ``intent(in)``
   argument in the argument list (:ref:`Listing 6.2 <MandatoryVariables>`).
 
-* MPI communication is allowed in the *init*, *timestep_init*, *timestep_finalize, and *finalize*,
+* MPI communication is allowed in the *init*, *timestep_init*, *timestep_finalize*, and *finalize*,
   phases for the purpose of computing, reading or writing
   scheme-specific data that is independent of the host model’s data decomposition.
 

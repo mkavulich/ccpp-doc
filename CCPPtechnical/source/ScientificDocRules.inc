@@ -541,11 +541,11 @@ In order to generate the doxygen-based documentation, you will need to follow fi
 
   ``doxygen ccpp_doxyfile``
 
-   Running this command may generate warnings or errors that need to be fixed
-   in order to produce proper output. The location and type of output
-   (HTML, LaTeX, etc.) are specified in the configuration file.
-   The generated HTML documentation can be viewed by pointing an HTML
-   browser to the ``index.html`` file in the ``./docs/doc/html/`` directory.
+  Running this command may generate warnings or errors that need to be fixed
+  in order to produce proper output. The location and type of output
+  (HTML, LaTeX, etc.) are specified in the configuration file.
+  The generated HTML documentation can be viewed by pointing an HTML
+  browser to the ``index.html`` file in the ``./docs/doc/html/`` directory.
 
 For precise instructions or other help creating the scientific documentation, contact the CCPP
 Forum at https://dtcenter.org/forum/ccpp-user-support.
