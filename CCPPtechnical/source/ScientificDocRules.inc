@@ -518,10 +518,10 @@ Using Doxygen
 
 In order to generate the doxygen-based documentation, you will need to follow five steps:
 
-#. Have the doxygen executable installed on your computer. For the NOAA
-   machine *Hera* and the NCAR machine *Cheyenne*, the Doxygen executable resides in ``/usr/bin``,
-   which should be in your ``PATH``.  If you need to install Doxygen in another location, add
-   the location of the Doxygen binary to your ``PATH`` variable or create an alias that points to it.
+#. Have the executables ``doxygen`` (https://doxygen.nl/), ``graphviz`` (https://graphviz.org/),
+   and ``bibtex`` (http://www.bibtex.org/) installed on your machine and in your ``PATH``.
+   These utilities can be installed on MacOS via `Homebrew <https://brew.sh/>`_, or installed
+   manually via the instructions on each utility's page linked above.
 
 #. Document your code, including the doxygen main page, scheme pages, and inline
    comments within the source code as described above.
@@ -536,9 +536,10 @@ In order to generate the doxygen-based documentation, you will need to follow fi
    customize the output.
 
 #. Run doxygen from the directory ``ccpp/physics/physics/docs`` using the command line
-   to specify the doxygen configuration file as an argument:
+   to specify the doxygen configuration file as an argument. For the CCPP Scientific documentation,
+   this file is called ``ccpp_doxyfile``:
 
-  ``$doxygen $PATH_TO_CONFIG_FILE/<config_file>``
+  ``doxygen ccpp_doxyfile``
 
    Running this command may generate warnings or errors that need to be fixed
    in order to produce proper output. The location and type of output
