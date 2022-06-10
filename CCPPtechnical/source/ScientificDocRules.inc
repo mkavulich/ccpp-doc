@@ -3,8 +3,7 @@
 Scientific Documentation Rules
 ==============================
 
-Technically, scientific documentation is not needed for a parameterization
-to work with the CCPP. However, scientific and technical documents are
+Scientific and technical documents are
 important for code maintenance and for fostering understanding among stakeholders.
 As such, physics schemes are required to include scientific documentation in order to be included in the CCPP. This
 section describes the process used for documenting parameterizations in the CCPP.
@@ -24,7 +23,7 @@ so that doxygen will parse them correctly, where to put various comments within
 the code, how to include information from the ``.meta`` files,
 and how to configure and run doxygen to generate HTML
 output. For an example of the HTML rendering of the CCPP Scientific Documentation, see
-https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/index.html.
+https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/index.html
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate
@@ -38,20 +37,20 @@ started in writing documentation for a new scheme.
 Doxygen Comments and Commands
 -----------------------------
 
-All doxygen commands start with a backslash (``“\”``) or an at-sign (``“@”``). The
-doxygen inline comment blocks begin with “!>”, and subsequent lines begin with ``“!!”``,
-which means that regular Fortran comments using ``“!”`` are not parsed by doxygen.
+All doxygen commands start with a backslash ("``\``") or an at-sign ("``@``"). The
+doxygen inline comment blocks begin with "``!>``", and subsequent lines begin with "``!!``",
+which means that regular Fortran comments using "``!``" are not parsed by doxygen.
 
-In the first line of each Fortran file, a brief one-sentence overview of the file purpose
-is present using the doxygen command ``\file``:
+In the first line of each Fortran file, a brief one-sentence overview of the file's purpose
+should be included, using the doxygen command ``\file``:
 
 .. code-block:: console
 
    !> \file cires_ugwp.F90
    !! This file contains the Unified Gravity Wave Physics (UGWP) scheme by Valery Yudin (University of Colorado, CIRES)
 
-A parameter definition begins with ``“!<”``, where the sign ``‘<’`` tells
-   Doxygen that documentation follows. Example:
+A parameter definition begins with "``!<``", where the "``<``" sign tells
+Doxygen that documentation follows. Example:
 
 .. code-block:: console
 
@@ -76,8 +75,8 @@ documentation style could be divided into four categories:
 Doxygen files
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Doxygen provides the ``\file`` tag as a way to provide documentation on the
-Fortran source code file level. That is, in the generated documentation,
+Doxygen provides the ``\file`` tag as a way to provide documentation on the level of
+Fortran source code files. That is, in the generated documentation,
 one may navigate by source code filenames (if desired) rather than through
 a “functional” navigation. The most important documentation organization is
 through the “module” concept mentioned below, because the division of a scheme
@@ -89,8 +88,8 @@ using the ``\file`` tag, e.g.:
 
 .. code-block:: fortran
 
-   !>\file cu_gf_driver.F90
-   !! This file is scale-aware Grell-Freitas cumulus scheme driver.
+   !>\file cu_gf_deep.F90
+   !! This file is the Grell-Freitas deep convection scheme.
 
 The brief description for each file is displayed next to the source filename
 on the doxygen-generated “File List” page:
@@ -101,55 +100,65 @@ on the doxygen-generated “File List” page:
 Doxygen Overview Page
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Pages in Doxygen can be used for documentation that is not directly attached
-to a source code entity such as file or module. They are external text files
-that generate pages with a high-level scientific overview and
-typically contain a longer description of a project or suite. You can refer to
-any source code entity from within the page.
+*Pages* in Doxygen can be used for documentation that is not directly attached to a source code
+entity such as a file or module. In the context of CCPP they are used for external text files that
+generate pages with a high-level scientific overview, typically containing a longer description of
+a project or suite. You can refer to any source code entity from within a page.
 
 The DTC maintains a main page, created by the Doxygen command
-``\mainpage``, containing an overall description and background of the CCPP.
-Physics developers do not have to edit the file with the mainpage, which has a
-user-visible title, but not label:
+``\mainpage``, which contains an overall description and background of the CCPP.
+Physics developers do not have to edit the file with the mainpage (``mainpage.txt``), which is 
+formatted like this:
 
 .. code-block:: console
 
-    /**
-    \mainpage Introduction
-    ...
-    */
+   /**
+   \mainpage Introduction
+   ...
+   */
 
 All other pages listed under the main page are created using the Doxygen
 tag ``\page`` described in the next section. In any Doxygen page,
 you can refer to any entity of source code by using Doxygen tag ``\ref``
-or ``@ref``. Example in ``suite_FV3_GFS_v15p2.xml.txt``:
-
-The GFS v15p2 physics suite uses the parameterizations in the following order,
-as defined in
+or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
 
 .. code-block:: console
 
-  \c FV3_GFS_v15p2 :
-   - \ref fast_sat_adj
-   - \ref GFS_RRTMG
-   - \ref GFS_SFCLYR
-   - \ref GFS_NSST
-   - \ref GFS_NOAH
-   - \ref GFS_SFCSICE
-   - \ref GFS_HEDMF
-   - \ref cires_ugwp
-   - \ref GFS_RAYLEIGH
-   - \ref GFS_OZPHYS
-   - \ref GFS_H2OPHYS
-   - \ref GFS_SAMFdeep
-   - \ref GFS_SAMFshal
-   - \ref GFDL_cloud
-   - \ref GFS_CALPRECIPTYPE
-   - \ref STOCHY_PHYS
+   /**
+   \page GFS_v16_page GFS_v16 Suite 
 
-The HTML result is `here <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/GFS_v15p2_page.html>`_.
-You can see that the ``-`` signs before ``@ref`` generate a list with bullets.
-Doxygen command ``\c`` displays its argument using a typewriter font.
+   \section gfsv16_suite_overview Overview
+
+   Version 16 of the Global Forecast System (GFS) was implemented operationally by the NOAA
+   National Centers for Environmental Prediction (NCEP) in 2021. This suite is available for
+   use with the UFS SRW App and with the CCPP SCM.
+
+   The GFS_v16 suite uses the parameterizations in the following order:
+    - \ref GFS_RRTMG
+    - \ref GFS_SFCLYR
+    - \ref GFS_NSST
+    - \ref GFS_OCEAN
+    - \ref GFS_NOAH
+    - \ref GFS_SFCSICE
+    - \ref GFS_SATMEDMFVDIFQ
+    - \ref GFS_UGWP_v0
+    - \ref GFS_OZPHYS
+    - \ref GFS_H2OPHYS
+    - \ref GFS_SAMFdeep
+    - \ref GFS_SAMFshal
+    - \ref GFDL_cloud
+
+   \section sdf_gfsv16b Suite Definition File
+   \include  suite_FV3_GFS_v16.xml
+   ...
+   */
+
+The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s_v16_page.html>`_.
+You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the 
+``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands 
+indicate section breaks, and the ``\include`` commands will include the contents of another file.
+
+Other valid Doxygen commands for style, markup, and other functionality can be found in the `Doxygen documentation <https://doxygen.nl/manual/index.html>`_.
 
 Physics Scheme Pages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -157,14 +166,17 @@ Physics Scheme Pages
 Each major scheme in CCPP should have its own scheme page containing an
 overview of the parameterization.  These pages are not tied to the Fortran
 code directly; instead, they are created with a separate text file that starts
-with the command ``\page``.  Scheme pages are stored in the ``ccpp-physics/physics/docs/pdftxt``
-directory. Each page has a label (e.g., “GFS_SAMFdeep” in the following example) and a
+with the command ``\page``.  For CCPP, the stand-alone Doxygen pages, including the main page
+and the scheme pages, are contained in the *ccpp-physics* repository, under the
+``ccpp-physics/physics/docs/pdftxt/`` directory. Each page (aside from the main page) has a 
+*label* (e.g., “GFS_SAMFdeep” in the following example) and a
 user-visible title (“GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection
 Scheme” in the following example).  It is noted that labels must be unique
 across the entire doxygen project so that the ``\ref`` command can be used
 to create an unambiguous link to the structuring element. It therefore makes
 sense to choose label names that refer to their context.
 
+.. _doxygen_page_example:
 .. code-block:: console
 
    /**
@@ -174,8 +186,8 @@ sense to choose label names that refer to their context.
     updated version of the previous Simplified Arakawa-Schubert (SAS) scheme
     with scale and aerosol awareness and parameterizes the effect of deep
     convection on the environment (represented by the model state variables)
-    in the following way …
-
+    in the following way...
+   ...
    \section intra_deep  Intraphysics Communication
    \ref arg_table_samfdeepcnv_run
 
@@ -187,39 +199,40 @@ sense to choose label names that refer to their context.
 
 The physics scheme page will often describe the following:
 
-1. Description section (``\section``), which usually includes:
+1. A "Description" section, which usually includes:
 
-      * Scientific origin and scheme history (``\cite``)
-      * Key features and differentiating points
-      * A picture is worth a thousand words (``\image``)
-
-        To insert images into doxygen documentation, you’ll need to have your
-        images ready in a graphical format, such as Portable Network Graphic (png), depending
+   * Scientific origin and scheme history
+      * External sources and citations can be referenced with ``\cite`` tags
+   * Key features and differentiating points compared to other schemes
+   * Tables, schematics, other images inserted using the ``\image`` tag
+      * To insert images into doxygen documentation, you’ll need to prepare your
+        images in a graphical format, such as Portable Network Graphic (png), depending
         on which type of doxygen output you are planning to generate. For example, for LaTeX
         output, the images must be provided in Encapsulated PostScript (.eps), while for
         HTML output the images can be provided in the png format. Images are stored in
         ``ccpp-physics/physics/docs/img`` directory.  Example of including an image for
         HTML output:
 
-.. code-block:: console
+        .. code-block:: console
 
-   \image  html  gfdl_cloud_mp_diagram.png "Figure 1: GFDL MP at a glance (Courtesy of S.J. Lin at GFDL)" width=10cm
+           \image  html  gfdl_cloud_mp_diagram.png "Figure 1: GFDL MP at a glance (Courtesy of S.J. Lin at GFDL)" width=10cm
 
-2. Intraphysics Communication Section (``\section``)
+2. An "Intraphysics Communication" section
 
-    The argument table for CCPP entry point subroutine ``{scheme}_run`` will be in this section.
-    It is created by inserting a reference link (``\ref``) to the table in the Fortran code
-    for the scheme.
+   The argument table for CCPP entry point subroutine ``{scheme}_run`` will be in this section.
+   It is created by inserting a reference link (``\ref``) to the corresponding Doxygen label in the Fortran code
+   for the scheme. In the :ref:`above example <doxygen_page_example>`, the ``\ref arg_table_samfdeepcnv_run``
+   tag references the section of Doxygen-annotated source code in ``ccpp-physics/physics/samfdeepcnv.f``
+   that contains the scheme's argument table as an included html document, as described in the 
+   :ref:`following section <DoxygenModules>`.
 
-3. General Algorithm Section (``\section``)
+3. A "General Algorithm" section
 
    The general description of the algorithm will be in this section. It is created by inserting
-   a reference link (``\ref``) in the Fortran code for the scheme.
+   a reference link (``\ref``) pointing to the corresponding Doxygen-annotated source code for the scheme, 
+   as described in the :ref:`following section <DoxygenModules>`.
 
-The symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
-See an example of GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection Scheme
-page in the previous page.
-
+As can be seen in the above examples, symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
 
 Note that separate pages can also be created to document something that is not a scheme.
 For example, a page could be created to describe a suite, or how a set of schemes work
@@ -238,8 +251,8 @@ is used to aggregate all code related to that scheme, even when it is in separat
 files. Since doxygen cannot know which files or subroutines belong to each physics
 scheme, each relevant subroutine must be tagged with the module name. This allows
 doxygen to understand your modularized design and generate the documentation accordingly.
-`Here <https://dtcenter.ucar.edu/GMTB/v5.0.0/sci_doc/modules.html>`_
-is a list of module list defined in CCPP.
+`Here is a list of modules <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/modules.html>`_
+defined in CCPP.
 
 A module is defined using:
 
@@ -305,7 +318,7 @@ command, a brief one or two sentence description of the scheme should be
 included. After a blank doxygen comment line, begin the scheme origin
 and history using ``\version``, ``\author`` and ``\date``.
 
-Each subroutine that is a CCPP entry point to a parameterization, should
+Each subroutine that is a CCPP entry point to a parameterization should
 be further documented with a documentation block immediately preceding
 its definition in the source. The documentation block should include at
 least the following components:
@@ -378,9 +391,9 @@ Bibliography
 
 Doxygen can handle in-line paper citations and link to an automatically created
 bibliography page. The bibliographic data for any papers that are cited need to
-be put in BibTeX format and saved in a .bib file. The bib file for CCPP is
-included in the repository, and the doxygen configuration option
-``cite_bib_files`` points to the included file.
+be put in BibTeX format and saved in a .bib file. The .bib file for CCPP is
+included in the CCPP Physics repository (``ccpp-physics/physics/docs/library.bib``), 
+and the doxygen configuration option ``cite_bib_files`` points to the included file.
 
 Citations are invoked with the following tag:
 
@@ -391,100 +404,31 @@ Citations are invoked with the following tag:
 Equations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-See `link <https://www.doxygen.nl/manual/formulas.html>`_ for information
+See `the Doxygen documentation <https://www.doxygen.nl/manual/formulas.html>`_ for information
 about including equations. For the best rendering, the following option
-should be set in the Doxygen configuration file:
+should be set in the :ref:`Doxygen configuration file <Doxygen_config_file>`:
 
 .. code-block:: console
 
    USE_MATHJAX            = YES
-   MATHJAX_RELPATH        =  https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2
+   MATHJAX_RELPATH        = https://cdn.jsdelivr.net/npm/mathjax@2
 
 There are many great online resources to use the LaTeX math typesetting used in doxygen.
 
 Doxygen Configuration
 -----------------------------
 
+.. _Doxygen_config_file:
+
 Configuration File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The CCPP is distributed with a doxygen configuration file
-``./ccpp/physics/physics/docs/ccpp_doxyfile``, such that you don’t need to
+``ccpp-physics/physics/physics/docs/ccpp_doxyfile``, such that you don’t need to
 create an additional one.
 
-If starting from scratch, you can generate a default configuration file using the command:
-
-.. code-block:: console
-
-   doxygen -g <config_file>
-
-Then you can edit the default configuration file to serve your needs. The default
-file includes plenty of comments to explain all the options. Some of the important
-things you need to pay attention to are:
-
- * The name of your project:
-
-.. code-block:: console
-
-   PROJECT_NAME = ‘your project name’
-
-* The input files (relative to the directory where you run doxygen):
-
-.. code-block:: console
-
-   INPUT =
-
-The following lines should be listed here: the doxygen mainpage text file, the
-scheme pages, and the source codes to be contained in the output. The order in
-which schemes are listed determines the order in the HTML result.
-
-
-* The directory where to put the documentation (if you leave it empty, then the
-  documentation will be created in the directory where you run doxygen):
-
-.. code-block:: console
-
-   OUTPUT_DIRECTORY = doc
-
-* The type of documentation you want to generate (HTML, LaTeX and/or something else):
-
-.. code-block:: console
-
-   GENERATE_HTML = YES
-
-If HTML is chosen, the following tells doxygen where to put the documentation
-relative to the OUTPUT_DIRECTORY:
-
-.. code-block:: console
-
-   HTML_OUTPUT = html
-
-and
-
-.. code-block:: console
-
-   HTML_FILE_EXTENSION = .html
-
-determines the extension of the files.
-
-* Other important settings for a Fortran code project are:
-
-.. code-block:: console
-
-   OPTIMIZE_FOR_FORTRAN        =    YES
-   EXTENSION_MAPPING           = .f=FortranFree        \
-                                 .F90=FortranFree      \
-                                 .f90=FortranFree
-   LAYOUT_FILE                 = ccpp_dox_layout.xml
-   CITE_BIB_FILES              = library.bib
-   FILE_PATTERN                = *.f     \
-                                 *.F90   \
-                                 *.f90   \
-                                 *.txt
-   GENERATE_TREEVIEW           = yes
-
-Doxygen files for layout (``ccpp_dox_layout.xml``), a HTML style (``ccpp_dox_extra_style.css``),
-and bibliography (``library.bib``) are provided with the CCPP. Additionally, a
+Doxygen files for layout (``ccpp_dox_layout.xml``), HTML style (``doxygen-awesome-ccpp.css``),
+and the bibliography (``library.bib``) are provided with the CCPP. Additionally, a
 configuration file is supplied, with the following variables modified from the default:
 
 Diagrams
@@ -507,7 +451,7 @@ your doxygen config file:
    EXTRACT_STATIC     	= YES
    CALL_GRAPH         	= YES
 
-Note that will need the DOT (graph description language) utility to be installed
+Note that you will need the DOT (graph description language) utility to be installed
 when starting doxygen. Doxygen will call it to generate the graphs. On most
 distributions the DOT utility can be found in the GraphViz package. Here is
 the call graph for subroutine *mpdrv* in GFDL cloud microphysics generated by doxygen:
@@ -528,10 +472,18 @@ Fortran files using the doygen markup below.
    !! \htmlinclude SUBROUTINE_NAME.html
    !!
 
-The tables should be created using a Python script distributed
-with the CCPP Framework, ``ccpp-framework/scripts/metadata2html.py``. The syntax for running this
-script from the same directory that is ``ccpp_prebuild.py`` is called is (for the example of the SCM,
-where both scripts need to be called from the host model top-level directory):
+The tables should be created using a Python script distributed with the CCPP Framework, 
+``ccpp-framework/scripts/metadata2html.py``.
+
+.. note::
+   You will need to set the environment variable ``PYTHONPATH`` to include the directories 
+   ``ccpp/framework/scripts`` and ``ccpp/framework/scripts/parse_tools``. As an example for bash-like shells:
+
+   .. code-block::
+
+      export PYTHONPATH=`pwd`/ccpp/framework/scripts:`pwd`/ccpp/framework/scripts/parse_tools
+
+For the example of the SCM, where both scripts need to be called from the host model top-level directory:
 
 .. code-block:: fortran
 
@@ -541,20 +493,21 @@ where ``-m`` is used to specify a file with metadata information and ``-o`` is u
 the directory for output. Note that a single input file (``.meta``) may have more than one CCPP entrypoint
 scheme, and therefore can be used to generate more than one HTML file.
 
-Note that the ``.meta`` files are supplied with the CCPP Physics, and that there is a ``.meta`` file for
-each Fortran file that contains one or more CCPP entrypoint schemes. The ``.meta`` files are located in the same
-directory as the scheme Fortran files (``ccpp/physics/physics``).
+Note that the ``.meta`` files are supplied in the CCPP Physics repository, and that there is a ``.meta`` file for
+each Fortran file that contains one or more CCPP entrypoint scheme. The ``.meta`` files are located in the same
+directory as the scheme Fortran files (``ccpp-physics/physics``).
 
-To generate a complete Scientific Documentation, documentation, script ``./ccpp/framework/scripts/metadata2html.py``
-must be run separately for each ``.meta`` file available in ``ccpp/physics/physics``. Alternatively, a batch mode exists
-that converts all metadata files associated with schemes and variable definitions in the CCPP prebuild config:
+To generate the complete Scientific Documentation, the script ``./ccpp/framework/scripts/metadata2html.py``
+must be run separately for each ``.meta`` file available in ``ccpp-physics/physics``. Alternatively, a batch mode exists
+that converts all metadata files associated with schemes and variable definitions in the CCPP prebuild config; 
+again using the SCM as an example:
 
 .. code-block:: fortran
 
    ./ccpp/framework/scripts/metadata2html.py -c ccpp/config/ccpp_prebuild_config.py
 
-Note that the options ``-c`` and ``-m`` are mutually exclusive, but that one of them is required. Option ``-m`` also requires
-to specify ``-o``, while option ``-c`` will ignore ``-o``. For more information, use
+Note that the options ``-c`` and ``-m`` are mutually exclusive, but that one of them is required. The option ``-m`` also requires
+the user to specify ``-o``, while the option ``-c`` will ignore ``-o``. For more information, use
 
 .. code-block:: fortran
 
@@ -563,29 +516,30 @@ to specify ``-o``, while option ``-c`` will ignore ``-o``. For more information,
 Using Doxygen
 -------------------------------
 
-In order to generate the doxygen-based documentation, one needs to follow five steps:
+In order to generate the doxygen-based documentation, you will need to follow five steps:
 
-#. Have the doxygen executable installed on your computer. For the NOAA
-   machine Hera and the NCAR machine Cheyenne, the doxygen executable resides in ``/usr/bin``,
-   which should be in your ``PATH``.  If you need to install doxygen in another location, add
-   the location of the doxygen binary to your ``PATH`` variable or create an alias that points to it.
+#. Have the executables ``doxygen`` (https://doxygen.nl/), ``graphviz`` (https://graphviz.org/),
+   and ``bibtex`` (http://www.bibtex.org/) installed on your machine and in your ``PATH``.
+   These utilities can be installed on MacOS via `Homebrew <https://brew.sh/>`_, or installed
+   manually via the instructions on each utility's page linked above.
 
-#. Document your code, including doxygen main page, scheme pages and inline
-   comments within source code as described above.
+#. Document your code, including the doxygen main page, scheme pages, and inline
+   comments within the source code as described above.
 
 #. Run ``metadata2html.py`` to create files in HTML format containing metadata
    information for each CCPP entrypoint scheme.
 
-#. Prepare a Bibliography file in BibTex format for papers referred to in the physics suites.
+#. Prepare a Bibliography file in BibTex format for papers or other references cited in the physics suites.
 
-#. Create or edit a doxygen configuration file to control what doxygen pages, source
-   files and bibliography file get parsed, how the source files get parsed, and to
+#. Create or edit a doxygen configuration file to control which doxygen pages, source
+   files, and bibliography get parsed, in addition to how the source files get parsed, and to
    customize the output.
 
-#. Run doxygen from directory ``ccpp/physics/physics/docs`` using the command line
-   to specify the doxygen configuration file as an argument:
+#. Run doxygen from the directory ``ccpp/physics/physics/docs`` using the command line
+   to specify the doxygen configuration file as an argument. For the CCPP Scientific documentation,
+   this file is called ``ccpp_doxyfile``:
 
-  ``$doxygen $PATH_TO_CONFIG_FILE/<config_file>``
+  ``doxygen ccpp_doxyfile``
 
    Running this command may generate warnings or errors that need to be fixed
    in order to produce proper output. The location and type of output
@@ -593,5 +547,5 @@ In order to generate the doxygen-based documentation, one needs to follow five s
    The generated HTML documentation can be viewed by pointing an HTML
    browser to the ``index.html`` file in the ``./docs/doc/html/`` directory.
 
-For precise instructions on creating the scientific documentation, contact the CCPP
+For precise instructions or other help creating the scientific documentation, contact the CCPP
 Forum at https://dtcenter.org/forum/ccpp-user-support.
