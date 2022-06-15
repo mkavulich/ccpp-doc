@@ -110,7 +110,7 @@ The table below lists all parameterizations supported in CCPP public releases an
 `CCPP Scientific Documentation <https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/index.html>`_
 describes the parameterizations in detail. The parameterizations
 are grouped in suites, which can be classified primarily as *operational* or *developmental*.
-*Operational* suites are those used by operational, real-time weather prediction models. For this release, the only operational suite is GFS_v16, which is used for `version 16 <https://www.weather.gov/media/notification/scn_21-20_gfsv16.0_aaa_update.pdf>`_ of the GFS model.
+*Operational* suites are those used by operational, real-time weather prediction models. For this release, the only operational suite is GFS_v16, which is used for `version 16 <https://www.weather.gov/media/notification/pdf2/scn21-20_gfsv16.0_aac.pdf>`_ of the GFS model.
 *Developmental* suites are those that are officially supported for this CCPP release with one or more host models, but are not currently used in any operational models. These may include schemes needed exclusively for research, or "release candidate" schemes proposed for use with future operational models.
 
 .. _scheme_suite_table:
@@ -122,7 +122,7 @@ are grouped in suites, which can be classified primarily as *operational* or *de
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Physics Suite       | GFS_v16          | :g:`GFS_v17_p8`  | :g:`RAP`       |:g:`RRFS_v1beta`| :g:`WoFS`      | :g:`HRRR`      |
    +=====================+==================+==================+================+================+================+================+
-   | **Supported hosts** | **SCM/SRW**      | :gb:`SCM/MRW`    | :gb:`SCM`      |:gb:`SCM/SRW`   | :gb:`SCM/SRW`  | :gb:`SCM/SRW`  |
+   | **Supported hosts** | **SCM/SRW**      | :gb:`SCM`        | :gb:`SCM`      |:gb:`SCM/SRW`   | :gb:`SCM/SRW`  | :gb:`SCM/SRW`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
    | Microphysics        | GFDL             | :g:`Thompson`    | :g:`Thompson`  | :g:`Thompson`  | :g:`NSSL`      | :g:`Thompson`  |
    +---------------------+------------------+------------------+----------------+----------------+----------------+----------------+
@@ -191,15 +191,14 @@ upgrade with the capability to build the code using Python 3 (previously only Py
 was supported).
 The CCPP v5.0 release, issued in February 2021, was a major
 upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the RRFS_v1alpha suite.
-The CCPP v6.0 release, issued in June 2022, was a major upgrade in conjunction with the release of the UFS MRW and SRW v2.0 releases.
+The CCPP v6.0 release, issued in June 2022, was a major upgrade in conjunction with the release of the UFS SRW v2.0 release.
 
 .. [#] As of this writing, the CCPP has been validated with two host models: the CCPP
     SCM and the atmospheric component of
     NOAA’s Unified Forecast System (UFS) (hereafter the UFS Atmosphere) that utilizes
-    the Finite-Volume Cubed Sphere (FV3) dynamical core.  The CCPP can be utilized both with the
+    the Finite-Volume Cubed Sphere (FV3) dynamical core. The CCPP can be utilized both with the
     global and limited-area configurations of the UFS Atmosphere. CCPP v6.0.0 is the latest
-    release compatible with the global UFS MRW Application and the
-    limited-area UFS SRW Application.  The CCPP
+    release compatible with the UFS limited-area UFS SRW Application. The CCPP
     has also been run experimentally with a Navy model. Work is under
     way to connect and validate the use of the CCPP Framework with NCAR models.
 
