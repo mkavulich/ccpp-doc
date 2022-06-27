@@ -316,8 +316,7 @@ Note that some host models, such as the UFS, have a limit of how many fields can
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
 by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in file ``input.nml``. 
 
-Further documentation of the ``diag_table`` file can be found in the UFS Weather Model User’s Guide
-`here <https://ufs-weather-model.readthedocs.io/en/latest/InputsOutputs.html#diag-table-file>`_.
+Further documentation of the ``diag_table`` file can be found in the `UFS Weather Model User’s Guide <https://ufs-weather-model.readthedocs.io/en/latest/InputsOutputs.html#diag-table-file>`_.
 
 When the model completes, the fv3_history will contain these new variables.
 
