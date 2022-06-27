@@ -64,7 +64,7 @@ connect two or more schemes together, or provide code for conversions, initializ
 tendencies, for example. The rules and guidelines provided in the following sections apply both to
 primary and interstitial schemes.
 
-In general, physics parameterizations in the CCPP framework are broken down into five *phases*:
+CCPP-compliant physics parameterizations are broken down into one or more of the following five *phases*:
 
 * The *init* phase, which performs actions needed to set up the scheme before the model integration
   begins. Examples of actions needed in this phase include the reading/computation of
