@@ -200,7 +200,7 @@ Below is an example for an SDF that prints debugging output from the standard/pe
 How to customize the debugging schemes and the output for arrays in the UFS
 ---------------------------------------------------------------------------
 
-At the top of ``GFS_debug.F90``, there are customization options in the form of preprocessor directives (CPP ``#ifdef`` etc statements) and a brief documentation. Users not familiar with preprocessor directives are referred to the available documentation such as `Using fpp Preprocessor Directives <https://software.intel.com/content/www/us/en/develop/documentation/fortran-compiler-developer-guide-and-reference/top/optimization-and-programming-guide/fpp-preprocessing/using-fpp-preprocessor-directives.html>`_
+At the top of ``GFS_debug.F90``, there are customization options in the form of preprocessor directives (CPP ``#ifdef`` etc statements) and a brief documentation. Users not familiar with preprocessor directives are referred to the available documentation such as `Using fpp Preprocessor Directives <https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/optimization-and-programming/fpp-preprocessing/using-fpp-preprocessor-directives.html>`_
 At this point, three options exist: (1) full output of every element of each array if none of the #define preprocessor statements is used, (2) minimum, maximum, and mean value of arrays (default for GNU compiler), and (3) minimum, maximum, and 32-bit Adler checksum of arrays (default for Intel compiler). Note that Option (3), the Adler checksum calculation, cannot be used with gfortran (segmentation fault, bug in malloc?).
 
     .. code-block:: console
