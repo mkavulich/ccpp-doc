@@ -25,7 +25,7 @@ The concept of grouping physics in the :term:`SDF` (reflected in the ``<group na
 -----------------
 Subcycling
 -----------------
-The :term:`SDF` allows subcycling of schemes, or calling a subset of schemes at a smaller time step than others. The ``<subcycle loop = n>`` element in the :term:`SDF` controls this function. All schemes within such an element are called  ``n`` times during one ``ccpp_physics_run`` call. An example of this is found in the ``FV3_GFS_v15.xml`` :term:`SDF`, where the surface schemes are executed twice for each timestep (implementing a predictor/corrector paradigm):
+The :term:`SDF` allows subcycling of schemes, or calling a subset of schemes at a smaller time step than others. The ``<subcycle loop = n>`` element in the :term:`SDF` controls this function. All schemes within such an element are called  ``n`` times during one ``ccpp_physics_run`` call. An example of this is found in the ``suite_FV3_GFS_v16.xml`` :term:`SDF`, where the surface schemes are executed twice for each timestep (implementing a predictor/corrector paradigm):
 
 .. code-block:: xml
 

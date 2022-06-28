@@ -10,7 +10,7 @@ This chapter describes the connection of a host model with the pool of :term:`CC
 Variable Requirements on the Host Model Side
 ==================================================
 
-All variables required to communicate between the host model and the physics, as well as to communicate between physics schemes, need to be allocated by the host model. An exception is variables ``errflg``, ``errmsg``, ``loop_cnt``, ``blk_no``, and ``thrd_no``, which are allocated by the CCPP Framework, as explained in :numref:`Section %s <DataStructureTransfer>`. A list of all variables required for the current pool of physics can be found in ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_XYZ.pdf`` (XYZ: SCM, FV3).
+All variables required to communicate between the host model and the physics, as well as to communicate between physics schemes, need to be allocated by the host model. An exception is variables ``errflg``, ``errmsg``, ``loop_cnt``, ``loop_max``, ``blk_no``, and ``thrd_no``, which are allocated by the CCPP Framework, as explained in :numref:`Section %s <DataStructureTransfer>`. See :numref:`Section %s <StandardNames>` for information about the variables required for the current pool of CCPP physics.
 
 At present, only two types of variable definitions are supported by the CCPP Framework:
 
@@ -20,7 +20,7 @@ At present, only two types of variable definitions are supported by the CCPP Fra
 .. _VariableTablesHostModel:
 
 ==================================================
-Metadata for Variable in the Host Model
+Metadata for Variables in the Host Model
 ==================================================
 
 To establish the link between host model variables and physics scheme variables, the host model must provide metadata information similar to those presented in :numref:`Section %s <MetadataRules>`. The host model can have multiple metadata files (``.meta``), each with the required ``[ccpp-table-properties]`` section and the related ``[ccpp-arg-table]`` sections. The host model Fortran files contain three-line snippets to indicate the location for insertion of the metadata information contained in the corresponding section in the ``.meta`` file.
@@ -722,8 +722,12 @@ The purpose of the host model *cap* is to abstract away the communication betwee
 *Listing 6.7: Fortran template for a CCPP host model cap. After each call to ``ccpp_physics_*``, the host model should check the return code ``ierr`` and handle any errors (omitted for readability).*
 
 Readers are referred to the actual implementations of the cap functions in the CCPP-SCM and the UFS for further information. For the SCM, the cap functions are implemented in:
+
 * ``ccpp-scm/scm/src/scm.F90``
 * ``ccpp-scm/scm/src/scm_type_defs.F90``
 * ``ccpp-scm/scm/src/scm_setup.F90``
 * ``ccpp-scm/scm/src/scm_time_integration.F90``
+
 For the UFS, the cap functions can be found in ``ufs-weather-model/FV3/ccpp/driver/CCPP_driver.F90``.
+
+

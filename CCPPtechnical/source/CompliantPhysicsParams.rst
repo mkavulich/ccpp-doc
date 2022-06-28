@@ -64,13 +64,33 @@ connect two or more schemes together, or provide code for conversions, initializ
 tendencies, for example. The rules and guidelines provided in the following sections apply both to
 primary and interstitial schemes.
 
+CCPP-compliant physics parameterizations are broken down into one or more of the following five *phases*:
+
+* The *init* phase, which performs actions needed to set up the scheme before the model integration
+  begins. Examples of actions needed in this phase include the reading/computation of
+  lookup tables, setting of constants (as described in :numref:`Section %s <UsingConstants>`), etc.
+* The *timestep_init* phase, which performs actions needed at the start of each physics timestep. 
+  Examples of actions needed in this phase include updating of time-based settings (e.g. solar angle),
+  reading lookup table values, etc.
+* The *run* phase, which is the main body of the scheme. Here is where the physics is integrated
+  forward to the next timestep.
+* The *timestep_finalize* phase, which performs post-integration calculations such as computing
+  statistics or diagnostic tendencies. Not currently used by any scheme.
+* The *finalize* phase, which performs cleanup and finalizing actions at the end of model integration.
+  Examples of actions needed in this phase include deallocating variables, closing files, etc.
+
+The various phases have different rules when it comes to parallelization, especially with regards
+to how data is blocked among parallel processes; see :numref:`Section %s <ParallelProgramming>`
+for more information.
+
 .. _GeneralRules:
 
 General Rules
 =============
 A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme must be in its own module, and must include at least one of the
 following subroutines (*entry points*): *_init*, *_timestep_init*, *_run*, *_timestep_finalize*,
-and *_finalize*. The module name and the subroutine names must be consistent with the
+and *_finalize*. Each subroutine corresponds to one of the five *phases* of the CCPP framework as described above.
+The module name and the subroutine names must be consistent with the
 scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*, 
 *schemename_run*, etc. The *_run* subroutine contains the
 code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
@@ -272,7 +292,7 @@ An example metadata file for the CCPP scheme ``mp_thompson.meta`` (with many sec
 
 *Listing 2.3: Example metadata file for a CCPP-compliant physics scheme using a single*
 ``[ccpp-table-properties]`` *entry and how it defines dependencies for multiple* ``[ccpp-arg-table]`` *entries.
-In this example the* ``timestep_init`` *and* ``timestep_finalize`` *phases are not used*.
+In this example the* timestep_init *and* timestep_finalize *phases are not used*.
 
 ccpp-arg-table
 --------------
@@ -348,9 +368,9 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
 
 It is important to understand the difference between these metadata dimension names.
 
-* ``horizontal_dimension`` refers to all (horizontal) grid columns that an MPI process owns/is responsible for, and that are passed to the physics in the ``init``, ``timestep_init``, ``timestep_final``, and ``final`` phases.
+* ``horizontal_dimension`` refers to all (horizontal) grid columns that an MPI process owns/is responsible for, and that are passed to the physics in the *init*, *timestep_init*, *timestep_finalize*, and *finalize* phases.
 
-* ``horizontal_loop_extent`` or, equivalent, ``ccpp_constant_one:horizontal_loop_extent`` stands for a subset of grid columns that are passed to the physics during the time integration, i.e. in the ``run`` phase.
+* ``horizontal_loop_extent`` or, equivalent, ``ccpp_constant_one:horizontal_loop_extent`` stands for a subset of grid columns that are passed to the physics during the time integration, i.e. in the *run* phase.
 
 * Note that ``horizontal_loop_extent`` is identical to ``horizontal_dimension`` for host models that pass all columns to the physics during the time integration.
 
@@ -358,9 +378,11 @@ Since physics developers cannot know whether a host model is passing all columns
 
 * Variables that depend on the horizontal decomposition must use 
 
-  * ``horizontal_dimension`` in the metadata tables for the following phases: ``init``, ``timestep_init``, ``timestep_final``, ``final``.
+  * ``horizontal_dimension`` in the metadata tables for the following phases: *init*, *timestep_init*, *timestep_finalize*, *finalize*.
 
-  * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the ``run`` phase.
+  * ``horizontal_loop_extent`` or ``ccpp_constant_one:horizontal_loop_extent`` in the *run* phase.
+
+.. _StandardNames:
 
 Standard names
 ==============
@@ -597,7 +619,16 @@ Within the ``_init`` subroutine body, the constants in the ``my_scheme_common`` 
      end subroutine my_scheme_finalize
    end module my_scheme
 
-After this point, physical constants can be imported from ``my_scheme_common`` wherever they are needed.  Although there may be some duplication in memory, constants within the scheme will be guaranteed to be consistent with the rest of physics and will only be set/derived once during the initialization phase. Of course, this will require that any constants in ``my_scheme_common`` that are coming from the host model cannot use the Fortran ``parameter`` keyword. To guard against inadvertently using constants in ``my_scheme_common`` without setting them from the host, they should be initially set to some invalid value. The above example also demonstrates the use of ``is_initialized`` to guarantee idempotence of the ``_init`` routine. To clean up during the finalize phase of the scheme, the ``is_initialized`` flag can be set back to false and the constants can be set back to an invalid value.
+After this point, physical constants can be imported from ``my_scheme_common`` wherever they are
+needed. Although there may be some duplication in memory, constants within the scheme will be
+guaranteed to be consistent with the rest of physics and will only be set/derived once during the
+initialization phase. Of course, this will require that any constants in ``my_scheme_common`` that
+are coming from the host model cannot use the Fortran ``parameter`` keyword. To guard against
+inadvertently using constants in ``my_scheme_common`` without setting them from the host, they
+should be initially set to some invalid value. The above example also demonstrates the use of
+``is_initialized`` to guarantee idempotence of the ``_init`` routine. To clean up during the
+finalize phase of the scheme, the ``is_initialized`` flag can be set back to false and the
+constants can be set back to an invalid value.
 
 In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed. The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer. 
 
@@ -605,21 +636,29 @@ In summary, there are two ways to pass constants to a physics scheme.  The first
 
    Use of the *physcons* module (``ccpp-physics/physics/physcons.F90``) is **not recommended**, since it is specific to FV3 and will be removed in the future.
 
+.. _ParallelProgramming:
+
 Parallel Programming Rules
 ==========================
 
 Most often, shared memory (OpenMP: Open Multi-Processing) and distributed memory (MPI: Message Passing Interface)
 communication is done outside the physics, in which case the loops and arrays already
 take into account the sizes of the threaded tasks through their input indices and array
-dimensions.  The following rules should be observed when including OpenMP or MPI communication
-in a physics scheme:
+dimensions.
+
+The following rules should be observed when including OpenMP or MPI communication in a physics scheme:
+
+* CCPP standards require that in every phase but the *run* phase, blocked data structures must be combined so that
+  their entire contents are available to a given MPI task (i.e. the data structures can not be further subdivided, or
+  "chunked", within those phases). The *run* phase may be called by multiple threads in parallel, so data structures
+  may be divided into blocks for that phase. 
 
 * Shared-memory (OpenMP) parallelization inside a scheme is allowed with the restriction
   that the number of OpenMP threads to use is obtained from the host model as an ``intent(in)``
   argument in the argument list (:ref:`Listing 6.2 <MandatoryVariables>`).
 
-* MPI communication is allowed in the ``_timestep_init``, ``_init``, ``_finalize``,
-  and ``_timestep_finalize`` phases for the purpose of computing, reading or writing
+* MPI communication is allowed in the *init*, *timestep_init*, *timestep_finalize*, and *finalize*,
+  phases for the purpose of computing, reading or writing
   scheme-specific data that is independent of the host model’s data decomposition.
 
 * If MPI is used, it is restricted to global communications: barrier, broadcast,
@@ -627,8 +666,8 @@ in a physics scheme:
   MPI communicator must be passed to the physics scheme by the host model, the
   use of ``MPI_COMM_WORLD`` is not allowed (:ref:`see list of mandatory variables <MandatoryVariables>`).
 
-*  An example of a valid use of MPI is the initial read of a lookup table of aerosol
-   properties by one or more MPI processes, and its subsequent broadcast to all processes.
+* An example of a valid use of MPI is the initial read of a lookup table of aerosol
+  properties by one or more MPI processes, and its subsequent broadcast to all processes.
 
 * The implementation of reading and writing of data must be scalable to perform
   efficiently from a few to thousands of tasks.
