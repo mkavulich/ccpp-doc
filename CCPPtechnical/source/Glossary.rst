@@ -14,7 +14,7 @@ Glossary
    *CCPP Physics*
       The pool of CCPP-compliant physics schemes; also refers to a software repository of the same name
 
-   "Fast" physics
+   Fast physics
       Physical parameterizations that require tighter coupling with the dynamical core than “slow”
       physics (due to the approximated processes within the parameterization acting on a shorter 
       timescale) and that benefit from a smaller time step. The distinction is useful for greater
