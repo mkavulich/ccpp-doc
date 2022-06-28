@@ -10,10 +10,10 @@ Technical Aspects of the CCPP *Prebuild*
 
 The :term:`CCPP` *prebuild* script ``ccpp-framework/scripts/ccpp_prebuild.py`` is the central piece of code that
 connects the host model with the :term:`CCPP Physics` schemes (see :numref:`%s <ccpp_static_build>`). This script must be run
-before compiling the :term:`CCPP Physics` library and the host model cap. This may be done manually or as part
+before compiling the CCPP Physics library and the host model cap. This may be done manually or as part
 of a host model build-time script. Both the UFS and SCM have incorporated the calls to ``ccpp_prebuild.py`` in their build systems.
 
-The :term:`CCPP` *prebuild* script automates several tasks based on the information collected from the metadata
+The CCPP *prebuild* script automates several tasks based on the information collected from the metadata
 on the host model side and from the individual physics schemes (``.meta`` files; see :numref:`Figure %s <ccpp_prebuild>`):
 
  * Compiles a list of variables provided by the host model.
@@ -107,17 +107,6 @@ To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configurat
 
     # Directory where the suite definition files are stored
     SUITES_DIR = 'ccpp/suites'
-
-   # Optional arguments - only required for schemes that use
-   # optional arguments. ccpp_prebuild.py will throw an exception
-   # if it encounters a scheme subroutine with optional arguments
-   # if no entry is made here. Possible values are: 'all', 'none',
-   # or a list of standard_names: [ 'var1', 'var3' ].
-   OPTIONAL_ARGUMENTS = {
-       #’subroutine_name_1’ : ’all’,
-       #’subroutine_name_2’ : ’none’,
-       #’subroutine_name_3’ : [ ’var1’, ’var2’],
-       }
 
     # Directory where to write static API to
     STATIC_API_DIR = 'scm/src/'
@@ -326,7 +315,7 @@ CCPP Physics Variable Tracker
 
 New in version 6.0, CCPP includes a tool that allows users to track a given variable's journey
 through a specified physics suite. This tool, ``ccpp-framework/scripts/ccpp_track_variables.py``,
-given a :term:`suite definition file<SDF>` and the *standard name* of a variable (see :numref:`Chapter %s <Standard names>`), 
+given a :term:`suite definition file<SDF>` and the *standard name* of a variable (see :numref:`Chapter %s <StandardNames>`), 
 will output the list of subroutines that use this variable -- in the order that they are called --
 as well as the variable's Fortran *intent*
 (``in``, ``out``, or ``inout``) within that subroutine. This can allow the user to more easily

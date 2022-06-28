@@ -33,11 +33,6 @@ The implementation of a driver is reasonable under the following circumstances:
   intact so that it can be synchronized between the WRF model and the CCPP distributions. See
   more in ``mp_thompson.F90`` in the ``ccpp-physics/physics`` directory.
 
-* To deal with optional arguments. A driver can check whether optional arguments have been
-  provided by the host model to either write out a message and return an error code or call a
-  subroutine with or without optional arguments. For example, see ``mp_thompson.F90``,
-  ``radsw_main.F90``, or ``radlw_main.F90`` in the ``ccpp-physics/physics`` directory.
-
 * To perform unit conversions or array transformations, such as flipping the vertical direction
   and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
   in the ``ccpp-physics/physics`` directory.
@@ -569,7 +564,6 @@ Where the following has been added to the ``my_physics.meta`` file:
      dimensions = ()
      type = real
      intent = in
-     optional = F
 
 This allows the von Karman constant to be defined by the host model and be passed in through the CCPP scheme subroutine interface.
 

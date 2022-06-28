@@ -560,7 +560,6 @@ The ``cu_gf_driver.meta`` file was modified accordingly:
    @@ -476,3 +476,29 @@
       type = integer
       intent = out
-      optional = F
    +[naux2d]
    +  standard_name = number_of_2d_auxiliary_arrays
    +  long_name = number of 2d auxiliary arrays to output (for debugging)
