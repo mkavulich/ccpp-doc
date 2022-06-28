@@ -92,6 +92,8 @@ Acronyms
    | NUOPC          | National Unified Operational Prediction           |
    |                | Capability                                        |
    +----------------+---------------------------------------------------+
+   | NWP            | Numerical Weather Prediction                      |
+   +----------------+---------------------------------------------------+
    | OpenMP         | Open Multi-Processing                             |
    +----------------+---------------------------------------------------+
    | PBL            | Planetary Boundary Layer                          |
