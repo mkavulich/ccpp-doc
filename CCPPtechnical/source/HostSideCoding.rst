@@ -494,6 +494,8 @@ Initializing and Finalizing the CCPP
 
 At the beginning of each run, the ``cdata`` structure needs to be set up. Similarly, at the end of each run, it needs to be terminated. This is done with subroutines ``ccpp_init`` and ``ccpp_finalize``. These subroutines should not be confused with ``ccpp_physics_init`` and ``ccpp_physics_finalize``, which were described in :numref:`Chapter %s <SuiteGroupCaps>`.
 
+Note that optional arguments are denoted with square brackets.
+
 .. _SuiteInitSubroutine:
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -561,11 +563,11 @@ The suite finalization consists of deallocating any ``cdata`` structures, if app
 Running the Physics
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-The physics is invoked by calling subroutine ``ccpp_physics_run``. This subroutine is part of the CCPP API and is auto-generated. This subroutine is capable of executing the physics with varying granularity, that is, a single group, or an entire suite can be run with a single subroutine call. Typical calls to ``ccpp_physics_run`` are below:
+The physics is invoked by calling subroutine ``ccpp_physics_run``. This subroutine is part of the CCPP API and is auto-generated. This subroutine is capable of executing the physics with varying granularity, that is, a single group, or an entire suite can be run with a single subroutine call. Typical calls to ``ccpp_physics_run`` are below,where ``suite_name`` is mandatory and ``group_name`` is optional:
 
 .. code-block:: fortran
 
- call ccpp_physics_run(cdata, suite_name, group_name, ierr=ierr)
+ call ccpp_physics_run(cdata, suite_name, [group_name], ierr=ierr)
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Initializing and Finalizing the Physics
@@ -583,7 +585,7 @@ This subroutine is part of the CCPP API and is auto-generated. A typical call to
 
 .. code-block:: fortran
 
- call ccpp_physics_init(cdata, suite_name, group_name, ierr=ierr)
+ call ccpp_physics_init(cdata, suite_name, [group_name], ierr=ierr)
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Subroutine ``ccpp_physics_finalize``
@@ -593,7 +595,7 @@ This subroutine is part of the CCPP API and is auto-generated. A typical call to
 
 .. code-block:: fortran
 
- call ccpp_physics_finalize(cdata, suite_name, group_name, ierr=ierr)
+ call ccpp_physics_finalize(cdata, suite_name, [group_name], ierr=ierr)
 
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Initializing and Finalizing the time step
@@ -609,7 +611,7 @@ This subroutine is part of the CCPP API and is auto-generated.A typical call to 
 
 .. code-block:: fortran
 
- call ccpp_physics_timestep_init(cdata, suite_name, group_name, ierr=ierr)
+ call ccpp_physics_timestep_init(cdata, suite_name, [group_name], ierr=ierr)
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Subroutine ``ccpp_physics_timestep_finalize``
@@ -619,7 +621,7 @@ This subroutine is part of the CCPP API and is auto-generated.  A typical call t
 
 .. code-block:: fortran
 
- call ccpp_physics_timestep_finalize(cdata, suite_name, group_name, ierr=ierr)
+ call ccpp_physics_timestep_finalize(cdata, suite_name, [group_name], ierr=ierr)
 
 ========================================================
 Host Caps
@@ -672,8 +674,10 @@ The purpose of the host model *cap* is to abstract away the communication betwee
   end subroutine physics_init
 
   subroutine physics_run(ccpp_suite_name, group)
+    ! Optional argument group can be used to run a group of schemes      &
+    ! defined in the SDF. Otherwise, run entire suite.
     character(len=*),           intent(in) :: ccpp_suite_name
-    character(len=*),           intent(in) :: group
+    character(len=*), optional, intent(in) :: group
 
     integer :: ierr
     ierr = 0
