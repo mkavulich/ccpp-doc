@@ -22,6 +22,8 @@ Groups
 
 The concept of grouping physics in the :term:`SDF` (reflected in the ``<group name="XYZ">`` elements) enables “groups” of parameterizations to be called with other computation (such as related to the dycore, I/O, etc.) in between. One can edit the groups to suit the needs of the host application. For example, if a subset of physics schemes needs to be more tightly connected with the dynamics and called more frequently, one could create a group consisting of that subset and place a ``ccpp_physics_run`` call in the appropriate place in the host application. The remainder of the parameterization groups could be called using ``ccpp_physics_run`` calls in a different part of the host application code.
 
+..  _Subcycling:
+
 -----------------
 Subcycling
 -----------------
