@@ -104,7 +104,7 @@ Glossary
    SCM
       The CCPP Single Column Model (SCM) is a simple 1D host model designed to be used with the CCPP
       Physics and Framework as a lightweight alternative to full 3D dynamical models for testing
-      and development of physics schemes and suites. See the `SCM User Guide <https://dtcenter.org/sites/default/files/paragraph/scm-ccpp-guide-v6.0.0.pdf>`_
+      and development of physics schemes and suites. See the `SCM User Guide <https://dtcenter.org/sites/default/files/paragraph/scm-ccpp-guide-v6-0-0.pdf>`_
       for more information.
 
    "Slow" physics
