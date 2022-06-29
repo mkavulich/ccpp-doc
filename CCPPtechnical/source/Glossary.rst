@@ -143,10 +143,5 @@ Glossary
       The combined global/regional medium- to short-range weather-prediction model used in the :term:`UFS` 
       to create forecasts
 
-   VLab
-      Virtual Laboratory - a service and information technology framework, that enables
-      NOAA employees and their partners to share ideas, collaborate, engage in software
-      development, and conduct applied research (https://www.nws.noaa.gov/mdl/vlab/)
-
    .xsd file extension
       XML schema definition
