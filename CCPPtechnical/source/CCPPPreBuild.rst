@@ -10,15 +10,15 @@ Technical Aspects of the CCPP *Prebuild*
 
 The :term:`CCPP` *prebuild* script ``ccpp-framework/scripts/ccpp_prebuild.py`` is the central piece of code that
 connects the host model with the :term:`CCPP Physics` schemes (see :numref:`%s <ccpp_static_build>`). This script must be run
-before compiling the :term:`CCPP Physics` library and the host model cap. This may be done manually or as part
-of a host model build-time script. Both the UFS and SCM have incorporated the calls to ``ccpp_prebuild.py`` in their build systems.
+before compiling the CCPP Physics library and the host model cap. This may be done manually or as part
+of a host model build-time script. Both the :term:`UFS` and :term:`SCM` have incorporated the calls to ``ccpp_prebuild.py`` in their build systems.
 
-The :term:`CCPP` *prebuild* script automates several tasks based on the information collected from the metadata
+The CCPP *prebuild* script automates several tasks based on the information collected from the metadata
 on the host model side and from the individual physics schemes (``.meta`` files; see :numref:`Figure %s <ccpp_prebuild>`):
 
  * Compiles a list of variables provided by the host model.
  
- * Compiles a list of variables required to run all schemes in the :term:`CCPP Physics` pool.
+ * Compiles a list of variables required to run all schemes in the CCPP Physics pool.
 
  * Matches these variables by their ``standard_name``, checks for missing variables and mismatches of their
    attributes (e.g., units, rank, type, kind). Performs automatic unit conversions if a mismatch of units
@@ -29,9 +29,9 @@ on the host model side and from the individual physics schemes (``.meta`` files;
  * Autogenerates software caps as appropriate:
 
     * The script generates caps for the suite as a whole and physics groups as defined in the input
-      :term:`SDF`\s; in addition, the :term:`CCPP` API for the build is generated.
+      SDFs; in addition, the CCPP API for the build is generated.
 
- * Populates makefiles with kind/type definitions, schemes, caps. Statements to compile the :term:`CCPP` API are included as well.
+ * Populates makefiles with kind/type definitions, schemes, caps. Statements to compile the CCPP API are included as well.
 
 .. _ccpp_prebuild:
 
@@ -46,7 +46,7 @@ on the host model side and from the individual physics schemes (``.meta`` files;
 Script Configuration
 =============================
 
-To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configuration file for this model must be created in the host model’s repository. The easiest way is to copy an existing configuration file for the SCM in sub-directory ``ccpp/config`` of the ccpp-scm repository. The configuration in ``ccpp_prebuild_config.py`` depends largely on (a) the directory structure of the host model itself, (b) where the ``ccpp-framework`` and the ``ccpp-physics`` directories are located relative to the directory structure of the host model, and (c) from which directory the ``ccpp_prebuild.py`` script is executed before/during the build process (this is referred to as basedir in ``ccpp_prebuild_config_XYZ.py``).
+To connect the CCPP with a host model ``XYZ``, a Python-based configuration file for this model must be created in the host model’s repository. The easiest way is to copy an existing configuration file for the SCM in sub-directory ``ccpp/config`` of the ccpp-scm repository. The configuration in ``ccpp_prebuild_config.py`` depends largely on (a) the directory structure of the host model itself, (b) where the ``ccpp-framework`` and the ``ccpp-physics`` directories are located relative to the directory structure of the host model, and (c) from which directory the ``ccpp_prebuild.py`` script is executed before/during the build process (this is referred to as basedir in ``ccpp_prebuild_config_XYZ.py``).
 
 :ref:`Listing 8.1 <ccpp_prebuild_example>` contains an example for the CCPP-SCM prebuild config. Here, both ``ccpp-framework`` and ``ccpp-physics`` are located in directories ``ccpp/framework`` and ``ccpp/physics`` of the top-level directory of the host model, and ``ccpp_prebuild.py`` is executed from the same top-level directory.
 
@@ -108,17 +108,6 @@ To connect the :term:`CCPP` with a host model ``XYZ``, a Python-based configurat
     # Directory where the suite definition files are stored
     SUITES_DIR = 'ccpp/suites'
 
-   # Optional arguments - only required for schemes that use
-   # optional arguments. ccpp_prebuild.py will throw an exception
-   # if it encounters a scheme subroutine with optional arguments
-   # if no entry is made here. Possible values are: 'all', 'none',
-   # or a list of standard_names: [ 'var1', 'var3' ].
-   OPTIONAL_ARGUMENTS = {
-       #’subroutine_name_1’ : ’all’,
-       #’subroutine_name_2’ : ’none’,
-       #’subroutine_name_3’ : [ ’var1’, ’var2’],
-       }
-
     # Directory where to write static API to
     STATIC_API_DIR = 'scm/src/'
     STATIC_API_SRCFILE = 'scm/src/CCPP_STATIC_API.sh'
@@ -140,7 +129,7 @@ Although most of the variables in the ``ccpp_prebuild_config.py`` script are des
 Running ccpp_prebuild.py
 =============================
 
-Once the configuration in ``ccpp_prebuild_config.py`` is complete, the ``ccpp_prebuild.py`` script can be run from a specific directory, dependent on the host model. For the SCM, this is the top level directory, i.e. the correct call to the script is ``./ccpp/framework/scripts/ccpp_prebuild.py``. For the :term:`UFS` Atmosphere host model, the script needs to be called from subdirectory ``FV3/ccpp``, relative to the top-level ``ufs-weather-model`` directory. In the following, we use the SCM directory structure. Note that for both SCM and :term:`UFS`, the ``ccpp_prebuild.py`` script is called automatically by the build system.
+Once the configuration in ``ccpp_prebuild_config.py`` is complete, the ``ccpp_prebuild.py`` script can be run from a specific directory, dependent on the host model. For the SCM, this is the top level directory, i.e. the correct call to the script is ``./ccpp/framework/scripts/ccpp_prebuild.py``. For the :term:`UFS Atmosphere` host model, the script needs to be called from subdirectory ``FV3/ccpp``, relative to the top-level ``ufs-weather-model`` directory. In the following, we use the SCM directory structure. Note that for both SCM and :term:`UFS`, the ``ccpp_prebuild.py`` script is called automatically by the build system.
 
 For developers adding a CCPP-compliant physics scheme, running ``ccpp_prebuild.py`` periodically is recommended to check that the metadata provided with the physics schemes matches what the host model provided. As alluded to above, the ``ccpp_prebuild.py`` script has six command line options, with the path to a host-model specific configuration file (``--config``) being the only required option:
 
@@ -162,7 +151,7 @@ An example invocation of running the script (called from the SCM’s top level d
 
 which uses a configuration script located at the specified path. The ``--verbose`` option can be used for more verbose output from the script.
 
-The :term:`SDF`\(s) to compile into the executable can be specified using the ``--suites`` command-line argument. Such files are included with the SCM and ufs-weather-model repositories, and must be included with the code of any host model to use the :term:`CCPP`\.  An example of a build using two :term:`SDF`\s is:
+The :term:`SDF`\(s) to compile into the executable can be specified using the ``--suites`` command-line argument. Such files are included with the SCM and ufs-weather-model repositories, and must be included with the code of any host model to use the CCPP.  An example of a build using two SDFs is:
 
 .. code-block:: console
 
@@ -176,7 +165,7 @@ The :term:`SDF`\(s) to compile into the executable can be specified using the ``
 
 The ``--debug`` command-line argument enables additional checks on array sizes inside the auto-generated software caps, prior to entering any of the schemes.
 
-If the :term:`CCPP` *prebuild* step is successful, the last output line will be:
+If the CCPP *prebuild* step is successful, the last output line will be:
 
 ``INFO: CCPP prebuild step completed successfully.``
 
@@ -197,11 +186,11 @@ If invoking the ``ccpp_prebuild.py`` script fails, some message other than the s
  #. ``ERROR: Configuration file`` erroneous/path/to/config/file ``not found``
       * Check that the path entered for the ``--config`` command line option points to a readable configuration file.
  #. ``KeyError``: 'erroneous_scheme_name' when using the ``--suites`` option
-      * This error indicates that a scheme within the supplied :term:`SDF`\s does not match any scheme names found in the SCHEME_FILES variable of the supplied configuration file that lists scheme source files. Double check that the scheme’s source file is included in the SCHEME_FILES list and that the scheme name that causes the error is spelled correctly in the supplied :term:`SDF`\s and matches what is in the source file (minus any ``*_timestep_init``, ``*_init``, ``*_run``, ``*_finalize``, ``*_timestep_finalize`` suffixes).
+      * This error indicates that a scheme within the supplied :term:`SDF`\s does not match any scheme names found in the SCHEME_FILES variable of the supplied configuration file that lists scheme source files. Double check that the scheme’s source file is included in the SCHEME_FILES list and that the scheme name that causes the error is spelled correctly in the supplied SDFs and matches what is in the source file (minus any ``*_timestep_init``, ``*_init``, ``*_run``, ``*_finalize``, ``*_timestep_finalize`` suffixes).
  #. ``CRITICAL: Suite definition file`` erroneous/path/to/SDF.xml ``not found``.
 
     ``Exception: Parsing suite definition file`` erroneous/path/to/SDF.xml ``failed``.
-      * Check that the path ``SUITES_DIR`` in the :term:`CCPP` prebuild config and the names entered for the ``--suites`` command line option are correct.
+      * Check that the path ``SUITES_DIR`` in the CCPP prebuild config and the names entered for the ``--suites`` command line option are correct.
  #. ``INFO: Parsing metadata tables for variables provided by host model`` …
 
     ``IOError: [Errno 2] No such file or directory``: 'erroneous_file.f90'
@@ -267,7 +256,7 @@ If invoking the ``ccpp_prebuild.py`` script fails, some message other than the s
  #. ``ERROR: Variable`` X ``requested by MODULE_``\Y ``SCHEME_``\Z ``SUBROUTINE_``\A ``not provided by the model``
      ``Exception: Call to compare_metadata failed.``
 
-     * A variable requested by one or more physics schemes is not being provided by the host model. If the variable exists in the host model but is not being made available for the :term:`CCPP`, an entry must be added to one of the host model variable metadata sections.
+     * A variable requested by one or more physics schemes is not being provided by the host model. If the variable exists in the host model but is not being made available for the CCPP, an entry must be added to one of the host model variable metadata sections.
  #. ``ERROR:   error, variable`` X ``requested by MODULE_``\Y ``SCHEME_``\Z ``SUBROUTINE_``\A ``cannot be identified unambiguously. Multiple definitions in MODULE_``\Y ``TYPE_``\B
       * A variable is defined in the host model variable metadata more than once (with the same standard name). Remove the offending entry or provide a different standard name for one of the duplicates.
  #. ``ERROR:   incompatible entries in metadata for variable`` var_name:
@@ -306,7 +295,7 @@ Note: One error that the ``ccpp_prebuild.py`` script will not catch is if a phys
 CCPP Stub Build
 ========================================================
 
-New in version 6.0, CCPP includes a *stub* capability, which will build the appropriate basic software caps needed for the compilation of the host model, but not include any of the physics itself. This can be useful for host model debugging, testing "dry" dynamics with no parameterizations, and other use cases where building the whole CCPP physics library would be unnecessary. Currently this capability is only supported for the UFS Atmosphere.
+New in version 6.0, CCPP includes a *stub* capability, which will build the appropriate basic software caps needed for the compilation of the :term:`host model<Host model/application>`, but not include any of the physics itself. This can be useful for host model debugging, testing "dry" dynamics with no parameterizations, and other use cases where building the whole CCPP physics library would be unnecessary. Currently this capability is only supported for the :term:`UFS Atmosphere`.
 
 To create the stub software caps, rather than using the host configuration file as described above,
 users can use the provided stub config file ``ccpp/framework/stub/ccpp_prebuild_config.py``. From the ``ccpp/framework/stub`` directory,
@@ -319,4 +308,121 @@ the prebuild script can be called in this manner to use the CCPP stub build:
    make 2>&1 | tee log.make
 
 The rest of the UFS Atmosphere build can proceed as normal.
+
+========================================================
+CCPP Physics Variable Tracker
+========================================================
+
+New in version 6.0, CCPP includes a tool that allows users to track a given variable's journey
+through a specified physics suite. This tool, ``ccpp-framework/scripts/ccpp_track_variables.py``,
+given a :term:`suite definition file<SDF>` and the :term:`standard name` of a variable, 
+will output the list of subroutines that use this variable -- in the order that they are called --
+as well as the variable's Fortran *intent*
+(``in``, ``out``, or ``inout``) within that subroutine. This can allow the user to more easily
+determine where specific errors, biases, or other influences on a specific variable or variables
+might originate from within the physics suite. The ``--help`` option will give a basic rundown of
+how to use the script:
+
+.. code-block:: console
+
+   ./ccpp_track_variables.py --help
+   usage: ccpp_track_variables.py [-h] -s SDF -m METADATA_PATH -c CONFIG -v VARIABLE [--debug]
+
+   optional arguments:
+     -h, --help            show this help message and exit
+     -s SDF, --sdf SDF     suite definition file to parse
+     -m METADATA_PATH, --metadata_path METADATA_PATH
+                           path to CCPP scheme metadata files
+     -c CONFIG, --config CONFIG
+                           path to CCPP prebuild configuration file
+     -v VARIABLE, --variable VARIABLE
+                           variable to track through CCPP suite
+     --debug               enable debugging output
+
+For this initial implementation, this script must be executed from within a :term:`host model<Host model/application>`, and must be
+called from the same directory that the ``ccpp_prebuild.py`` script is called from. This first 
+example is called using the :term:`UFS Atmosphere` as a host model, from the directory ``ufs-weather-model/FV3/ccpp``:
+
+.. code-block:: console
+
+   framework/scripts/ccpp_track_variables.py -c=config/ccpp_prebuild_config.py \
+     -s=suites/suite_FV3_RRFS_v1beta.xml -v air_temperature_of_new_state -m ./physics/physics/
+   For suite suites/suite_FV3_RRFS_v1beta.xml, the following schemes (in order for each group) use the variable air_temperature_of_new_state:
+   In group physics
+     GFS_suite_stateout_reset_run (intent out)
+     dcyc2t3_run (intent in)
+     GFS_suite_stateout_update_run (intent out)
+     ozphys_2015_run (intent in)
+     get_phi_fv3_run (intent in)
+     GFS_suite_interstitial_3_run (intent in)
+     GFS_MP_generic_pre_run (intent in)
+     mp_thompson_pre_run (intent in)
+     mp_thompson_run (intent inout)
+     mp_thompson_post_run (intent inout)
+     GFS_MP_generic_post_run (intent in)
+     maximum_hourly_diagnostics_run (intent in)
+   In group stochastics
+     GFS_stochastics_run (intent inout)
+
+In the example above, we can see that the variable ``air_temperature_of_new_state`` is used in
+the FV3_RRFS_v1beta suite by several microphysics subroutines, as well a another stochastics parameterization.
+
+To learn more about a given subroutine, you can search the physics source code within the ``ccpp-physics`` repository,
+or you can consult the `CCPP Scientific Documentation
+<https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/>`_: typing the subroutine name into the search
+bar should lead you to further information about the subroutine and how it ties into its associated physics scheme.
+In addition, because of the naming conventions for subroutines in CCPP-compliant physics schemes, 
+we can typically see which scheme, as well as which phase within that scheme, is associated with the listed subroutine,
+without having to consult any further documentation or source code. For example, the ``mp_thompson_run``
+subroutine is part of the Thompson microphysics scheme, specifically the *run* phase of that scheme.
+
+This second example is called using the :term:`SCM` as a host model:
+
+.. code-block:: console
+
+   ccpp/framework/scripts/ccpp_track_variables.py --config=ccpp/config/ccpp_prebuild_config.py \
+      -s=ccpp/suites/suite_SCM_GFS_v17_p8.xml -v surface_friction_velocity_over_land -m ./ccpp/physics/physics/
+   For suite ccpp/suites/suite_SCM_GFS_v17_p8.xml, the following schemes (in order for each group) use the variable surface_friction_velocity_over_land:
+   In group physics
+     GFS_surface_composites_pre_run (intent inout)
+     sfc_diff_run (intent inout)
+     noahmpdrv_run (intent inout)
+     sfc_diff_run (intent inout)
+     noahmpdrv_run (intent inout)
+     GFS_surface_composites_post_run (intent in)
+
+In the example above, we can see that the variable ``wind_speed_at_lowest_model_layer`` is used in a few subroutines,
+two of which (``sfc_diff_run`` and ``noahmpdrv_run`` are listed twice). This is not an error! The
+two repeated subroutines are part of a scheme called in a *subcycle* (see :numref:`Section %s <Subcycling>`), and so they are called twice in this cycle as designated in the SDF.
+The ``ccpp_track_variables.py`` script lists the subroutines in the exact order they are called (within each *group*), including subcycles.
+
+Some standard names can be exceedingly long and hard to remember, and it is not always convenient to search the full list of standard names for the exact variable you want. Therefore, this script will also return matches for partial variable names. In this example, we will look for the variable "velocity", which is not a standard name of any variable, and see what it returns:
+
+.. code-block:: console
+
+   framework/scripts/ccpp_track_variables.py --config=config/ccpp_prebuild_config.py \
+      -s=suites/suite_FV3_GFS_v16.xml -v velocity -m ./physics/physics/
+   Variable velocity not found in any suites for sdf suites/suite_FV3_GFS_v16.xml
+
+   ERROR:ccpp_track_variables:Variable velocity not found in any suites for sdf suites/suite_FV3_GFS_v16.xml
+
+   Did find partial matches that may be of interest:
+
+   In GFS_surface_composites_pre_run found variable(s) ['surface_friction_velocity', 'surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
+   In sfc_diff_run found variable(s) ['surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
+   In GFS_surface_composites_post_run found variable(s) ['surface_friction_velocity', 'surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
+   In cires_ugwp_run found variable(s) ['angular_velocity_of_earth']
+   In samfdeepcnv_run found variable(s) ['vertical_velocity_for_updraft', 'cellular_automata_vertical_velocity_perturbation_threshold_for_deep_convection']
+
+While the script did not find the variable specified, it did find several partial matches -- ``surface_friction_velocity``, ``surface_friction_velocity_over_water``, ``surface_friction_velocity_over_land``, etc. -- as well as the subroutines they were found in. You can then use this more specific information to refine your next query:
+
+.. code-block:: console
+
+   framework/scripts/ccpp_track_variables.py --config=config/ccpp_prebuild_config.py \
+      -s=suites/suite_FV3_GFS_v16.xml -v surface_friction_velocity -m ./physics/physics/
+   For suite suites/suite_FV3_GFS_v16.xml, the following schemes (in order for each group) use the variable surface_friction_velocity:
+   In group physics
+     GFS_surface_composites_pre_run (intent in)
+     GFS_surface_composites_post_run (intent inout)
+
 

@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 project = 'CCPP Technical'
 copyright = '2022 '
-author = 'Bernardet, L., G. Firl, D. Heinzeller, L. Pan, \\\ M. Zhang, M. Kavulich, L Carson, and J. Schramm'
+author = 'Bernardet, L., G. Firl, D. Heinzeller, L. Pan, M. Zhang, \\\ M. Kavulich, L Carson, and J. Schramm'
 
 # The short X.Y version
 version = '6.0'

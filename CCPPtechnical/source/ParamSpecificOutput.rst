@@ -27,7 +27,6 @@ considered in future implementations.
 These capabilities have been tested and are expected to work with the following suites:
 
 * SCM: GFS_v16, GFS_v17_p8, RAP, RRFS_v1beta, WoFS, HRRR
-* ufs-weather-model (global): GFS_v17_p8
 * ufs-weather-model (regional): GFS_v16, RRFS_v1beta, WoFS, HRRR
 
 ==========
@@ -57,7 +56,7 @@ photochemistry. The total tendency produced by the ozone photochemistry scheme (
 subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone present
 in the column above a grid cell, influences from temperature, and influences from mixing ratio.  For more
 information about the NRL 2015 ozone photochemistry scheme, consult the `CCPP Scientific Documentation
-<https://dtcenter.ucar.edu/GMTB/v6.0.0p/sci_doc/html/_g_f_s__o_z_p_h_y_s.html>`_.
+<https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_g_f_s__o_z_p_h_y_s.html>`_.
 
 There are numerous tendencies in CCPP, and you need to know which ones exist for your configuration to
 enable them. The model will output a list of available tendencies for your configuration if you run with
@@ -316,8 +315,7 @@ Note that some host models, such as the UFS, have a limit of how many fields can
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
 by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in file ``input.nml``. 
 
-Further documentation of the ``diag_table`` file can be found in the UFS Weather Model User’s Guide
-`here <https://ufs-weather-model.readthedocs.io/en/latest/InputsOutputs.html#diag-table-file>`_.
+Further documentation of the ``diag_table`` file can be found in the `UFS Weather Model User’s Guide <https://ufs-weather-model.readthedocs.io/en/release-public-v3/InputsOutputs.html#diag-table-file>`_.
 
 When the model completes, the fv3_history will contain these new variables.
 
@@ -562,7 +560,6 @@ The ``cu_gf_driver.meta`` file was modified accordingly:
    @@ -476,3 +476,29 @@
       type = integer
       intent = out
-      optional = F
    +[naux2d]
    +  standard_name = number_of_2d_auxiliary_arrays
    +  long_name = number of 2d auxiliary arrays to output (for debugging)

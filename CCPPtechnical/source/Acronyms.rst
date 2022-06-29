@@ -92,6 +92,8 @@ Acronyms
    | NUOPC          | National Unified Operational Prediction           |
    |                | Capability                                        |
    +----------------+---------------------------------------------------+
+   | NWP            | Numerical Weather Prediction                      |
+   +----------------+---------------------------------------------------+
    | OpenMP         | Open Multi-Processing                             |
    +----------------+---------------------------------------------------+
    | PBL            | Planetary Boundary Layer                          |
@@ -137,8 +139,6 @@ Acronyms
    | UML            | Unified Modeling Language                         |
    +----------------+---------------------------------------------------+
    | UFS            | Unified Forecast System                           |
-   +----------------+---------------------------------------------------+
-   | VLab           | Virtual Laboratory                                |
    +----------------+---------------------------------------------------+
    | WRF            | Weather Research and Forecasting                  |
    +----------------+---------------------------------------------------+

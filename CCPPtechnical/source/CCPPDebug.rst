@@ -22,7 +22,7 @@ Two categories of debugging with CCPP
     Debugging the actual physical parameterizations is identical in CCPP and in physics-driver based models. The parameterizations have access to the same data and debug print statements can be added in exactly the same way.
 
 * Debugging on a suite level
-    Debugging on a suite level, i.e. outside physical parameterizations, corresponds to debugging on the physics-driver level in traditional, physics-driver based models. In the CCPP, this can be achieved by using dedicated CCPP-compliant debugging schemes, which have access to all the data by requesting them via the metadata files. These schemes can then be called in any place in a SDF, except the ``fast_physics`` group, to produce the desired debugging output. The advantage of this approach is that debugging schemes can be moved from one place to another or duplicated by simply moving/copying a single line in the SDF before recompiling the code. The disadvantage is that different debugging schemes may be needed, depending on the host model and their data structures. For example, the UFS models use blocked data structures. The blocked data structures are commonly known as “GFS types”, are defined in ``GFS_typedefs.F90`` and exposed to the CCPP in ``GFS_typedefs.meta``. The rationale for this storage model is a better cache reuse by breaking up contiguous horizontal grid columns into N blocks with a predefined block size, and allocating each of the GFS types N times. For example, the 3-dimensional air temperature is stored as
+    Debugging on a suite level, i.e. outside physical parameterizations, corresponds to debugging on the physics-driver level in traditional, physics-driver based models. In the CCPP, this can be achieved by using dedicated CCPP-compliant debugging schemes, which have access to all the data by requesting them via the metadata files. These schemes can then be called in any place in an SDF, except the ``fast_physics`` group, to produce the desired debugging output. The advantage of this approach is that debugging schemes can be moved from one place to another or duplicated by simply moving/copying a single line in the SDF before recompiling the code. The disadvantage is that different debugging schemes may be needed, depending on the host model and their data structures. For example, the UFS models use blocked data structures. The blocked data structures are commonly known as “GFS types”, are defined in ``GFS_typedefs.F90`` and exposed to the CCPP in ``GFS_typedefs.meta``. The rationale for this storage model is a better cache reuse by breaking up contiguous horizontal grid columns into N blocks with a predefined block size, and allocating each of the GFS types N times. For example, the 3-dimensional air temperature is stored as
 
     .. code-block:: console
 
@@ -30,7 +30,7 @@ Two categories of debugging with CCPP
 
   .. _codeblockends:
 
-    Further, the UFS models run a subset of physics inside the dynamical core (“fast physics”), for which the host model data is stored inside the dynamical core and cannot be shared with the traditional (“slow”) physics. As such, different debugging schemes are required for the ``fast_physics`` group.
+    Further, the UFS models run a subset of physics inside the dynamical core (“:term:`fast physics`”), for which the host model data is stored inside the dynamical core and cannot be shared with the traditional (“:term:`slow<slow physics>`”) physics. As such, different debugging schemes are required for the ``fast_physics`` group.
 
 
 ============================================
@@ -200,7 +200,7 @@ Below is an example for an SDF that prints debugging output from the standard/pe
 How to customize the debugging schemes and the output for arrays in the UFS
 ---------------------------------------------------------------------------
 
-At the top of ``GFS_debug.F90``, there are customization options in the form of preprocessor directives (CPP ``#ifdef`` etc statements) and a brief documentation. Users not familiar with preprocessor directives are referred to the available documentation such as `Using fpp Preprocessor Directives <https://software.intel.com/content/www/us/en/develop/documentation/fortran-compiler-developer-guide-and-reference/top/optimization-and-programming-guide/fpp-preprocessing/using-fpp-preprocessor-directives.html>`_
+At the top of ``GFS_debug.F90``, there are customization options in the form of preprocessor directives (CPP ``#ifdef`` etc statements) and a brief documentation. Users not familiar with preprocessor directives are referred to the available documentation such as `Using fpp Preprocessor Directives <https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/optimization-and-programming/fpp-preprocessing/using-fpp-preprocessor-directives.html>`_
 At this point, three options exist: (1) full output of every element of each array if none of the #define preprocessor statements is used, (2) minimum, maximum, and mean value of arrays (default for GNU compiler), and (3) minimum, maximum, and 32-bit Adler checksum of arrays (default for Intel compiler). Note that Option (3), the Adler checksum calculation, cannot be used with gfortran (segmentation fault, bug in malloc?).
 
     .. code-block:: console
