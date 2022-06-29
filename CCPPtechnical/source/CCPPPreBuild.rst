@@ -346,8 +346,8 @@ example is called using the :term:`UFS Atmosphere` as a host model, from the dir
 .. code-block:: console
 
    framework/scripts/ccpp_track_variables.py -c=config/ccpp_prebuild_config.py \
-     -s=suites/suite_FV3_RAP.xml -v air_temperature_of_new_state -m ./physics/physics/
-   For suite suites/suite_FV3_RAP.xml, the following schemes (in order for each group) use the variable air_temperature_of_new_state:
+     -s=suites/suite_FV3_RRFS_v1beta.xml -v air_temperature_of_new_state -m ./physics/physics/
+   For suite suites/suite_FV3_RRFS_v1beta.xml, the following schemes (in order for each group) use the variable air_temperature_of_new_state:
    In group physics
      GFS_suite_stateout_reset_run (intent out)
      dcyc2t3_run (intent in)
@@ -355,23 +355,17 @@ example is called using the :term:`UFS Atmosphere` as a host model, from the dir
      ozphys_2015_run (intent in)
      get_phi_fv3_run (intent in)
      GFS_suite_interstitial_3_run (intent in)
-     GFS_DCNV_generic_pre_run (intent in)
-     cu_gf_driver_run (intent inout)
-     GFS_DCNV_generic_post_run (intent in)
-     GFS_SCNV_generic_pre_run (intent in)
-     GFS_SCNV_generic_post_run (intent in)
      GFS_MP_generic_pre_run (intent in)
      mp_thompson_pre_run (intent in)
      mp_thompson_run (intent inout)
      mp_thompson_post_run (intent inout)
      GFS_MP_generic_post_run (intent in)
-     cu_gf_driver_post_run (intent in)
      maximum_hourly_diagnostics_run (intent in)
    In group stochastics
      GFS_stochastics_run (intent inout)
 
 In the example above, we can see that the variable ``air_temperature_of_new_state`` is used in
-the FV3 RAP suite by several microphysics subroutines, as well a another stochastics parameterization.
+the FV3_RRFS_v1beta suite by several microphysics subroutines, as well a another stochastics parameterization.
 
 To learn more about a given subroutine, you can search the physics source code within the ``ccpp-physics`` repository,
 or you can consult the `CCPP Scientific Documentation
@@ -380,7 +374,7 @@ bar should lead you to further information about the subroutine and how it ties 
 In addition, because of the naming conventions for subroutines in CCPP-compliant physics schemes, 
 we can typically see which scheme, as well as which phase within that scheme, is associated with the listed subroutine,
 without having to consult any further documentation or source code. For example, the ``mp_thompson_run``
-subroutine is part of the Thompson Microphysics scheme, specifically the *run* phase of that scheme.
+subroutine is part of the Thompson microphysics scheme, specifically the *run* phase of that scheme.
 
 This second example is called using the :term:`SCM` as a host model:
 
