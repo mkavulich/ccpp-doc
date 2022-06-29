@@ -30,7 +30,7 @@ Two categories of debugging with CCPP
 
   .. _codeblockends:
 
-    Further, the UFS models run a subset of physics inside the dynamical core (“:term:`fast physics`”), for which the host model data is stored inside the dynamical core and cannot be shared with the traditional (“:term`slow<slow physics>`”) physics. As such, different debugging schemes are required for the ``fast_physics`` group.
+    Further, the UFS models run a subset of physics inside the dynamical core (“:term:`fast physics`”), for which the host model data is stored inside the dynamical core and cannot be shared with the traditional (“:term:`slow<slow physics>`”) physics. As such, different debugging schemes are required for the ``fast_physics`` group.
 
 
 ============================================

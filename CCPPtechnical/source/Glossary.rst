@@ -64,7 +64,7 @@ Glossary
    Parameterization
       The representation, in a dynamic model, of physical effects in terms of admittedly
       oversimplified parameters, rather than realistically requiring such effects to be 
-      consequences of the dynamics of the system (from the `AMS Glossary <https://glossary.ametsoc.org/wiki/Parameterization>`)
+      consequences of the dynamics of the system (from the `AMS Glossary <https://glossary.ametsoc.org/wiki/Parameterization>`_)
 
    Phase
       A CCPP phase is one of five steps that each physics scheme can be broken down into. Phases
@@ -107,7 +107,7 @@ Glossary
       and development of physics schemes and suites. See the `SCM User Guide <https://dtcenter.org/sites/default/files/paragraph/scm-ccpp-guide-v6-0-0.pdf>`_
       for more information.
 
-   "Slow" physics
+   Slow physics
       Physical parameterizations that can tolerate looser coupling with the dynamical core
       than “fast” physics (due to the approximated processes within the parameterization
       acting on a longer timescale) and that often use a longer time step. Such parameterizations
