@@ -1,7 +1,8 @@
 # ccpp-doc
-This repository contains the technical documentation for the [GMTB](http://www.dtcenter.org/GMTB/html/)
-Common Community Physics Package (CCPP).  A viewable version of the latest documentation resides
-[here](https://dtcenter.org/community-code/common-community-physics-package-ccpp/documentation).
+This repository contains the technical documentation for the Common Community Physics Package (CCPP),
+maintained and developed at the Developmental Testbed Center (DTC). The latest documentation, as well
+as documentation for previous versions, can be viewed at
+[the DTC website](https://dtcenter.org/community-code/common-community-physics-package-ccpp/documentation).
 
 ## Notes to Developers
 The documentation is generated with Sphinx, using the reStructuredText (*.rst*) files in the 
