@@ -4,14 +4,14 @@
 CCPP-Compliant Physics Parameterizations
 ****************************************
 
-The rules for a scheme to be considered CCPP-compliant are summarized in this section. It
+The rules for a :term:`scheme` to be considered :term:`CCPP`-compliant are summarized in this section. It
 should be noted that making a scheme CCPP-compliant is a necessary but not guaranteed step
-for the acceptance of the scheme in the pool of supported CCPP Physics. Acceptance is
+for the acceptance of the scheme in the pool of supported :term:`CCPP Physics`. Acceptance is
 dependent on scientific innovation, demonstrated value, and compliance with the rules
 described below. The criteria for acceptance of a scheme into the CCPP is under development.
 
-It is recommended that parameterizations be comprised of the smallest units that will be used independently.
-For example, if a given set of deep and shallow convection schemes will always be called together
+It is recommended that :term:`parameterization`\ s be comprised of the smallest units that will be used independently.
+For example, if a given :term:`set` of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
 recommended to code two separate schemes to allow more flexibility.
@@ -37,7 +37,7 @@ The implementation of a driver is reasonable under the following circumstances:
   and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
   in the ``ccpp-physics/physics`` directory.
 
-Schemes in the CCPP are classified into two categories: *primary* schemes and *interstitial* schemes.
+Schemes in the CCPP are classified into two categories: :term:`*primary* schemes <primary scheme>` and :term:`*interstitial* schemes <interstitial scheme>`.
 A *primary* scheme is one that updates the state variables and tracers or that
 produces tendencies for updating state variables and tracers based on the
 representation of major physical processes, such as radiation, convection,
@@ -52,14 +52,14 @@ microphysics, etc. This does **not** include:
 
 *Interstitial* schemes are modularized pieces of code that
 perform data preparation, diagnostics, or other “glue” functions, and allow primary schemes to work
-together as a suite. They can be categorized as “scheme-specific” or “suite-level”. Scheme-specific
+together as a :term:`suite`. They can be categorized as “scheme-specific” or “suite-level”. Scheme-specific
 interstitial schemes augment a specific primary scheme (to provide additional functionality).
 Suite-level interstitial schemes provide additional functionality on top of a class of primary schemes,
 connect two or more schemes together, or provide code for conversions, initializing sums, or applying
 tendencies, for example. The rules and guidelines provided in the following sections apply both to
 primary and interstitial schemes.
 
-CCPP-compliant physics parameterizations are broken down into one or more of the following five *phases*:
+CCPP-compliant physics parameterizations are broken down into one or more of the following five *:term:`phases <phase>`*:
 
 * The *init* phase, which performs actions needed to set up the scheme before the model integration
   begins. Examples of actions needed in this phase include the reading/computation of
@@ -84,12 +84,12 @@ General Rules
 =============
 A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme must be in its own module, and must include at least one of the
 following subroutines (*entry points*): *_init*, *_timestep_init*, *_run*, *_timestep_finalize*,
-and *_finalize*. Each subroutine corresponds to one of the five *phases* of the CCPP framework as described above.
+and *_finalize*. Each subroutine corresponds to one of the five *phases* of the :term:`CCPP framework` as described above.
 The module name and the subroutine names must be consistent with the
 scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*, 
 *schemename_run*, etc. The *_run* subroutine contains the
 code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
-they will be executed at the beginning and at the end of the host model physics timestep,
+they will be executed at the beginning and at the end of the :term:`host model` physics timestep,
 respectively. Further, if present, the *_init* and *_finalize* subroutines
 associated with a scheme are run at the beginning and at the end of the model run.
 The *_init* and *_finalize* subroutines may be called more than once depending
@@ -121,7 +121,7 @@ such as ``use EXTERNAL_MODULE`` should not be used for passing in any data.
 See :numref:`Section %s <UsingConstants>` for more information on
 how to use physical constants.
 
-Note that standard names, variable names, module names, scheme names and subroutine names are all case insensitive.
+Note that :term:`standard name`\ s, variable names, module names, scheme names and subroutine names are all case insensitive.
 
 Interstitial modules (*schemename_pre* and *schemename_post*) can be included if any part of the 
 physics scheme must be executed sequentially before (*_pre*) or after (*_post*) the scheme, but
@@ -409,7 +409,7 @@ Input/Output Variable (argument) Rules
 
 * All variable information (standard_name, units, dimensions) must match the specifications on
   the host model side, but sub-slices can be used/added in the host model. For example, when
-  using the UFS Atmosphere as the host model, tendencies are split in ``GFS_typedefs.meta``
+  using the :term:`UFS Atmosphere` as the host model, tendencies are split in ``GFS_typedefs.meta``
   so they can be used in the necessary physics scheme:
 
   .. code-block:: fortran
@@ -464,7 +464,7 @@ Input/Output Variable (argument) Rules
   where necessary. This tactic should be avoided wherever possible, and is not acceptable merely
   as a convenience.
 
-* If a scheme is to make use of CCPP’s subcycling capability, the current loop counter and the loop extent can be obtained from CCPP as ``intent(in)`` variables (see a :ref:`mandatory list of variables <MandatoryVariables>` that are provided by the CCPP Framework and/or the host model for this and other purposes).
+* If a scheme is to make use of CCPP’s :term:`subcycling` capability, the current loop counter and the loop extent can be obtained from CCPP as ``intent(in)`` variables (see a :ref:`mandatory list of variables <MandatoryVariables>` that are provided by the CCPP Framework and/or the host model for this and other purposes).
 
 * It is preferable to use assumed-size array declarations for input/output variables for CCPP schemes, i.e. instead of
 
@@ -531,7 +531,7 @@ Coding Rules
 
 Additional coding rules are listed under the *Coding Standards* section of the NOAA NGGPS
 Overarching System team document on Code, Data, and Documentation Management for NOAA Environmental
-Modeling System (NEMS) Modeling Applications and Suites (available at
+Modeling System (:term:`NEMS`) Modeling Applications and Suites (available at
 https://docs.google.com/document/u/1/d/1bjnyJpJ7T3XeW3zCnhRLTL5a3m4_3XIAUeThUPWD9Tg/edit).
 
 .. _UsingConstants:

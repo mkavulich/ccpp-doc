@@ -3,9 +3,9 @@
 *****************************************
 CCPP Configuration and Build Options
 *****************************************
-While the :term:`CCPP Framework` code, consisting of a single Fortran source file and associated metadata file, can be compiled and tested independently, the :term:`CCPP Physics` code can only be used within a host modeling system that provides the variables required to execute the physics. As such, it is advisable to integrate the CCPP configuration and build process with the host model build system. Part of the build process, known as the *prebuild* step since it precedes compilation, involves running a Python script that performs multiple functions. These functions include configuring the *CCPP Physics* for use with the host model and autogenerating FORTRAN code to communicate variables between the physics and the dynamical core. The *prebuild* step will be discussed in detail in :numref:`Chapter %s <CCPPPreBuild>`.
+While the :term:`CCPP Framework` code, consisting of a single Fortran source file and associated metadata file, can be compiled and tested independently, the :term:`CCPP Physics` code can only be used within a :term:`host modeling <host model>` system that provides the variables required to execute the physics. As such, it is advisable to integrate the CCPP configuration and build process with the host model build system. Part of the build process, known as the *prebuild* step since it precedes compilation, involves running a Python script that performs multiple functions. These functions include configuring the *CCPP Physics* for use with the host model and autogenerating FORTRAN code to communicate variables between the physics and the dynamical core. The *prebuild* step will be discussed in detail in :numref:`Chapter %s <CCPPPreBuild>`.
 
-The SCM and the UFS Atmosphere are supported for use with the CCPP. In the case of the UFS Atmosphere as the host model, build configuration options can be specified as cmake options to the ``build.sh`` script for manual compilation or through a regression test (RT) configuration file. Detailed instructions for building the UFS Atmosphere and the SCM are discussed in the
+The :term:`SCM` and the :term:`UFS Atmosphere` are supported for use with the CCPP. In the case of the UFS Atmosphere as the host model, build configuration options can be specified as cmake options to the ``build.sh`` script for manual compilation or through a regression test (RT) configuration file. Detailed instructions for building the UFS Atmosphere and the SCM are discussed in the
 `UFS Weather Model User Guide <https://ufs-weather-model.readthedocs.io/en/release-public-v3/BuildingAndRunning.html#building-the-weather-model>`_
 and the `SCM User Guide <https://dtcenter.org/sites/default/files/paragraph/scm-ccpp-guide-v6-0-0.pdf>`_.
 For both SCM and UFS the ``ccpp_prebuild.py`` script is run automatically as a step in the build system, 
@@ -15,12 +15,12 @@ The path to a host-model specific configuration file is the only required argume
 Such files are included with the ccpp-scm and ufs-weather-model repositories, and must be included with the code of
 any host model to use the CCPP. :numref:`Figure %s <ccpp_static_build>` depicts the main functions of the
 ``ccpp_prebuild.py`` script for the build.  Using information included in the configuration file
-and the SDF(s), the script parses the SDF(s) and only matches provided/requested variables that are used
-within the particular physics suite(s).  The script autogenerates software caps for the physics suite(s) as a
-whole and for each physics group as defined in the SDF(s), as well as for an API that the host model calls into
+and the :term:`SDF`\ (s), the script parses the SDF(s) and only matches provided/requested variables that are used
+within the particular physics suite(s).  The script autogenerates software :term:`caps <physics cap>` for the physics suite(s) as a
+whole and for each physics :term:`group` as defined in the SDF(s), as well as for an API that the host model calls into
 from the (manually written) host model cap. At runtime, a single SDF is used to select the
 suite that will be executed in the run. This arrangement allows for efficient variable recall (which
-is done once for all physics schemes within each group of a suite), leads to a reduced memory footprint of the
+is done once for all physics :term:`scheme`\ s within each group of a suite), leads to a reduced memory footprint of the
 CCPP, and speeds up execution.
 
 .. _ccpp_static_build:

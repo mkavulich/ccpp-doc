@@ -36,26 +36,26 @@ CCPP Overview
 Ideas for the Common Community Physics Package (:term:`CCPP`) originated within the Earth System Prediction Capability physics interoperability group (now the `Interagency Council for Advancing Meteorological Services; ICAMS <https://www.icams-portal.gov/>`_), which has representatives from the US National Center
 for Atmospheric Research (:term:`NCAR`), the Navy, National Oceanic and Atmospheric Administration
 (NOAA) Research Laboratories, NOAA National Weather Service, and other groups. Physics
-interoperability, or the ability to run a given physics :term:`suite` in various host models,
+interoperability, or the ability to run a given physics :term:`suite` in various :term:`host models <host model>`,
 has been a goal of this multi-agency group for several years. An initial mechanism to
 run the physics of NOAA’s Global Forecast System (GFS) model in other host models,
 the Interoperable Physics Driver (IPD), was developed by the NOAA Environmental Modeling
 Center (EMC) and later augmented by the NOAA Geophysical Fluid Dynamics Laboratory (GFDL).
 
-The :term:`CCPP` expanded on that work by meeting `additional requirements put forth by NOAA <https://dtcenter.org/sites/default/files/community-code/ccpp-requirements-historical.pdf>`_, 
+The CCPP expanded on that work by meeting `additional requirements put forth by NOAA <https://dtcenter.org/sites/default/files/community-code/ccpp-requirements-historical.pdf>`_, 
 and brought new functionalities to the physics-dynamics interface. Those include
-the ability to choose the order of parameterizations, to subcycle individual
+the ability to choose the order of :term:`parameterization`\ s, to :term:`subcycle <subcycling>` individual
 parameterizations by running them more frequently than other parameterizations,
-and to group arbitrary sets of parameterizations allowing other computations in
+and to group arbitrary :term:`set`\ s of parameterizations allowing other computations in
 between them (e.g., dynamics and coupling computations). The IPD was phased out in
-2021 in favor of the :term:`CCPP` as a single way to interface with physics in the :term:`UFS`
+2021 in favor of the CCPP as a single way to interface with physics in the :term:`UFS`
 
 The architecture of the CCPP and its connection to a host model is shown in
 :numref:`Figure %s <ccpp_arch_host>`.
 Two elements of the CCPP are highlighted: a library of physical parameterizations
 (:term:`CCPP Physics`) that conforms to selected standards and an infrastructure (:term:`CCPP Framework`)
 that enables connecting the physics to a host model. The third element (not shown)
-is the CCPP Single Column Model (SCM), a simple host model that can be used with the CCPP
+is the CCPP Single Column Model (:term:`SCM`), a simple host model that can be used with the CCPP
 Physics and Framework.
 
 .. _ccpp_arch_host:
@@ -65,19 +65,19 @@ Physics and Framework.
    *Architecture of the CCPP and its connection to a host model,
    represented here as the driver for an atmospheric model (yellow box). The dynamical
    core (dycore), physics, and other aspects of the model (such as coupling) are
-   connected to the driving host through the pool of physics caps. The CCPP Physics is
+   connected to the driving host through the pool of :term:`physics cap`\ s. The CCPP Physics is
    denoted by the gray box at the bottom of the physics, and encompasses the
    parameterizations, which are accompanied by physics caps.*
 
 The host model needs to have functional documentation (metadata) for any variable that will be
-passed to or received from the physics. The :term:`CCPP Framework` is used to compare the variables
+passed to or received from the physics. The CCPP Framework is used to compare the variables
 requested by each physical :term:`parameterization` against those provided by the host model [#]_, and
 to check whether they are available, otherwise an error will be issued. This process serves
 to expose the variables passed between physics and dynamics, and to clarify how information
 is exchanged among parameterizations. During runtime, the CCPP Framework is responsible for
 communicating the necessary variables between the host model and the parameterizations.
 
-The :term:`CCPP Physics` contains the parameterizations and suites that are used operationally in
+The CCPP Physics contains the parameterizations and suites that are used operationally in
 the UFS Atmosphere, as well as parameterizations that are under development for possible
 transition to operations in the future. The CCPP aims to support the broad community
 while benefiting from the community. In such a CCPP ecosystem
@@ -101,7 +101,7 @@ This documentation is housed in repository https://github.com/NCAR/ccpp-doc.
 
 The CCPP is governed by the groups that contribute to its development. The governance
 of the CCPP Physics is currently led by NOAA, and the DTC works with EMC and the
-National Weather Service Office of Science and Technology Integration to determine schemes
+National Weather Service Office of Science and Technology Integration to determine :term:`scheme`\ s
 and suites to be included and supported. The governance of the CCPP Framework is jointly
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
 and https://dtcenter.org/community-code/common-community-physics-package-ccpp).

@@ -14,15 +14,16 @@ This chapter describes the organization of the code, provides instruction on the
 Authoritative Repositories
 --------------------------
 
-There are two authoritative repositories for the CCPP:
+There are two authoritative repositories for the :term:`CCPP`:
 
 https://github.com/NCAR/ccpp-framework
 
 https://github.com/NCAR/ccpp-physics
 
+These are the repositories for the :term:`CCPP Framework` and :term:`CCPP Physics`, respectively. 
 Users have read-only access to these repositories and as such cannot accidentally destroy any important (shared) branches of these authoritative repositories. Both CCPP repositories are public (no GitHub account required) and may be used directly to read or create forks. Write permission is generally restricted, however.
 
-The following branches are recommended for CCPP developers:
+The following branches are recommended as a starting point for CCPP developers:
 
 +----------------------------------------+-------------+
 | Repository                             | Branch name |
@@ -45,7 +46,7 @@ The following is the directory structure for the ``ccpp-framework`` repository
    │   ├── DevelopersGuide
    │   ├── HelloWorld         # Toy model to use of the CCPP Framework
    │   └── img
-   ├── loggging               # Logging handler for future capgen.py
+   ├── logging                # Logging handler for future capgen.py
    ├── schema                 # XML scheme for suite definition files
    ├── schemes                # Example ccpp_prebuild_config.py
    │   ├── check

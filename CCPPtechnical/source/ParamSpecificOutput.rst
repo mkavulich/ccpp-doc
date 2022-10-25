@@ -8,11 +8,11 @@ Parameterization-specific Output
 Overview
 ========
 
-When used with UFS and the SCM, the CCPP offers the capability of outputting tendencies of temperature,
-zonal wind, meridional wind, ozone, and specific humidity produced by the parameterizations of selected
-suites. This capability is useful for understanding the behavior of the individual parameterizations in
+When used with :term:`UFS` and the :term:`SCM`, the :term:`CCPP` offers the capability of outputting tendencies of temperature,
+zonal wind, meridional wind, ozone, and specific humidity produced by the :term:`parameterization`\ s of selected
+:term:`suite`\ s. This capability is useful for understanding the behavior of the individual parameterizations in
 terms of magnitude and spatial distribution of tendencies, which can help model developers debug, refine,
-and tune their schemes. 
+and tune their :term:`scheme`\ s.
 
 The CCPP also enables outputting two-dimensional (2D) or three-dimensional (3D) arbitrary diagnostics
 from the parameterizations. This capability is targeted to model developers who may benefit from analyzing
@@ -311,7 +311,7 @@ and the total tendencies of temperature:
 Note that all tendencies, except non-physics tendencies, are in the ``gfs_phys`` diagnostic module. The
 non-physics tendencies are in the ``gfs_dyn`` module. This is reflected in the :numref:`Table %s <avail_tend_processes>`.
 
-Note that some host models, such as the UFS, have a limit of how many fields can be output in a run.
+Note that some :term:`host models <host model>`, such as the UFS, have a limit of how many fields can be output in a run.
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
 by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in file ``input.nml``. 
 
@@ -406,7 +406,7 @@ arguments). In the UFS, the namelist is used to control the temporal averaging p
 These code changes are intended to be used by scientists during the development process
 and are not intended to be incorporated into the authoritative code. Therefore, developers
 must remove any code related to these additional diagnostics before submitting a pull
-request to the ccpp-physics repository.
+request to the ``ccpp-physics`` repository.
 
 The auxiliary diagnostics  from CCPP are output in arrays:
 
