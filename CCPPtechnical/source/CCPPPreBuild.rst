@@ -393,7 +393,7 @@ This second example is called using the :term:`SCM` as a host model:
 
 In the example above, we can see that the variable ``wind_speed_at_lowest_model_layer`` is used in a few subroutines,
 two of which (``sfc_diff_run`` and ``noahmpdrv_run`` are listed twice). This is not an error! The
-two repeated subroutines are part of a scheme called in a *:term:`subcycle`*, and so they are called twice in this cycle as designated in the SDF.
+two repeated subroutines are part of a scheme called in a :term:`subcycle <subcycling>`, and so they are called twice in this cycle as designated in the SDF.
 The ``ccpp_track_variables.py`` script lists the subroutines in the exact order they are called (within each *group*), including subcycles.
 
 Some standard names can be exceedingly long and hard to remember, and it is not always convenient to search the full list of standard names for the exact variable you want. Therefore, this script will also return matches for partial variable names. In this example, we will look for the variable "velocity", which is not a standard name of any variable, and see what it returns:

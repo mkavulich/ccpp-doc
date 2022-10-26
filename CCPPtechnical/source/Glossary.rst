@@ -9,11 +9,12 @@ Glossary
       and suites for use in NWP along with a framework that connects the physics to a :term:`host model`
 
    *CCPP Framework*
-      The infrastructure that connects physics :term:`scheme`\ s with a :term:`host model`; also refers to a software
-      repository of the same name 
+      The infrastructure that connects physics :term:`scheme`\ s with a :term:`host model`; also refers to a
+      `software repository of the same name <https://github.com/NCAR/ccpp-framework>`_
 
    *CCPP Physics*
-      The pool of CCPP-compliant physics schemes; also refers to a software repository of the same name
+      The pool of CCPP-compliant physics schemes; also refers to a `software repository of the same name
+      <https://github.com/NCAR/ccpp-framework>`_
 
    Fast physics
       Physical parameterizations that require tighter coupling with the dynamical core than “slow”

@@ -18,7 +18,7 @@ This chapter contains a brief description on how to add a new :term:`scheme` to 
 
      .. note:: If the value of a variable must be remembered from one call to the next, it should not be in the interstitial or diagnostic data types.
 
-    * If information from the previous timestep is needed, it is important to identify if the host model readily provides this information. For example, in the Model for Prediction Across Scales (MPAS), variables containing the values of several quantities in the preceding timesteps are available. When that is not the case, as in the :term:`UFS Atmosphere`, interstitial schemes are needed to compute these variables. As an example, the reader is referred to the GF convective scheme, which makes use of interstitials to obtain the previous timestep information.
+    * If information from the previous timestep is needed, it is important to identify if the host model readily provides this information. For example, in the Model for Prediction Across Scales (MPAS), variables containing the values of several quantities in the preceding timesteps are available. When that is not the case, as in the :term:`UFS Atmosphere`, interstitial schemes are needed to compute these variables. As an example, the reader is referred to the `GF convective scheme <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_c_u__g_f.html>`_, which makes use of interstitials to obtain the previous timestep information.
 
     * Consider allocating the new variable only when needed (i.e. when the new scheme is used and/or when a certain control flag is set). If this is a viable option, following the existing examples in ``GFS_typedefs.F90`` and ``GFS_typedefs.meta`` for allocating the variable and setting the ``active`` attribute in the metadata correctly.
 
@@ -54,10 +54,10 @@ This chapter contains a brief description on how to add a new :term:`scheme` to 
 
 * Test and debug the new scheme:
 
-    * Typical problems include segment faults related to variables and array allocations.
-    * Make sure SDF and namelist are compatible. Inconsistencies may result in segmentation faults because arrays are not allocated or in unintended scheme(s) being executed.
+    * Typical problems include segmentation faults related to variables and array allocations.
+    * Make sure the SDF and namelist are compatible. Inconsistencies may result in segmentation faults because arrays are not allocated or in unintended scheme(s) being executed.
     * A scheme called GFS_debug (``GFS_debug.F90``) may be added to the SDF where needed to print state variables and interstitial variables. If needed, edit the scheme beforehand to add new variables that need to be printed.
-    * Check *prebuild* script for success/failure and associated messages; run *prebuild* script with the `--debug` and `--verbose` flags.
+    * Check the *prebuild* script for success/failure and associated messages; run the *prebuild* script with the `--debug` and `--verbose` flags.
     * Compile code in DEBUG mode, run through debugger if necessary (gdb, Allinea DDT, totalview, ...).
     * Use memory check utilities such as valgrind.
     * Double-check the metadata file associated with your scheme to make sure that all information, including standard names and units, correspond to the correct local variables.
