@@ -59,7 +59,7 @@ connect two or more schemes together, or provide code for conversions, initializ
 tendencies, for example. The rules and guidelines provided in the following sections apply both to
 primary and interstitial schemes.
 
-CCPP-compliant physics parameterizations are broken down into one or more of the following five *:term:`phases <phase>`*:
+CCPP-compliant physics parameterizations are broken down into one or more of the following five :term:`*phases* <phase>`:
 
 * The *init* phase, which performs actions needed to set up the scheme before the model integration
   begins. Examples of actions needed in this phase include the reading/computation of

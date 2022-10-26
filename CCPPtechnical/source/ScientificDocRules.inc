@@ -547,5 +547,5 @@ In order to generate the doxygen-based documentation, you will need to follow fi
   The generated HTML documentation can be viewed by pointing an HTML
   browser to the ``index.html`` file in the ``./docs/doc/html/`` directory.
 
-For precise instructions or other help creating the scientific documentation, contact the CCPP
-Forum at https://dtcenter.org/forum/ccpp-user-support.
+For precise instructions or other help creating the scientific documentation, visit the CCPP GitHub discussions
+page at https://github.com/NCAR/ccpp-physics/discussions

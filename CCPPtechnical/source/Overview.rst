@@ -208,8 +208,10 @@ Additional Resources
 For the latest version of the released code and additional documentation,
 please visit the `DTC Website <https://dtcenter.org/community-code/common-community-physics-package-ccpp>`_.
 
-Please send questions and comments to the CCPP Forum at https://dtcenter.org/forum/ccpp-user-support.
-When using the CCPP with the UFS, questions can also be posted
-in the UFS Forum at https://forums.ufscommunity.org/.
+Please post questions and comments to the GitHub discussions board for the relevant code repository:
+ - *CCPP Physics* https://github.com/NCAR/ccpp-physics/discussions
+ - *CCPP Framework* https://github.com/NCAR/ccpp-framework/discussions
+ - Single Column Model https://github.com/NCAR/ccpp-scm/discussions
+ - UFS Weather Model https://github.com/ufs-community/ufs-weather-model/discussions
 
 .. include:: Introduction.rst

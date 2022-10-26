@@ -172,7 +172,7 @@ You can now make changes to the code, and commit those changes locally using ``g
 
 
 
-Once you are ready to contribute the code back to the main (``upstream``) ccpp-physics repository, you need to create a `pull request (PR) <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`_ (see `Creating a pull request`_). In order to do so, you first need to create your own fork of this repository (see `Creating Forks`_) and configure your fork as an additional remote destination, which we typically label as ``origin``. For example:
+Once you are ready to contribute the code back to the main (``upstream``) ccpp-physics repository, you need to create a `pull request (PR) <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>`_ (see `Creating a pull request`_). In order to do so, you first need to create your own fork of this repository (see `Creating Forks`_) and configure your fork as an additional remote destination, which we typically label as *origin*. For example:
 
 .. code-block:: console
 
@@ -212,7 +212,7 @@ Once you have your fork set up to begin code modifications, you should check tha
 
    git remote -v
 
-This should point to your fork as origin and the repository you cloned as upstream:
+This should point to your fork as *origin* and the repository you cloned as *upstream*:
 
 .. code-block:: console
 
@@ -279,12 +279,12 @@ Creating a Pull Request
 -----------------------
 Go to the github.com web interface, and navigate to your repository fork and branch. In most cases, this will be in the ccpp-physics repository, hence the following example:
 
- | Navigate to: https://github.com/<yourusername>/ccpp-physics
- | Use the drop-down menu on the left-side to select a branch to view your development branch
- | Use the button just right of the branch menu, to start a “New Pull Request”
- | Fill in a short title (one line)
- | Fill in a detailed description, including reporting on any testing you did
- | Click on “Create pull request”
+ - Navigate to: https://github.com/<yourusername>/ccpp-physics
+ - Use the drop-down menu on the left-side to select a branch to view your development branch
+ - Use the button just right of the branch menu, to start a “New Pull Request”
+ - Fill in a short title (one line)
+ - Fill in a detailed description, including reporting on any testing you did
+ - Click on “Create pull request”
 
 If your development also requires changes in other repositories, you must open PRs in those repositories as well. In the PR message for each repository, please note the associated PRs submitted to other repositories.
 
