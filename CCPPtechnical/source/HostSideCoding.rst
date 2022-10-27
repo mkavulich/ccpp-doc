@@ -333,7 +333,7 @@ and ``qgrs`` in :ref:`Listing 6.2 <example_vardefs_meta>` for an example.
 CCPP Variables in the SCM and UFS Atmosphere Host Models
 ========================================================
 
-While the use of standard Fortran variables is preferred, in the current implementation of the CCPP in the UFS Atmosphere and in the SCM almost all data is contained in DDTs for organizational purposes. In the case of the SCM, DDTs are defined in ``gmtb_scm_type_defs.f90`` and ``GFS_typedefs.F90``, and in the case of the UFS Atmosphere, they are defined in both ``GFS_typedefs.F90`` and ``CCPP_typedefs.F90``.  The current implementation of the CCPP in both :term:`host model`\ s uses the following set of DDTs:
+While the use of standard Fortran variables is preferred, in the current implementation of the CCPP in the UFS Atmosphere and in the SCM almost all data is contained in DDTs for organizational purposes. In the case of the SCM, DDTs are defined in ``gmtb_scm_type_defs.f90`` and ``GFS_typedefs.F90``, and in the case of the UFS Atmosphere, they are defined in both ``GFS_typedefs.F90`` and ``CCPP_typedefs.F90``.  The current implementation of the CCPP in both :term:`host models <host model>` uses the following set of DDTs:
 
 * ``GFS_init_type`` 		variables to allow proper initialization of GFS physics
 * ``GFS_statein_type``	prognostic state data provided by dycore to physics
@@ -346,9 +346,9 @@ While the use of standard Fortran variables is preferred, in the current impleme
 * ``GFS_cldprop_type``	cloud properties and tendencies needed by radiation from physics
 * ``GFS_radtend_type``	radiation tendencies needed by physics
 * ``GFS_diag_type``		fields targeted for diagnostic output to disk
-* ``GFS_interstitial_type``	fields used to communicate variables among schemes in the :term:`slow physics` :term:`group` required to replace interstitial code that resided in ``GFS_{physics, radiation}_driver.F90`` in IPD
-* ``GFS_data_type``	combined type of all of the above except ``GFS_control_type`` and ``GFS_interstitial_type``
-* ``CCPP_interstitial_type`` fields used to communicate variables among schemes in the :term:`fast physics` group
+* ``GFS_data_type``	combined type of all of the above except ``GFS_control_type``
+* ``GFS_interstitial_type``     fields used to communicate variables among schemes in the :term:`slow physics` :term:`group` required to replace interstitial code that resided in ``GFS_{physics, radiation}_driver.F90`` in IPD
+* ``GFDL_interstitial_type`` fields used to communicate variables among schemes in the :term:`fast physics` group
 
 The DDT descriptions provide an idea of what physics variables go into which data type.  ``GFS_diag_type`` can contain variables that accumulate over a certain amount of time and are then zeroed out. Variables that require persistence from one timestep to another should not be included in the ``GFS_diag_type`` nor the ``GFS_interstitial_type`` DDTs. Similarly, variables that need to be shared between groups cannot be included in the ``GFS_interstitial_type`` DDT. Although this memory management is somewhat arbitrary, new variables provided by the host model or derived in an interstitial scheme should be put in a DDT with other similar variables.
 
@@ -381,9 +381,11 @@ In this example, ``gu0``, ``gv0``, ``gt0``, and ``gq0`` are defined in the host-
    [ccpp-arg-table]
      name = GFS_stateout_type
      type = ddt
-   [gq0(:,:,index_for_snow_water)]
-     standard_name = snow_water_mixing_ratio_updated_by_physics
-     long_name = moist (dry+vapor, no condensates) mixing ratio of snow water updated by physics
+   ...
+   ...
+   [gq0(:,:,index_of_snow_mixing_ratio_in_tracer_concentration_array)]
+     standard_name = snow_mixing_ratio_of_new_state
+     long_name = ratio of mass of snow water to mass of dry air plus vapor (without condensates) updated by physics
      units = kg kg-1
      dimensions = (horizontal_loop_extent,vertical_layer_dimension)
      type = real
