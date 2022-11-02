@@ -115,25 +115,11 @@ From here you can view the available branches in the ccpp-physics repository wit
    git fetch --all
    git branch -a
 
-   * main
-     remotes/upstream/HEAD -> upstream/main
-     remotes/upstream/dtc/hwrf-physics
-     remotes/upstream/emc_training_march_2019
-     remotes/upstream/emc_training_march_2019_rftim
-     remotes/upstream/feature/DOE_PBL_project
-     remotes/upstream/feature/rrtmgp-doxygen
-     remotes/upstream/feature/unified_standard_names
-     remotes/upstream/gfs_suite2_physics_test_tag_20190222
-     remotes/upstream/gsd_suite4_physics_test_tag_20181210
-     remotes/upstream/main
-     remotes/upstream/mraerosol
-     remotes/upstream/release/P7a
-     remotes/upstream/release/P7b
-     remotes/upstream/release/public-v4
-     remotes/upstream/release/public-v5
-     remotes/upstream/release/public-v6
+   * ufs/dev
+     remotes/upstream/HEAD -> upstream/ufs/dev
+     remotes/upstream/ufs/dev
 
-As you can see, you are placed on the ``main`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. All new development should start from that point, but if you would like to view code from another branch this is simple with the ``git checkout`` command. 
+As you can see, you are placed on the ``ufs/dev`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. In the ccpp-framework repository, the default branch is named ``main``. All new development should start from the default branch, but if you would like to view code from another branch this is simple with the ``git checkout`` command. 
 
 .. code-block:: console
    :emphasize-lines: 3-4
@@ -146,18 +132,18 @@ As you can see, you are placed on the ``main`` branch by default; this is the mo
 .. note::
    Never used git or GitHub before? Confused by what all this means or why we do it? Check out `this presentation from the UFS SRW Training workshop <https://dtcenter.org/sites/default/files/events/2021/18-code-management-making-contributions-kavulich.pdf>`_ for a "from basic principles" explanation!
 
-After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v6`` named ``release/public-v6``. To return to the main branch, simply use ``git checkout main``.
+After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v6`` named ``release/public-v6``. To return to the ufs/dev branch, simply use ``git checkout ufs/dev``.
 
 If you wish to make changes that you will eventually contribute back to the public code base, you should always create a new "feature" branch that will track those particular changes.
 
 .. code-block:: console
 
-   git checkout upstream/main
+   git checkout upstream/ufs/dev
    git checkout -b feature/my_new_local_development_branch
 
 .. note::
 
-   By checking out the remote ``upstream/main`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch. 
+   By checking out the remote ``upstream/ufs/dev`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch. 
 
 You can now make changes to the code, and commit those changes locally using ``git commit`` in order to track 
 
@@ -190,7 +176,7 @@ As opposed to branches without modifications described in step 3, changes to the
 
    cd ccpp-physics
    git remote update
-   git pull upstream main
+   git pull upstream ufs/dev
 
 .. _committing-changes:
 
@@ -223,7 +209,7 @@ This command will show what branch you have checked out on your fork:
 .. code-block:: console
 
    * features/my_local_development_branch
-     main
+     ufs/dev
 
 After making modifications and testing, you can commit the changes to your fork.  First check what files have been modified:
 
@@ -279,7 +265,7 @@ Go to the github.com web interface, and navigate to your repository fork and bra
 
 If your development also requires changes in other repositories, you must open PRs in those repositories as well. In the PR message for each repository, please note the associated PRs submitted to other repositories.
 
-Several people (aka CODEOWNERS) are automatically added to the list of reviewers on the right hand side. Once the PR has been approved, the change is merged to main by one of the code owners. If there are pending conflicts, this means that the code is not up to date with the trunk. To resolve those, pull the target branch from upstream as described above, solve the conflicts and push the changes to the branch on your fork (this also updates the PR).
+Several people (aka CODEOWNERS) are automatically added to the list of reviewers on the right hand side. Once the PR has been approved, the change is merged to ufs/dev by one of the code owners. If there are pending conflicts, this means that the code is not up to date with the trunk. To resolve those, pull the target branch from upstream as described above, solve the conflicts and push the changes to the branch on your fork (this also updates the PR).
 
 .. note::
    GitHub offers a "Draft pull request" feature that allows users to push their code to GitHub and create a draft PR. Draft PRs cannot be merged and do not automatically initiate notifications to the CODEOWNERS, but allow users to prepare the PR and flag it as “ready for review” once they feel comfortable with it. To open a draft rather than a ready-for-review PR, select the arrow next to the green "Create pull request" button, and select "Create draft pull request". Then continue the above steps as usual.
