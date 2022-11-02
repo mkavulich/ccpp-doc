@@ -8,37 +8,19 @@ CCPP Code Management
 Organization of the Code
 ================================
 
-This chapter describes the organization of the code, provides instruction on the GitHub workflow and the code review process, and outlines the release procedure. It is assumed that the reader is familiar with using basic GitHub features. A GitHub account is necessary if a user would like to make and contribute code changes.
+This chapter describes the organization of the code, provides instruction on the GitHub workflow and the code review process, and outlines the release procedure. It is assumed that the reader is familiar with using basic GitHub features. A GitHub account is necessary if a user would like to make and contribute code changes to the :term:`CCPP`.
 
---------------------------
-Authoritative Repositories
---------------------------
-
-There are two authoritative repositories for the :term:`CCPP`:
-
-https://github.com/NCAR/ccpp-framework
-
-https://github.com/NCAR/ccpp-physics
-
-These are the repositories for the :term:`CCPP Framework` and :term:`CCPP Physics`, respectively. 
-Users have read-only access to these repositories and as such cannot accidentally destroy any important (shared) branches of these authoritative repositories. Both CCPP repositories are public (no GitHub account required) and may be used directly to read or create forks. Write permission is generally restricted, however.
-
-The following branches are recommended as a starting point for CCPP developers:
-
-+----------------------------------------+-------------+
-| Repository                             | Branch name |
-+========================================+=============+
-| https://github.com/NCAR/ccpp-physics   | main        |
-+----------------------------------------+-------------+
-| https://github.com/NCAR/ccpp-framework | main        |
-+----------------------------------------+-------------+
+The repository and code organization differs for :term:`CCPP Framework` and :term:`CCPP Physics`.
 
 --------------------------------------
-Directory Structure of CCPP Framework
+CCPP Framework
 --------------------------------------
 
-The following is the directory structure for the ``ccpp-framework`` repository
- (condensed version):
+The CCPP Framework code base can be found in the authoritative repository in the :term:`NCAR` GitHub organization (https://github.com/NCAR/ccpp-framework). This repository is public and can be viewed, downloaded, or cloned by users without needing a GitHub account. 
+
+Developers seeking to contribute code to the CCPP should create a GitHub account and set up a personal fork in order to introduce changes to the official code base via a Pull Request (PR) on GitHub (see `Creating Forks`_).
+
+The following is the directory structure for the ``ccpp-framework`` repository:
 
 .. code-block:: console
 
@@ -64,8 +46,12 @@ The following is the directory structure for the ``ccpp-framework`` repository
 
 
 --------------------------------------
-Directory Structure of CCPP Physics
+CCPP Physics
 --------------------------------------
+
+Because the CCPP Physics repository accepts contributions coming from multiple host models and applications, the code and repository organization is a bit more complicated. The main "authoritative" code base for CCPP Physics can be found in the NCAR github organization (https://github.com/NCAR/ccpp-physics). This repository is public and can be viewed, downloaded, or cloned by users without needing a GitHub account. However, in most cases code changes are not applied to this repository directly: Each :term:`host model` or application (aside from the :term:`SCM`) maintains its own Application Fork that accepts changes to CCPP Physics specifically for the context of that application. Code managers regularly sync changes from the Application Forks to the authoritative CCPP Physics repository in order to ensure a unified CCPP Physics code base. For more information about Application Forks, see `the GitHub Wiki Page <https://github.com/ufs-community/ccpp-physics/wiki>`_.
+
+Developers should create a personal fork from the appropriate Application Fork in order to introduce changes to the official code base via a Pull Request (PR) on GitHub (see `Creating Forks`_). Currently, the only Application Fork is for the UFS, so users should fork from there.
 
 The following is the directory structure for the ``ccpp-physics`` repository (condensed version):
 
@@ -88,29 +74,34 @@ The CCPP development practices make use of the GitHub forking workflow. For user
 Creating Forks
 ---------------
 
-The GitHub forking workflow relies on forks (personal copies) of the shared repositories on GitHub. A personal fork needs to be created only once, and only for repositories that users will contribute changes to. The following steps describe how to create a fork for the example of the ccpp-physics submodule/repository:
+The GitHub forking workflow relies on forks (personal copies) of the shared repositories on GitHub. A personal fork needs to be created only once, and only for repositories that users will contribute changes to. The following steps describe how to create a fork for CCPP development.
 
- Go to https://github.com/NCAR/ccpp-physics and make sure you are signed in to your GitHub account.
+1.  Go to the repository you wish to fork, and make sure you are signed in to your GitHub account.
 
- Select the "fork" button in the upper right corner.
+    * For CCPP Framework changes, this should be the authoritative repository (https://github.com/NCAR/ccpp-framework)
+    * For CCPP Physics changes, this should be the Application Fork corresponding to your host model of interest
+        * UFS Fork (https://github.com/ufs-community/ccpp-physics)
+
+2. Select the "fork" button in the upper right corner.
 
       * If you have already created a fork, this will take you to your fork.
       * If you have not yet created a fork, this will create one for you.
 
- Note that the repo name in the upper left (blue) will be either "NCAR" or "your GitHub name” which tells you which fork you are looking at.
-
-Note that personal forks are not required until a user wishes to make code contributions. The procedure for how to check out the code laid out below can be followed without having created a fork beforehand.
+.. note::
+   If you already have a fork for a different CCPP Physics repository and so can not create a new one, contact the code managers via GitHub discussions (https://github.com/NCAR/ccpp-physics/discussions)
 
 -----------------------------------
 Checking out the Code
 -----------------------------------
-Instructions are provided here for the ccpp-physics repository; the instructions for the ccpp-framework repository are analogous. The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
+Instructions are provided here for the ccpp-physics repository assuming development intended for use in UFS Applications. The instructions for the ccpp-framework repository are analogous but should start from the main repository in the NCAR GitHub Organization (https://github.com/NCAR/ccpp-framework).
 
-Start by checking out the main repository from the :term:`NCAR` GitHub Organization:
+The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
+
+Start by checking out the UFS Application Fork:
 
 .. code-block:: console
 
-   git clone https://github.com/NCAR/ccpp-physics
+   git clone https://github.com/ufs-community/ccpp-physics
    cd ccpp-physics
    git remote rename origin upstream
 
@@ -218,8 +209,8 @@ This should point to your fork as *origin* and the repository you cloned as *ups
 
    origin	      https://github.com/YOUR_GITHUB_USER/ccpp-physics (fetch)
    origin	      https://github.com/YOUR_GITHUB_USER/ccpp-physics (push)
-   upstream   https://github.com/NCAR/ccpp-physics (fetch)
-   upstream   https://github.com/NCAR/ccpp-physics (push)
+   upstream   https://github.com/ufs-community/ccpp-physics (fetch)
+   upstream   https://github.com/ufs-community/ccpp-physics (push)
 
 Also check what branch you are working on:
 
