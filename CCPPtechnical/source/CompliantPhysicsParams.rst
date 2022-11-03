@@ -10,7 +10,7 @@ for the acceptance of the scheme in the pool of supported :term:`CCPP Physics`. 
 dependent on scientific innovation, demonstrated value, and compliance with the rules
 described below. The criteria for acceptance of a scheme into the CCPP is under development.
 
-It is recommended that :term:`parameterization`\ s be comprised of the smallest units that will be used independently.
+It is recommended that :term:`parameterizations <parameterization>` be comprised of the smallest units that will be used independently.
 For example, if a given :term:`set` of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
@@ -121,7 +121,7 @@ such as ``use EXTERNAL_MODULE`` should not be used for passing in any data.
 See :numref:`Section %s <UsingConstants>` for more information on
 how to use physical constants.
 
-Note that :term:`standard name`\ s, variable names, module names, scheme names and subroutine names are all case insensitive.
+Note that :term:`standard names <standard name>`, variable names, module names, scheme names and subroutine names are all case insensitive.
 
 Interstitial modules (*schemename_pre* and *schemename_post*) can be included if any part of the 
 physics scheme must be executed sequentially before (*_pre*) or after (*_post*) the scheme, but

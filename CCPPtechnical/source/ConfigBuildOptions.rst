@@ -20,7 +20,7 @@ within the particular physics suite(s).  The script autogenerates software :term
 whole and for each physics :term:`group` as defined in the SDF(s), as well as for an API that the host model calls into
 from the (manually written) host model cap. At runtime, a single SDF is used to select the
 suite that will be executed in the run. This arrangement allows for efficient variable recall (which
-is done once for all physics :term:`scheme`\ s within each group of a suite), leads to a reduced memory footprint of the
+is done once for all physics :term:`schemes <scheme>` within each group of a suite), leads to a reduced memory footprint of the
 CCPP, and speeds up execution.
 
 .. _ccpp_static_build:

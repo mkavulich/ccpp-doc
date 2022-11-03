@@ -9,7 +9,7 @@ Glossary
       and suites for use in NWP along with a framework that connects the physics to a :term:`host model`
 
    *CCPP Framework*
-      The infrastructure that connects physics :term:`scheme`\ s with a :term:`host model`; also refers to a
+      The infrastructure that connects physics :term:`schemes <scheme>` with a :term:`host model`; also refers to a
       `software repository of the same name <https://github.com/NCAR/ccpp-framework>`_
 
    *CCPP Physics*
@@ -24,7 +24,7 @@ Glossary
       used in some suites and is called directly from the dynamical core for tighter coupling
 
    Group
-      A set of physics :term:`scheme`\ s within a suite definition file (SDF) that are called together
+      A set of physics :term:`schemes <scheme>` within a suite definition file (SDF) that are called together
       without intervening computations from the :term:`host application <host model>`. Groups
       are described in more detail in :numref:`Chapter %c <ConstructingSuite>`.
 
@@ -84,17 +84,17 @@ Glossary
 
    SDF
       Suite Definition File (SDF) is an external file containing information about the 
-      construction of a physics :term:`suite`. It describes the :term:`scheme`\ s that are called, in which
+      construction of a physics :term:`suite`. It describes the :term:`schemes <scheme>` that are called, in which
       order they are called, whether they are subcycled, and whether they are assembled
       into groups to be called together
 
    Set
-      A collection of physics :term:`scheme`\ s that do not share memory (e.g. fast and slow physics)
+      A collection of physics :term:`schemes <scheme>` that do not share memory (e.g. fast and slow physics)
 
    SCM
       The :term:`CCPP` Single Column Model (SCM) is a simple 1D :term:`host model` designed to be used with the CCPP
       Physics and Framework as a lightweight alternative to full 3D dynamical models for testing
-      and development of physics :term:`scheme`\ s and :term:`suite`\ s. See the `SCM User Guide <https://dtcenter.org/sites/default/files/paragraph/scm-ccpp-guide-v6-0-0.pdf>`_
+      and development of physics :term:`schemes <scheme>` and :term:`suites <suite>`. See the `SCM User Guide <https://dtcenter.org/sites/default/files/paragraph/scm-ccpp-guide-v6-0-0.pdf>`_
       for more information.
 
    Slow physics
@@ -107,7 +107,7 @@ Glossary
 
    Standard name
       Variable names based on CF conventions (http://cfconventions.org) that are uniquely
-      identified by the *CCPP-compliant* :term:`scheme`\ s and provided by a :term:`host model`. See 
+      identified by the *CCPP-compliant* :term:`schemes <scheme>` and provided by a :term:`host model`. See 
       :numref:`Section %s <StandardNames>` for more details.
 
    Subcycling
@@ -115,7 +115,7 @@ Glossary
       the model physics or dynamics. See :numref:`Section %s <Subcycling>` for more details.
 
    Suite
-      A collection of :term:`primary physics schemes <primary scheme>` and :term:`interstitial scheme`\ s that are known to work
+      A collection of :term:`primary physics schemes <primary scheme>` and :term:`interstitial schemes <interstitial scheme>` that are known to work
       well together
 
    UFS

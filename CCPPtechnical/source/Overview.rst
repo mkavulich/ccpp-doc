@@ -44,9 +44,9 @@ Center (EMC) and later augmented by the NOAA Geophysical Fluid Dynamics Laborato
 
 The CCPP expanded on that work by meeting `additional requirements put forth by NOAA <https://dtcenter.org/sites/default/files/community-code/ccpp-requirements-historical.pdf>`_, 
 and brought new functionalities to the physics-dynamics interface. Those include
-the ability to choose the order of :term:`parameterization`\ s, to :term:`subcycle <subcycling>` individual
+the ability to choose the order of :term:`parameterizations <parameterization>`, to :term:`subcycle <subcycling>` individual
 parameterizations by running them more frequently than other parameterizations,
-and to group arbitrary :term:`set`\ s of parameterizations allowing other computations in
+and to group arbitrary :term:`sets <set>` of parameterizations allowing other computations in
 between them (e.g., dynamics and coupling computations). The IPD was phased out in
 2021 in favor of the CCPP as a single way to interface with physics in the :term:`UFS`
 
@@ -101,7 +101,7 @@ This documentation is housed in repository https://github.com/NCAR/ccpp-doc.
 
 The CCPP is governed by the groups that contribute to its development. The governance
 of the CCPP Physics is currently led by NOAA, and the DTC works with EMC and the
-National Weather Service Office of Science and Technology Integration to determine :term:`scheme`\ s
+National Weather Service Office of Science and Technology Integration to determine :term:`schemes <scheme>`
 and suites to be included and supported. The governance of the CCPP Framework is jointly
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
 and https://dtcenter.org/community-code/common-community-physics-package-ccpp).

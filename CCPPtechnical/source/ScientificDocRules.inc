@@ -5,8 +5,8 @@ Scientific Documentation Rules
 
 Scientific and technical documents are
 important for code maintenance and for fostering understanding among stakeholders.
-As such, physics :term:`scheme`\ s are required to include scientific documentation in order to be included in the :term:`CCPP`. This
-section describes the process used for documenting :term:`parameterization`\ s in the CCPP.
+As such, physics :term:`schemes <scheme>` are required to include scientific documentation in order to be included in the :term:`CCPP`. This
+section describes the process used for documenting :term:`parameterizations <parameterization>` in the CCPP.
 
 Doxygen was chosen as a tool for generating human-readable output due to its
 built-in functionality with Fortran, its high level of configurability, and its

@@ -4,7 +4,7 @@
 Host Side Coding
 **************************************************
 
-This chapter describes the connection of a host model with the pool of :term:`CCPP Physics` :term:`scheme`\ s through the :term:`CCPP Framework`.
+This chapter describes the connection of a host model with the pool of :term:`CCPP Physics` :term:`schemes <scheme>` through the :term:`CCPP Framework`.
 
 ==================================================
 Variable Requirements on the Host Model Side
@@ -575,7 +575,7 @@ The physics is invoked by calling subroutine ``ccpp_physics_run``. This subrouti
 Initializing and Finalizing the Physics
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-Many (but not all) physical :term:`parameterization`\ s need to be initialized, which includes functions such as reading lookup tables, reading input datasets, computing derived quantities, broadcasting information to all MPI ranks, etc. Initialization procedures are done for the entire domain, that is, they are not subdivided by blocks and need access to all data that an MPI task owns. Similarly, many (but not all) parameterizations need to be finalized, which includes functions such as deallocating variables, resetting flags from *initialized* to *non-initialized*, etc. Initialization and finalization functions are each performed once per run, before the first call to the physics and after the last call to the physics, respectively. They may not contain thread-dependent or block-dependent information.
+Many (but not all) physical :term:`parameterizations <parameterization>` need to be initialized, which includes functions such as reading lookup tables, reading input datasets, computing derived quantities, broadcasting information to all MPI ranks, etc. Initialization procedures are done for the entire domain, that is, they are not subdivided by blocks and need access to all data that an MPI task owns. Similarly, many (but not all) parameterizations need to be finalized, which includes functions such as deallocating variables, resetting flags from *initialized* to *non-initialized*, etc. Initialization and finalization functions are each performed once per run, before the first call to the physics and after the last call to the physics, respectively. They may not contain thread-dependent or block-dependent information.
 
 The initialization and finalization can be invoked for a single group, or for the entire suite. In both cases, subroutines ``ccpp_physics_init`` and ``ccpp_physics_finalize`` are used and the arguments passed to those subroutines determine the type of initialization.
 
