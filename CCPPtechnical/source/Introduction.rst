@@ -5,7 +5,7 @@ How to Use this Document
 
 This document contains documentation for the Common Community Physics Package (:term:`CCPP`). It describes the
 
-* :term:`Physics schemes <primary scheme>` and :term:`interstitials <interstitial scheme>`
+* :term:`Primary physics schemes <primary scheme>` and :term:`interstitials <interstitial scheme>`
 * :term:`Suite definition files <SDF>`
 * CCPP-compliant :term:`parameterizations <parameterization>`
 * Process to add a new scheme or suite

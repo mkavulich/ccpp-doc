@@ -365,7 +365,7 @@ example is called using the :term:`UFS Atmosphere` as a host model, from the dir
      GFS_stochastics_run (intent inout)
 
 In the example above, we can see that the variable ``air_temperature_of_new_state`` is used in
-the FV3_RRFS_v1beta suite by several microphysics subroutines, as well another stochastics :term:`parameterization`.
+the FV3_RRFS_v1beta suite by several microphysics-related schemes, as well as by the stochastics :term:`parameterization`.
 
 To learn more about a given subroutine, you can search the physics source code within the ``ccpp-physics`` repository,
 or you can consult the `CCPP Scientific Documentation

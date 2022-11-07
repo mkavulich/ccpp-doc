@@ -14,7 +14,7 @@ Glossary
 
    *CCPP Physics*
       The pool of CCPP-compliant physics schemes; also refers to a `software repository of the same name
-      <https://github.com/NCAR/ccpp-framework>`_
+      <https://github.com/NCAR/ccpp-physics>`_
 
    Fast physics
       Physical parameterizations that require tighter coupling with the dynamical core than “slow”

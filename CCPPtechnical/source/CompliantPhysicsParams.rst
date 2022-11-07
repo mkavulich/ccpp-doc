@@ -11,7 +11,7 @@ dependent on scientific innovation, demonstrated value, and compliance with the 
 described below. The criteria for acceptance of a scheme into the CCPP is under development.
 
 It is recommended that :term:`parameterizations <parameterization>` be comprised of the smallest units that will be used independently.
-For example, if a given :term:`set` of deep and shallow convection schemes will always be called together
+For example, if a given pair of deep and shallow convection schemes will always be called together
 and in a pre-established order, it is acceptable to group them within a single scheme. However, if one
 envisions that the deep and shallow convection schemes may someday operate independently, it is
 recommended to code two separate schemes to allow more flexibility.
@@ -84,7 +84,7 @@ General Rules
 =============
 A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme must be in its own module, and must include at least one of the
 following subroutines (*entry points*): *_init*, *_timestep_init*, *_run*, *_timestep_finalize*,
-and *_finalize*. Each subroutine corresponds to one of the five *phases* of the :term:`CCPP framework` as described above.
+and *_finalize*. Each subroutine corresponds to one of the five *phases* of the :term:`CCPP Framework` as described above.
 The module name and the subroutine names must be consistent with the
 scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*, 
 *schemename_run*, etc. The *_run* subroutine contains the
