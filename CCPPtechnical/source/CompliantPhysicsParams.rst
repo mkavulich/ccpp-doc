@@ -37,7 +37,7 @@ The implementation of a driver is reasonable under the following circumstances:
   and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
   in the ``ccpp-physics/physics`` directory.
 
-Schemes in the CCPP are classified into two categories: :term:`*primary* schemes <primary scheme>` and :term:`*interstitial* schemes <interstitial scheme>`.
+Schemes in the CCPP are classified into two categories: :term:`primary schemes <primary scheme>` and :term:`interstitial schemes <interstitial scheme>`.
 A *primary* scheme is one that updates the state variables and tracers or that
 produces tendencies for updating state variables and tracers based on the
 representation of major physical processes, such as radiation, convection,
@@ -59,7 +59,7 @@ connect two or more schemes together, or provide code for conversions, initializ
 tendencies, for example. The rules and guidelines provided in the following sections apply both to
 primary and interstitial schemes.
 
-CCPP-compliant physics parameterizations are broken down into one or more of the following five :term:`*phases* <phase>`:
+CCPP-compliant physics parameterizations are broken down into one or more of the following five :term:`phases <phase>`:
 
 * The *init* phase, which performs actions needed to set up the scheme before the model integration
   begins. Examples of actions needed in this phase include the reading/computation of

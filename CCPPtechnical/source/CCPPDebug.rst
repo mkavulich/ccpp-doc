@@ -28,8 +28,6 @@ Two categories of debugging with CCPP
 
         GFS_data(nb)%Statein%tgrs(1:IM,1:LM) with blocks nb=1,...,N
 
-  .. _codeblockends:
-
     Further, the UFS models run a subset of physics inside the dynamical core (“:term:`fast physics`”), for which the host model data is stored inside the dynamical core and cannot be shared with the traditional (“:term:`slow<slow physics>`”) physics. As such, different debugging schemes are required for the ``fast_physics`` group.
 
 

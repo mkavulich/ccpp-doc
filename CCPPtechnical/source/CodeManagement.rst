@@ -30,13 +30,12 @@ The following is the directory structure for the ``ccpp-framework`` repository:
    │   └── img
    ├── logging                # Logging handler for future capgen.py
    ├── schema                 # XML scheme for suite definition files
-   ├── schemes                # Example ccpp_prebuild_config.py
-   │   ├── check
    ├── scripts                # Scripts for ccpp_prebuild.py, metadata parser, etc.
    │   ├── conversion_tools
    │   ├── fortran_tools
    │   └── parse_tools
    ├── src                    # CCPP framework source code
+   ├── stub                   # CCPP stub build directory¹
    ├── test                   # Unit/system testing framework for future capgen.py
    │   ├── advection_test
    │   ├── capgen_test
@@ -44,6 +43,8 @@ The following is the directory structure for the ``ccpp-framework`` repository:
    │   └── unit_tests
    └── tests                  # System testing framework for ccpp_prebuild.py
 
+
+¹ see :numref:`Section %s <CCPP Stub Build>`
 
 --------------------------------------
 CCPP Physics
@@ -110,7 +111,7 @@ In the above commands we have also renamed the "origin" repository to "upstream"
 From here you can view the available branches in the ccpp-physics repository with the ``git branch`` command:
 
 .. code-block:: console
-   :emphasize-lines: 4-20
+   :emphasize-lines: 4-6
 
    git fetch --all
    git branch -a

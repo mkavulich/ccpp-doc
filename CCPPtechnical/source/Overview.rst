@@ -65,7 +65,7 @@ Physics and Framework.
    *Architecture of the CCPP and its connection to a host model,
    represented here as the driver for an atmospheric model (yellow box). The dynamical
    core (dycore), physics, and other aspects of the model (such as coupling) are
-   connected to the driving host through the pool of :term:`physics cap`\ s. The CCPP Physics is
+   connected to the driving host through the pool of* :term:`physics caps <physics cap>`. *The CCPP Physics is
    denoted by the gray box at the bottom of the physics, and encompasses the
    parameterizations, which are accompanied by physics caps.*
 
@@ -99,9 +99,9 @@ This documentation is housed in repository https://github.com/NCAR/ccpp-doc.
 
    *CCPP ecosystem.*
 
-The CCPP is governed by the groups that contribute to its development. The governance
-of the CCPP Physics is currently led by NOAA, and the DTC works with EMC and the
-National Weather Service Office of Science and Technology Integration to determine :term:`schemes <scheme>`
+The CCPP is governed by the groups that contribute to its development. The CCPP Physics code
+management is collaboratively determined by NOAA, NCAR, and the Navy Research Laboratory (NRL),
+and the DTC works with EMC and its sponsors to determine :term:`schemes <scheme>`
 and suites to be included and supported. The governance of the CCPP Framework is jointly
 undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
 and https://dtcenter.org/community-code/common-community-physics-package-ccpp).
@@ -209,8 +209,8 @@ For the latest version of the released code and additional documentation,
 please visit the `DTC Website <https://dtcenter.org/community-code/common-community-physics-package-ccpp>`_.
 
 Please post questions and comments to the GitHub discussions board for the relevant code repository:
- - *CCPP Physics* https://github.com/NCAR/ccpp-physics/discussions
- - *CCPP Framework* https://github.com/NCAR/ccpp-framework/discussions
+ - CCPP Physics https://github.com/NCAR/ccpp-physics/discussions
+ - CCPP Framework https://github.com/NCAR/ccpp-framework/discussions
  - Single Column Model https://github.com/NCAR/ccpp-scm/discussions
  - UFS Weather Model https://github.com/ufs-community/ufs-weather-model/discussions
 

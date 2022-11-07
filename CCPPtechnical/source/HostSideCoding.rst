@@ -333,7 +333,7 @@ and ``qgrs`` in :ref:`Listing 6.2 <example_vardefs_meta>` for an example.
 CCPP Variables in the SCM and UFS Atmosphere Host Models
 ========================================================
 
-While the use of standard Fortran variables is preferred, in the current implementation of the CCPP in the UFS Atmosphere and in the SCM almost all data is contained in DDTs for organizational purposes. In the case of the SCM, DDTs are defined in ``gmtb_scm_type_defs.f90`` and ``GFS_typedefs.F90``, and in the case of the UFS Atmosphere, they are defined in both ``GFS_typedefs.F90`` and ``CCPP_typedefs.F90``.  The current implementation of the CCPP in both :term:`host models <host model>` uses the following set of DDTs:
+While the use of standard Fortran variables is preferred, in the current implementation of the CCPP in the UFS Atmosphere and in the SCM almost all data is contained in DDTs for organizational purposes. In the case of the SCM and UFS Atmosphere, DDTs are defined in both ``GFS_typedefs.F90`` and ``CCPP_typedefs.F90``.  The current implementation of the CCPP in both :term:`host models <host model>` uses the following set of DDTs:
 
 * ``GFS_init_type`` 		variables to allow proper initialization of GFS physics
 * ``GFS_statein_type``	prognostic state data provided by dycore to physics

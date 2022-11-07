@@ -131,7 +131,7 @@ or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
 
    Version 16 of the Global Forecast System (GFS) was implemented operationally by the NOAA
    National Centers for Environmental Prediction (NCEP) in 2021. This suite is available for
-   use with the :term:`UFS` SRW App and with the CCPP :term:`SCM`.
+   use with the UFS SRW App and with the CCPP SCM.
 
    The GFS_v16 suite uses the parameterizations in the following order:
     - \ref GFS_RRTMG
@@ -483,7 +483,7 @@ The tables should be created using a Python script distributed with the :term:`C
 
       export PYTHONPATH=`pwd`/ccpp/framework/scripts:`pwd`/ccpp/framework/scripts/parse_tools
 
-For the example of the SCM, where both scripts need to be called from the :term:`host model` top-level directory:
+For the example of the  :term:`SCM`, where both scripts need to be called from the :term:`host model` top-level directory:
 
 .. code-block:: fortran
 
