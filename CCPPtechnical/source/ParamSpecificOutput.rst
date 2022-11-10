@@ -8,15 +8,15 @@ Parameterization-specific Output
 Overview
 ========
 
-When used with UFS and the SCM, the CCPP offers the capability of outputting tendencies of temperature,
-zonal wind, meridional wind, ozone, and specific humidity produced by the parameterizations of selected
-suites. This capability is useful for understanding the behavior of the individual parameterizations in
+When used with :term:`UFS` and the :term:`SCM`, the :term:`CCPP` offers the capability of outputting tendencies of temperature,
+zonal wind, meridional wind, ozone, and specific humidity produced by the :term:`parameterizations <parameterization>` of selected
+:term:`suites <suite>`. This capability is useful for understanding the behavior of the individual parameterizations in
 terms of magnitude and spatial distribution of tendencies, which can help model developers debug, refine,
-and tune their schemes. 
+and tune their :term:`schemes <scheme>`.
 
 The CCPP also enables outputting two-dimensional (2D) or three-dimensional (3D) arbitrary diagnostics
 from the parameterizations. This capability is targeted to model developers who may benefit from analyzing
-intermediate quantities computed in one or more parameterizations. One example of desirable diagnostic is
+intermediate quantities computed in one or more parameterizations. One example of a desirable diagnostic is
 tendencies from sub-processes within a parameterization, such as the tendencies from condensation,
 evaporation, sublimation, etc. from a microphysics parameterization. The output is done using CCPP-provided
 2D- and 3D arrays, and the developer can fill positions 1, 2, .., N of the array. Important aspects of the
@@ -124,9 +124,10 @@ The next section will tell you how to determine which tendency variables are ava
 
 .. _avail_tend_variables:
 
-.. table:: Non-chemical tracer and state variables with tendencies. The second column is the ``variable``
-           part of ``dtend_variable_process``. The Index column is the first index of ``dtidx``. Hence "X
-           Wind" is at ``dtend(:,:,dtidx(index_of_x_wind,:))``.
+.. table:: *Non-chemical tracer and state variables with tendencies. The second column is the* ``variable``
+           *part of* ``dtend_variable_process``. *The Index column is the first index of* ``dtidx``. *Hence "X
+           Wind" is at* ``dtend(:,:,dtidx(index_of_x_wind,:))``.
+
 
    +-------------------------------------------------+----------------+----------------+--------------------------+-------------------------------+
    | **Variable**                                    | **Short**      | **Associated** | **dtidx**                | **Tendency Units**            |
@@ -182,9 +183,9 @@ The next section will tell you how to determine which tendency variables are ava
 
 .. _avail_tend_processes:
 
-.. table:: Processes that can change non-chemical tracer and state variables. The third column is the
-           ``process`` part of ``dtend_variable_process``. The dtidx index is second index of dtidx, hence
-           "Deep Convection" is at ``dtend(:,:,dtidx(:,index_of_process_dcnv))``.
+.. table:: *Processes that can change non-chemical tracer and state variables. The third column is the*
+           ``process`` *part of* ``dtend_variable_process``. *The dtidx index is second index of dtidx, hence*
+           *"Deep Convection" is at* ``dtend(:,:,dtidx(:,index_of_process_dcnv))``.
 
    +---------------------------------------+----------------+---------------+----------------------------------------+
    | **Process**                           | **diag_table** | **Short**     | **dtidx**                              |
@@ -311,13 +312,13 @@ and the total tendencies of temperature:
 Note that all tendencies, except non-physics tendencies, are in the ``gfs_phys`` diagnostic module. The
 non-physics tendencies are in the ``gfs_dyn`` module. This is reflected in the :numref:`Table %s <avail_tend_processes>`.
 
-Note that some host models, such as the UFS, have a limit of how many fields can be output in a run.
+Note that some :term:`host models <host model>`, such as the UFS, have a limit of how many fields can be output in a run.
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
 by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in file ``input.nml``. 
 
 Further documentation of the ``diag_table`` file can be found in the `UFS Weather Model User’s Guide <https://ufs-weather-model.readthedocs.io/en/release-public-v3/InputsOutputs.html#diag-table-file>`_.
 
-When the model completes, the fv3_history will contain these new variables.
+When the model completes, the fv3_history file will contain these new variables.
 
 SCM
 ^^^
@@ -352,7 +353,7 @@ In this case, increase ``max_output_fields`` in ``input.nml``:
 Why did I run out of memory when outputting tendencies?
 -------------------------------------------------------
 
-Trying to output all tendencies may cause memory problems.  Use ``dtend_select`` and choose your output
+Trying to output all tendencies may use more memory than is available on your system.  Use ``dtend_select`` and choose your output
 variables carefully!
 
 Why did I get a runtime logic error when outputting tendencies?
@@ -406,7 +407,7 @@ arguments). In the UFS, the namelist is used to control the temporal averaging p
 These code changes are intended to be used by scientists during the development process
 and are not intended to be incorporated into the authoritative code. Therefore, developers
 must remove any code related to these additional diagnostics before submitting a pull
-request to the ccpp-physics repository.
+request to the ``ccpp-physics`` repository.
 
 The auxiliary diagnostics  from CCPP are output in arrays:
 
@@ -432,8 +433,8 @@ physics code and  in the host model control files to enable the capability. An
 example (:numref:`Section %s  <CodeModExample>`) and FAQ (:numref:`Section %s <AuxArrayFAQ>`)
 are also provided.
 
-Enabling the capability
------------------------
+Enabling the auxiliary arrays capability
+----------------------------------------
 
 Physics-side changes
 ^^^^^^^^^^^^^^^^^^^^

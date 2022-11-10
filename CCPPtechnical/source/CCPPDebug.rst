@@ -8,9 +8,9 @@ Debugging with CCPP
 Introduction
 ================================
 
-In order to debug code efficiently with CCPP, it is important to remember the conceptual differences between traditional, physics-driver based approaches and the ones with CCPP. 
+In order to debug code efficiently with :term:`CCPP`, it is important to remember the conceptual differences between traditional, physics-driver based approaches and the ones with CCPP. 
 
-Traditional, physics-driver based approaches rely on hand-written physics drivers that connect the different physical parameterizations together and often contain a large amount of "glue code" required between the parameterizations. As such, the physics drivers usually have access to all variables that are used by the physical parameterizations, while individual parameterizations only have access to the variables that are passed in. Debugging either happens on the level of the physics driver or inside physical parameterizations. In both cases, print statements are inserted in one or more places (e.g. in the driver before/after parameterizations to debug). In the CCPP, there are no hand-written physics drivers. Instead, the physical parameterizations are glued together by a SDF that lists the primary physical parameterizations and so-called interstitial parameterizations (containing the glue code, broken up into logical units) in the order of execution.
+Traditional, physics-driver based approaches rely on hand-written physics drivers that connect the different physical :term:`parameterizations <parameterization>` together and often contain a large amount of "glue code" required between the parameterizations. As such, the physics drivers usually have access to all variables that are used by the physical parameterizations, while individual parameterizations only have access to the variables that are passed in. Debugging either happens on the level of the physics driver or inside physical parameterizations. In both cases, print statements are inserted in one or more places (e.g. in the driver before/after parameterizations to debug). In the CCPP, there are no hand-written physics drivers. Instead, the physical parameterizations are glued together by an :term:`SDF` that lists the :term:`primary physical parameterizations <primary scheme>` and so-called :term:`interstitial parameterizations <interstitial scheme>` or interstitial schemes (containing the glue code, broken up into logical units) in the order of execution.
 
 
 
@@ -22,13 +22,11 @@ Two categories of debugging with CCPP
     Debugging the actual physical parameterizations is identical in CCPP and in physics-driver based models. The parameterizations have access to the same data and debug print statements can be added in exactly the same way.
 
 * Debugging on a suite level
-    Debugging on a suite level, i.e. outside physical parameterizations, corresponds to debugging on the physics-driver level in traditional, physics-driver based models. In the CCPP, this can be achieved by using dedicated CCPP-compliant debugging schemes, which have access to all the data by requesting them via the metadata files. These schemes can then be called in any place in an SDF, except the ``fast_physics`` group, to produce the desired debugging output. The advantage of this approach is that debugging schemes can be moved from one place to another or duplicated by simply moving/copying a single line in the SDF before recompiling the code. The disadvantage is that different debugging schemes may be needed, depending on the host model and their data structures. For example, the UFS models use blocked data structures. The blocked data structures are commonly known as “GFS types”, are defined in ``GFS_typedefs.F90`` and exposed to the CCPP in ``GFS_typedefs.meta``. The rationale for this storage model is a better cache reuse by breaking up contiguous horizontal grid columns into N blocks with a predefined block size, and allocating each of the GFS types N times. For example, the 3-dimensional air temperature is stored as
+    Debugging on a :term:`suite` level, i.e. outside physical parameterizations, corresponds to debugging on the physics-driver level in traditional, physics-driver based models. In the CCPP, this can be achieved by using dedicated CCPP-compliant debugging schemes, which have access to all the data by requesting them via the metadata files. These schemes can then be called in any place in an SDF, except the ``fast_physics`` group, to produce the desired debugging output. The advantage of this approach is that debugging schemes can be moved from one place to another or duplicated by simply moving/copying a single line in the SDF before recompiling the code. The disadvantage is that different debugging schemes may be needed, depending on the :term:`host model` and their data structures. For example, the :term:`UFS` models use blocked data structures. The blocked data structures are commonly known as “GFS types”, are defined in ``GFS_typedefs.F90`` and exposed to the CCPP in ``GFS_typedefs.meta``. The rationale for this storage model is a better cache reuse by breaking up contiguous horizontal grid columns into N blocks with a predefined block size, and allocating each of the GFS types N times. For example, the 3-dimensional air temperature is stored as
 
     .. code-block:: console
 
         GFS_data(nb)%Statein%tgrs(1:IM,1:LM) with blocks nb=1,...,N
-
-  .. _codeblockends:
 
     Further, the UFS models run a subset of physics inside the dynamical core (“:term:`fast physics`”), for which the host model data is stored inside the dynamical core and cannot be shared with the traditional (“:term:`slow<slow physics>`”) physics. As such, different debugging schemes are required for the ``fast_physics`` group.
 
@@ -194,14 +192,16 @@ Below is an example for an SDF that prints debugging output from the standard/pe
       <!-- <finalize></finalize> -->
       </suite>
 
-**Users should be aware that the additional debugging output slows down model runs. It is recommended to reduce the forecast length (as often done for debugging purposes) or increase the walltime limit to debug efficiently. Other options to reduce the size of the output written to stdout/stderr is to use fewer MPI tasks, no OpenMP threading, or to set the blocksize such that each MPI task only has one block.**
+.. note::
+   Users should be aware that the additional debugging output slows down model runs. It is recommended to reduce the forecast length (as often done for debugging purposes) or increase the walltime limit to debug efficiently. Other options to reduce the size of the output written to stdout/stderr is to use fewer MPI tasks, no OpenMP threading, or to set the blocksize such that each MPI task only has one block.
 
 ---------------------------------------------------------------------------
 How to customize the debugging schemes and the output for arrays in the UFS
 ---------------------------------------------------------------------------
 
-At the top of ``GFS_debug.F90``, there are customization options in the form of preprocessor directives (CPP ``#ifdef`` etc statements) and a brief documentation. Users not familiar with preprocessor directives are referred to the available documentation such as `Using fpp Preprocessor Directives <https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/optimization-and-programming/fpp-preprocessing/using-fpp-preprocessor-directives.html>`_
-At this point, three options exist: (1) full output of every element of each array if none of the #define preprocessor statements is used, (2) minimum, maximum, and mean value of arrays (default for GNU compiler), and (3) minimum, maximum, and 32-bit Adler checksum of arrays (default for Intel compiler). Note that Option (3), the Adler checksum calculation, cannot be used with gfortran (segmentation fault, bug in malloc?).
+At the top of ``GFS_debug.F90``, there are customization options in the form of preprocessor directives (CPP ``#ifdef`` etc statements) and a brief documentation. Users not familiar with preprocessor directives are referred to the available documentation such as `Using fpp Preprocessor Directives <https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/optimization-and-programming/fpp-preprocessing/using-fpp-preprocessor-directives.html>`_.
+
+Currently three options exist: (1) full output of every element of each array if none of the #define preprocessor statements is used, (2) minimum, maximum, and mean value of arrays (default for GNU compiler), and (3) minimum, maximum, and 32-bit Adler checksum of arrays (default for Intel compiler). Note that Option (3), the Adler checksum calculation, cannot be used with gfortran (segmentation fault, bug in malloc?).
 
     .. code-block:: console
 

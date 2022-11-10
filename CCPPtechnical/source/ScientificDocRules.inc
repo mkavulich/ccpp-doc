@@ -5,8 +5,8 @@ Scientific Documentation Rules
 
 Scientific and technical documents are
 important for code maintenance and for fostering understanding among stakeholders.
-As such, physics schemes are required to include scientific documentation in order to be included in the CCPP. This
-section describes the process used for documenting parameterizations in the CCPP.
+As such, physics :term:`schemes <scheme>` are required to include scientific documentation in order to be included in the :term:`CCPP`. This
+section describes the process used for documenting :term:`parameterizations <parameterization>` in the CCPP.
 
 Doxygen was chosen as a tool for generating human-readable output due to its
 built-in functionality with Fortran, its high level of configurability, and its
@@ -27,7 +27,7 @@ https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/index.html
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate
-a software cap for a given physics scheme. Although the procedure outlined herein
+a :term:`software cap <physics cap>` for a given physics scheme. Although the procedure outlined herein
 is not unique, following it will provide a level of continuity with previous
 documented schemes.
 
@@ -63,7 +63,7 @@ Doxygen that documentation follows. Example:
 Doxygen Documentation Style
 ---------------------------
 
-To document a physics suite, a broad array of information should be included
+To document a physics :term:`suite`, a broad array of information should be included
 in order to serve both software engineering and scientific purposes. The
 documentation style could be divided into four categories:
 
@@ -261,7 +261,7 @@ A module is defined using:
    !>\defgroup group_name group_title
 
 Where ``group_name`` is the identifier and the ``group_title`` is what the
-group is referred to in the output. In the example below, we’re defining a parent
+:term:`group` is referred to in the output. In the example below, we’re defining a parent
 module “GFS radsw Main”:
 
 .. code-block:: fortran
@@ -392,7 +392,7 @@ Bibliography
 Doxygen can handle in-line paper citations and link to an automatically created
 bibliography page. The bibliographic data for any papers that are cited need to
 be put in BibTeX format and saved in a .bib file. The .bib file for CCPP is
-included in the CCPP Physics repository (``ccpp-physics/physics/docs/library.bib``), 
+included in the :term:`CCPP Physics` repository (``ccpp-physics/physics/docs/library.bib``), 
 and the doxygen configuration option ``cite_bib_files`` points to the included file.
 
 Citations are invoked with the following tag:
@@ -472,7 +472,7 @@ Fortran files using the doygen markup below.
    !! \htmlinclude SUBROUTINE_NAME.html
    !!
 
-The tables should be created using a Python script distributed with the CCPP Framework, 
+The tables should be created using a Python script distributed with the :term:`CCPP Framework`, 
 ``ccpp-framework/scripts/metadata2html.py``.
 
 .. note::
@@ -483,7 +483,7 @@ The tables should be created using a Python script distributed with the CCPP Fra
 
       export PYTHONPATH=`pwd`/ccpp/framework/scripts:`pwd`/ccpp/framework/scripts/parse_tools
 
-For the example of the SCM, where both scripts need to be called from the host model top-level directory:
+For the example of the  :term:`SCM`, where both scripts need to be called from the :term:`host model` top-level directory:
 
 .. code-block:: fortran
 
@@ -547,5 +547,5 @@ In order to generate the doxygen-based documentation, you will need to follow fi
   The generated HTML documentation can be viewed by pointing an HTML
   browser to the ``index.html`` file in the ``./docs/doc/html/`` directory.
 
-For precise instructions or other help creating the scientific documentation, contact the CCPP
-Forum at https://dtcenter.org/forum/ccpp-user-support.
+For precise instructions or other help creating the scientific documentation, visit the CCPP GitHub discussions
+page at https://github.com/NCAR/ccpp-physics/discussions

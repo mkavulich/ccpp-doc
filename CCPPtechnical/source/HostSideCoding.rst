@@ -4,7 +4,7 @@
 Host Side Coding
 **************************************************
 
-This chapter describes the connection of a host model with the pool of :term:`CCPP Physics` schemes through the :term:`CCPP Framework`.
+This chapter describes the connection of a host model with the pool of :term:`CCPP Physics` :term:`schemes <scheme>` through the :term:`CCPP Framework`.
 
 ==================================================
 Variable Requirements on the Host Model Side
@@ -258,7 +258,7 @@ For the examples in listing :ref:`Listing 6.2 <example_vardefs_meta>`, the host 
 
     *This figure depicts the difference between non-blocked (contiguous) and blocked data structures.*
 
-When blocked data structures are used by the host model, ``horizontal_loop_extent`` corresponds to the block size, and the sum of all block sizes equals ``horizontal_dimension``. In either case, the correct horizontal dimension for host model variables is ``horizontal_loop_extent``. In the time integration (run) phase, the physics are called for one block at a time (although possibly in parallel using OpenMP threading). In all other phases, the CCPP Framework automatically combines the discontiguous blocked data into contiguous arrays before calling into a physics scheme, as shown in :ref:`Listing 6.4 <example_automatic_deblocking_of_data>`.
+When blocked data structures are used by the host model, ``horizontal_loop_extent`` corresponds to the block size, and the sum of all block sizes equals ``horizontal_dimension``. In either case, the correct horizontal dimension for host model variables is ``horizontal_loop_extent``. In the time integration (run) :term:`phase`, the physics are called for one block at a time (although possibly in parallel using OpenMP threading). In all other phases, the CCPP Framework automatically combines the discontiguous blocked data into contiguous arrays before calling into a physics scheme, as shown in :ref:`Listing 6.4 <example_automatic_deblocking_of_data>`.
 
 .. _example_automatic_deblocking_of_data:
 
@@ -292,7 +292,7 @@ Active Attribute
 The CCPP must be able to detect when arrays need to be allocated, and when certain tracers must be
 present in order to perform operations or tests in the auto-generated caps (e.g. unit conversions,
 blocked data structure copies, etc.). This is accomplished with the attribute ``active`` in the
-metadata for the host model variables (e.g., ``GFS_typedefs.meta`` for the UFS Atmosphere or the SCM).
+metadata for the host model variables (e.g., ``GFS_typedefs.meta`` for the :term:`UFS Atmosphere` or the :term:`SCM`).
 
 Several arrays in the host model (e.g., ``GFS_typedefs.F90`` in the UFS Atmosphere or the SCM) are
 allocated based on certain conditions, for example:
@@ -333,7 +333,7 @@ and ``qgrs`` in :ref:`Listing 6.2 <example_vardefs_meta>` for an example.
 CCPP Variables in the SCM and UFS Atmosphere Host Models
 ========================================================
 
-While the use of standard Fortran variables is preferred, in the current implementation of the CCPP in the UFS Atmosphere and in the SCM almost all data is contained in DDTs for organizational purposes. In the case of the SCM, DDTs are defined in ``gmtb_scm_type_defs.f90`` and ``GFS_typedefs.F90``, and in the case of the UFS Atmosphere, they are defined in both ``GFS_typedefs.F90`` and ``CCPP_typedefs.F90``.  The current implementation of the CCPP in both host models uses the following set of DDTs:
+While the use of standard Fortran variables is preferred, in the current implementation of the CCPP in the UFS Atmosphere and in the SCM almost all data is contained in DDTs for organizational purposes. In the case of the SCM and UFS Atmosphere, DDTs are defined in both ``GFS_typedefs.F90`` and ``CCPP_typedefs.F90``.  The current implementation of the CCPP in both :term:`host models <host model>` uses the following set of DDTs:
 
 * ``GFS_init_type`` 		variables to allow proper initialization of GFS physics
 * ``GFS_statein_type``	prognostic state data provided by dycore to physics
@@ -346,9 +346,9 @@ While the use of standard Fortran variables is preferred, in the current impleme
 * ``GFS_cldprop_type``	cloud properties and tendencies needed by radiation from physics
 * ``GFS_radtend_type``	radiation tendencies needed by physics
 * ``GFS_diag_type``		fields targeted for diagnostic output to disk
-* ``GFS_interstitial_type``	fields used to communicate variables among schemes in the slow physics group required to replace interstitial code that resided in ``GFS_{physics, radiation}_driver.F90`` in IPD
-* ``GFS_data_type``	combined type of all of the above except ``GFS_control_type`` and ``GFS_interstitial_type``
-* ``CCPP_interstitial_type`` fields used to communicate variables among schemes in the fast physics group
+* ``GFS_data_type``	combined type of all of the above except ``GFS_control_type``
+* ``GFS_interstitial_type``     fields used to communicate variables among schemes in the :term:`slow physics` :term:`group` required to replace interstitial code that resided in ``GFS_{physics, radiation}_driver.F90`` in IPD
+* ``GFDL_interstitial_type`` fields used to communicate variables among schemes in the :term:`fast physics` group
 
 The DDT descriptions provide an idea of what physics variables go into which data type.  ``GFS_diag_type`` can contain variables that accumulate over a certain amount of time and are then zeroed out. Variables that require persistence from one timestep to another should not be included in the ``GFS_diag_type`` nor the ``GFS_interstitial_type`` DDTs. Similarly, variables that need to be shared between groups cannot be included in the ``GFS_interstitial_type`` DDT. Although this memory management is somewhat arbitrary, new variables provided by the host model or derived in an interstitial scheme should be put in a DDT with other similar variables.
 
@@ -381,9 +381,11 @@ In this example, ``gu0``, ``gv0``, ``gt0``, and ``gq0`` are defined in the host-
    [ccpp-arg-table]
      name = GFS_stateout_type
      type = ddt
-   [gq0(:,:,index_for_snow_water)]
-     standard_name = snow_water_mixing_ratio_updated_by_physics
-     long_name = moist (dry+vapor, no condensates) mixing ratio of snow water updated by physics
+   ...
+   ...
+   [gq0(:,:,index_of_snow_mixing_ratio_in_tracer_concentration_array)]
+     standard_name = snow_mixing_ratio_of_new_state
+     long_name = ratio of mass of snow water to mass of dry air plus vapor (without condensates) updated by physics
      units = kg kg-1
      dimensions = (horizontal_loop_extent,vertical_layer_dimension)
      type = real
@@ -410,7 +412,7 @@ The ``cdata`` structure is used for holding six variables that must always be av
 
 * Error code for handling in CCPP (``errmsg``).
 * Error message associated with the error code (``errflg``).
-* Loop counter for subcycling loops (``loop_cnt``).
+* Loop counter for :term:`subcycling` loops (``loop_cnt``).
 * Loop extent for subcycling loops (``loop_max``).
 * Number of block for explicit data blocking in CCPP (``blk_no``).
 * Number of thread for threading in CCPP (``thrd_no``).
@@ -502,7 +504,7 @@ Note that optional arguments are denoted with square brackets.
 Suite Initialization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The suite initialization step consists of allocating (if required) and initializing the ``cdata`` structure(s), it does not call the CCPP Physics or any auto-generated code. The simplest example is a suite initialization step that consists of initializing a scalar ``cdata`` instance with ``cdata%blk_no = 1`` and ``cdata%thrd_no = 1``.
+The :term:`suite` initialization step consists of allocating (if required) and initializing the ``cdata`` structure(s), it does not call the CCPP Physics or any auto-generated code. The simplest example is a suite initialization step that consists of initializing a scalar ``cdata`` instance with ``cdata%blk_no = 1`` and ``cdata%thrd_no = 1``.
 
 A more complicated example is when multiple ``cdata`` structures are in use, namely one for the the CCPP phases that require access to all data of an MPI task (a scalar that is initialized in the same way as above), and one for the ``run`` phase, where chunks of blocked data are processed in parallel by multiple OpenMP threads, as shown in Listing :ref:`Listing 6.6 <SuiteInitComplicated>`.
 
@@ -573,7 +575,7 @@ The physics is invoked by calling subroutine ``ccpp_physics_run``. This subrouti
 Initializing and Finalizing the Physics
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-Many (but not all) physical parameterizations need to be initialized, which includes functions such as reading lookup tables, reading input datasets, computing derived quantities, broadcasting information to all MPI ranks, etc. Initialization procedures are done for the entire domain, that is, they are not subdivided by blocks and need access to all data that an MPI task owns. Similarly, many (but not all) parameterizations need to be finalized, which includes functions such as deallocating variables, resetting flags from *initialized* to *non-initialized*, etc. Initialization and finalization functions are each performed once per run, before the first call to the physics and after the last call to the physics, respectively. They may not contain thread-dependent or block-dependent information.
+Many (but not all) physical :term:`parameterizations <parameterization>` need to be initialized, which includes functions such as reading lookup tables, reading input datasets, computing derived quantities, broadcasting information to all MPI ranks, etc. Initialization procedures are done for the entire domain, that is, they are not subdivided by blocks and need access to all data that an MPI task owns. Similarly, many (but not all) parameterizations need to be finalized, which includes functions such as deallocating variables, resetting flags from *initialized* to *non-initialized*, etc. Initialization and finalization functions are each performed once per run, before the first call to the physics and after the last call to the physics, respectively. They may not contain thread-dependent or block-dependent information.
 
 The initialization and finalization can be invoked for a single group, or for the entire suite. In both cases, subroutines ``ccpp_physics_init`` and ``ccpp_physics_finalize`` are used and the arguments passed to those subroutines determine the type of initialization.
 

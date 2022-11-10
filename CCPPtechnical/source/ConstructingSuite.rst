@@ -8,11 +8,11 @@ Constructing Suites
 Suite Definition File
 ==============================
 
-The :term:`SDF` is a file in XML format used to specify the name of the suite, the physics schemes to run, groups of physics that run together, the order in which to run the physics, and whether subcycling will be used to run any of the parameterizations with shorter timesteps. The SDF files are part of the host model code.
+The :term:`SDF` is a file in XML format used to specify the name of the suite, the physics :term:`schemes <scheme>` to run, :term:`groups <group>` of physics that run together, the order in which to run the physics, and whether :term:`subcycling` will be used to run any of the :term:`parameterizations <parameterization>` with shorter timesteps. The SDF files are part of the :term:`host model` code.
 
-In addition to the primary parameterization categories (such as radiation, boundary layer, deep convection, resolved moist physics, etc.), the SDF can have an arbitrary number of interstitial schemes in between the parameterizations to preprocess or postprocess data. In many models, this interstitial code is not obvious to the model user but, with the SDF, both the primary parameterizations and the interstitial schemes are listed explicitly.
+In addition to the :term:`primary parameterization <primary scheme>` categories (such as radiation, boundary layer, deep convection, resolved moist physics, etc.), the SDF can have an arbitrary number of :term:`interstitial scheme`\ s in between the parameterizations to preprocess or postprocess data. In many models, this interstitial code is not obvious to the model user but, with the SDF, both the primary parameterizations and the interstitial schemes are listed explicitly.
 
-The format of the SDF is specified by a schema and all host models that use CCPP include file ``suite.xsd`` to describe the schema.
+The format of the SDF is specified by a schema and all host models that use :term:`CCPP` include file ``suite.xsd`` to describe the schema.
 
 The name of the suite is listed at the top of the SDF, right after the XML declaration, and must be consistent with the name of the SDF: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below. The suite name is followed by the version of the XML schema used.
 
@@ -20,14 +20,14 @@ The name of the suite is listed at the top of the SDF, right after the XML decla
 Groups
 --------------
 
-The concept of grouping physics in the SDF (reflected in the ``<group name="XYZ">`` elements) enables “groups” of parameterizations to be called with other computation (such as related to the dycore, I/O, etc.) in between. One can edit the groups to suit the needs of the host application. For example, if a subset of physics schemes needs to be more tightly connected with the dynamics and called more frequently, one could create a group consisting of that subset and place a ``ccpp_physics_run`` call in the appropriate place in the host application. The remainder of the parameterization groups could be called using ``ccpp_physics_run`` calls in a different part of the host application code.
+The concept of grouping physics in the SDF (reflected in the ``<group name="XYZ">`` elements) enables *groups* of parameterizations to be called with other computation (such as related to the dycore, I/O, etc.) in between. One can edit the groups to suit the needs of the host application. For example, if a subset of physics schemes needs to be more tightly connected with the dynamics and called more frequently, one could create a group consisting of that subset and place a ``ccpp_physics_run`` call in the appropriate place in the host application. The remainder of the parameterization groups could be called using ``ccpp_physics_run`` calls in a different part of the host application code.
 
 ..  _Subcycling:
 
 -----------------
 Subcycling
 -----------------
-The :term:`SDF` allows subcycling of schemes, or calling a subset of schemes at a smaller time step than others. The ``<subcycle loop = n>`` element in the SDF controls this function. All schemes within such an element are called  ``n`` times during one ``ccpp_physics_run`` call. An example of this is found in the ``suite_FV3_GFS_v16.xml`` SDF, where the surface schemes are executed twice for each timestep (implementing a predictor/corrector paradigm):
+The SDF allows subcycling of schemes, or calling a subset of schemes at a smaller time step than others. The ``<subcycle loop = n>`` element in the SDF controls this function. All schemes within such an element are called  ``n`` times during one ``ccpp_physics_run`` call. An example of this is found in the ``suite_FV3_GFS_v16.xml`` SDF, where the surface schemes are executed twice for each timestep (implementing a predictor/corrector paradigm):
 
 .. code-block:: xml
 
@@ -43,7 +43,7 @@ The :term:`SDF` allows subcycling of schemes, or calling a subset of schemes at 
       <scheme>GFS_surface_loop_control_part2</scheme>
     </subcycle>
 
-Note that currently no time step information is included in the SDF and that the subcycling of schemes resembles more an iteration over schemes with the loop counter being available as integer variable with standard name ``ccpp_loop_counter``. If subcycling is used for a set of parameterizations, the smaller time step must be an input argument for those schemes, or computed in the scheme from the default physics time step (``timestep_for_physics``) and the number of subcycles (``ccpp_loop_extent``).
+Note that currently no time step information is included in the SDF and that the subcycling of schemes resembles more an iteration over schemes with the loop counter being available as integer variable with :term:`standard name` ``ccpp_loop_counter``. If subcycling is used for a set of parameterizations, the smaller time step must be an input argument for those schemes, or computed in the scheme from the default physics time step (``timestep_for_physics``) and the number of subcycles (``ccpp_loop_extent``).
 
 ----------------------
 Order of Schemes
@@ -54,7 +54,7 @@ Schemes may be interdependent and the order in which the schemes are run may mak
 =========================
 Interstitial Schemes
 =========================
-The :term:`SDF` can have an arbitrary number of additional interstitial schemes in between the primary parameterizations to preprocess or postprocess data. There are two main types of interstitial schemes, scheme-specific and suite-level. The scheme-specific interstitial scheme is needed for one specific scheme and the suite-level interstitial scheme processes data that are relevant for various schemes within a suite.
+The SDF can have an arbitrary number of additional interstitial schemes in between the primary parameterizations to preprocess or postprocess data. There are two main types of interstitial schemes, scheme-specific and suite-level. The scheme-specific interstitial scheme is needed for one specific scheme and the suite-level interstitial scheme processes data that are relevant for various schemes within a suite.
 
 =========================
 SDF Examples
@@ -147,7 +147,7 @@ Consider the case where a model requires that some subset of physics be called o
 GFS v16beta Suite
 -------------------------------
 
-Here is the :term:`SDF` for the physics suite equivalent to the GFS v16beta in the Single Column Model (SCM), which employs various groups and subcycling:
+Here is the SDF for the physics suite equivalent to the GFS v16beta in the Single Column Model (:term:`SCM`), which employs various groups and subcycling:
 
 .. code-block:: xml
 
