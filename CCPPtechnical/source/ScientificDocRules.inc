@@ -23,7 +23,7 @@ so that doxygen will parse them correctly, where to put various comments within
 the code, how to include information from the ``.meta`` files,
 and how to configure and run doxygen to generate HTML
 output. For an example of the HTML rendering of the CCPP Scientific Documentation, see
-https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/index.html
+https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/index.html
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate
@@ -153,7 +153,7 @@ or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
    ...
    */
 
-The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_g_f_s_v16_page.html>`_.
+The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/_g_f_s_v16_page.html>`_.
 You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the 
 ``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands 
 indicate section breaks, and the ``\include`` commands will include the contents of another file.
@@ -251,7 +251,7 @@ is used to aggregate all code related to that scheme, even when it is in separat
 files. Since doxygen cannot know which files or subroutines belong to each physics
 scheme, each relevant subroutine must be tagged with the module name. This allows
 doxygen to understand your modularized design and generate the documentation accordingly.
-`Here is a list of modules <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/modules.html>`_
+`Here is a list of modules <https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/modules.html>`_
 defined in CCPP.
 
 A module is defined using:

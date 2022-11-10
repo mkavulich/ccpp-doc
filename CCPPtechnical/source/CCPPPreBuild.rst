@@ -369,7 +369,7 @@ the FV3_RRFS_v1beta suite by several microphysics-related schemes, as well as by
 
 To learn more about a given subroutine, you can search the physics source code within the ``ccpp-physics`` repository,
 or you can consult the `CCPP Scientific Documentation
-<https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/>`_: typing the subroutine name into the search
+<https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/>`_: typing the subroutine name into the search
 bar should lead you to further information about the subroutine and how it ties into its associated physics scheme.
 In addition, because of the naming conventions for subroutines in CCPP-compliant physics schemes, 
 we can typically see which scheme, as well as which :term:`phase` within that scheme, is associated with the listed subroutine,

@@ -56,7 +56,7 @@ photochemistry. The total tendency produced by the ozone photochemistry scheme (
 subdivided by subprocesses: production and loss (combined as a single subprocess), quantity of ozone present
 in the column above a grid cell, influences from temperature, and influences from mixing ratio.  For more
 information about the NRL 2015 ozone photochemistry scheme, consult the `CCPP Scientific Documentation
-<https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_g_f_s__o_z_p_h_y_s.html>`_.
+<https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/_g_f_s__o_z_p_h_y_s.html>`_.
 
 There are numerous tendencies in CCPP, and you need to know which ones exist for your configuration to
 enable them. The model will output a list of available tendencies for your configuration if you run with
