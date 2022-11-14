@@ -145,7 +145,7 @@ are grouped in suites, which can be classified primarily as *operational* or *de
    | Ocean               | NSST             | :g:`NSST`      | :g:`NSST`      | :g:`NSST`      |
    +---------------------+------------------+----------------+----------------+----------------+
 
-Only the suites that are currently supported in the CCPP are listed in the table. Currently all supported suites use the 2015 Navy Research Laboratory (NRL) `ozone <https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/_g_f_s__o_z_p_h_y_s.html>`_ and `stratospheric water vapor <https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/_g_f_s__h2_o_p_h_y_s.html>`_ schemes,
+Only the suites supported with the UFS SRW App v2.1.0 release are listed in the table. Currently all supported suites use the 2015 Navy Research Laboratory (NRL) `ozone <https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/_g_f_s__o_z_p_h_y_s.html>`_ and `stratospheric water vapor <https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/_g_f_s__h2_o_p_h_y_s.html>`_ schemes,
 and the `NSST <https://dtcenter.ucar.edu/GMTB/v4.0/sci_doc/GFS_NSST.html>`_ ocean scheme.
 
 The operational GFS_v16 suite includes `GFDL microphysics <https://dtcenter.ucar.edu/GMTB/UFS_SRW_App_v2.1.0/sci_doc/_g_f_d_l_cloud.html>`_, 
