@@ -29,13 +29,13 @@ The implementation of a driver is reasonable under the following circumstances:
 
 * To preserve schemes that are also distributed outside of the CCPP. For example, the Thompson
   microphysics scheme is distributed both with the Weather Research and Forecasting (WRF) model
-  and with the CCPP. Having a driver with CCPP directives allows the Thompson scheme to remain
-  intact so that it can be synchronized between the WRF model and the CCPP distributions. See
-  more in ``mp_thompson.F90`` in the ``ccpp-physics/physics`` directory.
+  and with CCPP. Having a driver with CCPP directives allows the Thompson scheme to remain
+  intact so that it can be synchronized between the WRF model and the CCPP distributions. You 
+  can view this driver module in ``ccpp-physics/physics/mp_thompson.F90``.
 
-* To perform unit conversions or array transformations, such as flipping the vertical direction
-  and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
-  in the ``ccpp-physics/physics`` directory.
+* To perform array transformations, such as flipping the vertical direction
+  or rearranging the index order: for example, in the subroutine ``gfdl_cloud_microphys_run``
+  in ``ccpp-physics/physics/gfdl_cloud_microphys.F90``.
 
 Schemes in the CCPP are classified into two categories: :term:`primary schemes <primary scheme>` and :term:`interstitial schemes <interstitial scheme>`.
 A *primary* scheme is one that updates the state variables and tracers or that
