@@ -491,9 +491,9 @@ Input/Output Variable (argument) Rules
 Coding Rules
 ============
 
-* Code must comply to modern Fortran standards (Fortran 90 or newer), where possible.
+* Code must comply to modern Fortran standards (Fortran 90 or newer).
 
-* Uppercase file endings (`.F`, `.F90`) are preferred to enable preprocessing by default.
+* Use uppercase file suffixes (`.F`, `.F90`) to enable preprocessing by default.
 
 * Labeled ``end`` statements should be used for modules, subroutines, functions, and type definitions;
   for example, ``module scheme_template → end module scheme_template``.
