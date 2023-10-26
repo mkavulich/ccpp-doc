@@ -47,11 +47,11 @@ To prepare a scheme for this conversion to CCPP-compliance, the first step is to
 
      .. note:: The instructions in this chapter assume the user is implementing this scheme in the CCPP Single-Column model (SCM). Other host model variables can be found in different files; see :numref:`Chapter %s <Host-side Coding>` for details
 
-If an input variable needed by the scheme is not available, first consider if it can be calculated from the existing CCPP variables. If so, an :term:`interstitial scheme` (such as ``schemename_pre``; see  :numref:`Chapter %s <CompliantPhysParams>` for more details) can be created to calculate the variable(s). If this path is taken, the variable must be defined (but not initialized) in the host model, as the memory for this variable must be allocated by the host. Instructions for how to add variables on the host model side can be found in :numref:`Chapter %s <Host-side Coding>`.
+If an input variable needed by the scheme is not available, first consider if it can be calculated from the existing CCPP variables. If so, an :term:`interstitial scheme` (such as ``schemename_pre``; see  :numref:`Chapter %s <CompliantPhysParams>` for more details) can be created to calculate the variable(s). If this path is taken, the variable must be defined (but not initialized) in the :term:`host model`, as the memory for this variable must be allocated by the host. Instructions for how to add variables on the host model side can be found in :numref:`Chapter %s <Host-side Coding>`.
 
      .. note:: The CCPP Framework is capable of performing automatic unit conversions between variables provided by the host model and variables required by the new scheme. See :numref:`Section %s <AutomaticUnitConversions>` for details.
 
-If an entirely new variable needs to be added, consult the CCPP standard names dictionary and the rules for creating new standard names at https://github.com/escomp/CCPPStandardNames. If in doubt, use the GitHub discussions page in the CCPP Framework repository (https://github.com/ncar/ccpp-framework) to discuss the suggested new standard name(s) with the CCPP developers.
+If an entirely new variable needs to be added, consult the CCPP standard names dictionary and the rules for creating new :term:`standard names <standard name>` at https://github.com/escomp/CCPPStandardNames. If in doubt, use the GitHub discussions page in the CCPP Framework repository (https://github.com/ncar/ccpp-framework) to discuss the suggested new standard name(s) with the CCPP developers.
 
      .. note:: It is important to keep in mind that not all data types are persistent in memory. If the value of a variable must be remembered from one call to the next, it should not be in the interstitial or diagnostic data types. Most variables in the interstitial data type are reset (to zero or other initial values) at the beginning of a physics :term:`group` and do not persist from one :term:`set` to another or from one group to another. The diagnostic data type is periodically reset because it is used to accumulate variables for given time intervals. However, there is a small subset of interstitial variables that are set at creation time and are not reset; these are typically dimensions used in other interstitial variables.
 
@@ -62,6 +62,30 @@ If information from the previous timestep is needed, it is important to identify
      .. note:: As an example, the reader is referred to the `GF convective scheme <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_c_u__g_f.html>`_, which makes use of interstitials to obtain the previous timestep information. 
 
 Consider allocating the new variable only when needed (i.e. when the new scheme is used and/or when a certain control flag is set). If this is a viable option, following the existing examples in ``CCPP_typedefs.F90`` and ``GFS_typedefs.meta`` for allocating the variable and setting the ``active`` attribute in the metadata correctly.
+
+------------------------------
+Adding a new scheme to CCPP
+------------------------------
+The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in ``ccpp-scm/ccpp/config/ccpp_prebuild_config.py`` using the same path as the existing schemes:
+
+.. code-block:: fortran
+
+   SCHEME_FILES = [ …
+   ’../some_relative_path/existing_scheme.F90’,
+   ’../some_relative_path/new_scheme.F90’,
+   ...]
+
+     .. note:: Different host models will have different prebuild config files. For example, the :term:`UFS Atmosphere's <UFS Atmosphere>` config file is located at ``ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py`` 
+
+The source code and ``.meta`` files for the new scheme should be placed in the same location as existing schemes in the CCPP: in the ccpp-physics repository under the ``physics/`` directory.
+
+To add this new scheme to a suite definition file (:term:`SDF`) for running within a :term:`host model`, follow the examples found in ``ccpp-scm/ccpp/suites``. For more information about suites and SDFs, see :numref:`Chapter %s <ConstructingSuite>`.
+
+     .. note:: For the :term:`UFS Atmosphere`, suites can be found in the ``ufs-weather-model/FV3/ccpp/suites`` directory
+
+No further modifications of the build system are required, since the :term:`CCPP Framework` will auto-generate the necessary makefiles that allow the host model to compile the scheme.
+
+
 
 ==============================
 Tips
