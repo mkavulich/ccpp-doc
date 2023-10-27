@@ -17,7 +17,7 @@ Glossary
       <https://github.com/NCAR/ccpp-physics>`_
 
    Entry point
-      An entry point is a subroutine for one :term:`phase` of CCPP physics that is called by the :term"`host model`. Entry points are described in more detail in :numref:`Chapter %c <GeneralRules>` 
+      An entry point is a subroutine for one :term:`phase` of CCPP physics that is called by the :term:`host model`. Entry points are described in more detail in :numref:`Section %s <GeneralRules>`
 
    Fast physics
       Physical parameterizations that require tighter coupling with the dynamical core than “slow”
