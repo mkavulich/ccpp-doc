@@ -463,7 +463,7 @@ Including metadata information
 -----------------------------------------------
 
 As described above, a table of metadata information should be included in the documentation
-for every CCPP entrypoint scheme. Before doxygen is run, the table for each scheme must be manually
+for every CCPP entry point scheme. Before doxygen is run, the table for each scheme must be manually
 created in separate files in HTML format, with one file per scheme. The HTML files are included in the
 Fortran files using the doygen markup below.
 
@@ -490,11 +490,11 @@ For the example of the  :term:`SCM`, where both scripts need to be called from t
    ./ccpp/framework/scripts/metadata2html.py -m ccpp/physics/physics/file.meta -o ccpp/physics/physics/docs
 
 where ``-m`` is used to specify a file with metadata information and ``-o`` is used to specify
-the directory for output. Note that a single input file (``.meta``) may have more than one CCPP entrypoint
+the directory for output. Note that a single input file (``.meta``) may have more than one CCPP entry point
 scheme, and therefore can be used to generate more than one HTML file.
 
 Note that the ``.meta`` files are supplied in the CCPP Physics repository, and that there is a ``.meta`` file for
-each Fortran file that contains one or more CCPP entrypoint scheme. The ``.meta`` files are located in the same
+each Fortran file that contains one or more CCPP entry point scheme. The ``.meta`` files are located in the same
 directory as the scheme Fortran files (``ccpp-physics/physics``).
 
 To generate the complete Scientific Documentation, the script ``./ccpp/framework/scripts/metadata2html.py``
@@ -527,7 +527,7 @@ In order to generate the doxygen-based documentation, you will need to follow fi
    comments within the source code as described above.
 
 #. Run ``metadata2html.py`` to create files in HTML format containing metadata
-   information for each CCPP entrypoint scheme.
+   information for each CCPP entry point scheme.
 
 #. Prepare a Bibliography file in BibTex format for papers or other references cited in the physics suites.
 

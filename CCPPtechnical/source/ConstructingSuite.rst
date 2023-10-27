@@ -145,7 +145,7 @@ Consider the case where a model requires that some subset of physics be called o
 GFS v16beta Suite
 -------------------------------
 
-Here is the SDF for the physics suite equivalent to the GFS v16beta in the Single Column Model (:term:`SCM`), which employs various groups and subcycling:
+Here is the SDF for the physics suite equivalent to the GFS v16beta in the Single-Column Model (:term:`SCM`), which employs various groups and subcycling:
 
 .. code-block:: xml
 

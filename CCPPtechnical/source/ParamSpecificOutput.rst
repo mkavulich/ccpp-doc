@@ -442,7 +442,7 @@ Physics-side changes
 In order to output auxiliary arrays, developers need to change at least the following
 two files within the physics (see also example in :numref:`Section %s <CodeModExample>`):
 
-* A CCPP entrypoint scheme (Fortran source code)
+* A CCPP entry point scheme (Fortran source code)
    * Add array(s) and its/their dimension(s) to the list of subroutine arguments
    * Declare array(s) with appropriate intent and dimension(s).  Note that array(s) do not
      need to be allocated by the developer.  This is done automatically in ``GFS_typedefs.F90``.
