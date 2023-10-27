@@ -690,7 +690,16 @@ The following rules should be observed when including OpenMP or MPI communicatio
      me = 0
    #endif
 
-* For Fortran coarrays, consult with the CCPP Forum (https://dtcenter.org/forum/ccpp-user-support).
+* If the error flag is set within a parallelized section of code, ensure that error flag is broadcast to all tasks/processes.
+
+Memory allocation
+^^^^^^^^^^^^^^^^^
+
+* <b>Schemes should not use dynamic memory allocation on the heap.</b>
+
+* Schemes should not contain data that may clash when multiple non-interacting instances of the scheme are being used in one executable. This is because some host models may run multiple CCPP instances from the same executable.
+
+* No variables should be allocated at the module level. Variables should either be allocated by the host model (for input and output variables) or within individual subroutines (for internal scheme variables).
 
 .. include:: ScientificDocRules.inc
 
