@@ -101,7 +101,7 @@ initialized or not.
 
 :ref:`Listing 2.1 <scheme_template>` contains a template for a CCPP-compliant scheme, which 
 includes the *_run* subroutine for an example *scheme_template* scheme. Each ``.F`` or ``.F90``
-file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the 
+file that contains one or more entry point for a CCPP scheme must be accompanied by a .meta file in the 
 same directory as described in :numref:`Section %s <MetadataRules>`
 
 .. _scheme_template:
