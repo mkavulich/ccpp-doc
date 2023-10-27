@@ -1,12 +1,12 @@
 .. _AddNewSchemes:
   
 ****************************************
-Connecting a new scheme to CCPP
+Connecting a scheme to CCPP
 ****************************************
 
-This chapter contains a brief description on how to add a new :term:`scheme` to the :term:`CCPP Physics` pool. Aside from the basic design elements for interoperability (:term:`entry points <entry point>`, metadata files), most CCPP requirements simply follow from coding best practices.
+This chapter contains a brief description on how to add a :term:`scheme` to the :term:`CCPP Physics` pool. Aside from the basic design elements for interoperability (:term:`entry points <entry point>`, metadata files), most CCPP requirements simply follow from coding best practices.
 
-     .. note:: The instructions in this chapter assume the user is implementing this scheme for use with the CCPP Single-Column model (:term:`SCM`); not only is the SCM more lightweight than a full 3D NWP model for development purposes, but using the SCM as a :term:`host model` is a requirement for all new CCPP schemes for testing purposes. For implementation in other host models, especially for adding new variables, some modifications to a host model’s metadata may be required; see :numref:`Chapter %s <Host-side Coding>` for details
+     .. note:: The instructions in this chapter assume the user is implementing this scheme for use with the CCPP Single-Column model (:term:`SCM`); not only is the SCM more lightweight than a full 3D NWP model for development purposes, but using the SCM as a :term:`host model` is a requirement for all new CCPP schemes for testing purposes. For implementation in another host model, especially for adding new variables, some modifications to that host model's metadata may be required; see :numref:`Chapter %s <Host-side Coding>` for details
 
 ==============================
 Preparing a scheme for CCPP
@@ -20,20 +20,20 @@ There are a few steps that can be taken to prepare a scheme for addition to CCPP
 Implementing a scheme in CCPP
 =============================
 
-There are, broadly speaking, two philosophies for connecting an existing physics scheme to the CCPP Framework: 
+There are, broadly speaking, two approaches for connecting an existing physics scheme to the CCPP Framework: 
 
 1. Refactor the existing scheme to CCPP format standards, using ``pre_`` and ``post_`` :term:`interstitial schemes <interstitial scheme>` to interface to and from the existing scheme if necessary.
-2. Create a driver scheme as an interface from the existing scheme's Fortran module to the CCPP framework.
+2. Create a driver scheme as an interface from the existing scheme's Fortran module to the CCPP Framework.
 
 .. figure:: _static/ccpp_scheme_diagram.png
 
    *Diagram of the methods described in this section.*
 
-Method 1 is the preferred method of adapting a scheme to CCPP. This involves making modifications to the original scheme so that it is CCPP-compliant (see :numref:`Chapter %s <CompliantPhysParams>`), containing only subroutines that correspond to CCPP entry points (i.e. ``schemename_init``, ``schemename_run``, etc.). It should be accompanied by appropriate metadata files (see :numref:`Section %s <MetadataRules>`), and it must be updated to remove any disallowed features as listed in :numref:`Section %s <CodingRules>`. However, there are cases where method 1 may not be possible (for example, in schemes that are also used in non-CCPP-compliant models), in which case, method 2 can be employed.
+Method 1 is the preferred method of adapting a scheme to CCPP. This involves making modifications to the original scheme so that it is CCPP-compliant (see :numref:`Chapter %s <CompliantPhysParams>`), containing subroutines that correspond to CCPP entry points (i.e. ``schemename_init``, ``schemename_run``, etc.) as necessary. It should be accompanied by appropriate metadata files (see :numref:`Section %s <MetadataRules>`), and it must be updated to remove any disallowed features as listed in :numref:`Section %s <CodingRules>`.
 
 While method 1 is preferred, there are cases where method 1 may not be possible: for example, in schemes that are shared with other, non-CCPP hosts, and so require specialized, model-specific drivers, and might be beholden to different coding standards required by another model. In cases such as this, method 2 may be employed.
 
-Method 2 involves fewer changes to the original scheme’s Fortran module: A CCPP-compliant driver module (see :numref:`Chapter %s <CompliantPhysParams>`) handles defining the inputs to and outputs from the scheme module in terms of state variables, constants, and tendencies provided by the model as defined in the scheme’s .meta file. The calculation of variables that are not available directly from the model, and conversion of scheme output back into the variables expected by CCPP, should be handled by interstitial schemes (``schemename_pre`` and ``schemename_post``). While this method puts most CCPP-required features in the driver and interstitial subroutines, the original scheme must still be updated to remove STOP statements, common blocks, or any other disallowed features as listed in :numref:`Section %s <CodingRules>`. 
+Method 2 involves fewer changes to the original scheme's Fortran module: A CCPP-compliant driver module (see :numref:`Chapter %s <CompliantPhysParams>`) handles defining the inputs to and outputs from the scheme module in terms of state variables, constants, and tendencies provided by the model as defined in the scheme's .meta file. The calculation of variables that are not available directly from the model, and conversion of scheme output back into the variables expected by CCPP, should be handled by interstitial schemes (``schemename_pre`` and ``schemename_post``). While this method puts most CCPP-required features in the driver and interstitial subroutines, the original scheme must still be updated to remove STOP statements, common blocks, or any other disallowed features as listed in :numref:`Section %s <CodingRules>`. 
 
 For both methods, optional interstitial schemes can be used for code that can not be handled within the scheme itself. For example, if different code needs to be run for coupling with other schemes or in different orders (e.g. because of dependencies on other schemes and/or the order the scheme is run in the :term:`SDF`), or if variables needed by the scheme must be derived from variables provided by the host. See  :numref:`Chapter %s <CompliantPhysParams>` for more details on primary and interstitial schemes.
 
@@ -43,9 +43,11 @@ For both methods, optional interstitial schemes can be used for code that can no
 Adding new variables to CCPP
 ------------------------------
 
-To prepare a scheme for this conversion to CCPP-compliance, the first step is to identify the input variables required for the new scheme and check if they are already available for use in the CCPP. This can be done by checking the metadata information in ``CCPP_typedefs.meta`` or by checking the file ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_SCM.pdf`` generated by ``ccpp_prebuild.py``. If all quantities needed by the scheme are already available as variables in CCPP, they can be invoked in the scheme’s metadata file, and the rest of this subsection can be skipped.
+This section gives guidance on adding new variables to the CCPP, which is often necessary when adding a new scheme or adding capabilities to an existing one.
 
      .. note:: The instructions in this chapter assume the user is implementing this scheme for use in the CCPP Single-Column model (SCM). Other host model variables can be found in different files; see :numref:`Chapter %s <Host-side Coding>` for details
+
+The first step is to be absolutely sure that a new variable is required: the desired variable may already be included in the CCPP for use by other schemes. Check the metadata information in ``CCPP_typedefs.meta`` or the file ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_SCM.pdf`` generated by ``ccpp_prebuild.py``. If all quantities needed by the scheme are already available as variables in CCPP, they can be invoked in the scheme's metadata file without any further work necessary.
 
 If an input variable needed by the scheme is not available, first consider if it can be calculated from the existing CCPP variables. If so, an :term:`interstitial scheme` (such as ``schemename_pre``; see  :numref:`Chapter %s <CompliantPhysParams>` for more details) can be created to calculate the variable(s). If this path is taken, the variable must be defined (but not initialized) in the :term:`host model`, as the memory for this variable must be allocated by the host. Instructions for how to add variables on the host model side can be found in :numref:`Chapter %s <Host-side Coding>`.
 
@@ -68,11 +70,11 @@ Adding a new scheme to CCPP
 ------------------------------
 The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in ``ccpp-scm/ccpp/config/ccpp_prebuild_config.py`` using the same path as the existing schemes:
 
-.. code-block:: fortran
+.. code-block:: 
 
-   SCHEME_FILES = [ …
-   ’../some_relative_path/existing_scheme.F90’,
-   ’../some_relative_path/new_scheme.F90’,
+   SCHEME_FILES = [ ...
+   '../some_relative_path/existing_scheme.F90',
+   '../some_relative_path/new_scheme.F90',
    ...]
 
      .. note:: Different host models will have different prebuild config files. For example, the :term:`UFS Atmosphere's <UFS Atmosphere>` config file is located at ``ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py`` 
@@ -96,6 +98,7 @@ Before running this new scheme, check for consistency between the namelist and t
 To test a new scheme that has been added to the :term:`SCM`, compile the SCM with a suite definition file that contains the newly added scheme.
 
 Some tips for debugging problems:
+
 * Segmentation faults are often related to variables and array allocations.
 * As mentioned above, make sure the SDF and namelist are compatible. Inconsistencies may result in segmentation faults because arrays are not allocated or in unintended scheme(s) being executed.
 * Make sure to use an uppercase suffix ``.F90`` to enable C preprocessing.
