@@ -55,7 +55,7 @@ The architecture of the CCPP and its connection to a host model is shown in
 Two elements of the CCPP are highlighted: a library of physical parameterizations
 (:term:`CCPP Physics`) that conforms to selected standards and an infrastructure (:term:`CCPP Framework`)
 that enables connecting the physics to a host model. The third element (not shown)
-is the CCPP Single Column Model (:term:`SCM`), a simple host model that can be used with the CCPP
+is the CCPP Single-Column Model (:term:`SCM`), a simple host model that can be used with the CCPP
 Physics and Framework.
 
 .. _ccpp_arch_host:
@@ -211,7 +211,7 @@ please visit the `DTC Website <https://dtcenter.org/community-code/common-commun
 Please post questions and comments to the GitHub discussions board for the relevant code repository:
  - CCPP Physics https://github.com/NCAR/ccpp-physics/discussions
  - CCPP Framework https://github.com/NCAR/ccpp-framework/discussions
- - Single Column Model https://github.com/NCAR/ccpp-scm/discussions
+ - Single-Column Model https://github.com/NCAR/ccpp-scm/discussions
  - UFS Weather Model https://github.com/ufs-community/ufs-weather-model/discussions
 
 .. include:: Introduction.rst

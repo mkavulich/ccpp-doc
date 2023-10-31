@@ -29,13 +29,13 @@ The implementation of a driver is reasonable under the following circumstances:
 
 * To preserve schemes that are also distributed outside of the CCPP. For example, the Thompson
   microphysics scheme is distributed both with the Weather Research and Forecasting (WRF) model
-  and with the CCPP. Having a driver with CCPP directives allows the Thompson scheme to remain
-  intact so that it can be synchronized between the WRF model and the CCPP distributions. See
-  more in ``mp_thompson.F90`` in the ``ccpp-physics/physics`` directory.
+  and with CCPP. Having a driver with CCPP directives allows the Thompson scheme to remain
+  intact so that it can be synchronized between the WRF model and the CCPP distributions. You 
+  can view this driver module in ``ccpp-physics/physics/mp_thompson.F90``.
 
-* To perform unit conversions or array transformations, such as flipping the vertical direction
-  and rearranging the index order, for example, ``cu_gf_driver.F90`` or ``gfdl_cloud_microphys.F90``
-  in the ``ccpp-physics/physics`` directory.
+* To perform array transformations, such as flipping the vertical direction
+  or rearranging the index order: for example, in the subroutine ``gfdl_cloud_microphys_run``
+  in ``ccpp-physics/physics/gfdl_cloud_microphys.F90``.
 
 Schemes in the CCPP are classified into two categories: :term:`primary schemes <primary scheme>` and :term:`interstitial schemes <interstitial scheme>`.
 A *primary* scheme is one that updates the state variables and tracers or that
@@ -101,7 +101,7 @@ initialized or not.
 
 :ref:`Listing 2.1 <scheme_template>` contains a template for a CCPP-compliant scheme, which 
 includes the *_run* subroutine for an example *scheme_template* scheme. Each ``.F`` or ``.F90``
-file that contains an entry point(s) for CCPP scheme(s) must be accompanied by a .meta file in the 
+file that contains one or more entry point for a CCPP scheme must be accompanied by a .meta file in the 
 same directory as described in :numref:`Section %s <MetadataRules>`
 
 .. _scheme_template:
@@ -491,9 +491,9 @@ Input/Output Variable (argument) Rules
 Coding Rules
 ============
 
-* Code must comply to modern Fortran standards (Fortran 90 or newer), where possible.
+* Code must comply to modern Fortran standards (Fortran 90 or newer).
 
-* Uppercase file endings (`.F`, `.F90`) are preferred to enable preprocessing by default.
+* Use uppercase file suffixes (`.F`, `.F90`) to enable preprocessing by default.
 
 * Labeled ``end`` statements should be used for modules, subroutines, functions, and type definitions;
   for example, ``module scheme_template → end module scheme_template``.
@@ -690,7 +690,16 @@ The following rules should be observed when including OpenMP or MPI communicatio
      me = 0
    #endif
 
-* For Fortran coarrays, consult with the CCPP Forum (https://dtcenter.org/forum/ccpp-user-support).
+* If the error flag is set within a parallelized section of code, ensure that error flag is broadcast to all tasks/processes.
+
+Memory allocation
+^^^^^^^^^^^^^^^^^
+
+* <b>Schemes should not use dynamic memory allocation on the heap.</b>
+
+* Schemes should not contain data that may clash when multiple non-interacting instances of the scheme are being used in one executable. This is because some host models may run multiple CCPP instances from the same executable.
+
+* No variables should be allocated at the module level. Variables should either be allocated by the host model (for input and output variables) or within individual subroutines (for internal scheme variables).
 
 .. include:: ScientificDocRules.inc
 

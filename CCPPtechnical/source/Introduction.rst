@@ -35,7 +35,7 @@ The following table describes the type changes and symbols used in this guide.
          * The names of CCPP-specific terms, subroutines, etc.
          * Captions for figures, tables, etc.
      - 
-         * Each scheme must include at least one of the following subroutines: *_timestep_init*, *_init*, *_run*, *_finalize*, and *_timestep_finalize*.
+         * Each scheme must include at least one of the following subroutines: ``{schemename}_timestep_init``, ``{schemename}_init``, ``{schemename}_run``, ``{schemename}_finalize``, and ``{schemename}_timestep_finalize``.
          * *Listing 2.1: Fortran template for a CCPP-compliant scheme showing the* _run *subroutine.*
    * - **AaBbCc123**
      - Words or phrases requiring particular emphasis

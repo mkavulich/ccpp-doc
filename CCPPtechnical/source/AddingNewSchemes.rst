@@ -29,7 +29,7 @@ There are, broadly speaking, two approaches for connecting an existing physics s
 
    *Diagram of the methods described in this section.*
 
-Method 1 is the preferred method of adapting a scheme to CCPP. This involves making modifications to the original scheme so that it is CCPP-compliant (see :numref:`Chapter %s <CompliantPhysParams>`), containing subroutines that correspond to CCPP entry points (i.e. ``schemename_init``, ``schemename_run``, etc.) as necessary. It should be accompanied by appropriate metadata files (see :numref:`Section %s <MetadataRules>`), and it must be updated to remove any disallowed features as listed in :numref:`Section %s <CodingRules>`.
+Method 1 is the preferred method of adapting a scheme to CCPP. This involves making modifications to the original scheme so that it is CCPP-compliant (see :numref:`Chapter %s <CompliantPhysParams>`), containing subroutines that correspond to CCPP entry points (i.e. ``{schemename}_init``, ``{schemename}_run``, etc.) as necessary. It should be accompanied by appropriate metadata files (see :numref:`Section %s <MetadataRules>`), and it must be updated to remove any disallowed features as listed in :numref:`Section %s <CodingRules>`.
 
 While method 1 is preferred, there are cases where method 1 may not be possible: for example, in schemes that are shared with other, non-CCPP hosts, and so require specialized, model-specific drivers, and might be beholden to different coding standards required by another model. In cases such as this, method 2 may be employed.
 
@@ -65,9 +65,9 @@ If information from the previous timestep is needed, it is important to identify
 
 Consider allocating the new variable only when needed (i.e. when the new scheme is used and/or when a certain control flag is set). If this is a viable option, following the existing examples in ``CCPP_typedefs.F90`` and ``GFS_typedefs.meta`` for allocating the variable and setting the ``active`` attribute in the metadata correctly.
 
-------------------------------
-Adding a new scheme to CCPP
-------------------------------
+----------------------------------
+Incorporating a scheme into CCPP
+----------------------------------
 The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in ``ccpp-scm/ccpp/config/ccpp_prebuild_config.py`` using the same path as the existing schemes:
 
 .. code-block:: 
@@ -87,7 +87,16 @@ To add this new scheme to a suite definition file (:term:`SDF`) for running with
 
 No further modifications of the build system are required, since the :term:`CCPP Framework` will auto-generate the necessary makefiles that allow the host model to compile the scheme.
 
+------------------------------------
+Time-split vs. process-split schemes
+------------------------------------
 
+One decision that will need to be made when incorporating a new scheme into CCPP is whether the scheme will be intended to be run as a time-split scheme or a process-split scheme:
+
+* A *process-split* scheme is one that is intended to use the host model's atmospheric state as an input, independent of state modifications made by other schemes that may or may not be called before this scheme. In this case, the resulting atmospheric state after a :term:`group` of schemes is executed can be simply calculated by applying the tendencies from each individual scheme to the initial atmospheric state prior to the calling of the physics group.
+* A *time-split* scheme is one that may work with a modified atmospheric state resulting from the previous application of one or more other time-split schemes. In this case, special care must be taken when applying tendencies to the atmospheric state, to ensure that both this and subsequent schemes are making the correct assumptions about the intput and output atmospheric state. Additionally, the order schemes appear within a group for a given SDF must be considered carefully.
+
+Currently the CCPP Physics contains a mix of process-split and time-split schemes, with the different strategies being handled by host-specific interstitial schemes. Future releases of CCPP will include a more robust system for handling these differences in the methods updating the atmospheric state.
 
 ==================================
 Testing and debugging a new scheme
