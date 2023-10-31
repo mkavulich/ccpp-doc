@@ -16,6 +16,9 @@ Glossary
       The pool of CCPP-compliant physics schemes; also refers to a `software repository of the same name
       <https://github.com/NCAR/ccpp-physics>`_
 
+   Entry point
+      An entry point is a subroutine for one :term:`phase` of CCPP physics that is called by the :term:`host model`. Entry points are described in more detail in :numref:`Section %s <GeneralRules>`
+
    Fast physics
       Physical parameterizations that require tighter coupling with the dynamical core than “slow”
       physics (due to the approximated processes within the parameterization acting on a shorter 

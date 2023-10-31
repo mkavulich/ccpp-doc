@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'CCPP Technical'
-copyright = '2022 '
+copyright = '2023 '
 author = 'Bernardet, L., G. Firl, D. Heinzeller, L. Pan, M. Zhang, \\\ M. Kavulich, L Carson, and J. Schramm'
 
 # The short X.Y version
@@ -74,7 +74,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -91,6 +91,8 @@ pygments_style = None
 # a list of builtin themes.
 #
 html_theme = 'classic'
+#html_title = f'{project} v{revision} documentation'
+html_title = f'{project} documentation'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
