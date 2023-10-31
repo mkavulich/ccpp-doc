@@ -96,7 +96,7 @@ One decision that will need to be made when incorporating a new scheme into CCPP
 * A *process-split* scheme is one that is intended to use the host model's atmospheric state as an input, independent of state modifications made by other schemes that may or may not be called before this scheme. In this case, the resulting atmospheric state after a :term:`group` of schemes is executed can be simply calculated by applying the tendencies from each individual scheme to the initial atmospheric state prior to the calling of the physics group.
 * A *time-split* scheme is one that may work with a modified atmospheric state resulting from the previous application of one or more other time-split schemes. In this case, special care must be taken when applying tendencies to the atmospheric state, to ensure that both this and subsequent schemes are making the correct assumptions about the intput and output atmospheric state. Additionally, the order schemes appear within a group for a given SDF must be considered carefully.
 
-Currently the CCPP Physics contains a mix of process-split and time-split schemes, with the different strategies being handled by host-specific interstitial schemes. Future releases of CCPP will include a more robust system for handling these differences in the handing of atmospheric state updates.
+Currently the CCPP Physics contains a mix of process-split and time-split schemes, with the different strategies being handled by host-specific interstitial schemes. Future releases of CCPP will include a more robust system for handling these differences in the methods updating the atmospheric state.
 
 ==================================
 Testing and debugging a new scheme
