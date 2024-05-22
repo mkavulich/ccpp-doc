@@ -18,7 +18,18 @@ The name of the suite is listed at the top of the SDF, right after the XML decla
 
 A suite file should also include a description as an xml comment; it is recommended that this description be as verbose as possible as to the reason why this particular set and order of schemes was selected. For example, if it was created for a particular operational prototype, used in a particular study, or (if a modified version of another suite), the reasoning for a specific modification.
 
-Suite filenames must be in the form ``suitename.xml``, where ``suitename`` is the name of the physics suite as referenced by the suite tag
+Suite filenames must be in the form ``suitename.xml``, where ``suitename`` is the name of the physics suite as referenced by the suite tag:
+
+.. code-block:: xml
+    > cat crossbill.xml
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!--
+    DESCRIPTION:
+    Suite "crossbill" (formerly known as SCM_RRFS_v1nssl) was originally developed for research and development of early prototypes of the Rapid Refresh Forecast System (RRFS), specifically including the NSSL 2-moment cloud microphysics scheme when it was added to CCPP (see https://github.com/NOAA-EMC/fv3atm/pull/472 and https://github.com/NCAR/ccpp-physics/pull/761).
+    -->
+    <suite name="crossbill" version="1">
+    ...
+    ...
 
 --------------
 Groups
