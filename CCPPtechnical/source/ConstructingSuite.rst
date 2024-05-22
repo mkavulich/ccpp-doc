@@ -14,11 +14,9 @@ In addition to the :term:`primary parameterization <primary scheme>` categories 
 
 The format of the SDF is specified by a schema and all host models that use :term:`CCPP` include file ``suite.xsd`` to describe the schema.
 
-The name of the suite is listed at the top of the SDF, right after the XML declaration, and must be consistent with the name of the SDF: file ``ABC.xml`` contains ``suite name="ABC"``, as in the example below. The suite name is followed by the version of the XML schema used. There is no technical restriction on the names that a suite can have, but the convention decided on by CCPP developers has been to avoid "self-descriptive" names; this avoids many problems with confusion about the contents and use of various suite files (see `this presentation <https://docs.google.com/presentation/d/1FYnos24J7URI-3Gw8dSc3FR_e4yZvJ7h/edit>`_ for further reasoning). For the initial roll-out, a convention of bird names was arbitrarily adopted.
+The name of the suite is listed at the top of the SDF, right after the XML declaration, and must be consistent with the filename of the SDF: file ``ABC.xml`` must contain the tag ``suite name="ABC"``, as in the example below. The suite name is followed by the version of the XML schema used. There is no technical restriction on the names that a suite can have, but it is strongly recommended to avoid "self-descriptive" names; this avoids many problems with confusion about the contents and use of various suite files (see `this presentation <https://docs.google.com/presentation/d/1FYnos24J7URI-3Gw8dSc3FR_e4yZvJ7h/edit>`_ for further reasoning). For the UFS, a convention of bird names was arbitrarily adopted.
 
 A suite file should also include a description as an xml comment; it is recommended that this description be as verbose as possible as to the reason why this particular set and order of schemes was selected. For example, if it was created for a particular operational prototype, used in a particular study, or (if a modified version of another suite), the reasoning for a specific modification.
-
-Suite filenames must be in the form ``suitename.xml``, where ``suitename`` is the name of the physics suite as referenced by the suite tag:
 
 .. code-block:: xml
 
