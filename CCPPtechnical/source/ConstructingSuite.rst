@@ -21,6 +21,7 @@ A suite file should also include a description as an xml comment; it is recommen
 Suite filenames must be in the form ``suitename.xml``, where ``suitename`` is the name of the physics suite as referenced by the suite tag:
 
 .. code-block:: xml
+
     > cat crossbill.xml
     <?xml version="1.0" encoding="UTF-8"?>
     <!--
