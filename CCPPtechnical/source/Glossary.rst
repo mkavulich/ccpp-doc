@@ -10,11 +10,11 @@ Glossary
 
    *CCPP Framework*
       The infrastructure that connects physics :term:`schemes <scheme>` with a :term:`host model`; also refers to a
-      `software repository of the same name <https://github.com/NCAR/ccpp-framework>`_
+      `software repository of the same name <https://github.com/NCAR/ccpp-framework>`__
 
    *CCPP Physics*
       The pool of CCPP-compliant physics schemes; also refers to a `software repository of the same name
-      <https://github.com/NCAR/ccpp-physics>`_
+      <https://github.com/NCAR/ccpp-physics>`__
 
    Entry point
       An entry point is a subroutine for one :term:`phase` of CCPP physics that is called by the :term:`host model`. Entry points are described in more detail in :numref:`Section %s <GeneralRules>`
