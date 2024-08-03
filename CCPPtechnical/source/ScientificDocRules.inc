@@ -519,7 +519,7 @@ Using Doxygen
 In order to generate the doxygen-based documentation, you will need to follow five steps:
 
 #. Have the executables ``doxygen`` (https://doxygen.nl/), ``graphviz`` (https://graphviz.org/),
-   and ``bibtex`` (http://www.bibtex.org/) installed on your machine and in your ``PATH``.
+   and ``bibtex`` (https://www.bibtex.org/) installed on your machine and in your ``PATH``.
    These utilities can be installed on MacOS via `Homebrew <https://brew.sh/>`_, or installed
    manually via the instructions on each utility's page linked above.
 

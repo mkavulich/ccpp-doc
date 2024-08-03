@@ -113,7 +113,7 @@ Some tips for debugging problems:
 * Make sure to use an uppercase suffix ``.F90`` to enable C preprocessing.
 * A scheme called GFS_debug (GFS_debug.F90) may be added to the SDF where needed to print state variables and interstitial variables. If needed, edit the scheme beforehand to add new variables that need to be printed.
 * Check the ``ccpp_prebuild.py`` script for success/failure and associated messages; run the prebuild script with the --debug and --verbose flags. See :numref:`Chapter %s <ConstructingSuite>` for more details
-* Compile code in DEBUG mode (see section 2.3 of the `SCM User's Guide <https://github.com/NCAR/ccpp-scm/blob/main/scm/doc/TechGuide/main.pdf>`_, run through debugger if necessary (gdb, Allinea DDT, totalview, …).
+* Compile code in DEBUG mode (see section 4.3 of the `SCM User's Guide <https://ccpp-scm.readthedocs.io/en/latest/chap_quick.html#compiling-scm-with-ccpp>`_, run through debugger if necessary (gdb, Allinea DDT, totalview, …).
 * Use memory check utilities such as ``valgrind``.
 * Double-check the metadata file associated with your scheme to make sure that all information, including standard names and units, correspond to the correct local variables.
 
