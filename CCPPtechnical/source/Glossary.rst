@@ -26,6 +26,11 @@ Glossary
       accuracy, numerical stability, or both. In the UFS Atmosphere, a saturation adjustment is
       used in some suites and is called directly from the dynamical core for tighter coupling
 
+   GFS
+      The `Global Forecast System (GFS) <https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast>`_
+      is a global weather forecast model run by NOAA's National Centers for Environmental Prediction (NCEP), predicting
+      dozens of atmospheric and earth system variables out to 16 days in advance.
+
    Group
       A set of physics :term:`schemes <scheme>` within a suite definition file (SDF) that are called together
       without intervening computations from the :term:`host application <host model>`. Groups
@@ -122,7 +127,7 @@ Glossary
       well together
 
    UFS
-      A Unified Forecast System (UFS) is a community-based, coupled comprehensive Earth
+      The Unified Forecast System (UFS) is a community-based, coupled comprehensive Earth
       system modeling system. The UFS numerical applications span local to global domains
       and predictive time scales from sub-hourly analyses to seasonal predictions. It is
       designed to support the Weather Enterprise and to be the source system for NOAA's
