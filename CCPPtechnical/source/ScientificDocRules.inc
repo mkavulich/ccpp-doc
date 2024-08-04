@@ -107,7 +107,7 @@ a project or suite. You can refer to any source code entity from within a page.
 
 The DTC maintains a main page, created by the Doxygen command
 ``\mainpage``, which contains an overall description and background of the CCPP.
-Physics developers do not have to edit the file with the mainpage (``mainpage.txt``), which is 
+Physics developers do not have to edit the file with the mainpage (``mainpage.txt``), which is
 formatted like this:
 
 .. code-block:: console
@@ -125,7 +125,7 @@ or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
 .. code-block:: console
 
    /**
-   \page GFS_v16_page GFS_v16 Suite 
+   \page GFS_v16_page GFS_v16 Suite
 
    \section gfsv16_suite_overview Overview
 
@@ -154,8 +154,8 @@ or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
    */
 
 The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_g_f_s_v16_page.html>`_.
-You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the 
-``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands 
+You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the
+``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands
 indicate section breaks, and the ``\include`` commands will include the contents of another file.
 
 Other valid Doxygen commands for style, markup, and other functionality can be found in the `Doxygen documentation <https://doxygen.nl/manual/index.html>`_.
@@ -168,7 +168,7 @@ overview of the parameterization.  These pages are not tied to the Fortran
 code directly; instead, they are created with a separate text file that starts
 with the command ``\page``.  For CCPP, the stand-alone Doxygen pages, including the main page
 and the scheme pages, are contained in the *ccpp-physics* repository, under the
-``ccpp-physics/physics/docs/pdftxt/`` directory. Each page (aside from the main page) has a 
+``ccpp-physics/physics/docs/pdftxt/`` directory. Each page (aside from the main page) has a
 *label* (e.g., “GFS_SAMFdeep” in the following example) and a
 user-visible title (“GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection
 Scheme” in the following example).  It is noted that labels must be unique
@@ -223,13 +223,13 @@ The physics scheme page will often describe the following:
    It is created by inserting a reference link (``\ref``) to the corresponding Doxygen label in the Fortran code
    for the scheme. In the :ref:`above example <doxygen_page_example>`, the ``\ref arg_table_samfdeepcnv_run``
    tag references the section of Doxygen-annotated source code in ``ccpp-physics/physics/samfdeepcnv.f``
-   that contains the scheme's argument table as an included html document, as described in the 
+   that contains the scheme's argument table as an included html document, as described in the
    :ref:`following section <DoxygenModules>`.
 
 3. A "General Algorithm" section
 
    The general description of the algorithm will be in this section. It is created by inserting
-   a reference link (``\ref``) pointing to the corresponding Doxygen-annotated source code for the scheme, 
+   a reference link (``\ref``) pointing to the corresponding Doxygen-annotated source code for the scheme,
    as described in the :ref:`following section <DoxygenModules>`.
 
 As can be seen in the above examples, symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
@@ -392,7 +392,7 @@ Bibliography
 Doxygen can handle in-line paper citations and link to an automatically created
 bibliography page. The bibliographic data for any papers that are cited need to
 be put in BibTeX format and saved in a .bib file. The .bib file for CCPP is
-included in the :term:`CCPP Physics` repository (``ccpp-physics/physics/docs/library.bib``), 
+included in the :term:`CCPP Physics` repository (``ccpp-physics/physics/docs/library.bib``),
 and the doxygen configuration option ``cite_bib_files`` points to the included file.
 
 Citations are invoked with the following tag:
@@ -472,11 +472,11 @@ Fortran files using the doygen markup below.
    !! \htmlinclude SUBROUTINE_NAME.html
    !!
 
-The tables should be created using a Python script distributed with the :term:`CCPP Framework`, 
+The tables should be created using a Python script distributed with the :term:`CCPP Framework`,
 ``ccpp-framework/scripts/metadata2html.py``.
 
 .. note::
-   You will need to set the environment variable ``PYTHONPATH`` to include the directories 
+   You will need to set the environment variable ``PYTHONPATH`` to include the directories
    ``ccpp/framework/scripts`` and ``ccpp/framework/scripts/parse_tools``. As an example for bash-like shells:
 
    .. code-block::
@@ -499,7 +499,7 @@ directory as the scheme Fortran files (``ccpp-physics/physics``).
 
 To generate the complete Scientific Documentation, the script ``./ccpp/framework/scripts/metadata2html.py``
 must be run separately for each ``.meta`` file available in ``ccpp-physics/physics``. Alternatively, a batch mode exists
-that converts all metadata files associated with schemes and variable definitions in the CCPP prebuild config; 
+that converts all metadata files associated with schemes and variable definitions in the CCPP prebuild config;
 again using the SCM as an example:
 
 .. code-block:: fortran

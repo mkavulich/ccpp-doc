@@ -17,7 +17,7 @@ The CCPP *prebuild* script automates several tasks based on the information coll
 on the host model side and from the individual physics schemes (``.meta`` files; see :numref:`Figure %s <ccpp_prebuild>`):
 
  * Compiles a list of variables provided by the host model.
- 
+
  * Compiles a list of variables required to run all schemes in the CCPP Physics pool.
 
  * Matches these variables by their ``standard_name``, checks for missing variables and mismatches of their
@@ -180,7 +180,7 @@ To remove all files created by ``ccpp_prebuild.py``, for example as part of a ho
 Troubleshooting
 =============================
 
-If invoking the ``ccpp_prebuild.py`` script fails, some message other than the success message will be written to the terminal output. Specifically, the terminal output will include informational logging messages generated from the script and any error messages written to the Python logging utility. Some common errors (minus the typical logging output and traceback output) and solutions are described below, with non-bold font used to denote aspects of the message that will differ depending on the problem encountered. This is not an exhaustive list of possible errors, however. For example, in this version of the code, there is no cross-checking that the metadata information provided corresponds to the actual Fortran code, so even though ``ccpp_prebuild.py`` may complete successfully, there may be related compilation errors later in the build process. For further help with an undescribed error, you can make a post in the appropriate GitHub discussions forum for *CCPP Physics* (https://github.com/NCAR/ccpp-physics/discussions) or *CCPP Framework* (https://github.com/NCAR/ccpp-framework/discussions). 
+If invoking the ``ccpp_prebuild.py`` script fails, some message other than the success message will be written to the terminal output. Specifically, the terminal output will include informational logging messages generated from the script and any error messages written to the Python logging utility. Some common errors (minus the typical logging output and traceback output) and solutions are described below, with non-bold font used to denote aspects of the message that will differ depending on the problem encountered. This is not an exhaustive list of possible errors, however. For example, in this version of the code, there is no cross-checking that the metadata information provided corresponds to the actual Fortran code, so even though ``ccpp_prebuild.py`` may complete successfully, there may be related compilation errors later in the build process. For further help with an undescribed error, you can make a post in the appropriate GitHub discussions forum for *CCPP Physics* (https://github.com/NCAR/ccpp-physics/discussions) or *CCPP Framework* (https://github.com/NCAR/ccpp-framework/discussions).
 
 
  #. ``ERROR: Configuration file`` erroneous/path/to/config/file ``not found``
@@ -315,7 +315,7 @@ CCPP Physics Variable Tracker
 
 New in version 6.0, CCPP includes a tool that allows users to track a given variable's journey
 through a specified physics suite. This tool, ``ccpp-framework/scripts/ccpp_track_variables.py``,
-given a :term:`suite definition file<SDF>` and the :term:`standard name` of a variable, 
+given a :term:`suite definition file<SDF>` and the :term:`standard name` of a variable,
 will output the list of subroutines that use this variable -- in the order that they are called --
 as well as the variable's Fortran *intent*
 (``in``, ``out``, or ``inout``) within that subroutine. This can allow the user to more easily
@@ -340,7 +340,7 @@ how to use the script:
      --debug               enable debugging output
 
 For this initial implementation, this script must be executed from within a :term:`host model`, and must be
-called from the same directory that the ``ccpp_prebuild.py`` script is called from. This first 
+called from the same directory that the ``ccpp_prebuild.py`` script is called from. This first
 example is called using the :term:`UFS Atmosphere` as a host model, from the directory ``ufs-weather-model/FV3/ccpp``:
 
 .. code-block:: console
@@ -379,7 +379,7 @@ To learn more about a given subroutine, you can search the physics source code w
 or you can consult the `CCPP Scientific Documentation
 <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/>`_: typing the subroutine name into the search
 bar should lead you to further information about the subroutine and how it ties into its associated physics scheme.
-In addition, because of the naming conventions for subroutines in CCPP-compliant physics schemes, 
+In addition, because of the naming conventions for subroutines in CCPP-compliant physics schemes,
 we can typically see which scheme, as well as which :term:`phase` within that scheme, is associated with the listed subroutine,
 without having to consult any further documentation or source code. For example, the ``mp_thompson_run``
 subroutine is part of the Thompson microphysics scheme, specifically the *run* phase of that scheme.
@@ -398,7 +398,7 @@ This second example is called using the :term:`SCM` as a host model:
      sfc_diff_run (intent inout)
      noahmpdrv_run (intent inout)
      GFS_surface_composites_post_run (intent in)
-   
+
 In the example above, we can see that the variable ``surface_friction_velocity_over_land`` is used in a few subroutines,
 two of which (``sfc_diff_run`` and ``noahmpdrv_run``) are listed twice. This is not an error! The
 two repeated subroutines are part of a scheme called in a :term:`subcycle <subcycling>`, and so they are called twice in this cycle as designated in the SDF.
@@ -411,11 +411,11 @@ Some standard names can be exceedingly long and hard to remember, and it is not 
    ccpp/framework/scripts/ccpp_track_variables.py --config=ccpp/config/ccpp_prebuild_config.py \
       -s=ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml -v velocity -m './ccpp/physics/physics/**/'
    Variable velocity not found in any suites for sdf ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml
-   
+
    ERROR:ccpp_track_variables:Variable velocity not found in any suites for sdf ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml
-   
+
    Did find partial matches that may be of interest:
-   
+
    In GFS_surface_composites_pre_run found variable(s) ['surface_friction_velocity', 'surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
    In sfc_diff_run found variable(s) ['surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
    In GFS_surface_composites_post_run found variable(s) ['surface_friction_velocity', 'surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']

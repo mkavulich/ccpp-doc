@@ -32,7 +32,7 @@ Tendencies
 ==========
 
 This section describes the tendencies available, how to set the model to prepare them and how to output
-them. It also contains a list of frequently-asked questions in :numref:`Section %s <AvailTendFAQ>`. 
+them. It also contains a list of frequently-asked questions in :numref:`Section %s <AvailTendFAQ>`.
 
 Available Tendencies
 --------------------
@@ -67,7 +67,7 @@ Enabling Tendencies
 
 For performance reasons, the preparation of tendencies for output is off by default in the UFS and
 can be turned on via a set of namelist options. Since the SCM is not operational and has a relatively
-tiny memory footprint, these tendencies are turned on by default in the SCM. 
+tiny memory footprint, these tendencies are turned on by default in the SCM.
 
 There are three namelist variables associated with this capability: ``ldiag3d``, ``qdiag3d``, and
 ``dtend_select``. These are set in the ``&gfs_physics_nml`` portion of the namelist file ``input.nml``.
@@ -85,7 +85,7 @@ value used in the namelist is irrelevant.
 
 While the tendencies output by the SCM are instantaneous, the tendencies output by the UFS are averaged
 over the number of hours specified by the user in variable ``fhzero`` in the ``&gfs_physics_nml`` portion of the
-namelist file ``input.nml``. Variable ``fhzero`` must be an integer (it cannot be zero). 
+namelist file ``input.nml``. Variable ``fhzero`` must be an integer (it cannot be zero).
 
 This example namelist selects all tendencies from microphysics processes, and all tendencies of
 temperature. The naming convention for ``dtend_select`` is explained in the next section.
@@ -312,7 +312,7 @@ non-physics tendencies are in the ``gfs_dyn`` module. This is reflected in the :
 
 Note that some :term:`host models <host model>`, such as the UFS, have a limit of how many fields can be output in a run.
 When outputting all tendencies, this limit may have to be increased. In the UFS, this limit is determined
-by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in file ``input.nml``. 
+by variable ``max_output_fields`` in namelist section ``&diag_manager_nml`` in file ``input.nml``.
 
 Further documentation of the ``diag_table`` file can be found in the `UFS Weather Model User’s Guide <https://ufs-weather-model.readthedocs.io/en/release-public-v3/InputsOutputs.html#diag-table-file>`_.
 
@@ -335,13 +335,13 @@ What is the meaning of error message ``max_output_fields`` was exceeded?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If the limit to the number of output fields is exceeded, the job may fail with the following message:
- 
+
 .. code-block:: console
 
    FATAL from PE    24: diag_util_mod::init_output_field: max_output_fields =          300 exceeded.  Increase via diag_manager_nml
- 
+
 In this case, increase ``max_output_fields`` in ``input.nml``:
- 
+
 .. code-block:: console
 
    &diag_manager_nml
@@ -358,11 +358,11 @@ Why did I get a runtime logic error when outputting tendencies?
 ---------------------------------------------------------------
 
 Setting ``ldiag3d=F`` and ``qdiag3d=T`` will result in an error message:
- 
+
 .. code-block:: console
 
    Logic error in GFS_typedefs.F90: qdiag3d requires ldiag3d
- 
+
 If you want to output tracer tendencies, you must set both ``ldiag3d`` and ``qdiag3d`` to T. Then use
 ``diag_select`` to enable only the tendencies you want.  Make sure your ``diag_table`` matches your choice of tendencies specified through ``diag_select``.
 
@@ -372,7 +372,7 @@ Why are my tendencies zero, even though the model says they are supported for my
 For total physics or total photochemistry tendencies, see the next question.
 
 The tendencies will be zero if they are never calculated. Check that you enabled the tendencies with
-appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``. 
+appropriate settings of ``ldiag3d``, ``qdiag3d``, and ``diag_select``.
 
 Another possibility is that the tendencies in question really are zero. The list of "available" tendencies
 is set at the model level, where the exact details of schemes and suites are not known. This can lead to
@@ -427,7 +427,7 @@ The UFS and SCM already contain code to declare and initialize the arrays:
 * arrays are populated in ``GFS_diagnostics.F90`` (UFS) or ``scm_output.F90`` (SCM)
 
 The remainder of this section describes changes the developer needs to make in the
-physics code and  in the host model control files to enable the capability. An 
+physics code and  in the host model control files to enable the capability. An
 example (:numref:`Section %s  <CodeModExample>`) and FAQ (:numref:`Section %s <AuxArrayFAQ>`)
 are also provided.
 
@@ -478,7 +478,7 @@ For the SCM, these arrays are implicitly 1D and 2D, respectively, where the “y
 and the “x” dimension represents the number of independent columns (typically also 1). For
 continuity with the UFS Atmosphere, the naming convention 2D and 3D are retained, however.
 With this understanding, the namelist files can be modified as in the UFS:
- 
+
 * Namelist file ``input.nml``
    * Specify how many 2D and 3D arrays will be output using variables ``naux2d`` and ``naux3d``
      in section ``&gfs_physics_nml``, respectively. The maximum allowed number of arrays to
@@ -496,16 +496,16 @@ Recompiling and Examples
 The developer must recompile the code after making the source code changes to the CCPP scheme(s)
 and associated metadata files. Changes in the namelist and diag table can be made after compilation.
 At compile and runtime, the developer must pick suites that use the scheme from which output is desired.
- 
+
 An example for how to output auxiliary arrays is provided in the rest of this section. The lines that
 start with “+” represent lines that were added by the developer to output the diagnostic arrays. In
 this example, the developer modified the Grell-Freitas (GF) cumulus scheme to output two 2D arrays
 and one 3D array. The 2D arrays are ``aux_2d (:,1)`` and ``aux_2d(:,2)``; the 3D array is ``aux_3d(:,:,1)``.
 The 2D array ``aux2d(:,1)`` will be output with an averaging in time in the UFS, while the ``aux2d(:,2)``
-and ``aux3d`` arrays will not be averaged. 
+and ``aux3d`` arrays will not be averaged.
 
 In this example, the arrays are populated with bogus information just to demonstrate the capability.
-In reality, a developer would populate the array with the actual quantity for which output is desirable. 
+In reality, a developer would populate the array with the actual quantity for which output is desirable.
 
 .. code-block:: console
 
@@ -587,7 +587,7 @@ The ``cu_gf_driver.meta`` file was modified accordingly:
    +  kind = kind_phys
 
 The following lines were added to the ``&gfs_physics_nml`` section of the namelist file ``input.nml``:
- 
+
 .. code-block:: console
 
        naux2d         = 2
@@ -595,15 +595,15 @@ The following lines were added to the ``&gfs_physics_nml`` section of the nameli
        aux2d_time_avg = .true., .false.
 
 Recall that for the SCM, ``aux2d_time_avg`` should not be set to true in the namelist.
- 
+
 Lastly, the following lines were added to the ``diag_table`` for UFS:
- 
+
 .. code-block:: console
 
    # Auxiliary output
    "gfs_phys",    "aux2d_01",     "aux2d_01",      "fv3_history2d",  "all",  .false.,  "none",  2
    "gfs_phys",    "aux2d_02",     "aux2d_02",      "fv3_history2d",  "all",  .false.,  "none",  2
-   "gfs_phys",    "aux3d_01",     "aux3d_01",      "fv3_history",    "all",  .false.,  "none",  
+   "gfs_phys",    "aux3d_01",     "aux3d_01",      "fv3_history",    "all",  .false.,  "none",
 
 .. _AuxArrayFAQ:
 
@@ -616,4 +616,4 @@ How do I enable the output of diagnostic arrays from multiple parameterizations 
 Suppose you want to output two 2D arrays from schemeA and two 2D arrays from schemeB. You should
 set the namelist to ``naux2d=4`` and ``naux3d=0``. In the code for schemeA, you should populate
 ``aux2d(:,1)`` and ``aux2d(:,2)``, while in the code for scheme B you should populate ``aux2d(:,3)``
-and ``aux2d(:,4)``. 
+and ``aux2d(:,4)``.

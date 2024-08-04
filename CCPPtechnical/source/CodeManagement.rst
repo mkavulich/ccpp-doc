@@ -16,7 +16,7 @@ The repository and code organization differs for :term:`CCPP Framework` and :ter
 CCPP Framework
 --------------------------------------
 
-The CCPP Framework code base can be found in the authoritative repository in the :term:`NCAR` GitHub organization (https://github.com/NCAR/ccpp-framework). This repository is public and can be viewed, downloaded, or cloned by users without needing a GitHub account. 
+The CCPP Framework code base can be found in the authoritative repository in the :term:`NCAR` GitHub organization (https://github.com/NCAR/ccpp-framework). This repository is public and can be viewed, downloaded, or cloned by users without needing a GitHub account.
 
 Developers seeking to contribute code to the CCPP should create a GitHub account and set up a personal fork in order to introduce changes to the official code base via a Pull Request (PR) on GitHub (see `Creating Forks`_).
 
@@ -120,7 +120,7 @@ From here you can view the available branches in the ccpp-physics repository wit
      remotes/upstream/HEAD -> upstream/ufs/dev
      remotes/upstream/ufs/dev
 
-As you can see, you are placed on the ``ufs/dev`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. In the ccpp-framework repository, the default branch is named ``main``. All new development should start from the default branch, but if you would like to view code from another branch this is simple with the ``git checkout`` command. 
+As you can see, you are placed on the ``ufs/dev`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. In the ccpp-framework repository, the default branch is named ``main``. All new development should start from the default branch, but if you would like to view code from another branch this is simple with the ``git checkout`` command.
 
 .. code-block:: console
    :emphasize-lines: 3-4
@@ -144,9 +144,9 @@ If you wish to make changes that you will eventually contribute back to the publ
 
 .. note::
 
-   By checking out the remote ``upstream/ufs/dev`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch. 
+   By checking out the remote ``upstream/ufs/dev`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch.
 
-You can now make changes to the code, and commit those changes locally using ``git commit`` in order to track 
+You can now make changes to the code, and commit those changes locally using ``git commit`` in order to track
 
 
 

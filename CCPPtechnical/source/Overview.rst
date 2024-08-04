@@ -157,7 +157,7 @@ the `Turbulent Kinetic Energy (TKE)-based Eddy Diffusivity Mass-Flux (EDMF) <htt
 the `Cooperative Institute for Research in the Environmental Sciences (CIRES) unified gravity wave drag (uGWD) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s__u_g_w_p_v0.html>`_ scheme,
 and the `Noah Land Surface Model (LSM) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s__n_o_a_h.html>`_.
 
-GFS_v16_RRTMGP is identical to the GFS_v16 suite, but with the `RRTMGP <https://earth-system-radiation.github.io/rte-rrtmgp/>`_ radiation schemes rather than RRTMG. 
+GFS_v16_RRTMGP is identical to the GFS_v16 suite, but with the `RRTMGP <https://earth-system-radiation.github.io/rte-rrtmgp/>`_ radiation schemes rather than RRTMG.
 
 The GFS_v17_p8_ugwpv1 suite is the latest (as of July 2024) proposed suite for the next operational GFS implementation (version 17), and features several differences from the GFS_v16 suite.
 GFS_v17_p8_ugwpv1 utilizes `Thompson <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_t_h_o_m_p_s_o_n.html>`_ Aerosol-Aware microphysics, `Unified uGWP <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_ugwpv1_gsldrag.html>`_ gravity wave drag, and `Noah Multiparameterization (Noah-MP) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_noah_m_p.html>`_ land surface parameterization.
@@ -166,7 +166,7 @@ The WoFS_v0 suite has been used by the `Warn-on-Forecast System (WoFS) <https://
 This suite features `NSSL 2-moment <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_n_s_s_l_m_i_c_r_o_page.html>`_ microphysics, `Mellor-Yamada-Nakanishi-Niino (MYNN) eddy diffusivity-mass flux (EDMF) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_m_y_n_n_e_d_m_f.html>`_ PBL, RRTMG radiation, `MYNN surface layer (SFL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_s_f_c__m_y_n_n_s_f_l.html>`_ scheme, CIRES uGWD, and Noah-MP land surface (it does not feature convective parameterization).
 
 Finally, the HRRR_gf suite was developed for use with prototypes of the `Rapid Refresh Forecast System (RRFS) <https://www.emc.ncep.noaa.gov/users/emc.campara/rrfs/>`_, and is similar to the physics used in the operational High-Resolution Rapid Refresh (HRRR) model physics package except with the implementation of deep convective parameterization.
-This suite features Thompson Aerosol-Aware microphysics, MYNN-EDMF PBL physics, `Grell-Freitas deep convection <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, RRTMG radiation, MYNN SFL, the `Global Systems Laboratory (GSL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_drag_suite.html>`_ gravity wave drag scheme, and the `Rapid Update Cycle (RUC) Land Surface Model <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_r_u_c_l_s_m.html>`_. 
+This suite features Thompson Aerosol-Aware microphysics, MYNN-EDMF PBL physics, `Grell-Freitas deep convection <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, RRTMG radiation, MYNN SFL, the `Global Systems Laboratory (GSL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_drag_suite.html>`_ gravity wave drag scheme, and the `Rapid Update Cycle (RUC) Land Surface Model <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_r_u_c_l_s_m.html>`_.
 
 In addition to the supported schemes listed above, there are several suites being used in various supported UFS applications, such as the UFS SRW Application and HAFS. While the CCPP team does not actively support these suites, support may be available from those respective applications where those suites are used.
 

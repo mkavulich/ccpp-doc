@@ -1,5 +1,5 @@
 .. _AddNewSchemes:
-  
+
 ****************************************
 Connecting a scheme to CCPP
 ****************************************
@@ -20,7 +20,7 @@ There are a few steps that can be taken to prepare a scheme for addition to CCPP
 Implementing a scheme in CCPP
 =============================
 
-There are, broadly speaking, two approaches for connecting an existing physics scheme to the CCPP Framework: 
+There are, broadly speaking, two approaches for connecting an existing physics scheme to the CCPP Framework:
 
 1. Refactor the existing scheme to CCPP format standards, using ``pre_`` and ``post_`` :term:`interstitial schemes <interstitial scheme>` to interface to and from the existing scheme if necessary.
 2. Create a driver scheme as an interface from the existing scheme's Fortran module to the CCPP Framework.
@@ -33,11 +33,11 @@ Method 1 is the preferred method of adapting a scheme to CCPP. This involves mak
 
 While method 1 is preferred, there are cases where method 1 may not be possible: for example, in schemes that are shared with other, non-CCPP hosts, and so require specialized, model-specific drivers, and might be beholden to different coding standards required by another model. In cases such as this, method 2 may be employed.
 
-Method 2 involves fewer changes to the original scheme's Fortran module: A CCPP-compliant driver module (see :numref:`Chapter %s <CompliantPhysParams>`) handles defining the inputs to and outputs from the scheme module in terms of state variables, constants, and tendencies provided by the model as defined in the scheme's .meta file. The calculation of variables that are not available directly from the model, and conversion of scheme output back into the variables expected by CCPP, should be handled by interstitial schemes (``schemename_pre`` and ``schemename_post``). While this method puts most CCPP-required features in the driver and interstitial subroutines, the original scheme must still be updated to remove STOP statements, common blocks, or any other disallowed features as listed in :numref:`Section %s <CodingRules>`. 
+Method 2 involves fewer changes to the original scheme's Fortran module: A CCPP-compliant driver module (see :numref:`Chapter %s <CompliantPhysParams>`) handles defining the inputs to and outputs from the scheme module in terms of state variables, constants, and tendencies provided by the model as defined in the scheme's .meta file. The calculation of variables that are not available directly from the model, and conversion of scheme output back into the variables expected by CCPP, should be handled by interstitial schemes (``schemename_pre`` and ``schemename_post``). While this method puts most CCPP-required features in the driver and interstitial subroutines, the original scheme must still be updated to remove STOP statements, common blocks, or any other disallowed features as listed in :numref:`Section %s <CodingRules>`.
 
 For both methods, optional interstitial schemes can be used for code that can not be handled within the scheme itself. For example, if different code needs to be run for coupling with other schemes or in different orders (e.g. because of dependencies on other schemes and/or the order the scheme is run in the :term:`SDF`), or if variables needed by the scheme must be derived from variables provided by the host. See  :numref:`Chapter %s <CompliantPhysParams>` for more details on primary and interstitial schemes.
 
-     .. note:: Depending on the complexity of the scheme and how it works together with other schemes, multiple interstitial schemes may be necessary. 
+     .. note:: Depending on the complexity of the scheme and how it works together with other schemes, multiple interstitial schemes may be necessary.
 
 ------------------------------
 Adding new variables to CCPP
@@ -61,7 +61,7 @@ For variables that can be set via namelist, the ``GFS_control_type`` Derived Dat
 
 If information from the previous timestep is needed, it is important to identify if the host model provides this information, or if it needs to be stored as a special variable. For example, in the Model for Prediction Across Scales (MPAS), variables containing the values of several quantities in the preceding timesteps are available. When that is not the case, as in the :term:`UFS Atmosphere`, interstitial schemes are needed to access these quantities.
 
-     .. note:: As an example, the reader is referred to the `Grell-Freidas convective scheme <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, which makes use of interstitials to obtain the previous timestep information. 
+     .. note:: As an example, the reader is referred to the `Grell-Freidas convective scheme <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, which makes use of interstitials to obtain the previous timestep information.
 
 Consider allocating the new variable only when needed (i.e. when the new scheme is used and/or when a certain control flag is set). If this is a viable option, following the existing examples in ``CCPP_typedefs.F90`` and ``GFS_typedefs.meta`` for allocating the variable and setting the ``active`` attribute in the metadata correctly.
 
@@ -70,14 +70,14 @@ Incorporating a scheme into CCPP
 ----------------------------------
 The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in ``ccpp-scm/ccpp/config/ccpp_prebuild_config.py`` using the same path as the existing schemes:
 
-.. code-block:: 
+.. code-block::
 
    SCHEME_FILES = [ ...
    '../some_relative_path/existing_scheme.F90',
    '../some_relative_path/new_scheme.F90',
    ...]
 
-     .. note:: Different host models will have different prebuild config files. For example, the :term:`UFS Atmosphere's <UFS Atmosphere>` config file is located at ``ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py`` 
+     .. note:: Different host models will have different prebuild config files. For example, the :term:`UFS Atmosphere's <UFS Atmosphere>` config file is located at ``ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py``
 
 The source code and ``.meta`` files for the new scheme should be placed in the same location as existing schemes in the CCPP: in the ccpp-physics repository under the ``physics/`` directory.
 
