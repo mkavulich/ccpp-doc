@@ -640,7 +640,12 @@ communication is done outside the physics, in which case the loops and arrays al
 take into account the sizes of the threaded tasks through their input indices and array
 dimensions.
 
-The following rules should be observed when including OpenMP or MPI communication in a physics scheme:
+`As of CCPP version 7 <https://github.com/NCAR/ccpp-framework/pull/523>_`, MPI is required as a prerequisite for building the CCPP framework in a host model.
+While MPI directives are not required within physics schemes, developers are encouraged to make use of them where they may result in a significant speedup.
+However, the following rules should be observed when including OpenMP or MPI communication in a physics scheme:
+
+* MPI directives for Fortran code must be compatible with the Fortran 2008 standard, and must use the ``mpi_f08`` module
+  rather than the legacy ``use mpi`` or ``INCLUDE 'mpif.h'``
 
 * CCPP standards require that in every phase but the *run* phase, blocked data structures must be combined so that
   their entire contents are available to a given MPI task (i.e. the data structures can not be further subdivided, or
@@ -664,7 +669,7 @@ The following rules should be observed when including OpenMP or MPI communicatio
   properties by one or more MPI processes, and its subsequent broadcast to all processes.
 
 * The implementation of reading and writing of data must be scalable to perform
-  efficiently from a few to thousands of tasks.
+  efficiently from one to thousands of tasks.
 
 * Calls to MPI and OpenMP functions, and the import of the MPI and OpenMP libraries,
   must be guarded by C preprocessor directives as illustrated in the following listing.
@@ -674,7 +679,7 @@ The following rules should be observed when including OpenMP or MPI communicatio
 .. code-block:: fortran
 
    #ifdef MPI
-     use mpi
+     use mpi_f08
    #endif
    #ifdef OPENMP
      use omp_lib

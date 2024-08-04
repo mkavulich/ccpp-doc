@@ -54,8 +54,10 @@ In some places there are helpful asides or warnings that the user should pay att
 will be presented in the following style:
 
 .. note::
-   This is an important point that should **not** be ignored!
+   This is a helpful aside that may or may not be relevant to your specific use case.
 
+.. warning::
+   This is an important point that should **not** be ignored!
 
 
 In several places in the technical documentation, we need to refer to locations of files or directories in the source code. Since the directory structure depends on the :term:`host model`, in particular the directories where the ``ccpp-framework`` and ``ccpp-physics`` source code is checked out, and the directory from which the ``ccpp_prebuild.py`` code generator is called, we use the following convention:
