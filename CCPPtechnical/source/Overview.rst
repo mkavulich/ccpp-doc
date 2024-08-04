@@ -144,7 +144,8 @@ are grouped in :term:`suites <suite>`, which determine the order and number of t
    | Ocean               | NSST       | NSST           | NSST            | NSST      | NSST      |
    +---------------------+------------+----------------+-----------------+-----------+-----------+
 
-Only the suites that are currently supported by the CCPP team in the DTC are listed in the table. These suites are regularly tested in the context of the Single-Column Model to verify that they work without error and produce realistic results; this is in addition to any testing that may occur in other dynamical cores by other groups. Currently all supported suites use the 2015 Navy Research Laboratory (NRL) `ozone <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s__o_z_p_h_y_s.html>`_ and `stratospheric water vapor <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s__h2_o_p_h_y_s.html>`_ schemes,
+Only the suites that are currently supported by the CCPP team in the DTC are listed in the table. These suites were tested in the context of the Single-Column Model to verify that they work without error and produce realistic results for this release version; this is in addition to any testing that may occur in other dynamical cores by other groups.
+Currently all supported suites use the 2015 Navy Research Laboratory (NRL) `ozone <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s__o_z_p_h_y_s.html>`_ and `stratospheric water vapor <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s__h2_o_p_h_y_s.html>`_ schemes,
 and the `NSST <https://dtcenter.ucar.edu/GMTB/v4.0/sci_doc/GFS_NSST.html>`_ ocean scheme.
 
 The GFS_v16 suite is meant to emulate the physics used by `version 16 <https://www.weather.gov/media/notification/pdf2/scn21-20gfs_v16.0_aac.pdf>`_ of the GFS model. It includes `GFDL microphysics <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_d_l_cloud.html>`_,
@@ -158,17 +159,28 @@ and the `Noah Land Surface Model (LSM) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/s
 
 GFS_v16_RRTMGP is identical to the GFS_v16 suite, but with the `RRTMGP <https://earth-system-radiation.github.io/rte-rrtmgp/>`_ radiation schemes rather than RRTMG. 
 
-The GFS_v17_p8_ugwpv1 suite is the latest (as of July 2024) proposed suite for the next operational GFS implementation (version 17), and features several differences from the GFS_v16 suite. GFS_v17_p8_ugwpv1 utilizes `Thompson <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_t_h_o_m_p_s_o_n.html>`_ Aerosol-Aware microphysics, `Unified uGWP <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_ugwpv1_gsldrag.html>`_ gravity wave drag, and `Noah Multiparameterization (Noah-MP) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_noah_m_p.html>`_ land surface parameterization.
+The GFS_v17_p8_ugwpv1 suite is the latest (as of July 2024) proposed suite for the next operational GFS implementation (version 17), and features several differences from the GFS_v16 suite.
+GFS_v17_p8_ugwpv1 utilizes `Thompson <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_t_h_o_m_p_s_o_n.html>`_ Aerosol-Aware microphysics, `Unified uGWP <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_ugwpv1_gsldrag.html>`_ gravity wave drag, and `Noah Multiparameterization (Noah-MP) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_noah_m_p.html>`_ land surface parameterization.
 
-The WoFS_v0 suite has been used by the `Warn-on-Forecast System (WoFS) <https://wof.nssl.noaa.gov/>`_ project at the National Severe Storms Laboratory (NSSL) for real-time and potential future operational high-resolution modeling products. This suite features `NSSL 2-moment <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_n_s_s_l_m_i_c_r_o_page.html>`_ microphysics, `Mellor-Yamada-Nakanishi-Niino (MYNN) eddy diffusivity-mass flux (EDMF) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_m_y_n_n_e_d_m_f.html>`_ PBL, RRTMG radiation, `MYNN surface layer (SFL) <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_s_f_c__m_y_n_n_s_f_l.html>`_ scheme, CIRES uGWD, and Noah-MP land surface (it does not feature convective parameterization).
+The WoFS_v0 suite has been used by the `Warn-on-Forecast System (WoFS) <https://wof.nssl.noaa.gov/>`_ project at the National Severe Storms Laboratory (NSSL) for real-time and potential future operational high-resolution modeling products.
+This suite features `NSSL 2-moment <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_n_s_s_l_m_i_c_r_o_page.html>`_ microphysics, `Mellor-Yamada-Nakanishi-Niino (MYNN) eddy diffusivity-mass flux (EDMF) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_m_y_n_n_e_d_m_f.html>`_ PBL, RRTMG radiation, `MYNN surface layer (SFL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_s_f_c__m_y_n_n_s_f_l.html>`_ scheme, CIRES uGWD, and Noah-MP land surface (it does not feature convective parameterization).
 
-Finally, the HRRR_gf suite was developed for use with prototypes of the `Rapid Refresh Forecast System (RRFS) <https://www.emc.ncep.noaa.gov/users/emc.campara/rrfs/>`_, and is similar to the physics used in the operational High-Resolution Rapid Refresh (HRRR) model physics package except with the implementation of deep convective parameterization. This suite features Thompson Aerosol-Aware microphysics, MYNN-EDMF PBL physics, `Grell-Freitas deep convection <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, RRTMG radiation, MYNN SFL, the `Global Systems Laboratory (GSL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_drag_suite.html>`_ gravity wave drag scheme, and the `Rapid Update Cycle (RUC) Land Surface Model <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_r_u_c_l_s_m.html>`_. 
+Finally, the HRRR_gf suite was developed for use with prototypes of the `Rapid Refresh Forecast System (RRFS) <https://www.emc.ncep.noaa.gov/users/emc.campara/rrfs/>`_, and is similar to the physics used in the operational High-Resolution Rapid Refresh (HRRR) model physics package except with the implementation of deep convective parameterization.
+This suite features Thompson Aerosol-Aware microphysics, MYNN-EDMF PBL physics, `Grell-Freitas deep convection <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, RRTMG radiation, MYNN SFL, the `Global Systems Laboratory (GSL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_drag_suite.html>`_ gravity wave drag scheme, and the `Rapid Update Cycle (RUC) Land Surface Model <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_r_u_c_l_s_m.html>`_. 
 
 In addition to the supported schemes listed above, there are several suites being used in various supported UFS applications, such as the UFS SRW Application and HAFS. While the CCPP team does not actively support these suites, support may be available from those respective applications where those suites are used.
 
+.. [#] As of this writing, the CCPP is used and regularly tested with three host models: the CCPP
+    SCM, the atmospheric component of NOAA’s Unified Forecast System (UFS) (hereafter the UFS Atmosphere) that utilizes
+    the Finite-Volume Cubed Sphere (FV3) dynamical core, and the The Navy Environmental Prediction System Using the NUMA Core (NEPTUNE).
+    The CCPP can be utilized with both
+    global and limited-area configurations of the UFS Atmosphere, and is integrated with the UFS limited-area UFS Short-Range Weather (SRW) Application and the Hurricane Analysis and Forecast System (HAFS).
+    Work is also underway to connect and validate the use of the CCPP Framework with NCAR models, particularly the Community Atmosphere Model - System for Integrated Modeling of the Atmosphere (CAM-SIMA).
 
-Those interested in the history of previous CCPP releases should know that the
-first public release of the CCPP took place in April 2018 and included all the
+Previous CCPP releases
+=======================
+
+The first public release of the CCPP took place in April 2018 and included all the
 parameterizations of the operational GFS v14, along with the ability to connect to the
 SCM. The second public release of the CCPP took place in August 2018 and additionally
 included the physics suite tested for the implementation of GFS v15. The third public release of
@@ -176,6 +188,7 @@ the CCPP, in June 2019, had four suites: GFS_v15, corresponding to the GFS v15 m
 in June 2019, and three developmental suites considered for
 use in GFS v16 (GFS_v15plus with an alternate PBL scheme, csawmg with alternate convection and
 microphysics schemes, and GFS_v0 with alternate convection, microphysics, PBL, and land surface schemes).
+
 The CCPP v4.0 release, issued in March 2020, contained suite GFS_v15p2, which is an
 updated version of the operational
 GFS v15 and replaced suite GFS_v15. It also contained three developmental suites:
@@ -185,17 +198,13 @@ upcoming operational GFSv16 (it replaced suite GFSv15plus). CCPP v4.0 was the fi
 The CCPP v4.1 release, issued in October 2020, was a minor
 upgrade with the capability to build the code using Python 3 (previously only Python 2
 was supported).
+
 The CCPP v5.0 release, issued in February 2021, was a major
 upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the RRFS_v1alpha suite.
-The CCPP v6.0 release, issued in June 2022, was a major upgrade in conjunction with the release of the UFS SRW v2.0 release.
-The CCPP v7.0 release, issued in August 2024, was a major upgrade to physics and the Single-Column Model, particularly with the inclusion of the new "UFS Replay" capability for running the SCM from UFS output.
 
-.. [#] As of this writing, the CCPP is used and regularly tested with three host models: the CCPP
-    SCM, the atmospheric component of NOAA’s Unified Forecast System (UFS) (hereafter the UFS Atmosphere) that utilizes
-    the Finite-Volume Cubed Sphere (FV3) dynamical core, and the The Navy Environmental Prediction System Using the NUMA Core (NEPTUNE).
-    The CCPP can be utilized with both
-    global and limited-area configurations of the UFS Atmosphere, and is integrated with the UFS limited-area UFS Short-Range Weather (SRW) Application and the Hurricane Analysis and Forecast System (HAFS).
-    Work is also underway to connect and validate the use of the CCPP Framework with NCAR models, particularly the Community Atmosphere Model - System for Integrated Modeling of the Atmosphere (CAM-SIMA).
+The CCPP v6.0 release, issued in June 2022, was a major upgrade in conjunction with the `UFS SRW v2.0 release <https://ufscommunity.org/announcing-the-ufs-short-range-weather-application-srw-app-v2-0-0-release/>`_.
+
+The CCPP v7.0 release, issued in August 2024, was a major upgrade to physics and the Single-Column Model, particularly with the inclusion of the new `UFS Replay <https://ccpp-scm.readthedocs.io/en/latest/chap_cases.html#using-ufs-output-to-create-scm-cases-ufs-replay>`_ capability for running the SCM from UFS output.
 
 Additional Resources
 ========================

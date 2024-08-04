@@ -157,7 +157,7 @@ The :term:`SDF`\(s) to compile into the executable can be specified using the ``
 
    ./ccpp/framework/scripts/ccpp_prebuild.py \
      --config=./ccpp/config/ccpp_prebuild_config.py \
-     --suites=FV3_GFS_v16,RRFS_v1beta
+     --suites=FV3_GFS_v16,FV3_GFS_v17_p8_ugwpv1
 
 .. note::
 
@@ -174,7 +174,7 @@ To remove all files created by ``ccpp_prebuild.py``, for example as part of a ho
 .. code-block:: console
 
   ./ccpp/framework/scripts/ccpp_prebuild.py --config=./ccpp/config/ccpp_prebuild_config.py \
-  --suites=FV3_GFS_v16,RRFS_v1beta --clean
+  --suites=FV3_GFS_v16,FV3_GFS_v17_p8_ugwpv1 --clean
 
 =============================
 Troubleshooting
@@ -346,30 +346,38 @@ example is called using the :term:`UFS Atmosphere` as a host model, from the dir
 .. code-block:: console
 
    framework/scripts/ccpp_track_variables.py -c=config/ccpp_prebuild_config.py \
-     -s=suites/suite_FV3_RRFS_v1beta.xml -v air_temperature_of_new_state -m ./physics/physics/
-   For suite suites/suite_FV3_RRFS_v1beta.xml, the following schemes (in order for each group) use the variable air_temperature_of_new_state:
+     -s=suites/suite_FV3_HRRR_gf.xml -v air_temperature_of_new_state -m './physics/physics/**/'
+   For suite suites/suite_FV3_HRRR_gf.xml, the following schemes (in order for each group) use the variable air_temperature_of_new_state:
    In group physics
      GFS_suite_stateout_reset_run (intent out)
      dcyc2t3_run (intent in)
+     clm_lake_run (intent in)
+     clm_lake_run (intent in)
+     rrfs_smoke_wrapper_run (intent inout)
      GFS_suite_stateout_update_run (intent out)
-     ozphys_2015_run (intent in)
      get_phi_fv3_run (intent in)
      GFS_suite_interstitial_3_run (intent in)
+     GFS_DCNV_generic_pre_run (intent in)
+     cu_gf_driver_run (intent inout)
+     GFS_DCNV_generic_post_run (intent in)
      GFS_MP_generic_pre_run (intent in)
      mp_thompson_pre_run (intent in)
      mp_thompson_run (intent inout)
      mp_thompson_post_run (intent inout)
      GFS_MP_generic_post_run (intent in)
+     cu_gf_driver_post_run (intent in)
      maximum_hourly_diagnostics_run (intent in)
    In group stochastics
      GFS_stochastics_run (intent inout)
 
+
 In the example above, we can see that the variable ``air_temperature_of_new_state`` is used in
-the FV3_RRFS_v1beta suite by several microphysics-related schemes, as well as by the stochastics :term:`parameterization`.
+the FV3_HRRR_gf suite by several microphysics-related schemes, as well as by a stochastics :term:`parameterization`.
+We used the argument `'./physics/physics/**/'` for the metadata path because the CCPP physics metadata files are contained in multiple levels of subdirectories under ``./physics/physics``; the double-`*` includes all levels of subdirectories in the search.
 
 To learn more about a given subroutine, you can search the physics source code within the ``ccpp-physics`` repository,
 or you can consult the `CCPP Scientific Documentation
-<https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/>`_: typing the subroutine name into the search
+<https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/>`_: typing the subroutine name into the search
 bar should lead you to further information about the subroutine and how it ties into its associated physics scheme.
 In addition, because of the naming conventions for subroutines in CCPP-compliant physics schemes, 
 we can typically see which scheme, as well as which :term:`phase` within that scheme, is associated with the listed subroutine,
@@ -381,8 +389,8 @@ This second example is called using the :term:`SCM` as a host model:
 .. code-block:: console
 
    ccpp/framework/scripts/ccpp_track_variables.py --config=ccpp/config/ccpp_prebuild_config.py \
-      -s=ccpp/suites/suite_SCM_GFS_v17_p8.xml -v surface_friction_velocity_over_land -m ./ccpp/physics/physics/
-   For suite ccpp/suites/suite_SCM_GFS_v17_p8.xml, the following schemes (in order for each group) use the variable surface_friction_velocity_over_land:
+      -s=ccpp/suites/suite_SCM_GFS_v17_p8_ugwpv1.xml -v surface_friction_velocity_over_land -m './ccpp/physics/physics/**/'
+   For suite ccpp/suites/suite_SCM_GFS_v17_p8_ugwpv1.xml, the following schemes (in order for each group) use the variable surface_friction_velocity_over_land:
    In group physics
      GFS_surface_composites_pre_run (intent inout)
      sfc_diff_run (intent inout)
@@ -390,39 +398,42 @@ This second example is called using the :term:`SCM` as a host model:
      sfc_diff_run (intent inout)
      noahmpdrv_run (intent inout)
      GFS_surface_composites_post_run (intent in)
-
-In the example above, we can see that the variable ``wind_speed_at_lowest_model_layer`` is used in a few subroutines,
-two of which (``sfc_diff_run`` and ``noahmpdrv_run`` are listed twice). This is not an error! The
+   
+In the example above, we can see that the variable ``surface_friction_velocity_over_land`` is used in a few subroutines,
+two of which (``sfc_diff_run`` and ``noahmpdrv_run``) are listed twice. This is not an error! The
 two repeated subroutines are part of a scheme called in a :term:`subcycle <subcycling>`, and so they are called twice in this cycle as designated in the SDF.
 The ``ccpp_track_variables.py`` script lists the subroutines in the exact order they are called (within each *group*), including subcycles.
 
-Some standard names can be exceedingly long and hard to remember, and it is not always convenient to search the full list of standard names for the exact variable you want. Therefore, this script will also return matches for partial variable names. In this example, we will look for the variable "velocity", which is not a standard name of any variable, and see what it returns:
+Some standard names can be exceedingly long and hard to remember, and it is not always convenient to search the full list of standard names for the exact variable you want. Therefore, this script will also return matches for partial variable names. In this example, we will look for the variable "velocity" (which is not a standard name of any variable), and see what it returns:
 
 .. code-block:: console
 
-   framework/scripts/ccpp_track_variables.py --config=config/ccpp_prebuild_config.py \
-      -s=suites/suite_FV3_GFS_v16.xml -v velocity -m ./physics/physics/
-   Variable velocity not found in any suites for sdf suites/suite_FV3_GFS_v16.xml
-
-   ERROR:ccpp_track_variables:Variable velocity not found in any suites for sdf suites/suite_FV3_GFS_v16.xml
-
+   ccpp/framework/scripts/ccpp_track_variables.py --config=ccpp/config/ccpp_prebuild_config.py \
+      -s=ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml -v velocity -m './ccpp/physics/physics/**/'
+   Variable velocity not found in any suites for sdf ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml
+   
+   ERROR:ccpp_track_variables:Variable velocity not found in any suites for sdf ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml
+   
    Did find partial matches that may be of interest:
-
+   
    In GFS_surface_composites_pre_run found variable(s) ['surface_friction_velocity', 'surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
    In sfc_diff_run found variable(s) ['surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
    In GFS_surface_composites_post_run found variable(s) ['surface_friction_velocity', 'surface_friction_velocity_over_water', 'surface_friction_velocity_over_land', 'surface_friction_velocity_over_ice']
+   In sfc_diag_run found variable(s) ['surface_friction_velocity']
    In cires_ugwp_run found variable(s) ['angular_velocity_of_earth']
    In samfdeepcnv_run found variable(s) ['vertical_velocity_for_updraft', 'cellular_automata_vertical_velocity_perturbation_threshold_for_deep_convection']
+   In maximum_hourly_diagnostics_run found variable(s) ['unsmoothed_nonhydrostatic_upward_air_velocity']
 
 While the script did not find the variable specified, it did find several partial matches -- ``surface_friction_velocity``, ``surface_friction_velocity_over_water``, ``surface_friction_velocity_over_land``, etc. -- as well as the subroutines they were found in. You can then use this more specific information to refine your next query:
 
 .. code-block:: console
 
-   framework/scripts/ccpp_track_variables.py --config=config/ccpp_prebuild_config.py \
-      -s=suites/suite_FV3_GFS_v16.xml -v surface_friction_velocity -m ./physics/physics/
-   For suite suites/suite_FV3_GFS_v16.xml, the following schemes (in order for each group) use the variable surface_friction_velocity:
+   ccpp/framework/scripts/ccpp_track_variables.py --config=ccpp/config/ccpp_prebuild_config.py \
+      -s=ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml -v surface_friction_velocity -m './ccpp/physics/physics/**/'
+   For suite ccpp/suites/suite_SCM_GFS_v16_RRTMGP.xml, the following schemes (in order for each group) use the variable surface_friction_velocity:
    In group physics
      GFS_surface_composites_pre_run (intent in)
      GFS_surface_composites_post_run (intent inout)
+     sfc_diag_run (intent in)
 
 

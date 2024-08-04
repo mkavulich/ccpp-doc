@@ -23,7 +23,7 @@ so that doxygen will parse them correctly, where to put various comments within
 the code, how to include information from the ``.meta`` files,
 and how to configure and run doxygen to generate HTML
 output. For an example of the HTML rendering of the CCPP Scientific Documentation, see
-https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/index.html
+https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/index.html
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate

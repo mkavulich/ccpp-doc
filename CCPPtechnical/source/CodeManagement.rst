@@ -125,15 +125,15 @@ As you can see, you are placed on the ``ufs/dev`` branch by default; this is the
 .. code-block:: console
    :emphasize-lines: 3-4
 
-   git checkout release/public-v6
+   git checkout release/public-v7
 
-   branch 'release/public-v6' set up to track 'upstream/release/public-v6'.
-   Switched to a new branch 'release/public-v6'
+   branch 'release/public-v7' set up to track 'upstream/release/public-v7'.
+   Switched to a new branch 'release/public-v7'
 
 .. note::
    Never used git or GitHub before? Confused by what all this means or why we do it? Check out `this presentation from the UFS SRW Training workshop <https://dtcenter.org/sites/default/files/events/2021/18-code-management-making-contributions-kavulich.pdf>`_ for a "from basic principles" explanation!
 
-After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v6`` named ``release/public-v6``. To return to the ufs/dev branch, simply use ``git checkout ufs/dev``.
+After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v7`` named ``release/public-v7``. To return to the ufs/dev branch, simply use ``git checkout ufs/dev``.
 
 If you wish to make changes that you will eventually contribute back to the public code base, you should always create a new "feature" branch that will track those particular changes.
 
