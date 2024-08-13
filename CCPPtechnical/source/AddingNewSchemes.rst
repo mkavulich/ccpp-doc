@@ -17,8 +17,10 @@ Because there is some subjectivity in these items, and requirements may change o
 
 * The scheme must be sufficiently different from schemes already in the CCPP Physics repository.
 * The scheme should be either
+
   * desired by an organization participating in the funding of CCPP or
   * the scheme’s development and/or testing is a funded project of a CCPP-sponsor organization.
+
 * The scheme must be compiled/run with at least one CCPP-compliant host model, and pass that host model's regression tests.
 * The scheme must be documented, ideally with references to published scientific results.
 * The scheme must have developer support, or at least a point-of-contact for reviewing code changes.
@@ -28,7 +30,7 @@ Preparing a scheme for CCPP
 ==============================
 There are a few steps that can be taken to prepare a scheme for addition to CCPP prior to starting the process of implementing it in the CCPP Framework:
 
-1. Remove/refactor any incompatible features described in :numref:`Section %s <CodingRules>`. This includes updating Fortran code to at least Fortran 90 standards, removing STOP and GOTO statements, removing common blocks, and refactoring any other disallowed features.
+1. Remove/refactor any incompatible features described in :numref:`Section %s <CodingRules>`. This includes updating Fortran code to at least Fortran 90 standards, removing ``STOP`` and ``GOTO`` statements, removing common blocks, and refactoring any other disallowed features.
 2. Make an inventory of all variables that are inputs and/or outputs to the scheme. Check the file ``ccpp-framework/doc/DevelopersGuide/CCPP_VARIABLES_SCM.pdf`` to see if each variable has already been implemented in the single column model. If there are variables that are not available, see :numref:`Section %s <Adding new variables to CCPP>`.
 
 =============================

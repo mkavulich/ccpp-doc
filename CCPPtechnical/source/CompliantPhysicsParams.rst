@@ -490,6 +490,71 @@ Input/Output Variable (argument) Rules
 
      real(kind=kind_phys), dimension(is:,ks:), intent(inout) :: foo
 
+* Optional arguments are allowed, and can be designated using the Fortran keyword ``optional`` in the variable declaration, and specifying ``optional = True`` in the variable attributes in the ``.meta`` file.
+
+
+**Example from** ``ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.meta`` **:**
+
+  .. code-block:: fortran
+
+     [ps]
+       standard_name = surface_air_pressure
+       long_name = surface pressure
+       units = Pa
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in 
+     [PBLH]
+       standard_name = atmosphere_boundary_layer_thickness
+       long_name = PBL thickness
+       units = m
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys 
+       intent = in
+     [slmsk]
+       standard_name = area_type
+       long_name = landmask: sea/land/ice=0/1/2
+       units = flag
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in
+
+     ...
+     ...
+
+     [qsfc_lnd_ruc]
+       standard_name = water_vapor_mixing_ratio_at_surface_over_land
+       long_name = water vapor mixing ratio at surface over land
+       units = kg kg-1
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in
+       optional = True
+     [qsfc_ice_ruc]
+       standard_name = water_vapor_mixing_ratio_at_surface_over_ice
+       long_name = water vapor mixing ratio at surface over ice
+       units = kg kg-1
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in
+       optional = True
+
+**Example from** ``ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.F90`` **:**
+
+  .. code-block:: fortran
+
+      real(kind_phys), dimension(:), intent(in)    ::       &
+     &        dx, pblh, slmsk, ps
+      real(kind_phys), dimension(:), intent(in),optional :: &
+     &        qsfc_lnd_ruc, qsfc_ice_ruc
+
+.. note:: Optional arguments **must** appear last (after all mandatory arguments) in the argument list
+
 .. _CodingRules:
 
 Coding Rules
