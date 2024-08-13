@@ -34,7 +34,7 @@ Two categories of debugging with CCPP
 ============================================
 CCPP-compliant debugging schemes for the UFS
 ============================================
-For the UFS models, dedicated debugging schemes have been created by the CCPP developers. These schemes can be found in ``FV3/ccpp/physics/physics/GFS_debug.F90``. Developers can use the schemes as-is or customize and add to them as needed. Also, several customization options are documented at the top of the file. These mainly deal with the amount/type of data/information output from arrays, and users can switch between them by turning on or off the corresponding preprocessor directives inside ``GFS_debug.F90``, followed by recompiling.
+For the UFS models, dedicated debugging schemes have been created by the CCPP developers. These schemes can be found in `physics/Interstitials/UFS_SCM_NEPTUNE/GFS_debug.F90 <https://github.com/NCAR/ccpp-physics/blob/main/physics/Interstitials/UFS_SCM_NEPTUNE/GFS_debug.F90>`__. Developers can use the schemes as-is or customize and add to them as needed. Also, several customization options are documented at the top of the file. These mainly deal with the amount/type of data/information output from arrays, and users can switch between them by turning on or off the corresponding preprocessor directives inside ``GFS_debug.F90``, followed by recompiling.
 
 ----------------------------------------------------------------
 Descriptions of the CCPP-compliant debugging schemes for the UFS

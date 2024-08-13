@@ -85,7 +85,7 @@ Consider allocating the new variable only when needed (i.e. when the new scheme 
 ----------------------------------
 Incorporating a scheme into CCPP
 ----------------------------------
-The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in ``ccpp-scm/ccpp/config/ccpp_prebuild_config.py`` using the same path as the existing schemes:
+The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in `ccpp-scm/ccpp/config/ccpp_prebuild_config.py <https://github.com/NCAR/ccpp-scm/blob/main/ccpp/config/ccpp_prebuild_config.py>`__ using the same path as the existing schemes:
 
 .. code-block::
 
@@ -94,13 +94,13 @@ The new scheme and any interstitials will need to be added to the CCPP prebuild 
    '../some_relative_path/new_scheme.F90',
    ...]
 
-     .. note:: Different host models will have different prebuild config files. For example, the :term:`UFS Atmosphere's <UFS Atmosphere>` config file is located at ``ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py``
+     .. note:: Different host models will have different prebuild config files. For example, the :term:`UFS Atmosphere's <UFS Atmosphere>` config file is located at `ufs-weather-model/FV3/ccpp/config/ccpp_prebuild_config.py <https://github.com/NOAA-EMC/fv3atm/blob/develop/ccpp/config/ccpp_prebuild_config.py>`__
 
-The source code and ``.meta`` files for the new scheme should be placed in the same location as existing schemes in the CCPP: in the ccpp-physics repository under the ``physics/`` directory.
+The source code and ``.meta`` files for the new scheme should be placed in the same directory. Individual schemes are contained in their own subdirectory within the ccpp-physics repository under the ``physics/`` directory, optionally under a directory describing the type of physics scheme. For example, the Grell-Freitas convective scheme is located in the ccpp-physics repository at `physics/CONV/Grell_Freitas <https://github.com/NCAR/ccpp-physics/tree/main/physics/CONV/Grell_Freitas>`__
 
-To add this new scheme to a suite definition file (:term:`SDF`) for running within a :term:`host model`, follow the examples found in ``ccpp-scm/ccpp/suites``. For more information about suites and SDFs, see :numref:`Chapter %s <ConstructingSuite>`.
+To add this new scheme to a suite definition file (:term:`SDF`) for running within a :term:`host model`, follow the examples found in `ccpp-scm/ccpp/suites <https://github.com/NCAR/ccpp-scm/tree/main/ccpp/suites>`__. For more information about suites and SDFs, see :numref:`Chapter %s <ConstructingSuite>`.
 
-     .. note:: For the :term:`UFS Atmosphere`, suites can be found in the ``ufs-weather-model/FV3/ccpp/suites`` directory
+     .. note:: For the :term:`UFS Atmosphere`, suites can be found in the `ufs-weather-model/FV3/ccpp/suites <https://github.com/NOAA-EMC/fv3atm/tree/develop/ccpp/suites>`__ directory
 
 No further modifications of the build system are required, since the :term:`CCPP Framework` will auto-generate the necessary makefiles that allow the host model to compile the scheme.
 

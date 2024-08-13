@@ -509,54 +509,53 @@ In reality, a developer would populate the array with the actual quantity for wh
 
 .. code-block:: console
 
-   diff --git a/physics/cu_gf_driver.F90 b/physics/cu_gf_driver.F90
-   index 927b452..aed7348 100644
-   --- a/physics/cu_gf_driver.F90
-   +++ b/physics/cu_gf_driver.F90
-   @@ -76,7 +76,8 @@ contains
-                   flag_for_scnv_generic_tend,flag_for_dcnv_generic_tend,           &
-                   du3dt_SCNV,dv3dt_SCNV,dt3dt_SCNV,dq3dt_SCNV,                     &
-                   du3dt_DCNV,dv3dt_DCNV,dt3dt_DCNV,dq3dt_DCNV,                     &
-   -               ldiag3d,qdiag3d,qci_conv,errmsg,errflg)
-   +               ldiag3d,qdiag3d,qci_conv,errmsg,errflg,                          &
-   +               naux2d,naux3d,aux2d,aux3d)
+   diff --git a/physics/CONV/Grell_Freitas/cu_gf_driver.F90 b/physics/CONV/Grell_Freitas/cu_gf_driver.F90
+   index df5a196b..a4fb7c1a 100644
+   --- a/physics/CONV/Grell_Freitas/cu_gf_driver.F90
+   +++ b/physics/CONV/Grell_Freitas/cu_gf_driver.F90
+   @@ -68,7 +68,7 @@ contains
+                   dfi_radar_max_intervals,ldiag3d,qci_conv,do_cap_suppress,        &
+                   maxupmf,maxMF,do_mynnedmf,ichoice_in,ichoicem_in,ichoice_s_in,   &
+                   spp_cu_deep,spp_wts_cu_deep,nchem,chem3d,fscav,wetdpc_deep,      &
+   -               do_smoke_transport,kdt,errmsg,errflg)
+   +               do_smoke_transport,kdt,errmsg,errflg,naux2d,naux3d,aux2d,aux3d)
     !-------------------------------------------------------------
           implicit none
           integer, parameter :: maxiens=1
-   @@ -137,6 +138,11 @@ contains
-       integer, intent(in   ) :: imfshalcnv
+   @@ -167,6 +167,11 @@ contains
        character(len=*), intent(out) :: errmsg
        integer,          intent(out) :: errflg
-   +
+    
    +   integer, intent(in) :: naux2d,naux3d
    +   real(kind_phys), intent(inout) :: aux2d(:,:)
    +   real(kind_phys), intent(inout) :: aux3d(:,:,:)
    +
-    !  define locally for now.
-       integer, dimension(im),intent(inout) :: cactiv
+   +
+    !  local variables
        integer, dimension(im) :: k22_shallow,kbcon_shallow,ktop_shallow
-   @@ -199,6 +205,11 @@ contains
-      ! initialize ccpp error handling variables
+       real(kind=kind_phys), dimension (im)    :: rand_mom,rand_vmas
+   @@ -261,6 +266,10 @@ contains
          errmsg = ''
          errflg = 0
-   +
+    
    +     aux2d(:,1) = aux2d(:,1) + 1
    +     aux2d(:,2) = aux2d(:,2) + 2
    +     aux3d(:,:,1) = aux3d(:,:,1) + 3
    +
-    !
-    ! Scale specific humidity to dry mixing ratio
-    !
+         ichoice   = ichoice_in
+         ichoicem  = ichoicem_in
+         ichoice_s = ichoice_s_in
 
 The ``cu_gf_driver.meta`` file was modified accordingly:
 
 .. code-block:: console
 
-   diff --git a/physics/cu_gf_driver.meta b/physics/cu_gf_driver.meta
-   index 99e6ca6..a738721 100644
-   --- a/physics/cu_gf_driver.meta
-   +++ b/physics/cu_gf_driver.meta
-   @@ -476,3 +476,29 @@
+   diff --git a/physics/CONV/Grell_Freitas/cu_gf_driver.meta b/physics/CONV/Grell_Freitas/cu_gf_driver.meta
+   index f76d0c30..1053325d 100644
+   --- a/physics/CONV/Grell_Freitas/cu_gf_driver.meta
+   +++ b/physics/CONV/Grell_Freitas/cu_gf_driver.meta
+   @@ -687,3 +687,29 @@
+      dimensions = ()
       type = integer
       intent = out
    +[naux2d]
@@ -584,7 +583,6 @@ The ``cu_gf_driver.meta`` file was modified accordingly:
    +  units = none
    +  dimensions = (horizontal_loop_extent,vertical_layer_dimension,number_of_3d_auxiliary_arrays)
    +  type = real
-   +  kind = kind_phys
 
 The following lines were added to the ``&gfs_physics_nml`` section of the namelist file ``input.nml``:
 

@@ -48,7 +48,7 @@ Script Configuration
 
 To connect the CCPP with a host model ``XYZ``, a Python-based configuration file for this model must be created in the host model’s repository. The easiest way is to copy an existing configuration file for the SCM in sub-directory ``ccpp/config`` of the ccpp-scm repository. The configuration in ``ccpp_prebuild_config.py`` depends largely on (a) the directory structure of the host model itself, (b) where the ``ccpp-framework`` and the ``ccpp-physics`` directories are located relative to the directory structure of the host model, and (c) from which directory the ``ccpp_prebuild.py`` script is executed before/during the build process (this is referred to as basedir in ``ccpp_prebuild_config_XYZ.py``).
 
-:ref:`Listing 8.1 <ccpp_prebuild_example>` contains an example for the CCPP-SCM prebuild config. Here, both ``ccpp-framework`` and ``ccpp-physics`` are located in directories ``ccpp/framework`` and ``ccpp/physics`` of the top-level directory of the host model, and ``ccpp_prebuild.py`` is executed from the same top-level directory.
+:ref:`Listing 8.1 <ccpp_prebuild_example>` contains a simplified example for the CCPP-SCM prebuild config. Here, both ``ccpp-framework`` and ``ccpp-physics`` are located in directories ``ccpp/framework`` and ``ccpp/physics`` of the top-level directory of the host model, and ``ccpp_prebuild.py`` is executed from the same top-level directory.
 
 .. _ccpp_prebuild_example:
 
@@ -79,8 +79,9 @@ To connect the CCPP with a host model ``XYZ``, a Python-based configuration file
 
    # Add all physics scheme files relative to basedir
    SCHEME_FILES = {
-       ’ccpp/physics/physics/GFS_DCNV_generic.f90’ ,
-       'ccpp/physics/physics/sfc_sice.f’,
+       'ccpp/physics/physics/Interstitials/UFS_SCM_NEPTUNE/GFS_DCNV_generic_pre.F90'         ,
+       'ccpp/physics/physics/Interstitials/UFS_SCM_NEPTUNE/GFS_DCNV_generic_post.F90'        ,
+       'ccpp/physics/physics/SFC_Models/SeaIce/CICE/sfc_sice.f’,
        }
 
     # Default build dir, relative to current working directory,
