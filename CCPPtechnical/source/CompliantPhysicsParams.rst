@@ -320,10 +320,14 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
     type = <type>
     kind = <kind>
     intent = <intent>
+    optional = <True,False>
+
+.. warning::
+   The ``pointer`` attribute is deprecated and no longer allowed in CCPP
 
 * The ``intent`` argument is only valid in ``scheme`` metadata tables, as it is not applicable to the other ``types``.
 
-* The following attributes are optional: ``long_name``, ``kind``.
+* The following attributes are optional: ``long_name``, ``kind``, ``optional``.
 
 * Lines can be combined using ``|`` as a separator, e.g.,
 
@@ -640,7 +644,7 @@ communication is done outside the physics, in which case the loops and arrays al
 take into account the sizes of the threaded tasks through their input indices and array
 dimensions.
 
-`As of CCPP version 7 <https://github.com/NCAR/ccpp-framework/pull/523>_`, MPI is required as a prerequisite for building the CCPP framework in a host model.
+`As of CCPP version 7 <https://github.com/NCAR/ccpp-framework/pull/523>`_, MPI is required as a prerequisite for building the CCPP framework in a host model.
 While MPI directives are not required within physics schemes, developers are encouraged to make use of them where they may result in a significant speedup.
 However, the following rules should be observed when including OpenMP or MPI communication in a physics scheme:
 
@@ -698,9 +702,9 @@ However, the following rules should be observed when including OpenMP or MPI com
 * If the error flag is set within a parallelized section of code, ensure that error flag is broadcast to all tasks/processes.
 
 Memory allocation
-^^^^^^^^^^^^^^^^^
+-----------------
 
-* <b>Schemes should not use dynamic memory allocation on the heap.</b>
+* **Schemes should not use dynamic memory allocation on the heap.**
 
 * Schemes should not contain data that may clash when multiple non-interacting instances of the scheme are being used in one executable. This is because some host models may run multiple CCPP instances from the same executable.
 

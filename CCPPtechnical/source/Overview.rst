@@ -105,7 +105,7 @@ This documentation is housed in repository https://github.com/NCAR/ccpp-doc.
 The CCPP is governed by the groups that contribute to its development. The CCPP Physics code
 management is collaboratively determined by NOAA, NCAR, and the Navy Research Laboratory (NRL),
 and the DTC works with EMC and its sponsors to determine :term:`schemes <scheme>`
-and suites to be included and supported; criteria for inclusion for new schemes can be found in :numref:`Chapter %c <AddingNewSchemes>`.
+and suites to be included and supported; criteria for inclusion for new schemes can be found in :numref:`Chapter %c <AddNewSchemes>`.
 The governance of the CCPP Framework is a separate group, also a collaboration among NOAA, NCAR, and NRL.
 For more information about code management and governance, see https://github.com/NCAR/ccpp-framework/wiki
 and https://dtcenter.org/community-code/common-community-physics-package-ccpp.

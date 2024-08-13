@@ -543,7 +543,7 @@ A more complicated example is when multiple ``cdata`` structures are in use, nam
      end do
    end do
 
-*Listing 6.6: A morre complex suite initialization step that consists of allocating and initializing multiple ``cdata`` structures.*
+*Listing 6.6: A more complex suite initialization step that consists of allocating and initializing multiple ``cdata`` structures.*
 
 Depending on the implementation of CCPP in the host model, the suite name for the suite to be executed must be set in this step as well (omitted in Listing :ref:`Listing 6.6 <SuiteInitComplicated>`).
 
