@@ -105,9 +105,10 @@ This documentation is housed in repository https://github.com/NCAR/ccpp-doc.
 The CCPP is governed by the groups that contribute to its development. The CCPP Physics code
 management is collaboratively determined by NOAA, NCAR, and the Navy Research Laboratory (NRL),
 and the DTC works with EMC and its sponsors to determine :term:`schemes <scheme>`
-and suites to be included and supported. The governance of the CCPP Framework is jointly
-undertaken by NOAA and NCAR (see more information at https://github.com/NCAR/ccpp-framework/wiki
-and https://dtcenter.org/community-code/common-community-physics-package-ccpp).
+and suites to be included and supported; criteria for inclusion for new schemes can be found in :numref:`Chapter %c <AddingNewSchemes>`.
+The governance of the CCPP Framework is a separate group, also a collaboration among NOAA, NCAR, and NRL.
+For more information about code management and governance, see https://github.com/NCAR/ccpp-framework/wiki
+and https://dtcenter.org/community-code/common-community-physics-package-ccpp.
 
 The table below lists all parameterizations supported in CCPP public releases and the
 `CCPP Scientific Documentation <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/index.html>`_
@@ -133,7 +134,7 @@ are grouped in :term:`suites <suite>`, which determine the order and number of t
    +---------------------+------------+----------------+-----------------+-----------+-----------+
    | Surface layer       | GFS        | GFS            | GFS             | MYNN-SFL  | MYNN-SFL  |
    +---------------------+------------+----------------+-----------------+-----------+-----------+
-   | Gravity Wave Drag   | CIRES-uGWP | CIRES-uGWP     | Unified-uGWP    | CIRES-uGWP| GSL drag  |
+   | Gravity Wave Drag   | CIRES-uGWP | CIRES-uGWP     | Unified-uGWP    | CIRES-uGWP| Orographic|
    +---------------------+------------+----------------+-----------------+-----------+-----------+
    | Land surface        | Noah       | Noah           | Noah-MP         | Noah-MP   | RUC       |
    +---------------------+------------+----------------+-----------------+-----------+-----------+
@@ -166,7 +167,7 @@ The WoFS_v0 suite has been used by the `Warn-on-Forecast System (WoFS) <https://
 This suite features `NSSL 2-moment <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_n_s_s_l_m_i_c_r_o_page.html>`_ microphysics, `Mellor-Yamada-Nakanishi-Niino (MYNN) eddy diffusivity-mass flux (EDMF) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_m_y_n_n_e_d_m_f.html>`_ PBL, RRTMG radiation, `MYNN surface layer (SFL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_s_f_c__m_y_n_n_s_f_l.html>`_ scheme, CIRES uGWD, and Noah-MP land surface (it does not feature convective parameterization).
 
 Finally, the HRRR_gf suite was developed for use with prototypes of the `Rapid Refresh Forecast System (RRFS) <https://www.emc.ncep.noaa.gov/users/emc.campara/rrfs/>`_, and is similar to the physics used in the operational High-Resolution Rapid Refresh (HRRR) model physics package except with the implementation of deep convective parameterization.
-This suite features Thompson Aerosol-Aware microphysics, MYNN-EDMF PBL physics, `Grell-Freitas deep convection <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, RRTMG radiation, MYNN SFL, the `Global Systems Laboratory (GSL) <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_drag_suite.html>`_ gravity wave drag scheme, and the `Rapid Update Cycle (RUC) Land Surface Model <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_r_u_c_l_s_m.html>`_.
+This suite features Thompson Aerosol-Aware microphysics, MYNN-EDMF PBL physics, `Grell-Freitas deep convection <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, RRTMG radiation, MYNN SFL, the `Orographic Drag Scheme <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_g_f_s_drag_suite.html>`_ for gravity waves, and the `Rapid Update Cycle (RUC) Land Surface Model <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_r_u_c_l_s_m.html>`_.
 
 In addition to the supported schemes listed above, there are several suites being used in various supported UFS applications, such as the UFS SRW Application and HAFS. While the CCPP team does not actively support these suites, support may be available from those respective applications where those suites are used.
 
@@ -204,7 +205,7 @@ upgrade to enable use with the UFS Short-Range Weather (SRW) Application and the
 
 The CCPP v6.0 release, issued in June 2022, was a major upgrade in conjunction with the `UFS SRW v2.0 release <https://ufscommunity.org/announcing-the-ufs-short-range-weather-application-srw-app-v2-0-0-release/>`_.
 
-The CCPP v7.0 release, issued in August 2024, was a major upgrade to physics and the Single-Column Model, particularly with the inclusion of the new `UFS Replay <https://ccpp-scm.readthedocs.io/en/latest/chap_cases.html#using-ufs-output-to-create-scm-cases-ufs-replay>`_ capability for running the SCM from UFS output.
+The CCPP v7.0 release, issued in August 2024, was a major upgrade to physics and the Single-Column Model, particularly with the inclusion of the new `Case Generator <https://ccpp-scm.readthedocs.io/en/latest/chap_cases.html#using-ufs-output-to-create-scm-cases-ufs-replay>`_ capability for running the SCM from UFS output.
 
 Additional Resources
 ========================

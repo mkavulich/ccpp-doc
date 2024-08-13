@@ -9,6 +9,21 @@ This chapter contains a brief description on how to add a :term:`scheme` to the 
      .. note:: The instructions in this chapter assume the user is implementing this scheme for use with the CCPP Single-Column model (:term:`SCM`); not only is the SCM more lightweight than a full 3D NWP model for development purposes, but using the SCM as a :term:`host model` is a requirement for all new CCPP schemes for testing purposes. For implementation in another host model, especially for adding new variables, some modifications to that host model's metadata may be required; see :numref:`Chapter %s <Host-side Coding>` for details
 
 ==============================
+Criteria for inclusion in CCPP
+==============================
+
+CCPP governance, including interests from NOAA, NCAR, and developers of existing schemes, have decided on the following criteria for including new schemes in the CCPP physics repository.
+Because there is some subjectivity in these items, and requirements may change over time, we encourage developers of prospective CCPP schemes to reach out via `Github discussions <https://github.com/NCAR/ccpp-physics/discussions>`_ at an early stage.
+
+* The scheme must be sufficiently different from schemes already in the CCPP Physics repository.
+* The scheme should be either
+  * desired by an organization participating in the funding of CCPP or
+  * the scheme’s development and/or testing is a funded project of a CCPP-sponsor organization.
+* The scheme must be compiled/run with at least one CCPP-compliant host model, and pass that host model's regression tests.
+* The scheme must be documented, ideally with references to published scientific results.
+* The scheme must have developer support, or at least a point-of-contact for reviewing code changes.
+
+==============================
 Preparing a scheme for CCPP
 ==============================
 There are a few steps that can be taken to prepare a scheme for addition to CCPP prior to starting the process of implementing it in the CCPP Framework:
