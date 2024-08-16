@@ -78,7 +78,7 @@ For variables that can be set via namelist, the ``GFS_control_type`` Derived Dat
 
 If information from the previous timestep is needed, it is important to identify if the host model provides this information, or if it needs to be stored as a special variable. For example, in the Model for Prediction Across Scales (MPAS), variables containing the values of several quantities in the preceding timesteps are available. When that is not the case, as in the :term:`UFS Atmosphere`, interstitial schemes are needed to access these quantities.
 
-     .. note:: As an example, the reader is referred to the `Grell-Freidas convective scheme <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, which makes use of interstitials to obtain the previous timestep information.
+     .. note:: As an example, the reader is referred to the `Grell-Freitas convective scheme <https://dtcenter.ucar.edu/GMTB/v7.0.0p/sci_doc/_c_u__g_f.html>`_, which makes use of interstitials to obtain the previous timestep information.
 
 Consider allocating the new variable only when needed (i.e. when the new scheme is used and/or when a certain control flag is set). If this is a viable option, following the existing examples in ``CCPP_typedefs.F90`` and ``GFS_typedefs.meta`` for allocating the variable and setting the ``active`` attribute in the metadata correctly.
 
@@ -130,7 +130,7 @@ Some tips for debugging problems:
 * Make sure to use an uppercase suffix ``.F90`` to enable C preprocessing.
 * A scheme called GFS_debug (GFS_debug.F90) may be added to the SDF where needed to print state variables and interstitial variables. If needed, edit the scheme beforehand to add new variables that need to be printed.
 * Check the ``ccpp_prebuild.py`` script for success/failure and associated messages; run the prebuild script with the --debug and --verbose flags. See :numref:`Chapter %s <ConstructingSuite>` for more details
-* Compile code in DEBUG mode (see section 4.3 of the `SCM User's Guide <https://ccpp-scm.readthedocs.io/en/latest/chap_quick.html#compiling-scm-with-ccpp>`_, run through debugger if necessary (gdb, Allinea DDT, totalview, …).
+* Compile code in DEBUG mode (see section 4.3 of the `SCM User's Guide <https://ccpp-scm.readthedocs.io/en/latest/chap_quick.html#compiling-scm-with-ccpp>`_, run through debugger if necessary (gdb, Linaro/Arm DDT, totalview, …).
 * Use memory check utilities such as ``valgrind``.
 * Double-check the metadata file associated with your scheme to make sure that all information, including standard names and units, correspond to the correct local variables.
 
