@@ -173,7 +173,7 @@ In addition to the supported schemes listed above, there are several suites bein
 
 .. [#] As of this writing, the CCPP is used and regularly tested with three host models: the CCPP
     SCM, the atmospheric component of NOAA’s Unified Forecast System (UFS) (hereafter the UFS Atmosphere) that utilizes
-    the Finite-Volume Cubed Sphere (FV3) dynamical core, and the The Navy Environmental Prediction System Using the NUMA Core (NEPTUNE).
+    the Finite-Volume Cubed Sphere (FV3) dynamical core, and the Navy Environmental Prediction sysTem Using a Nonhydrostatic Engine (NEPTUNE).
     The CCPP can be utilized with both
     global and limited-area configurations of the UFS Atmosphere, and is integrated with the UFS limited-area UFS Short-Range Weather (SRW) Application and the Hurricane Analysis and Forecast System (HAFS).
     Work is also underway to connect and validate the use of the CCPP Framework with NCAR models, particularly the Community Atmosphere Model - System for Integrated Modeling of the Atmosphere (CAM-SIMA).
