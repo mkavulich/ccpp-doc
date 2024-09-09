@@ -85,7 +85,7 @@ Consider allocating the new variable only when needed (i.e. when the new scheme 
 ----------------------------------
 Incorporating a scheme into CCPP
 ----------------------------------
-The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in `ccpp-scm/ccpp/config/ccpp_prebuild_config.py <https://github.com/NCAR/ccpp-scm/blob/main/ccpp/config/ccpp_prebuild_config.py>`__ using the same path as the existing schemes:
+The new scheme and any interstitials will need to be added to the CCPP prebuild configuration file. Add the new scheme to the Python dictionary in `ccpp-scm/ccpp/config/ccpp_prebuild_config.py <https://github.com/NCAR/ccpp-scm/blob/v7.0.0/ccpp/config/ccpp_prebuild_config.py>`__ using the same path as the existing schemes:
 
 .. code-block::
 

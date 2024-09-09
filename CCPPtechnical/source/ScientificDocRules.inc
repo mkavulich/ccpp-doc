@@ -219,7 +219,7 @@ The physics scheme page will often describe the following:
    The argument table for CCPP entry point subroutine ``{scheme}_run`` will be in this section.
    It is created by inserting a reference link (``\ref``) to the corresponding Doxygen label in the Fortran code
    for the scheme. In the :ref:`above example <doxygen_page_example>`, the ``\ref arg_table_samfdeepcnv_run``
-   tag references the section of Doxygen-annotated source code in `ccpp-physics/physics/CONV/SAMF/samfdeepcnv.f <https://github.com/NCAR/ccpp-physics/blob/main/physics/CONV/SAMF/samfdeepcnv.f>`__
+   tag references the section of Doxygen-annotated source code in `ccpp-physics/physics/CONV/SAMF/samfdeepcnv.f <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/CONV/SAMF/samfdeepcnv.f>`__
    that contains the scheme's argument table as an included html document, as described in the
    :ref:`following section <DoxygenModules>`.
 

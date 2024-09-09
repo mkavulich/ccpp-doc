@@ -31,11 +31,11 @@ The implementation of a driver is reasonable under the following circumstances:
   microphysics scheme is distributed both with the Weather Research and Forecasting (WRF) model
   and with CCPP. Having a driver with CCPP directives allows the Thompson scheme to remain
   intact so that it can be synchronized between the WRF model and the CCPP distributions. You
-  can view this driver module in `ccpp-physics/physics/MP/Thompson/mp_thompson.F90 <https://github.com/NCAR/ccpp-physics/blob/main/physics/MP/Thompson/mp_thompson.F90>`__.
+  can view this driver module in `ccpp-physics/physics/MP/Thompson/mp_thompson.F90 <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/MP/Thompson/mp_thompson.F90>`__.
 
 * To perform array transformations, such as flipping the vertical direction
   or rearranging the index order: for example, in the subroutine ``gfdl_cloud_microphys_run``
-  in `ccpp-physics/physics/gfdl_cloud_microphys.F90 <https://github.com/NCAR/ccpp-physics/blob/main/physics/MP/GFDL/gfdl_cloud_microphys.F90>`__.
+  in `ccpp-physics/physics/gfdl_cloud_microphys.F90 <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/MP/GFDL/gfdl_cloud_microphys.F90>`__.
 
 Schemes in the CCPP are classified into two categories: :term:`primary schemes <primary scheme>` and :term:`interstitial schemes <interstitial scheme>`.
 A *primary* scheme is one that updates the state variables and tracers or that
@@ -165,7 +165,7 @@ The ``[ccpp-table-properties]`` section is required in every metadata file and h
 The information in this section table allows the CCPP to compile only the schemes and dependencies needed by the
 selected CCPP suite(s).
 
-An example for type and variable definitions from the file `ccpp-physics/physics/Radiation/RRTMG/radlw_param.meta <https://github.com/NCAR/ccpp-physics/blob/main/physics/Radiation/RRTMG/radlw_param.meta>`__ is shown in
+An example for type and variable definitions from the file `ccpp-physics/physics/Radiation/RRTMG/radlw_param.meta <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/Radiation/RRTMG/radlw_param.meta>`__ is shown in
 :ref:`Listing 2.2 <table-properties-typedefs>`.
 
 .. note::
@@ -493,7 +493,7 @@ Input/Output Variable (argument) Rules
 * Optional arguments are allowed, and can be designated using the Fortran keyword ``optional`` in the variable declaration, and specifying ``optional = True`` in the variable attributes in the ``.meta`` file.
 
 
-**Example from** `ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.meta <https://github.com/NCAR/ccpp-physics/blob/main/physics/SFC_Layer/MYNN/mynnsfc_wrapper.meta>`__ **:**
+**Example from** `ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.meta <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/SFC_Layer/MYNN/mynnsfc_wrapper.meta>`__ **:**
 
   .. code-block:: fortran
 
@@ -544,7 +544,7 @@ Input/Output Variable (argument) Rules
        intent = in
        optional = True
 
-**Example from** `ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.F90 <https://github.com/NCAR/ccpp-physics/blob/main/physics/SFC_Layer/MYNN/mynnsfc_wrapper.F90>`__ **:**
+**Example from** `ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.F90 <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/SFC_Layer/MYNN/mynnsfc_wrapper.F90>`__ **:**
 
   .. code-block:: fortran
 
