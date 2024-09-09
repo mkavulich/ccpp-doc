@@ -251,7 +251,7 @@ is used to aggregate all code related to that scheme, even when it is in separat
 files. Since doxygen cannot know which files or subroutines belong to each physics
 scheme, each relevant subroutine must be tagged with the module name. This allows
 doxygen to understand your modularized design and generate the documentation accordingly.
-`Here is a list of modules <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/modules.html>`_
+`Here is a list of modules <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/namespaces.html>`_
 defined in CCPP.
 
 A module is defined using:
