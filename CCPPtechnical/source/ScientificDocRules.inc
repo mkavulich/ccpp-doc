@@ -120,20 +120,17 @@ formatted like this:
 All other pages listed under the main page are created using the Doxygen
 tag ``\page`` described in the next section. In any Doxygen page,
 you can refer to any entity of source code by using Doxygen tag ``\ref``
-or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
+or ``@ref``. Example from ``GFS_v16_suite.txt``:
 
 .. code-block:: console
 
    /**
-   \page GFS_v16_page GFS_v16 Suite
-
+   \page GFS_v16_page GFS_v16 Suite 
+   
    \section gfsv16_suite_overview Overview
-
+   
    Version 16 of the Global Forecast System (GFS) was implemented operationally by the NOAA
-   National Centers for Environmental Prediction (NCEP) in 2021. This suite is available for
-   use with the UFS SRW App and with the CCPP SCM.
-
-   The GFS_v16 suite uses the parameterizations in the following order:
+   National Centers for Environmental Prediction (NCEP) in 2021. The GFS_v16 suite uses the parameterizations in the following order:
     - \ref GFS_RRTMG
     - \ref GFS_SFCLYR
     - \ref GFS_NSST
@@ -147,13 +144,13 @@ or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
     - \ref GFS_SAMFdeep
     - \ref GFS_SAMFshal
     - \ref GFDL_cloud
-
+   
    \section sdf_gfsv16b Suite Definition File
    \include  suite_FV3_GFS_v16.xml
    ...
    */
 
-The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_g_f_s_v16_page.html>`_.
+The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_g_f_s_v16_page.html>`_.
 You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the
 ``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands
 indicate section breaks, and the ``\include`` commands will include the contents of another file.
