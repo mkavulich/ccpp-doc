@@ -30,12 +30,12 @@ The implementation of a driver is reasonable under the following circumstances:
 * To preserve schemes that are also distributed outside of the CCPP. For example, the Thompson
   microphysics scheme is distributed both with the Weather Research and Forecasting (WRF) model
   and with CCPP. Having a driver with CCPP directives allows the Thompson scheme to remain
-  intact so that it can be synchronized between the WRF model and the CCPP distributions. You 
-  can view this driver module in ``ccpp-physics/physics/mp_thompson.F90``.
+  intact so that it can be synchronized between the WRF model and the CCPP distributions. You
+  can view this driver module in `ccpp-physics/physics/MP/Thompson/mp_thompson.F90 <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/MP/Thompson/mp_thompson.F90>`__.
 
 * To perform array transformations, such as flipping the vertical direction
   or rearranging the index order: for example, in the subroutine ``gfdl_cloud_microphys_run``
-  in ``ccpp-physics/physics/gfdl_cloud_microphys.F90``.
+  in `ccpp-physics/physics/gfdl_cloud_microphys.F90 <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/MP/GFDL/gfdl_cloud_microphys.F90>`__.
 
 Schemes in the CCPP are classified into two categories: :term:`primary schemes <primary scheme>` and :term:`interstitial schemes <interstitial scheme>`.
 A *primary* scheme is one that updates the state variables and tracers or that
@@ -64,7 +64,7 @@ CCPP-compliant physics parameterizations are broken down into one or more of the
 * The *init* phase, which performs actions needed to set up the scheme before the model integration
   begins. Examples of actions needed in this phase include the reading/computation of
   lookup tables, setting of constants (as described in :numref:`Section %s <UsingConstants>`), etc.
-* The *timestep_init* phase, which performs actions needed at the start of each physics timestep. 
+* The *timestep_init* phase, which performs actions needed at the start of each physics timestep.
   Examples of actions needed in this phase include updating of time-based settings (e.g. solar angle),
   reading lookup table values, etc.
 * The *run* phase, which is the main body of the scheme. Here is where the physics is integrated
@@ -86,7 +86,7 @@ A CCPP-compliant scheme is written in the form of Fortran modules. Each scheme m
 following subroutines (*entry points*): *_init*, *_timestep_init*, *_run*, *_timestep_finalize*,
 and *_finalize*. Each subroutine corresponds to one of the five *phases* of the :term:`CCPP Framework` as described above.
 The module name and the subroutine names must be consistent with the
-scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*, 
+scheme name; for example, the scheme "schemename" can have the entry points *schemename_init*,
 *schemename_run*, etc. The *_run* subroutine contains the
 code to execute the scheme. If subroutines *_timestep_init* or *_timestep_finalize* are present,
 they will be executed at the beginning and at the end of the :term:`host model` physics timestep,
@@ -99,9 +99,9 @@ by using a module variable ``is_initialized`` that keeps track whether a scheme 
 initialized or not.
 
 
-:ref:`Listing 2.1 <scheme_template>` contains a template for a CCPP-compliant scheme, which 
+:ref:`Listing 2.1 <scheme_template>` contains a template for a CCPP-compliant scheme, which
 includes the *_run* subroutine for an example *scheme_template* scheme. Each ``.F`` or ``.F90``
-file that contains one or more entry point for a CCPP scheme must be accompanied by a .meta file in the 
+file that contains one or more entry point for a CCPP scheme must be accompanied by a .meta file in the
 same directory as described in :numref:`Section %s <MetadataRules>`
 
 .. _scheme_template:
@@ -111,7 +111,7 @@ same directory as described in :numref:`Section %s <MetadataRules>`
 
 *Listing 2.1: Fortran template for a CCPP-compliant scheme showing the _run subroutine. The structure for the other phases (*\ _timestep_init, _init, _finalize, *and* _timestep_finalize\ *) is identical.*
 
-The three lines in the example template beginning ``!> \section`` are required. They begin with `!` and so will be treated as comments by the Fortran compiler, but are interpreted by Doxygen 
+The three lines in the example template beginning ``!> \section`` are required. They begin with `!` and so will be treated as comments by the Fortran compiler, but are interpreted by Doxygen
 as part of the process to create scientific documentation. Those lines specifically insert an external file containing metadata
 information (in this case, ``scheme_template_run.html``) in the documentation. See more on this topic in
 :numref:`Section %s <SciDoc>`.
@@ -123,7 +123,7 @@ how to use physical constants.
 
 Note that :term:`standard names <standard name>`, variable names, module names, scheme names and subroutine names are all case insensitive.
 
-Interstitial modules (*schemename_pre* and *schemename_post*) can be included if any part of the 
+Interstitial modules (*schemename_pre* and *schemename_post*) can be included if any part of the
 physics scheme must be executed sequentially before (*_pre*) or after (*_post*) the scheme, but
 can not be included in the scheme itself (e.g., for including host-specific code).
 
@@ -165,7 +165,7 @@ The ``[ccpp-table-properties]`` section is required in every metadata file and h
 The information in this section table allows the CCPP to compile only the schemes and dependencies needed by the
 selected CCPP suite(s).
 
-An example for type and variable definitions from the file ``ccpp-physics/physics/radlw_param.meta`` is shown in
+An example for type and variable definitions from the file `ccpp-physics/physics/Radiation/RRTMG/radlw_param.meta <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/Radiation/RRTMG/radlw_param.meta>`__ is shown in
 :ref:`Listing 2.2 <table-properties-typedefs>`.
 
 .. note::
@@ -179,37 +179,37 @@ An example for type and variable definitions from the file ``ccpp-physics/physic
      name = topflw_type
      type = ddt
      dependencies =
-   
+
    [ccpp-arg-table]
      name = topflw_type
      type = ddt
-   
+
    ########################################################################
    [ccpp-table-properties]
      name = sfcflw_type
      type = ddt
      dependencies =
-   
+
    [ccpp-arg-table]
      name = sfcflw_type
      type = ddt
-   
+
    ########################################################################
    [ccpp-table-properties]
      name = proflw_type
      type = ddt
      dependencies =
-   
+
    [ccpp-arg-table]
      name = proflw_type
      type = ddt
-   
+
    ########################################################################
    [ccpp-table-properties]
      name = module_radlw_parameters
      type = module
      dependencies =
-   
+
    [ccpp-arg-table]
      name = module_radlw_parameters
      type = module
@@ -320,10 +320,14 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
     type = <type>
     kind = <kind>
     intent = <intent>
+    optional = <True,False>
+
+.. warning::
+   The ``pointer`` attribute is deprecated and no longer allowed in CCPP
 
 * The ``intent`` argument is only valid in ``scheme`` metadata tables, as it is not applicable to the other ``types``.
 
-* The following attributes are optional: ``long_name``, ``kind``.
+* The following attributes are optional: ``long_name``, ``kind``, ``optional``.
 
 * Lines can be combined using ``|`` as a separator, e.g.,
 
@@ -371,7 +375,7 @@ It is important to understand the difference between these metadata dimension na
 
 Since physics developers cannot know whether a host model is passing all columns to the physics during the time integration or just a subset of it, the following rules apply to all schemes:
 
-* Variables that depend on the horizontal decomposition must use 
+* Variables that depend on the horizontal decomposition must use
 
   * ``horizontal_dimension`` in the metadata tables for the following phases: *init*, *timestep_init*, *timestep_finalize*, *finalize*.
 
@@ -389,13 +393,13 @@ names within their individual codes, but these variables must be assigned to a *
 the scheme's metadata table as described in :numref:`Section %s <IOVariableRules>`.
 
 Standard names are listed and defined in a GitHub repository (https://github.com/ESCOMP/CCPPStandardNames),
-along with rules for adding new standard names as needed. While an effort is made to comply with 
-existing *standard name* definitions of the Climate and Forecast (CF) conventions (http://cfconventions.org), 
+along with rules for adding new standard names as needed. While an effort is made to comply with
+existing *standard name* definitions of the Climate and Forecast (CF) conventions (http://cfconventions.org),
 additional names are used in the CCPP to cover the wide range of use cases the CCPP intends to include.
 Each hash of the CCPP Physics repository contains information in the top-level ``README.md`` file
 indicating which version of the CCPPStandardNames repository corresponds to that version of CCPP code.
 
-An up-to-date list of available standard names for a given host model can be found by running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`), which will generate a LaTeX source file that can be compiled to produce a PDF file with all variables 
+An up-to-date list of available standard names for a given host model can be found by running the CCPP *prebuild* script (described in :numref:`Chapter %s <CCPPPreBuild>`), which will generate a LaTeX source file that can be compiled to produce a PDF file with all variables
 defined by the host model and requested by the physics schemes.
 
 .. _IOVariableRules:
@@ -485,6 +489,71 @@ Input/Output Variable (argument) Rules
   .. code-block:: fortran
 
      real(kind=kind_phys), dimension(is:,ks:), intent(inout) :: foo
+
+* Optional arguments are allowed, and can be designated using the Fortran keyword ``optional`` in the variable declaration, and specifying ``optional = True`` in the variable attributes in the ``.meta`` file.
+
+
+**Example from** `ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.meta <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/SFC_Layer/MYNN/mynnsfc_wrapper.meta>`__ **:**
+
+  .. code-block:: fortran
+
+     [ps]
+       standard_name = surface_air_pressure
+       long_name = surface pressure
+       units = Pa
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in 
+     [PBLH]
+       standard_name = atmosphere_boundary_layer_thickness
+       long_name = PBL thickness
+       units = m
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys 
+       intent = in
+     [slmsk]
+       standard_name = area_type
+       long_name = landmask: sea/land/ice=0/1/2
+       units = flag
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in
+
+     ...
+     ...
+
+     [qsfc_lnd_ruc]
+       standard_name = water_vapor_mixing_ratio_at_surface_over_land
+       long_name = water vapor mixing ratio at surface over land
+       units = kg kg-1
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in
+       optional = True
+     [qsfc_ice_ruc]
+       standard_name = water_vapor_mixing_ratio_at_surface_over_ice
+       long_name = water vapor mixing ratio at surface over ice
+       units = kg kg-1
+       dimensions = (horizontal_loop_extent)
+       type = real
+       kind = kind_phys
+       intent = in
+       optional = True
+
+**Example from** `ccpp-physics/physics/SFC_Layer/MYNN/mynnsfc_wrapper.F90 <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/SFC_Layer/MYNN/mynnsfc_wrapper.F90>`__ **:**
+
+  .. code-block:: fortran
+
+      real(kind_phys), dimension(:), intent(in)    ::       &
+     &        dx, pblh, slmsk, ps
+      real(kind_phys), dimension(:), intent(in),optional :: &
+     &        qsfc_lnd_ruc, qsfc_ice_ruc
+
+.. note:: Optional arguments **must** appear last (after all mandatory arguments) in the argument list
 
 .. _CodingRules:
 
@@ -624,11 +693,11 @@ should be initially set to some invalid value. The above example also demonstrat
 finalize phase of the scheme, the ``is_initialized`` flag can be set back to false and the
 constants can be set back to an invalid value.
 
-In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed. The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer. 
+In summary, there are two ways to pass constants to a physics scheme.  The first is to directly pass constants via the subroutine interface and continue passing them down to all subroutines as needed. The second is to have a user-specified scheme constants module within the scheme and to sync it once with the physical constants from the host model at initialization time. The approach to use is somewhat up to the developer.
 
 .. note::
 
-   Use of the *physcons* module (``ccpp-physics/physics/physcons.F90``) is **not recommended**, since it is specific to FV3 and will be removed in the future.
+   Use of the *physcons* module (``ccpp-physics/physics/hooks/physcons.F90``) is **not recommended**, since it is specific to FV3 and will be removed in the future.
 
 .. _ParallelProgramming:
 
@@ -640,12 +709,17 @@ communication is done outside the physics, in which case the loops and arrays al
 take into account the sizes of the threaded tasks through their input indices and array
 dimensions.
 
-The following rules should be observed when including OpenMP or MPI communication in a physics scheme:
+`As of CCPP version 7 <https://github.com/NCAR/ccpp-framework/pull/523>`_, MPI is required as a prerequisite for building the CCPP framework in a host model.
+While MPI directives are not required within physics schemes, developers are encouraged to make use of them where they may result in a significant speedup.
+However, the following rules should be observed when including OpenMP or MPI communication in a physics scheme:
+
+* MPI directives for Fortran code must be compatible with the Fortran 2008 standard, and must use the ``mpi_f08`` module
+  rather than the legacy ``use mpi`` or ``INCLUDE 'mpif.h'``
 
 * CCPP standards require that in every phase but the *run* phase, blocked data structures must be combined so that
   their entire contents are available to a given MPI task (i.e. the data structures can not be further subdivided, or
   "chunked", within those phases). The *run* phase may be called by multiple threads in parallel, so data structures
-  may be divided into blocks for that phase. 
+  may be divided into blocks for that phase.
 
 * Shared-memory (OpenMP) parallelization inside a scheme is allowed with the restriction
   that the number of OpenMP threads to use is obtained from the host model as an ``intent(in)``
@@ -664,7 +738,7 @@ The following rules should be observed when including OpenMP or MPI communicatio
   properties by one or more MPI processes, and its subsequent broadcast to all processes.
 
 * The implementation of reading and writing of data must be scalable to perform
-  efficiently from a few to thousands of tasks.
+  efficiently from one to thousands of tasks.
 
 * Calls to MPI and OpenMP functions, and the import of the MPI and OpenMP libraries,
   must be guarded by C preprocessor directives as illustrated in the following listing.
@@ -674,7 +748,7 @@ The following rules should be observed when including OpenMP or MPI communicatio
 .. code-block:: fortran
 
    #ifdef MPI
-     use mpi
+     use mpi_f08
    #endif
    #ifdef OPENMP
      use omp_lib
@@ -693,9 +767,9 @@ The following rules should be observed when including OpenMP or MPI communicatio
 * If the error flag is set within a parallelized section of code, ensure that error flag is broadcast to all tasks/processes.
 
 Memory allocation
-^^^^^^^^^^^^^^^^^
+-----------------
 
-* <b>Schemes should not use dynamic memory allocation on the heap.</b>
+* **Schemes should not use dynamic memory allocation on the heap.**
 
 * Schemes should not contain data that may clash when multiple non-interacting instances of the scheme are being used in one executable. This is because some host models may run multiple CCPP instances from the same executable.
 

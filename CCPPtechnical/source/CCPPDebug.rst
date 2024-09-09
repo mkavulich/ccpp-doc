@@ -8,7 +8,7 @@ Debugging with CCPP
 Introduction
 ================================
 
-In order to debug code efficiently with :term:`CCPP`, it is important to remember the conceptual differences between traditional, physics-driver based approaches and the ones with CCPP. 
+In order to debug code efficiently with :term:`CCPP`, it is important to remember the conceptual differences between traditional, physics-driver based approaches and the ones with CCPP.
 
 Traditional, physics-driver based approaches rely on hand-written physics drivers that connect the different physical :term:`parameterizations <parameterization>` together and often contain a large amount of "glue code" required between the parameterizations. As such, the physics drivers usually have access to all variables that are used by the physical parameterizations, while individual parameterizations only have access to the variables that are passed in. Debugging either happens on the level of the physics driver or inside physical parameterizations. In both cases, print statements are inserted in one or more places (e.g. in the driver before/after parameterizations to debug). In the CCPP, there are no hand-written physics drivers. Instead, the physical parameterizations are glued together by an :term:`SDF` that lists the :term:`primary physical parameterizations <primary scheme>` and so-called :term:`interstitial parameterizations <interstitial scheme>` or interstitial schemes (containing the glue code, broken up into logical units) in the order of execution.
 
@@ -34,12 +34,12 @@ Two categories of debugging with CCPP
 ============================================
 CCPP-compliant debugging schemes for the UFS
 ============================================
-For the UFS models, dedicated debugging schemes have been created by the CCPP developers. These schemes can be found in ``FV3/ccpp/physics/physics/GFS_debug.F90``. Developers can use the schemes as-is or customize and add to them as needed. Also, several customization options are documented at the top of the file. These mainly deal with the amount/type of data/information output from arrays, and users can switch between them by turning on or off the corresponding preprocessor directives inside ``GFS_debug.F90``, followed by recompiling.
+For the UFS models, dedicated debugging schemes have been created by the CCPP developers. These schemes can be found in `physics/Interstitials/UFS_SCM_NEPTUNE/GFS_debug.F90 <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/Interstitials/UFS_SCM_NEPTUNE/GFS_debug.F90>`__. Developers can use the schemes as-is or customize and add to them as needed. Also, several customization options are documented at the top of the file. These mainly deal with the amount/type of data/information output from arrays, and users can switch between them by turning on or off the corresponding preprocessor directives inside ``GFS_debug.F90``, followed by recompiling.
 
 ----------------------------------------------------------------
 Descriptions of the CCPP-compliant debugging schemes for the UFS
 ----------------------------------------------------------------
-* ``GFS_diagtoscreen`` 
+* ``GFS_diagtoscreen``
     This scheme loops over all blocks for all GFS types that are persistent from one time step to the next (except ``GFS_control``) and prints data for almost all constituents. The call signature and rough outline for this scheme is:
 
       .. code-block:: console
@@ -83,9 +83,9 @@ Descriptions of the CCPP-compliant debugging schemes for the UFS
 
 * ``GFS_interstitialtoscreen``
     This scheme is identical to ``GFS_diagtoscreen``, except that it prints data for all constituents of the ``GFS_interstitial`` derived data type only. As for ``GFS_diagtoscreen``, the amount of information printed to screen can be customized using preprocessor statements, and all output to ``stdout/stderr`` from this routine is prefixed with **'XXX: '** so that it can be easily removed from the log files using "grep -ve 'XXX: ' ..." if needed.
-  
-  
-  
+
+
+
 * ``GFS_abort``
     This scheme can be used to terminate a model run at some point in the call to the physics. It can be customized to meet the developer's requirements.
 
@@ -115,7 +115,7 @@ Descriptions of the CCPP-compliant debugging schemes for the UFS
 
 * ``GFS_checkland``
     This routine is an example of a user-provided debugging scheme that is useful for solving issues with the fractional grid with the Rapid Update Cycle Land Surface Model (RUC LSM). All output to ``stdout/stderr`` from this routine is prefixed with **'YYY: '** (instead of ‘XXX:’), which can be easily removed from the log files using "grep -ve 'YYY: ' ..." if needed.
-  
+
     .. code-block:: console
 
        subroutine GFS_checkland_run (me, master, blkno, im, kdt, iter, flag_iter, flag_guess, &
@@ -141,7 +141,7 @@ Descriptions of the CCPP-compliant debugging schemes for the UFS
             write(0,'(a,2i5,1x,e16.7)')'YYY: i, blk, oceanfrac(i)  :', i, blkno, oceanfrac(i)
             write(0,'(a,2i5,1x,e16.7)')'YYY: i, blk, landfrac(i)   :', i, blkno, landfrac(i)
             write(0,'(a,2i5,1x,e16.7)')'YYY: i, blk, lakefrac(i)   :', i, blkno, lakefrac(i)
-            write(0,'(a,2i5,1x,e16.7)')'YYY: i, blk, slmsk(i)      :', i, blkno, slmsk(i)   
+            write(0,'(a,2i5,1x,e16.7)')'YYY: i, blk, slmsk(i)      :', i, blkno, slmsk(i)
             write(0,'(a,2i5,1x,i5)')   'YYY: i, blk, islmsk(i)     :', i, blkno, islmsk(i)
             !end if
         end do

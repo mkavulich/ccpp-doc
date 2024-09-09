@@ -23,7 +23,7 @@ so that doxygen will parse them correctly, where to put various comments within
 the code, how to include information from the ``.meta`` files,
 and how to configure and run doxygen to generate HTML
 output. For an example of the HTML rendering of the CCPP Scientific Documentation, see
-https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/index.html
+https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/index.html
 Part of this documentation, namely metadata about subroutine arguments, has
 functional significance as part of the CCPP infrastructure. The metadata must be
 in a particular format to be parsed by Python scripts that “automatically” generate
@@ -107,7 +107,7 @@ a project or suite. You can refer to any source code entity from within a page.
 
 The DTC maintains a main page, created by the Doxygen command
 ``\mainpage``, which contains an overall description and background of the CCPP.
-Physics developers do not have to edit the file with the mainpage (``mainpage.txt``), which is 
+Physics developers do not have to edit the file with the mainpage (``mainpage.txt``), which is
 formatted like this:
 
 .. code-block:: console
@@ -120,20 +120,17 @@ formatted like this:
 All other pages listed under the main page are created using the Doxygen
 tag ``\page`` described in the next section. In any Doxygen page,
 you can refer to any entity of source code by using Doxygen tag ``\ref``
-or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
+or ``@ref``. Example from ``GFS_v16_suite.txt``:
 
 .. code-block:: console
 
    /**
    \page GFS_v16_page GFS_v16 Suite 
-
+   
    \section gfsv16_suite_overview Overview
-
+   
    Version 16 of the Global Forecast System (GFS) was implemented operationally by the NOAA
-   National Centers for Environmental Prediction (NCEP) in 2021. This suite is available for
-   use with the UFS SRW App and with the CCPP SCM.
-
-   The GFS_v16 suite uses the parameterizations in the following order:
+   National Centers for Environmental Prediction (NCEP) in 2021. The GFS_v16 suite uses the parameterizations in the following order:
     - \ref GFS_RRTMG
     - \ref GFS_SFCLYR
     - \ref GFS_NSST
@@ -147,15 +144,15 @@ or ``@ref``. Example from ``suite_FV3_GFS_v16.txt``:
     - \ref GFS_SAMFdeep
     - \ref GFS_SAMFshal
     - \ref GFDL_cloud
-
+   
    \section sdf_gfsv16b Suite Definition File
    \include  suite_FV3_GFS_v16.xml
    ...
    */
 
-The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/_g_f_s_v16_page.html>`_.
-You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the 
-``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands 
+The HTML result of this Doxygen code `can be viewed here <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_g_f_s_v16_page.html>`_.
+You can see that the ``-`` symbols at the start of a line generate a list with bullets, and the
+``\ref`` commands generate links to the appropriately labeled pages. The ``\section`` comands
 indicate section breaks, and the ``\include`` commands will include the contents of another file.
 
 Other valid Doxygen commands for style, markup, and other functionality can be found in the `Doxygen documentation <https://doxygen.nl/manual/index.html>`_.
@@ -168,7 +165,7 @@ overview of the parameterization.  These pages are not tied to the Fortran
 code directly; instead, they are created with a separate text file that starts
 with the command ``\page``.  For CCPP, the stand-alone Doxygen pages, including the main page
 and the scheme pages, are contained in the *ccpp-physics* repository, under the
-``ccpp-physics/physics/docs/pdftxt/`` directory. Each page (aside from the main page) has a 
+``ccpp-physics/physics/docs/pdftxt/`` directory. Each page (aside from the main page) has a
 *label* (e.g., “GFS_SAMFdeep” in the following example) and a
 user-visible title (“GFS Scale-Aware Simplified Arakawa-Schubert (sa-SAS) Deep Convection
 Scheme” in the following example).  It is noted that labels must be unique
@@ -222,14 +219,14 @@ The physics scheme page will often describe the following:
    The argument table for CCPP entry point subroutine ``{scheme}_run`` will be in this section.
    It is created by inserting a reference link (``\ref``) to the corresponding Doxygen label in the Fortran code
    for the scheme. In the :ref:`above example <doxygen_page_example>`, the ``\ref arg_table_samfdeepcnv_run``
-   tag references the section of Doxygen-annotated source code in ``ccpp-physics/physics/samfdeepcnv.f``
-   that contains the scheme's argument table as an included html document, as described in the 
+   tag references the section of Doxygen-annotated source code in `ccpp-physics/physics/CONV/SAMF/samfdeepcnv.f <https://github.com/NCAR/ccpp-physics/blob/da75531/physics/CONV/SAMF/samfdeepcnv.f>`__
+   that contains the scheme's argument table as an included html document, as described in the
    :ref:`following section <DoxygenModules>`.
 
 3. A "General Algorithm" section
 
    The general description of the algorithm will be in this section. It is created by inserting
-   a reference link (``\ref``) pointing to the corresponding Doxygen-annotated source code for the scheme, 
+   a reference link (``\ref``) pointing to the corresponding Doxygen-annotated source code for the scheme,
    as described in the :ref:`following section <DoxygenModules>`.
 
 As can be seen in the above examples, symbols ``/\*\*`` and ``*/`` need to be the first and last entries of the page.
@@ -251,7 +248,7 @@ is used to aggregate all code related to that scheme, even when it is in separat
 files. Since doxygen cannot know which files or subroutines belong to each physics
 scheme, each relevant subroutine must be tagged with the module name. This allows
 doxygen to understand your modularized design and generate the documentation accordingly.
-`Here is a list of modules <https://dtcenter.ucar.edu/GMTB/v6.0.0/sci_doc/modules.html>`_
+`Here is a list of modules <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/namespaces.html>`_
 defined in CCPP.
 
 A module is defined using:
@@ -392,7 +389,7 @@ Bibliography
 Doxygen can handle in-line paper citations and link to an automatically created
 bibliography page. The bibliographic data for any papers that are cited need to
 be put in BibTeX format and saved in a .bib file. The .bib file for CCPP is
-included in the :term:`CCPP Physics` repository (``ccpp-physics/physics/docs/library.bib``), 
+included in the :term:`CCPP Physics` repository (``ccpp-physics/physics/docs/library.bib``),
 and the doxygen configuration option ``cite_bib_files`` points to the included file.
 
 Citations are invoked with the following tag:
@@ -472,11 +469,11 @@ Fortran files using the doygen markup below.
    !! \htmlinclude SUBROUTINE_NAME.html
    !!
 
-The tables should be created using a Python script distributed with the :term:`CCPP Framework`, 
+The tables should be created using a Python script distributed with the :term:`CCPP Framework`,
 ``ccpp-framework/scripts/metadata2html.py``.
 
 .. note::
-   You will need to set the environment variable ``PYTHONPATH`` to include the directories 
+   You will need to set the environment variable ``PYTHONPATH`` to include the directories
    ``ccpp/framework/scripts`` and ``ccpp/framework/scripts/parse_tools``. As an example for bash-like shells:
 
    .. code-block::
@@ -499,7 +496,7 @@ directory as the scheme Fortran files (``ccpp-physics/physics``).
 
 To generate the complete Scientific Documentation, the script ``./ccpp/framework/scripts/metadata2html.py``
 must be run separately for each ``.meta`` file available in ``ccpp-physics/physics``. Alternatively, a batch mode exists
-that converts all metadata files associated with schemes and variable definitions in the CCPP prebuild config; 
+that converts all metadata files associated with schemes and variable definitions in the CCPP prebuild config;
 again using the SCM as an example:
 
 .. code-block:: fortran
@@ -519,7 +516,7 @@ Using Doxygen
 In order to generate the doxygen-based documentation, you will need to follow five steps:
 
 #. Have the executables ``doxygen`` (https://doxygen.nl/), ``graphviz`` (https://graphviz.org/),
-   and ``bibtex`` (http://www.bibtex.org/) installed on your machine and in your ``PATH``.
+   and ``bibtex`` (https://www.bibtex.org/) installed on your machine and in your ``PATH``.
    These utilities can be installed on MacOS via `Homebrew <https://brew.sh/>`_, or installed
    manually via the instructions on each utility's page linked above.
 

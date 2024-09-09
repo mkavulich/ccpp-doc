@@ -16,7 +16,7 @@ The repository and code organization differs for :term:`CCPP Framework` and :ter
 CCPP Framework
 --------------------------------------
 
-The CCPP Framework code base can be found in the authoritative repository in the :term:`NCAR` GitHub organization (https://github.com/NCAR/ccpp-framework). This repository is public and can be viewed, downloaded, or cloned by users without needing a GitHub account. 
+The CCPP Framework code base can be found in the authoritative repository in the :term:`NCAR` GitHub organization (https://github.com/NCAR/ccpp-framework). This repository is public and can be viewed, downloaded, or cloned by users without needing a GitHub account.
 
 Developers seeking to contribute code to the CCPP should create a GitHub account and set up a personal fork in order to introduce changes to the official code base via a Pull Request (PR) on GitHub (see `Creating Forks`_).
 
@@ -96,7 +96,7 @@ Checking out the Code
 -----------------------------------
 Instructions are provided here for the ccpp-physics repository assuming development intended for use in UFS Applications. The instructions for the ccpp-framework repository are analogous but should start from the main repository in the NCAR GitHub Organization (https://github.com/NCAR/ccpp-framework).
 
-The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
+The process for checking out the CCPP is described in the following, assuming access via https (using a `personal access token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>`_) rather than ssh. If you are using an `ssh key <https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account>`_ instead, you should replace instances of ``https://github.com/`` with ``git@github.com:`` in repository URLs.
 
 Start by checking out the UFS Application Fork:
 
@@ -120,20 +120,20 @@ From here you can view the available branches in the ccpp-physics repository wit
      remotes/upstream/HEAD -> upstream/ufs/dev
      remotes/upstream/ufs/dev
 
-As you can see, you are placed on the ``ufs/dev`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. In the ccpp-framework repository, the default branch is named ``main``. All new development should start from the default branch, but if you would like to view code from another branch this is simple with the ``git checkout`` command. 
+As you can see, you are placed on the ``ufs/dev`` branch by default; this is the most recent version of the development code in the ccpp-physics repository. In the ccpp-framework repository, the default branch is named ``main``. All new development should start from the default branch, but if you would like to view code from another branch this is simple with the ``git checkout`` command.
 
 .. code-block:: console
    :emphasize-lines: 3-4
 
-   git checkout release/public-v6
+   git checkout release/public-v7
 
-   branch 'release/public-v6' set up to track 'upstream/release/public-v6'.
-   Switched to a new branch 'release/public-v6'
+   branch 'release/public-v7' set up to track 'upstream/release/public-v7'.
+   Switched to a new branch 'release/public-v7'
 
 .. note::
    Never used git or GitHub before? Confused by what all this means or why we do it? Check out `this presentation from the UFS SRW Training workshop <https://dtcenter.org/sites/default/files/events/2021/18-code-management-making-contributions-kavulich.pdf>`_ for a "from basic principles" explanation!
 
-After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v6`` named ``release/public-v6``. To return to the ufs/dev branch, simply use ``git checkout ufs/dev``.
+After this command, git has checked out a local copy of the remote branch ``upstream/release/public-v7`` named ``release/public-v7``. To return to the ufs/dev branch, simply use ``git checkout ufs/dev``.
 
 If you wish to make changes that you will eventually contribute back to the public code base, you should always create a new "feature" branch that will track those particular changes.
 
@@ -144,9 +144,9 @@ If you wish to make changes that you will eventually contribute back to the publ
 
 .. note::
 
-   By checking out the remote ``upstream/ufs/dev`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch. 
+   By checking out the remote ``upstream/ufs/dev`` branch directly, you will be left in a so-called '`detached HEAD <https://www.cloudbees.com/blog/git-detached-head>`_' state. This will prompt git to show you a scary-looking warning message, but it can be ignored so long as you follow it by the second command above to create a new branch.
 
-You can now make changes to the code, and commit those changes locally using ``git commit`` in order to track 
+You can now make changes to the code, and commit those changes locally using ``git commit`` in order to track
 
 
 

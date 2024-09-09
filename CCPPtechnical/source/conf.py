@@ -145,7 +145,7 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
-    'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Bernardet, L., G. Firl, D. Heinzeller, L. Pan, M. Zhang, M. Kavulich, J. Schramm, and L. Carson, 2022. CCPP Technical Documentation Release v6.0.0. Available at https://ccpp-techdoc.readthedocs.io/\textunderscore/downloads/en/v6.0.0/pdf/.}\sphinxmaketitle'
+    'maketitle': r'\newcommand\sphinxbackoftitlepage{For referencing this document please use: \newline \break Bernardet, L., G. Firl, D. Heinzeller, L. Pan, M. Zhang, M. Kavulich, J. Schramm, and L. Carson, 2024. CCPP Technical Documentation Release v7.0.0. Available at https://ccpp-techdoc.readthedocs.io/\textunderscore/downloads/en/v7.0.0/pdf/.}\sphinxmaketitle'
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -202,7 +202,7 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {'python': ('https://docs.python.org/3', None)}
 
 # -- Options for todo extension ----------------------------------------------
 
