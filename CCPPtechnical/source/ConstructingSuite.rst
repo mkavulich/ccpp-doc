@@ -142,16 +142,16 @@ Consider the case where a model requires that some subset of physics be called o
    </suite>
 
 -------------------------------
-GFS v16beta Suite
+GFS v16 Suite
 -------------------------------
 
-Here is the SDF for the physics suite equivalent to the GFS v16beta in the Single-Column Model (:term:`SCM`), which employs various groups and subcycling:
+Here is the SDF for the physics suite equivalent to the GFS v16 in the Single-Column Model (:term:`SCM`), which employs various groups and subcycling:
 
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
 
-   <suite name="SCM_GFS_v16beta" version="1">
+   <suite name="SCM_GFS_v16" version="1">
      <group name="time_vary">
        <subcycle loop="1">
          <scheme>GFS_time_vary_pre</scheme>
@@ -164,10 +164,10 @@ Here is the SDF for the physics suite equivalent to the GFS v16beta in the Singl
        <subcycle loop="1">
          <scheme>GFS_suite_interstitial_rad_reset</scheme>
          <scheme>GFS_rrtmg_pre</scheme>
-         <scheme>rrtmg_sw_pre</scheme>
+         <scheme>GFS_radiation_surface</scheme>
+         <scheme>rad_sw_pre</scheme>
          <scheme>rrtmg_sw</scheme>
          <scheme>rrtmg_sw_post</scheme>
-         <scheme>rrtmg_lw_pre</scheme>
          <scheme>rrtmg_lw</scheme>
          <scheme>rrtmg_lw_post</scheme>
          <scheme>GFS_rrtmg_post</scheme>
@@ -209,9 +209,7 @@ Here is the SDF for the physics suite equivalent to the GFS v16beta in the Singl
          <scheme>cires_ugwp</scheme>
          <scheme>cires_ugwp_post</scheme>
          <scheme>GFS_GWD_generic_post</scheme>
-         <scheme>rayleigh_damp</scheme>
          <scheme>GFS_suite_stateout_update</scheme>
-         <scheme>ozphys_2015</scheme>
          <scheme>h2ophys</scheme>
          <scheme>get_phi_fv3</scheme>
          <scheme>GFS_suite_interstitial_3</scheme>
@@ -227,12 +225,12 @@ Here is the SDF for the physics suite equivalent to the GFS v16beta in the Singl
          <scheme>gfdl_cloud_microphys</scheme>
          <scheme>GFS_MP_generic_post</scheme>
          <scheme>maximum_hourly_diagnostics</scheme>
-         <scheme>phys_tend</scheme>
+         <scheme>GFS_physics_post</scheme>
        </subcycle>
      </group>
    </suite>
 
-The suite name is ``SCM_GFS_v16beta``. Three groups (``time_vary``, ``radiation``, and ``physics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
+The suite name is ``SCM_GFS_v16``. Three groups (``time_vary``, ``radiation``, and ``physics``) are used, because the physics needs to be called in different parts of the host model. The detailed explanation of each primary physics scheme can be found in scientific documentation. A short explanation of each scheme is below.
 
 * ``GFS_time_vary_pre``: GFS physics suite time setup
 * ``GFS_rrtmg_setup``: Rapid Radiative Transfer Model for Global Circulation Models (RRTMG) setup
