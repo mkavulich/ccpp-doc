@@ -451,7 +451,9 @@ Input/Output Variable (argument) Rules
    * Standard intrinsic Fortran variables are preferred (``character``, ``integer``, ``logical``, ``real``, ``complex``).
      For character variables, the length should be specified as ``*`` in order to allow the host model
      to specify the corresponding variable with a length of its own choice. All others can have a
-     ``kind`` attribute of a ``kind`` type defined by the host model.
+     ``kind`` attribute of a ``kind`` type defined by the host model. For variables of type ``real``
+     and ``complex`` without a ``kind`` attribute, the CCPP Framework will automatically assign the
+     CCPP default floating point kind ``kind_phys`` to the variable's metadata.
 
    * Derived data types (DDTs). While the use of DDTs is discouraged, some use cases may
      justify their application (e.g. DDTs for chemistry that contain tracer arrays or information on
