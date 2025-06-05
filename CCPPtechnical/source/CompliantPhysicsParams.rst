@@ -486,7 +486,7 @@ Input/Output Variable (argument) Rules
 
   This allows the compiler to perform bounds checking and detect errors that otherwise may go unnoticed.
 
-  .. warning:: Fortran assumes that the lower bound of assumed-size arrays is ``1``. If ``foo`` has lower bounds ``is`` and ``ks`` that are different from ``1``, then these must be specified explicitly:
+  .. warning:: Fortran assumes that the lower bound of assumed-size arrays is ``1``. If a scheme uses ``foo`` with lower bounds ``is`` and ``ks`` that are different from ``1``, then these must be specified explicitly:
 
   .. code-block:: fortran
 
