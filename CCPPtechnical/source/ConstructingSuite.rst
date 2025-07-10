@@ -14,7 +14,7 @@ In addition to the :term:`primary parameterization <primary scheme>` categories 
 
 The format of the SDF is specified by a schema and all host models that use :term:`CCPP` include file ``suite.xsd`` to describe the schema.
 
-The name of the suite is listed at the top of the SDF, right after the XML declaration, and must be consistent with the name of the SDF: file ``suite_ABC.xml`` contains ``suite name=’ABC’``, as in the example below. The suite name is followed by the version of the XML schema used.
+The name of the suite is listed at the top of the SDF, right after the XML declaration, as in the examples below. The suite name is followed by the version of the XML schema used.
 
 --------------
 Groups
