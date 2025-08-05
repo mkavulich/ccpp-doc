@@ -24,7 +24,7 @@ as arguments to the ``ccpp_prebuild.py`` script.
 The CCPP *prebuild* step performs the tasks below.
 
 * Check requested vs provided variables by ``standard_name``.
-* Check units, rank, type. Perform unit conversions if a mismatch
+* Check units, dimensions, type. Perform unit conversions if a mismatch
   of units is detected and the required conversion has been implemented (see
   :numref:`Section %s <AutomaticUnitConversions>` for details).
 * Filter unused schemes and variables.

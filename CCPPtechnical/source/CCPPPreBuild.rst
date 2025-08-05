@@ -21,7 +21,7 @@ on the host model side and from the individual physics schemes (``.meta`` files;
  * Compiles a list of variables required to run all schemes in the CCPP Physics pool.
 
  * Matches these variables by their ``standard_name``, checks for missing variables and mismatches of their
-   attributes (e.g., units, rank, type, kind). Performs automatic unit conversions if a mismatch of units
+   attributes (e.g., units, dimensions, type, kind). Performs automatic unit conversions if a mismatch of units
    is detected between a scheme and the host model (see :numref:`Section %s <AutomaticUnitConversions>` for details).
 
  * Filters out unused variables for a given :term:`suite`.
@@ -183,110 +183,108 @@ Troubleshooting
 
 If invoking the ``ccpp_prebuild.py`` script fails, some message other than the success message will be written to the terminal output. Specifically, the terminal output will include informational logging messages generated from the script and any error messages written to the Python logging utility. Some common errors (minus the typical logging output and traceback output) and solutions are described below, with non-bold font used to denote aspects of the message that will differ depending on the problem encountered. This is not an exhaustive list of possible errors, however. For example, in this version of the code, there is no cross-checking that the metadata information provided corresponds to the actual Fortran code, so even though ``ccpp_prebuild.py`` may complete successfully, there may be related compilation errors later in the build process. For further help with an undescribed error, you can make a post in the appropriate GitHub discussions forum for *CCPP Physics* (https://github.com/NCAR/ccpp-physics/discussions) or *CCPP Framework* (https://github.com/NCAR/ccpp-framework/discussions).
 
+.. note::
+   Some errors may not cause an immediate failure of the script, causing an exception with very little information at the end such as  ``Exception: Call to compare_metadata failed``. You may need to scroll up substantially to see more information about the error; try searching for the string ``ERROR:`` or ``CRITICAL:``
 
- #. ``ERROR: Configuration file`` erroneous/path/to/config/file ``not found``
-      * Check that the path entered for the ``--config`` command line option points to a readable configuration file.
- #. ``KeyError``: 'erroneous_scheme_name' when using the ``--suites`` option
-      * This error indicates that a scheme within the supplied :term:`SDF`\s does not match any scheme names found in the SCHEME_FILES variable of the supplied configuration file that lists scheme source files. Double check that the scheme’s source file is included in the SCHEME_FILES list and that the scheme name that causes the error is spelled correctly in the supplied SDFs and matches what is in the source file (minus any ``*_timestep_init``, ``*_init``, ``*_run``, ``*_finalize``, ``*_timestep_finalize`` suffixes).
- #. ``CRITICAL: Suite definition file`` erroneous/path/to/SDF.xml ``not found``.
+#. **Problem:** ``ERROR: Configuration file`` `erroneous/path/to/config/file` ``not found``
 
-    ``Exception: Parsing suite definition file`` erroneous/path/to/SDF.xml ``failed``.
-      * Check that the path ``SUITES_DIR`` in the CCPP prebuild config and the names entered for the ``--suites`` command line option are correct.
- #. ``INFO: Parsing metadata tables for variables provided by host model`` …
+   **Solution:** Check that the path entered for the ``--config`` command line option points to a readable configuration file.
 
-    ``IOError: [Errno 2] No such file or directory``: 'erroneous_file.f90'
-      * Check that the paths specified in the ``VARIABLE_DEFINITION_FILES`` of the supplied configuration file are valid and contain CCPP-compliant host model snippets for insertion of metadata information. (see :ref:`example <SnippetMetadata>`)
- #. ``Exception: Error parsing variable entry`` "erroneous variable metadata table entry data" ``in argument table`` variable_metadata_table_name
-      * Check that the formatting of the metadata entry described in the error message is OK.
- #. ``Exception: New entry for variable`` var_name ``in argument table`` variable_metadata_table_name ``is incompatible with existing entry``:
-     | ``Existing: Contents of <mkcap.Var object at 0x10299a290> (* = mandatory for compatibility)``:
-     |  ``standard_name`` = var_name *
-     |  ``long_name``     =
-     |  ``units``         = various *
-     |  ``local_name``    =
-     |  ``type``          = real *
-     |  ``rank``          = (:,:,:) *
-     |  ``kind``          = kind_phys *
-     |  ``intent``        = none
-     |  ``active``        = T
-     |  ``target``        = None
-     |  ``container``     = MODULE_X TYPE_Y
-     | ``vs. new: Contents of <mkcap.Var object at 0x10299a310> (* = mandatory for compatibility)``:
-     |  ``standard_name`` = var_name *
-     |  ``long_name``     =
-     |  ``units``         = frac *
-     |  ``local_name``    =
-     |  ``type``          = real *
-     |  ``rank``          = (:,:) *
-     |  ``kind``          = kind_phys *
-     |  ``intent``        = none
-     |  ``active``        = T
-     |  ``target``        = None
-     |  ``container``     = MODULE_X TYPE_Y
+#. **Problem:** ``CRITICAL: Scheme`` `erroneous_scheme_name` ``in suite`` `suite_name` ``cannot be found``
 
-     * This error is associated with a variable that is defined more than once (with the same :term:`standard name`) on the host model side. Information on the offending variables is provided so that one can provide different standard names to the different variables.
- #. ``Exception: Scheme name differs from module name``: ``module_name``\= "X" vs. ``scheme_name``\= "Y"
-      * Make sure that each scheme in the errored module begins with the module name and ends in either ``*_timestep_init``, ``*_init``, ``*_run``, ``*_finalize``, or ``*_timestep_finalize``.
- #. ``Exception: New entry for variable`` var_name ``in argument table of subroutine`` scheme_subroutine_name ``is incompatible with existing entry``:
-     | ``existing: Contents of <mkcap.Var object at 0x10299a290> (* = mandatory for compatibility)``:
-     |  ``standard_name`` = var_name *
-     |  ``long_name``     =
-     |  ``units``         = various *
-     |  ``local_name``    =
-     |  ``type``          = real *
-     |  ``rank``          = (:,:,:) *
-     |  ``kind``          = kind_phys *
-     |  ``intent``        = none
-     |  ``active``        = T
-     |  ``target``        = None
-     |  ``container``     = MODULE_X TYPE_Y
-     | ``vs. new: Contents of <mkcap.Var object at 0x10299a310> (* = mandatory for compatibility)``:
-     |  ``standard_name`` = var_name *
-     |  ``long_name``     =
-     |  ``units``         = frac *
-     |  ``local_name``    =
-     |  ``type``          = real *
-     |  ``rank``          = (:,:) *
-     |  ``kind``          = kind_phys *
-     |  ``intent``        = none
-     |  ``active``        = T
-     |  ``target``        = None
-     |  ``container``     = MODULE_X TYPE_Y
+   **Solution:** This error indicates that a scheme within the supplied :term:`SDF`\s does not match any scheme names found in the ``SCHEME_FILES`` variable of the supplied configuration file.
+   Double check that:
 
-     * This error is associated with physics scheme variable metadata entries that have the same standard name with different mandatory properties (either units, type, rank, or kind currently -- those attributes denoted with a ``*``). This error is distinguished from the error described in 8 above, because the error message mentions “in argument table of subroutine” instead of just “in argument table”.
- #. ``ERROR: Variable`` X ``requested by MODULE_``\Y ``SCHEME_``\Z ``SUBROUTINE_``\A ``not provided by the model``
-     ``Exception: Call to compare_metadata failed.``
+   - The scheme’s source file is included in the ``SCHEME_FILES`` list.
+   - The scheme name that causes the error is spelled correctly in the supplied SDFs and matches the name in the source file, excluding suffixes like ``*_timestep_init``, ``*_init``, ``*_run``, ``*_finalize``, ``*_timestep_finalize``.
 
-     * A variable requested by one or more physics schemes is not being provided by the host model. If the variable exists in the host model but is not being made available for the CCPP, an entry must be added to one of the host model variable metadata sections.
- #. ``ERROR:   error, variable`` X ``requested by MODULE_``\Y ``SCHEME_``\Z ``SUBROUTINE_``\A ``cannot be identified unambiguously. Multiple definitions in MODULE_``\Y ``TYPE_``\B
-      * A variable is defined in the host model variable metadata more than once (with the same standard name). Remove the offending entry or provide a different standard name for one of the duplicates.
- #. ``ERROR:   incompatible entries in metadata for variable`` var_name:
-     | ``provided:  Contents of <mkcap.Var object at 0x104883210> (* = mandatory for compatibility)``:
-     |  ``standard_name`` = var_name *
-     |  ``long_name``     =
-     |  ``units``         = K *
-     |  ``local_name``    =
-     |  ``type``          = real *
-     |  ``rank``          =  *
-     |  ``kind``          = kind_phys *
-     |  ``intent``        = none
-     |  ``active``        = T
-     |  ``target``        = None
-     |  ``container``     =
-     | ``requested: Contents of <mkcap.Var object at 0x10488ca90> (* = mandatory for compatibility)``:
-     |  ``standard_name`` = var_name *
-     |  ``long_name``     =
-     |  ``units``         = none *
-     |  ``local_name``    =
-     |  ``type``          = real *
-     |  ``rank``          =  *
-     |  ``kind``          = kind_phys *
-     |  ``intent``        = in
-     |  ``active``        = T
-     |  ``target``        = None
-     |  ``container``     =
- #. ``Exception: Call to compare_metadata failed``.
-      * This error indicates a mismatch between the attributes of a variable provided by the host model and what is requested by the physics. Specifically, the units, type, rank, or kind don’t match for a given variable standard name. Double-check that the attributes for the provided and requested mismatched variable are accurate. If after checking the attributes are indeed mismatched, reconcile as appropriate (by adopting the correct variable attributes either on the host or physics side).
+#. **Problem:** ``CRITICAL: Suite definition file`` `erroneous/path/to/SDF.xml` ``not found``
+
+                ``Exception: Parsing suite definition file`` `erroneous/path/to/SDF.xml` ``failed``
+
+   **Solution:**
+   Check that:
+
+   - The path ``SUITES_DIR`` in the CCPP prebuild config is correct.
+   - The names passed to the ``--suites`` command line option are valid.
+
+#. **Problem:** ``INFO: Parsing metadata tables for variables provided by host model``
+
+   ...
+
+   ``IOError: [Errno 2] No such file or directory: '`` `erroneous_file.f90` ``'``
+
+   **Solution:** Check that the paths listed in the ``VARIABLE_DEFINITION_FILES`` section of the configuration file:
+
+   - Are valid and point to existing files.
+   - Contain CCPP-compliant host model snippets for metadata insertion.
+     See example in :ref:`example <SnippetMetadata>`.
+
+#. **Problem:** ``Exception: Error parsing variable entry`` `erroneous variable metadata table entry data` ``in argument table`` `variable_metadata_table_name`
+
+   **Solution:** Check that the formatting of the metadata entry described in the error message is correct
+
+#. **Problem:** ``ERROR: Attempt to add duplicate variable,`` `erroneous variable name` ``from`` `scheme name`
+
+   ``Traceback (most recent call last):``
+
+   ...
+
+   ``parse_source.ParseSyntaxError: Invalid (duplicate) standard name in`` `scheme name` ``, defined at`` `metadata file name and line number` ``, '`` `variable standard name` ``', at`` `metadata file name and line number`
+
+   **Solution:** This error is associated with a variable that is defined more than once (with the same :term:`standard name`) on the host model side. Information on the offending variables is provided so that one can provide different standard names to the different variables.
+
+#. **Problem:** ``ERROR: Variable`` `X` ``requested by MODULE_``\Y ``SCHEME_``\Z ``SUBROUTINE_``\A ``not provided by the model``
+
+   ``Traceback (most recent call last):``
+
+   ...
+
+   ``Exception: Call to compare_metadata failed.``
+
+   **Solution:** A variable requested by one or more physics schemes is not being provided by the host model. If the variable exists in the host model but is not being made available for the CCPP, an entry must be added to one of the host model variable metadata sections.
+
+
+#. **Problem:**
+
+   ::
+
+      ERROR:   incompatible entries in metadata for variable surface_exchange_coefficient_for_heat_at_2m:
+          provided:  Contents of <mkcap.Var object at 0x7f371ac8aa70> (* = mandatory for compatibility):
+                  standard_name = surface_exchange_coefficient_for_heat_at_2m *
+                  long_name     = exchange coefficient for heat at 2 meters
+                  units         = m s-1 *
+                  local_name    = GFS_Sfcprop%chs2
+                  type          = real *
+                  dimensions    = ['ccpp_constant_one:horizontal_dimension']
+                  rank          = (:) *
+                  kind          = kind_phys *
+                  intent        = None
+                  active        = (flag_for_mellor_yamada_nakanishi_niino_surface_layer_scheme)
+                  target        = None
+                  container     = MODULE_GFS_typedefs TYPE_GFS_sfcprop_type
+                  actions       = {'in': None, 'out': None}
+          requested: Contents of <mkcap.Var object at 0x7f37195dbb50> (* = mandatory for compatibility):
+                  standard_name = surface_exchange_coefficient_for_heat_at_2m *
+                  long_name     = exchange coefficient for heat at 2 meters
+                  units         = m s-1 *
+                  local_name    = chs2
+                  type          = real *
+                  dimensions    = ['ccpp_constant_one:horizontal_loop_extent', 'ccpp_constant_one:vertical_layer_dimension']
+                  rank          = (:,:) *
+                  kind          = kind_phys *
+                  intent        = inout
+                  optional      = F
+                  target        = None
+                  container     = MODULE_mynnsfc_wrapper SCHEME_mynnsfc_wrapper SUBROUTINE_mynnsfc_wrapper_run
+                  actions       = {'in': None, 'out': None}
+
+   ...
+
+   ``Exception: Call to compare_metadata failed.``
+
+
+   **Solution:** This error indicates a mismatch between the attributes of a variable provided by the host model and what is requested by the physics. Specifically, the units, type, rank, or kind don’t match for a given variable standard name. Double-check that the attributes for the provided and requested mismatched variable are accurate. If after checking the attributes are indeed mismatched, reconcile as appropriate (by adopting the correct variable attributes either on the host or physics side).
 
 Note: One error that the ``ccpp_prebuild.py`` script will not catch is if a physics scheme lists a variable in its actual (Fortran) argument list without a corresponding entry in the subroutine’s variable metadata. This will lead to a compilation error when the autogenerated scheme cap is compiled:
 

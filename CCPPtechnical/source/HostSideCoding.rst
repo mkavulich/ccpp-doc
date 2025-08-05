@@ -40,7 +40,7 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
 
 * The ``standard_name`` must match that of the target variable in the physics scheme.
 * The type, kind, shape and size of the variable (as defined in the host model Fortran code) must match that of the target variable.
-* The attributes ``units``, ``rank``, ``type`` and ``kind`` in the host model metadata must match those in the physics scheme metadata.
+* The attributes ``units``, ``dimensions``, ``type`` and ``kind`` in the host model metadata must match those in the physics scheme metadata.
 * The attribute ``active`` is used to allocate variables under certain conditions.  It must be written as a Fortran expression that equates to ``.true.`` or ``.false.``, using the CCPP standard names of variables. ``active`` attributes for all variables are ``.true.`` by default. See :numref:`Section %s <ActiveAttribute>` for details.
 * The ``intent`` attribute is not a valid attribute for host model metadata and will be ignored, if present.
 * The ``local_name`` of the variable must be set to the name the host model cap uses to refer to the variable.
