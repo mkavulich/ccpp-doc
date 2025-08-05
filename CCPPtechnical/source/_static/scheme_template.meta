@@ -8,13 +8,22 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 [ccpp-table-properties]
-  name = ozphys
+  name = drag_suite
   type = scheme
-  dependencies = machine.F
+  dependencies = ../hooks/machine.F
 
+########################################################################
 [ccpp-arg-table]
-  name = ozphys_run
+  name = drag_suite_init
   type = scheme
+[gwd_opt]
+  standard_name = control_for_drag_suite_gravity_wave_drag
+  long_name = flag to choose gwd scheme
+  units = flag
+  dimensions = ()
+  type = integer
+  intent = in
+  optional = T
 [errmsg]
   standard_name = ccpp_error_message
   long_name = error message for error handling in CCPP
@@ -23,7 +32,6 @@
   type = character
   kind = len=*
   intent = out
-  optional = F
 [errflg]
   standard_name = ccpp_error_code
   long_name = error code for error handling in CCPP
@@ -31,4 +39,3 @@
   dimensions = ()
   type = integer
   intent = out
-  optional = F

@@ -306,8 +306,7 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
 
 * ``<type>`` can be ``scheme``, ``module``, or ``DDT``.
 
-* The metadata must
-  describe all input and output arguments to the scheme using the following format:
+After the ``ccpp-arg-table``, there should be a metadata entry for every input and output argument to the scheme using the following format. Any attributes that are not listed as optional are required:
 
 .. code-block:: fortran
 
@@ -315,31 +314,31 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
     standard_name = <standard_name>
     long_name = <long_name>
     units = <units>
-    rank = <rank>
     dimensions = <dimensions>
     type = <type>
     kind = <kind>
     intent = <intent>
     optional = <True,False>
 
-.. warning::
-   The ``pointer`` attribute is deprecated and no longer allowed in CCPP
-
-* The ``intent`` argument is only valid in ``scheme`` metadata tables, as it is not applicable to the other ``types``.
-
-* The following attributes are optional: ``long_name``, ``kind``, ``optional``.
-
-* Lines can be combined using ``|`` as a separator, e.g.,
-
-.. code-block:: console
-
-   type = real | kind = kind_phys
 
 * ``[varname]`` is the local name of the variable in the subroutine.
 
-* The dimensions attribute should be empty parentheses for scalars or contain the ``standard_name`` for the start and end for
-  each dimension of an array. ``ccpp_constant_one`` is the assumed start for any dimension which only has a single value.
-  For example:
+* ``standard_name`` is the standardized variable name for the given quantity, as specified in the Earth System Modeling Standard Names (https://github.com/ESCOMP/ESMStandardNames)
+
+* ``long_name``  (*optional*) is a human-readable description of the variable contents.
+
+* ``units`` denotes the physical units of the variable quantity. The units should be specified as space-separated SI abbreviations; e.g.
+
+  * ``m2`` meters squared
+  * ``mm s-1`` millimeters per second
+  * ``W m-2`` Watts per meter squared
+  * ``kg m-2 s-1`` kilograms per meter squared per second
+  * For unitless quantities or other variables that do not fit into this categorization, see the `ESM Standard Names documentation <https://github.com/ESCOMP/ESMStandardNames/blob/main/StandardNamesRules.rst#units>`__ for more details
+
+
+.. note:: The ``intent`` argument is only valid in ``scheme`` metadata tables, as it is not applicable to the other ``types``.
+
+* ``dimensions`` indicates the dimensionality of the variable. The dimensions attribute should be empty parentheses for scalars, or indicate the start and end of each dimension of an array with an appropriate standard name; see the `ESM Standard Names documentation <https://github.com/ESCOMP/ESMStandardNames/blob/main/Metadata-standard-names.md#dimensions>`__. ``ccpp_constant_one`` is the assumed start for any dimension which only has a single value. Some examples are listed here:
 
 .. code-block:: fortran
 
@@ -348,17 +347,32 @@ For each CCPP compliant scheme, the ``ccpp-arg-table`` for a scheme, module or d
    dimensions = (horizontal_dimension,vertical_dimension)
    dimensions = (horizontal_dimension,vertical_dimension_of_ozone_forcing_data,number_of_coefficients_in_ozone_forcing_data)
 
-* The order of arguments in the entry point subroutines must match the order of entries in the metadata file.
+* ``type`` indicates the variable type. Can be ``character``, ``integer``, ``real``, or ``logical``.
+
+* ``kind`` (*optional*) indicates the variable kind, i.e. precision. The valid kinds are described in the file `physics/hooks/machine.F <https://github.com/NCAR/ccpp-physics/blob/main/physics/hooks/machine.F>`__.
+
+* ``intent`` indicates the argument intent for the given variable. Can be ``in``, ``out``, or ``inout``.
+
+* ``optional`` (*optional*) indicates whether an argument is optional or not. If omitted, argument is assumed to be required.
+
+* Lines can be combined using ``|`` as a separator, e.g.,
+
+.. code-block:: console
+
+   type = real | kind = kind_phys
+
 
 :ref:`Listing 2.4 <meta_template>` contains the template .meta file for an example CCPP-compliant scheme (``scheme_template.meta``)
 
 .. _meta_template:
 .. literalinclude:: ./_static/scheme_template.meta
    :language: fortran
-   :lines: 10-34
+   :lines: 10-40
 
 *Listing 2.4: Fortran template for a metadata file accompanying a CCPP-compliant scheme.*
 
+.. warning::
+   The ``pointer`` and ``rank`` attributes are deprecated and no longer allowed in CCPP
 
 .. _HorizontalDimensionOptionsSchemes:
 
