@@ -347,7 +347,7 @@ After the ``ccpp-arg-table``, there should be a metadata entry for every input a
    dimensions = (horizontal_dimension,vertical_dimension)
    dimensions = (horizontal_dimension,vertical_dimension_of_ozone_forcing_data,number_of_coefficients_in_ozone_forcing_data)
 
-* ``type`` indicates the variable type. Can be ``character``, ``integer``, ``real``, or ``logical``.
+* ``type`` indicates the variable type. Can be ``character``, ``integer``, ``real``, ``complex``, ``logical``, ``ddt``, or a custom type defined by the host. Custom types should be listed under ``TYPEDEFS_NEW_METADATA`` in the prebuild configuration file.
 
 * ``kind`` (*optional*) indicates the variable kind, i.e. precision. The valid kinds are described in the file `physics/hooks/machine.F <https://github.com/NCAR/ccpp-physics/blob/main/physics/hooks/machine.F>`__.
 
