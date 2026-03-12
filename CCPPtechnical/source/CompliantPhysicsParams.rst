@@ -382,7 +382,7 @@ The dimensions attribute in metadata should indicate both the dimensionality of 
 
 The standard names used for dimensions may come in sets of six related standard names for each dimension:
 
-.. code-block:: fortran
+::
 
    [dim_name]_dimension -- The full dimension size
    [dim_name]_loop_extent -- Size of dim for current call
@@ -397,7 +397,8 @@ properly call suite parts and individual schemes. In the substitutions below, th
 the left is the standard_name in the dimensions field of the caller while the name(s) on the right
 is (are) the standard name(s) of the callee (in the form used in the subroutine call).
 
-.. code-block:: fortran
+::
+
    [dim_name]_dimension ==> 1:[dim_name]_loop_extent
    [dim_name]_loop_extent ==> 1:[dim_name]_loop_extent
    [dim_name]_begin:[dim_name]_end ==> 1:[dim_name]_loop_extent
