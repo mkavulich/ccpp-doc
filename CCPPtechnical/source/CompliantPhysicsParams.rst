@@ -338,14 +338,7 @@ After the ``ccpp-arg-table``, there should be a metadata entry for every input a
 
 .. note:: The ``intent`` argument is only valid in ``scheme`` metadata tables, as it is not applicable to the other ``types``.
 
-* ``dimensions`` indicates the dimensionality of the variable. The dimensions attribute should be empty parentheses for scalars, or indicate the start and end of each dimension of an array with an appropriate standard name; see the `ESM Standard Names documentation <https://github.com/ESCOMP/ESMStandardNames/blob/main/Metadata-standard-names.md#dimensions>`__. ``ccpp_constant_one`` is the assumed start for any dimension which only has a single value. Some examples are listed here:
-
-.. code-block:: fortran
-
-   dimensions = ()
-   dimensions = (ccpp_constant_one:horizontal_loop_extent, vertical_level_dimension)
-   dimensions = (horizontal_dimension,vertical_dimension)
-   dimensions = (horizontal_dimension,vertical_dimension_of_ozone_forcing_data,number_of_coefficients_in_ozone_forcing_data)
+* ``dimensions`` indicates the dimensionality of the variable. See :numref:`Section %s <SchemeDimensionOptions>` for details.
 
 * ``type`` indicates the variable type. Can be ``character``, ``integer``, ``real``, ``complex``, ``logical``, ``ddt``, or a custom type defined by the host. Custom types must be listed under ``TYPEDEFS_NEW_METADATA`` in the prebuild configuration file.
 
@@ -374,12 +367,47 @@ After the ``ccpp-arg-table``, there should be a metadata entry for every input a
 .. warning::
    The ``pointer`` and ``rank`` attributes are deprecated and no longer allowed in CCPP
 
-.. _HorizontalDimensionOptionsSchemes:
+.. _SchemeDimensionOptions:
 
-``horizontal_dimension`` vs. ``horizontal_loop_extent``
+Horizontal, vertical, and other dimensions
 -------------------------------------------------------
+The dimensions attribute in metadata should indicate both the dimensionality of the data, as well as the breakdown of data among parallel processes. It should be empty parentheses for scalars, or indicate the start and end of each dimension of an array with an appropriate standard name as listed in the `ESM Standard Names documentation <https://github.com/ESCOMP/ESMStandardNames/blob/main/Metadata-standard-names.md#dimensions>`__. ``ccpp_constant_one`` is the assumed start for any dimension which only has a single value. Some examples are listed here:
 
-It is important to understand the difference between these metadata dimension names.
+.. code-block:: fortran
+
+   dimensions = ()
+   dimensions = (ccpp_constant_one:horizontal_loop_extent, vertical_level_dimension)
+   dimensions = (horizontal_dimension,vertical_dimension)
+   dimensions = (horizontal_dimension,vertical_dimension_of_ozone_forcing_data,number_of_coefficients_in_ozone_forcing_data)
+
+The standard names used for dimensions may come in sets of six related standard names for each dimension:
+
+.. code-block:: fortran
+
+   [dim_name]_dimension -- The full dimension size
+   [dim_name]_loop_extent -- Size of dim for current call
+   [dim_name]_begin - Start index for dimension
+   [dim_name]_end - End index for dimension
+   [dim_name]_index - Single index for dimension
+   [dim_name]_selection - Array of selected indices for
+    dimension
+
+Note that the cap generator may substitute among standard names in this category in order to
+properly call suite parts and individual schemes. In the substitutions below, the name on
+the left is the standard_name in the dimensions field of the caller while the name(s) on the right
+is (are) the standard name(s) of the callee (in the form used in the subroutine call).
+
+.. code-block:: fortran
+   [dim_name]_dimension ==> 1:[dim_name]_loop_extent
+   [dim_name]_loop_extent ==> 1:[dim_name]_loop_extent
+   [dim_name]_begin:[dim_name]_end ==> 1:[dim_name]_loop_extent
+   [dim_name]_begin:[dim_name]_end ==> 1:[dim_name]_dimension
+
+Also note that horizontal_dimension should be used in ``xxx_[timestep_]init`` and ``xxx_[timestep_]final`` routines,
+but not in xxx_run routines. Currently, the only dimension which supports all
+six dimension types is horizontal_dimension.
+
+**It is important to understand the difference between ``horizontal_dimension`` vs. ``horizontal_loop_extent``.**
 
 * ``horizontal_dimension`` refers to all (horizontal) grid columns that an MPI process owns/is responsible for, and that are passed to the physics in the *init*, *timestep_init*, *timestep_finalize*, and *finalize* phases.
 

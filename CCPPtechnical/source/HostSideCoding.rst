@@ -187,7 +187,7 @@ and :ref:`Listing 6.2 <example_vardefs_meta>` for examples of host model metadat
 ``horizontal_dimension`` vs. ``horizontal_loop_extent``
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-Please refer to section :numref:`Section %s <HorizontalDimensionOptionsSchemes>` for a description of the differences between ``horizontal_dimension`` and ``horizontal_loop_extent``. The host model must define both variables to represent the horizontal dimensions in use by the physics in the metadata.
+Please refer to section :numref:`Section %s <SchemeDimensionOptions>` for a description of the differences between ``horizontal_dimension`` and ``horizontal_loop_extent``. The host model must define both variables to represent the horizontal dimensions in use by the physics in the metadata.
 
 For the examples in listing :ref:`Listing 6.2 <example_vardefs_meta>`, the host model stores all horizontal grid columns of each variable in one contiguous block, and the variables ``horizontal_dimension`` and ``horizontal_loop_extent`` are identical. Alternatively, a host model could store (non-contiguous) blocks of data in an array of DDTs with a length of the total number of blocks, as shown in listing :ref:`Listing 6.3 <example_vardefs_meta_blocked_data>`. :numref:`Figure %s <ccpp_static_build>` depicts the differences in variable allocation for these two cases.
 
